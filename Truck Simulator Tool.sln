@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Truck Simulator Tool", "Truck Simulator Tool\Truck Simulator Tool.csproj", "{DFEC6652-CB6C-4FBF-9231-A493B4884BA0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Description = Truck Simulator Tool for ETS2 and ATS.
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DFEC6652-CB6C-4FBF-9231-A493B4884BA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFEC6652-CB6C-4FBF-9231-A493B4884BA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFEC6652-CB6C-4FBF-9231-A493B4884BA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFEC6652-CB6C-4FBF-9231-A493B4884BA0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E820C53-72F4-4BEF-A20A-1D13E2AA034F}
+	EndGlobalSection
+EndGlobal
