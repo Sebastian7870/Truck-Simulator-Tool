@@ -66,11 +66,11 @@ namespace Truck_Simulator_Tool
 
 
 
-            // TelemetryOnline and GameConnected-Only    
+            // Telemetry online
             if (bTelemetryOnline == true)
-            {
+            {//Telemetry Online
                 if (TelemetryData.ets2.game.connected == true)
-                {
+                {// Game connected
 
                     if (TelemetryData.ets2.truck.speed > 5 && TelemetryData.ets2.game.paused == false)
                     {// Average Variables Calcuations
@@ -128,7 +128,6 @@ namespace Truck_Simulator_Tool
                             if (TelemetryData.ets2.job.cargo.totalDamage > 0)
                             {// ProgressBar Damage
                                 PictureBoxCustomProgressBar(pictureBox2_cargodamage, Color.White, TelemetryData.ets2.job.cargo.totalDamage * 100, Math.Round(TelemetryData.ets2.job.cargo.totalDamage, 2).ToString("p0"), "Microsoft Sans Serif", Brushes.Brown);
-                                //label12_progresspercentage.Text(process)
                             }
 
                             situation = "Contract";
@@ -195,17 +194,55 @@ namespace Truck_Simulator_Tool
                             ts_timebuffer = ts_remainingtime - (ts_estimatedtime.Add(TimeSpan.FromHours(d * 9)));
 
                         }
-                        label7_remainingtime.Text = "Restzeit: " + (ts_remainingtime.Hours + (ts_remainingtime.Days * 24)) + " h " + ts_remainingtime.Minutes + " m";          // REMOVE DAYS AND HOURS IF ZERO (Add Method)
-                        label8_nextpausetime.Text = "Nächste Pause in: " + (ts_nextpausetime.Hours + (ts_nextpausetime.Days * 24)) + " h " + ts_nextpausetime.Minutes + " m";  // REMOVE DAYS AND HOURS IF ZERO (Add Method)
-                        label9_estimatedtime.Text = "Ankunft in: " + (ts_estimatedtime.Hours + (ts_estimatedtime.Days * 24)) + " h " + ts_estimatedtime.Minutes + " m";                       // REMOVE DAYS AND HOURS IF ZERO (Add Method)
-                        if (ts_timebuffer.TotalSeconds < 0)
+
+                        // remaining time (color)
+                        if (ts_remainingtime.TotalSeconds > 0)
                         {
-                            ts_timebuffer = TimeSpan.FromSeconds(ts_timebuffer.TotalSeconds * (-1));
-                            label6_timebuffer.Text = "Zeitpuffer: -" + (ts_timebuffer.Hours + (ts_timebuffer.Days * 24)) + " h " + ts_timebuffer.Minutes + " m";                // REMOVE DAYS AND HOURS IF ZERO (Add Method)
+                            if (ts_remainingtime.TotalHours < 1)
+                            {
+                                label7_remainingtime.ForeColor = Color.Gold;
+                            }
+                            label7_remainingtime.ForeColor = Color.LimeGreen;
                         }
                         else
                         {
-                            label6_timebuffer.Text = "Zeitpuffer: " + (ts_timebuffer.Hours + (ts_timebuffer.Days * 24)) + " h " + ts_timebuffer.Minutes + " m";                 // REMOVE DAYS AND HOURS IF ZERO (Add Method)
+                            label7_remainingtime.ForeColor = Color.Brown;
+                        }
+                        label7_remainingtime.Text = "Restzeit: " + TimeSpanConvertToAvailableValuesOnly(ts_remainingtime);
+                        
+                        // next pause time (color)
+                        if (ts_nextpausetime.TotalSeconds > 0)
+                        {
+                            if (ts_nextpausetime.TotalHours < 1)
+                            {
+                                label8_nextpausetime.ForeColor = Color.Gold;
+                            }
+                            label8_nextpausetime.ForeColor = Color.LimeGreen;
+                        }
+                        else
+                        {
+                            label8_nextpausetime.ForeColor = Color.Brown;
+                        }
+                        label8_nextpausetime.Text = "Ruhezeit: " + TimeSpanConvertToAvailableValuesOnly(ts_nextpausetime);
+                        
+                        // time buffer (color and negate)
+                        if (ts_timebuffer.TotalSeconds < 0)
+                        { 
+                            label6_timebuffer.ForeColor = Color.Brown;
+                            ts_timebuffer = TimeSpan.FromSeconds(ts_timebuffer.TotalSeconds * (-1));
+                            label6_timebuffer.Text = "Zeitpuffer: -" + TimeSpanConvertToAvailableValuesOnly(ts_timebuffer);
+                        }
+                        else
+                        {
+                            if (ts_timebuffer.TotalHours < 2.5)
+                            {
+                                label6_timebuffer.ForeColor = Color.Gold;
+                            }
+                            else
+                            {
+                                label6_timebuffer.ForeColor = Color.LimeGreen;
+                            }
+                            label6_timebuffer.Text = "Zeitpuffer: " + TimeSpanConvertToAvailableValuesOnly(ts_timebuffer);
                         }
 
                     }
@@ -228,6 +265,8 @@ namespace Truck_Simulator_Tool
                     {
                         string pb_distanceText = String.Format("{0} km   /   {1} km", Math.Round(drivendistance, 0), Math.Round(distancesummary, 0));
                         PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress * 100, pb_distanceText, "Microsoft Sans Serif", Brushes.LimeGreen);
+                        label12_progresspercentage.Text = (pb_distanceProgress.ToString("p0"));
+                        label13_remainingdistance.Text = "Noch " + Math.Round(TelemetryData.ets2.truck.navigationEstimatedDistance / 1000, 0).ToString() + " km";
                     }
                     else if (TelemetryData.ets2.truck.navigationEstimatedDistance == 0)
                     {
@@ -236,6 +275,30 @@ namespace Truck_Simulator_Tool
                         pb_distanceProgress = 0;
                     }
 
+
+                    // vehicle info
+                    string beaconStatus = "";
+                    if (TelemetryData.ets2.truck.lightsBeaconOn == true)
+                    {
+                        beaconStatus = "eingeschaltet";
+                    }
+                    else
+                    {
+                        beaconStatus = "ausgeschaltet";
+                    }
+                    label_vehicleinformation.Text = String.Format("Rundumleuchte: {0}\nKraftstoffverbrauch: {1} l/100km", beaconStatus, Math.Round(TelemetryData.ets2.truck.fuelAverageConsumption * 100, 2));
+
+
+                    // ProgressBar fuel
+                    string pb_fuelText = String.Format("{0} l / {1} l ({2} km)", Math.Round(TelemetryData.ets2.truck.fuel, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity, 0), Math.Round(TelemetryData.ets2.truck.fuelRange, 0));
+                    if (TelemetryData.ets2.truck.fuelWarningOn)
+                    {
+                        PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / TelemetryData.ets2.truck.fuelCapacity) * 100), pb_fuelText, "Microsoft Sans Serif", Brushes.Brown);
+                    }
+                    else
+                    {
+                        PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / TelemetryData.ets2.truck.fuelCapacity * 100)), pb_fuelText, "Microsoft Sans Serif", Brushes.LimeGreen);
+                    }
 
                 }
                 else if (TelemetryData.ets2.game.connected == false)
@@ -314,7 +377,7 @@ namespace Truck_Simulator_Tool
                     graphics.FillRectangle(brushProgressColor, new Rectangle(0, 0, (int)(dProgress * pbUnit), pb.Height)); //(int)
                     StringFormat stringFormat = new StringFormat();
                     stringFormat.Alignment = StringAlignment.Center;
-                    graphics.DrawString(sBarText, new Font(sFont, pb.Height / 2), Brushes.Black, new PointF(pb.Width / 2 - pb.Height, pb.Height / 10), stringFormat);
+                    graphics.DrawString(sBarText, new Font(sFont, pb.Height / 2), Brushes.Black, new PointF(pb.Width / 2, pb.Height / 10), stringFormat);
                     pb.Image = bmp;
                 }
                 catch
@@ -324,9 +387,24 @@ namespace Truck_Simulator_Tool
             }
         }
 
-
-
-
+        static string TimeSpanConvertToAvailableValuesOnly(TimeSpan ts)
+        {// Only shows available values (00:02 ---> 2 min. (and not 0 hrs. 2 min.))
+            if (ts.Days > 0)
+            {
+                return ((ts.Days * 24) + ts.Hours) + " Std. " + ts.Minutes + " Min.";
+            }
+            else
+            {
+                if (ts.Hours > 0)
+                {
+                    return ts.Hours + " Std. " + ts.Minutes + " Min.";
+                }
+                else
+                {
+                    return ts.Minutes + " Min.";
+                }
+            }
+        }
     }
 
 }

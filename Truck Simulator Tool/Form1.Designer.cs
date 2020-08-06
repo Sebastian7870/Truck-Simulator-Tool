@@ -50,8 +50,21 @@
             this.label14_datetimetime = new System.Windows.Forms.Label();
             this.label15_datetimedate = new System.Windows.Forms.Label();
             this.pictureBox2_cargodamage = new System.Windows.Forms.PictureBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.label_vehicleinformationtext = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.label_vehicleinformation = new System.Windows.Forms.Label();
+            this.pictureBox3_fuel = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3_fuel)).BeginInit();
             this.SuspendLayout();
             // 
             // button1_settings
@@ -95,24 +108,30 @@
             // 
             // pictureBox1_distance
             // 
-            this.pictureBox1_distance.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox1_distance.BackColor = System.Drawing.Color.White;
             resources.ApplyResources(this.pictureBox1_distance, "pictureBox1_distance");
             this.pictureBox1_distance.Name = "pictureBox1_distance";
             this.pictureBox1_distance.TabStop = false;
             // 
             // label6_timebuffer
             // 
+            this.label6_timebuffer.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.label6_timebuffer, "label6_timebuffer");
+            this.label6_timebuffer.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label6_timebuffer.Name = "label6_timebuffer";
             // 
             // label7_remainingtime
             // 
+            this.label7_remainingtime.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label7_remainingtime, "label7_remainingtime");
+            this.label7_remainingtime.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label7_remainingtime.Name = "label7_remainingtime";
             // 
             // label8_nextpausetime
             // 
+            this.label8_nextpausetime.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label8_nextpausetime, "label8_nextpausetime");
+            this.label8_nextpausetime.ForeColor = System.Drawing.Color.LimeGreen;
             this.label8_nextpausetime.Name = "label8_nextpausetime";
             // 
             // label9_estimatedtime
@@ -164,17 +183,81 @@
             // 
             // pictureBox2_cargodamage
             // 
-            this.pictureBox2_cargodamage.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox2_cargodamage.BackColor = System.Drawing.Color.White;
             resources.ApplyResources(this.pictureBox2_cargodamage, "pictureBox2_cargodamage");
             this.pictureBox2_cargodamage.Name = "pictureBox2_cargodamage";
             this.pictureBox2_cargodamage.TabStop = false;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.DarkGray;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.pictureBox2_cargodamage);
+            this.panel2.Controls.Add(this.label5_jobinfo);
+            this.panel2.Controls.Add(this.label9_estimatedtime);
+            resources.ApplyResources(this.panel2, "panel2");
+            this.panel2.Name = "panel2";
+            // 
+            // splitter1
+            // 
+            resources.ApplyResources(this.splitter1, "splitter1");
+            this.splitter1.Name = "splitter1";
+            this.splitter1.TabStop = false;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.label8_nextpausetime);
+            this.panel3.Controls.Add(this.label7_remainingtime);
+            resources.ApplyResources(this.panel3, "panel3");
+            this.panel3.Name = "panel3";
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.pictureBox3_fuel);
+            this.panel4.Controls.Add(this.label_vehicleinformation);
+            resources.ApplyResources(this.panel4, "panel4");
+            this.panel4.Name = "panel4";
+            // 
+            // label_vehicleinformationtext
+            // 
+            this.label_vehicleinformationtext.BackColor = System.Drawing.Color.DarkGray;
+            resources.ApplyResources(this.label_vehicleinformationtext, "label_vehicleinformationtext");
+            this.label_vehicleinformationtext.Name = "label_vehicleinformationtext";
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.DarkGray;
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.label_vehicleinformationtext);
+            resources.ApplyResources(this.panel5, "panel5");
+            this.panel5.Name = "panel5";
+            // 
+            // label_vehicleinformation
+            // 
+            resources.ApplyResources(this.label_vehicleinformation, "label_vehicleinformation");
+            this.label_vehicleinformation.Name = "label_vehicleinformation";
+            // 
+            // pictureBox3_fuel
+            // 
+            this.pictureBox3_fuel.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.pictureBox3_fuel, "pictureBox3_fuel");
+            this.pictureBox3_fuel.Name = "pictureBox3_fuel";
+            this.pictureBox3_fuel.TabStop = false;
             // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DarkGray;
-            this.Controls.Add(this.pictureBox2_cargodamage);
+            this.BackColor = System.Drawing.Color.LightGray;
+            this.Controls.Add(this.panel5);
+            this.Controls.Add(this.panel4);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.splitter1);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.label15_datetimedate);
             this.Controls.Add(this.label14_datetimetime);
             this.Controls.Add(this.panel1);
@@ -182,12 +265,8 @@
             this.Controls.Add(this.label12_progresspercentage);
             this.Controls.Add(this.label11_destinationdata);
             this.Controls.Add(this.label10_sourcedata);
-            this.Controls.Add(this.label9_estimatedtime);
-            this.Controls.Add(this.label8_nextpausetime);
-            this.Controls.Add(this.label7_remainingtime);
             this.Controls.Add(this.label6_timebuffer);
             this.Controls.Add(this.pictureBox1_distance);
-            this.Controls.Add(this.label5_jobinfo);
             this.Controls.Add(this.label4_currentbestarrival);
             this.Controls.Add(this.label3_currentarrival);
             this.Controls.Add(this.label2_timescale);
@@ -199,8 +278,12 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3_fuel)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -226,6 +309,14 @@
         private System.Windows.Forms.Label label14_datetimetime;
         private System.Windows.Forms.Label label15_datetimedate;
         private System.Windows.Forms.PictureBox pictureBox2_cargodamage;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label_vehicleinformationtext;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label label_vehicleinformation;
+        private System.Windows.Forms.PictureBox pictureBox3_fuel;
     }
 }
 
