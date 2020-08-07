@@ -97,7 +97,16 @@
             this.label10 = new System.Windows.Forms.Label();
             this.panel11 = new System.Windows.Forms.Panel();
             this.panel12 = new System.Windows.Forms.Panel();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.button1 = new System.Windows.Forms.Button();
+            this.listBox_schedule = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -119,6 +128,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_km)).BeginInit();
             this.panel11.SuspendLayout();
             this.panel12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1_settings
@@ -223,6 +235,7 @@
             // panel1
             // 
             resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.label2_timescale);
             this.panel1.Name = "panel1";
@@ -522,6 +535,7 @@
             // 
             // numericUpDown_time2
             // 
+            this.numericUpDown_time2.BackColor = System.Drawing.Color.White;
             this.numericUpDown_time2.DecimalPlaces = 2;
             resources.ApplyResources(this.numericUpDown_time2, "numericUpDown_time2");
             this.numericUpDown_time2.Increment = new decimal(new int[] {
@@ -582,6 +596,7 @@
             // 
             // numericUpDown_time1
             // 
+            this.numericUpDown_time1.BackColor = System.Drawing.Color.White;
             this.numericUpDown_time1.DecimalPlaces = 2;
             resources.ApplyResources(this.numericUpDown_time1, "numericUpDown_time1");
             this.numericUpDown_time1.Increment = new decimal(new int[] {
@@ -601,6 +616,7 @@
             // 
             // numericUpDown_speed
             // 
+            this.numericUpDown_speed.BackColor = System.Drawing.Color.White;
             resources.ApplyResources(this.numericUpDown_speed, "numericUpDown_speed");
             this.numericUpDown_speed.Maximum = new decimal(new int[] {
             300,
@@ -622,6 +638,7 @@
             // 
             // numericUpDown_km
             // 
+            this.numericUpDown_km.BackColor = System.Drawing.Color.White;
             resources.ApplyResources(this.numericUpDown_km, "numericUpDown_km");
             this.numericUpDown_km.Increment = new decimal(new int[] {
             10,
@@ -655,15 +672,82 @@
             // 
             this.panel12.BackColor = System.Drawing.Color.Gainsboro;
             this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel12.Controls.Add(this.listBox1);
+            this.panel12.Controls.Add(this.label12);
+            this.panel12.Controls.Add(this.label13);
+            this.panel12.Controls.Add(this.label11);
+            this.panel12.Controls.Add(this.label7);
+            this.panel12.Controls.Add(this.dateTimePicker1);
+            this.panel12.Controls.Add(this.numericUpDown3);
+            this.panel12.Controls.Add(this.numericUpDown2);
+            this.panel12.Controls.Add(this.numericUpDown1);
+            this.panel12.Controls.Add(this.button1);
+            this.panel12.Controls.Add(this.listBox_schedule);
             resources.ApplyResources(this.panel12, "panel12");
             this.panel12.Name = "panel12";
             // 
-            // listBox1
+            // label12
             // 
-            this.listBox1.FormattingEnabled = true;
-            resources.ApplyResources(this.listBox1, "listBox1");
-            this.listBox1.Name = "listBox1";
+            this.label12.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // label13
+            // 
+            this.label13.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
+            // 
+            // label11
+            // 
+            this.label11.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.CalendarMonthBackground = System.Drawing.Color.White;
+            resources.ApplyResources(this.dateTimePicker1, "dateTimePicker1");
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            // 
+            // numericUpDown3
+            // 
+            this.numericUpDown3.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.numericUpDown3, "numericUpDown3");
+            this.numericUpDown3.Name = "numericUpDown3";
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.numericUpDown2, "numericUpDown2");
+            this.numericUpDown2.Name = "numericUpDown2";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.numericUpDown1, "numericUpDown1");
+            this.numericUpDown1.Name = "numericUpDown1";
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.DarkGray;
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // listBox_schedule
+            // 
+            this.listBox_schedule.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.listBox_schedule, "listBox_schedule");
+            this.listBox_schedule.FormattingEnabled = true;
+            this.listBox_schedule.Name = "listBox_schedule";
             // 
             // Form1
             // 
@@ -672,6 +756,7 @@
             this.BackColor = System.Drawing.Color.LightGray;
             this.Controls.Add(this.panel12);
             this.Controls.Add(this.panel11);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel10);
             this.Controls.Add(this.panel9);
             this.Controls.Add(this.panel8);
@@ -685,7 +770,6 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.label15_datetimedate);
             this.Controls.Add(this.label14_datetimetime);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label13_remainingdistance);
             this.Controls.Add(this.label12_progresspercentage);
             this.Controls.Add(this.label11_destinationdata);
@@ -720,6 +804,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_km)).EndInit();
             this.panel11.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -794,7 +881,16 @@
         private System.Windows.Forms.Label label_Calculatortime2;
         private System.Windows.Forms.NumericUpDown numericUpDown_time2;
         private System.Windows.Forms.Panel panel12;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listBox_schedule;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label11;
     }
 }
 
