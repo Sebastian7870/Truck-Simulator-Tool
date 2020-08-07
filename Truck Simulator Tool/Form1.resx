@@ -204,7 +204,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;label2_timescale.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <metadata name="timer1_calculate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -585,6 +585,39 @@
   <data name="panel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
+  <data name="label_nextscheduleevent.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
+  </data>
+  <data name="label_nextscheduleevent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_nextscheduleevent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 0</value>
+  </data>
+  <data name="label_nextscheduleevent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>256, 30</value>
+  </data>
+  <data name="label_nextscheduleevent.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label_nextscheduleevent.Text" xml:space="preserve">
+    <value>Nächstes Schichtereignis:</value>
+  </data>
+  <data name="label_nextscheduleevent.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;label_nextscheduleevent.Name" xml:space="preserve">
+    <value>label_nextscheduleevent</value>
+  </data>
+  <data name="&gt;&gt;label_nextscheduleevent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_nextscheduleevent.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;label_nextscheduleevent.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>-17, 1010</value>
   </data>
@@ -757,75 +790,6 @@
   <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="&gt;&gt;label_vehicleinformation2.Name" xml:space="preserve">
-    <value>label_vehicleinformation2</value>
-  </data>
-  <data name="&gt;&gt;label_vehicleinformation2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_vehicleinformation2.Parent" xml:space="preserve">
-    <value>panel4</value>
-  </data>
-  <data name="&gt;&gt;label_vehicleinformation2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label_vehicleinformation3.Name" xml:space="preserve">
-    <value>label_vehicleinformation3</value>
-  </data>
-  <data name="&gt;&gt;label_vehicleinformation3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_vehicleinformation3.Parent" xml:space="preserve">
-    <value>panel4</value>
-  </data>
-  <data name="&gt;&gt;label_vehicleinformation3.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;pictureBox3_fuel.Name" xml:space="preserve">
-    <value>pictureBox3_fuel</value>
-  </data>
-  <data name="&gt;&gt;pictureBox3_fuel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBox3_fuel.Parent" xml:space="preserve">
-    <value>panel4</value>
-  </data>
-  <data name="&gt;&gt;pictureBox3_fuel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label_vehicleinformation.Name" xml:space="preserve">
-    <value>label_vehicleinformation</value>
-  </data>
-  <data name="&gt;&gt;label_vehicleinformation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_vehicleinformation.Parent" xml:space="preserve">
-    <value>panel4</value>
-  </data>
-  <data name="&gt;&gt;label_vehicleinformation.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="panel4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 81</value>
-  </data>
-  <data name="panel4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>444, 245</value>
-  </data>
-  <data name="panel4.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
-  </data>
-  <data name="&gt;&gt;panel4.Name" xml:space="preserve">
-    <value>panel4</value>
-  </data>
-  <data name="&gt;&gt;panel4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel4.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panel4.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
   <data name="label_vehicleinformation2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 15.75pt</value>
   </data>
@@ -943,6 +907,27 @@
   <data name="&gt;&gt;label_vehicleinformation.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="panel4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 81</value>
+  </data>
+  <data name="panel4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>444, 245</value>
+  </data>
+  <data name="panel4.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;panel4.Name" xml:space="preserve">
+    <value>panel4</value>
+  </data>
+  <data name="&gt;&gt;panel4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel4.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
   <data name="label_vehicleinformationtext.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 27.75pt</value>
   </data>
@@ -1027,51 +1012,6 @@
   <data name="&gt;&gt;label_datetimenowseconds.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="&gt;&gt;label_currentbestarrival2.Name" xml:space="preserve">
-    <value>label_currentbestarrival2</value>
-  </data>
-  <data name="&gt;&gt;label_currentbestarrival2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_currentbestarrival2.Parent" xml:space="preserve">
-    <value>panel6</value>
-  </data>
-  <data name="&gt;&gt;label_currentbestarrival2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label_currentbestarrival.Name" xml:space="preserve">
-    <value>label_currentbestarrival</value>
-  </data>
-  <data name="&gt;&gt;label_currentbestarrival.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_currentbestarrival.Parent" xml:space="preserve">
-    <value>panel6</value>
-  </data>
-  <data name="&gt;&gt;label_currentbestarrival.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="panel6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 495</value>
-  </data>
-  <data name="panel6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>443, 89</value>
-  </data>
-  <data name="panel6.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
-  </data>
-  <data name="&gt;&gt;panel6.Name" xml:space="preserve">
-    <value>panel6</value>
-  </data>
-  <data name="&gt;&gt;panel6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel6.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panel6.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
   <data name="label_currentbestarrival2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 14.25pt</value>
   </data>
@@ -1134,6 +1074,27 @@
   </data>
   <data name="&gt;&gt;label_currentbestarrival.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="panel6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 495</value>
+  </data>
+  <data name="panel6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>443, 89</value>
+  </data>
+  <data name="panel6.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="&gt;&gt;panel6.Name" xml:space="preserve">
+    <value>panel6</value>
+  </data>
+  <data name="&gt;&gt;panel6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel6.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel6.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <data name="label_bestarrival2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
@@ -1201,6 +1162,24 @@
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="label_currentarrival2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt, style=Bold</value>
+  </data>
+  <data name="label_currentarrival2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>226, 1</value>
+  </data>
+  <data name="label_currentarrival2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 27</value>
+  </data>
+  <data name="label_currentarrival2.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label_currentarrival2.Text" xml:space="preserve">
+    <value>(10  Std. 15 Min.)</value>
+  </data>
+  <data name="label_currentarrival2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
   <data name="&gt;&gt;label_currentarrival2.Name" xml:space="preserve">
     <value>label_currentarrival2</value>
   </data>
@@ -1233,69 +1212,6 @@
   </data>
   <data name="&gt;&gt;panel7.ZOrder" xml:space="preserve">
     <value>6</value>
-  </data>
-  <data name="label_currentarrival2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 14.25pt, style=Bold</value>
-  </data>
-  <data name="label_currentarrival2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>226, 1</value>
-  </data>
-  <data name="label_currentarrival2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 27</value>
-  </data>
-  <data name="label_currentarrival2.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="label_currentarrival2.Text" xml:space="preserve">
-    <value>(10  Std. 15 Min.)</value>
-  </data>
-  <data name="label_currentarrival2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
-  <data name="&gt;&gt;label_currentarrival2.Name" xml:space="preserve">
-    <value>label_currentarrival2</value>
-  </data>
-  <data name="&gt;&gt;label_currentarrival2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_currentarrival2.Parent" xml:space="preserve">
-    <value>panel7</value>
-  </data>
-  <data name="&gt;&gt;label_currentarrival2.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label_bestarrival.Name" xml:space="preserve">
-    <value>label_bestarrival</value>
-  </data>
-  <data name="&gt;&gt;label_bestarrival.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_bestarrival.Parent" xml:space="preserve">
-    <value>panel8</value>
-  </data>
-  <data name="&gt;&gt;label_bestarrival.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panel8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 562</value>
-  </data>
-  <data name="panel8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>443, 22</value>
-  </data>
-  <data name="panel8.TabIndex" type="System.Int32, mscorlib">
-    <value>26</value>
-  </data>
-  <data name="&gt;&gt;panel8.Name" xml:space="preserve">
-    <value>panel8</value>
-  </data>
-  <data name="&gt;&gt;panel8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel8.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panel8.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="label_bestarrival.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
@@ -1330,74 +1246,26 @@
   <data name="&gt;&gt;label_bestarrival.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;label_TFMdjname.Name" xml:space="preserve">
-    <value>label_TFMdjname</value>
+  <data name="panel8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 562</value>
   </data>
-  <data name="&gt;&gt;label_TFMdjname.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="panel8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>443, 22</value>
   </data>
-  <data name="&gt;&gt;label_TFMdjname.Parent" xml:space="preserve">
-    <value>panel9</value>
+  <data name="panel8.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
   </data>
-  <data name="&gt;&gt;label_TFMdjname.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;panel8.Name" xml:space="preserve">
+    <value>panel8</value>
   </data>
-  <data name="&gt;&gt;label_TFMsongartist.Name" xml:space="preserve">
-    <value>label_TFMsongartist</value>
-  </data>
-  <data name="&gt;&gt;label_TFMsongartist.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_TFMsongartist.Parent" xml:space="preserve">
-    <value>panel9</value>
-  </data>
-  <data name="&gt;&gt;label_TFMsongartist.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;label_TFMsongname.Name" xml:space="preserve">
-    <value>label_TFMsongname</value>
-  </data>
-  <data name="&gt;&gt;label_TFMsongname.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_TFMsongname.Parent" xml:space="preserve">
-    <value>panel9</value>
-  </data>
-  <data name="&gt;&gt;label_TFMsongname.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;pictureBox_TruckersfmSong.Name" xml:space="preserve">
-    <value>pictureBox_TruckersfmSong</value>
-  </data>
-  <data name="&gt;&gt;pictureBox_TruckersfmSong.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBox_TruckersfmSong.Parent" xml:space="preserve">
-    <value>panel9</value>
-  </data>
-  <data name="&gt;&gt;pictureBox_TruckersfmSong.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="panel9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1463, 82</value>
-  </data>
-  <data name="panel9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>430, 380</value>
-  </data>
-  <data name="panel9.TabIndex" type="System.Int32, mscorlib">
-    <value>27</value>
-  </data>
-  <data name="&gt;&gt;panel9.Name" xml:space="preserve">
-    <value>panel9</value>
-  </data>
-  <data name="&gt;&gt;panel9.Type" xml:space="preserve">
+  <data name="&gt;&gt;panel8.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;panel9.Parent" xml:space="preserve">
+  <data name="&gt;&gt;panel8.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;panel9.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="&gt;&gt;panel8.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="label_TFMdjname.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
@@ -1519,242 +1387,26 @@
   <data name="&gt;&gt;pictureBox_TruckersfmSong.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="&gt;&gt;radioButton_extended.Name" xml:space="preserve">
-    <value>radioButton_extended</value>
+  <data name="panel9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1463, 82</value>
   </data>
-  <data name="&gt;&gt;radioButton_extended.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioButton_extended.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;radioButton_extended.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;radioButton_standart.Name" xml:space="preserve">
-    <value>radioButton_standart</value>
-  </data>
-  <data name="&gt;&gt;radioButton_standart.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;radioButton_standart.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;radioButton_standart.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;label_CalculatortimeH3.Name" xml:space="preserve">
-    <value>label_CalculatortimeH3</value>
-  </data>
-  <data name="&gt;&gt;label_CalculatortimeH3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_CalculatortimeH3.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;label_CalculatortimeH3.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label_Calculatortime3.Name" xml:space="preserve">
-    <value>label_Calculatortime3</value>
-  </data>
-  <data name="&gt;&gt;label_Calculatortime3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_Calculatortime3.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;label_Calculatortime3.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_time3.Name" xml:space="preserve">
-    <value>numericUpDown_time3</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_time3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_time3.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_time3.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;label_CalculatortimeH2.Name" xml:space="preserve">
-    <value>label_CalculatortimeH2</value>
-  </data>
-  <data name="&gt;&gt;label_CalculatortimeH2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_CalculatortimeH2.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;label_CalculatortimeH2.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;label_Calculatortime2.Name" xml:space="preserve">
-    <value>label_Calculatortime2</value>
-  </data>
-  <data name="&gt;&gt;label_Calculatortime2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_Calculatortime2.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;label_Calculatortime2.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_time2.Name" xml:space="preserve">
-    <value>numericUpDown_time2</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_time2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_time2.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_time2.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;label9.Name" xml:space="preserve">
-    <value>label9</value>
-  </data>
-  <data name="&gt;&gt;label9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;label8.Name" xml:space="preserve">
-    <value>label8</value>
-  </data>
-  <data name="&gt;&gt;label8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;label_CalculatortimeH1.Name" xml:space="preserve">
-    <value>label_CalculatortimeH1</value>
-  </data>
-  <data name="&gt;&gt;label_CalculatortimeH1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_CalculatortimeH1.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;label_CalculatortimeH1.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;label_Calculatortime1.Name" xml:space="preserve">
-    <value>label_Calculatortime1</value>
-  </data>
-  <data name="&gt;&gt;label_Calculatortime1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_Calculatortime1.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;label_Calculatortime1.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
-  </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_time1.Name" xml:space="preserve">
-    <value>numericUpDown_time1</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_time1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_time1.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_time1.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_speed.Name" xml:space="preserve">
-    <value>numericUpDown_speed</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_speed.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_speed.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_speed.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_km.Name" xml:space="preserve">
-    <value>numericUpDown_km</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_km.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_km.Parent" xml:space="preserve">
-    <value>panel10</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown_km.ZOrder" xml:space="preserve">
-    <value>17</value>
-  </data>
-  <data name="panel10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1006, 82</value>
-  </data>
-  <data name="panel10.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="panel9.Size" type="System.Drawing.Size, System.Drawing">
     <value>430, 380</value>
   </data>
-  <data name="panel10.TabIndex" type="System.Int32, mscorlib">
-    <value>28</value>
+  <data name="panel9.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
   </data>
-  <data name="&gt;&gt;panel10.Name" xml:space="preserve">
-    <value>panel10</value>
+  <data name="&gt;&gt;panel9.Name" xml:space="preserve">
+    <value>panel9</value>
   </data>
-  <data name="&gt;&gt;panel10.Type" xml:space="preserve">
+  <data name="&gt;&gt;panel9.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;panel10.Parent" xml:space="preserve">
+  <data name="&gt;&gt;panel9.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;panel10.ZOrder" xml:space="preserve">
-    <value>3</value>
+  <data name="&gt;&gt;panel9.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="radioButton_extended.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2323,6 +1975,27 @@
   <data name="&gt;&gt;numericUpDown_km.ZOrder" xml:space="preserve">
     <value>17</value>
   </data>
+  <data name="panel10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1006, 82</value>
+  </data>
+  <data name="panel10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>430, 380</value>
+  </data>
+  <data name="panel10.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="&gt;&gt;panel10.Name" xml:space="preserve">
+    <value>panel10</value>
+  </data>
+  <data name="&gt;&gt;panel10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel10.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel10.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="label10.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 27.75pt</value>
   </data>
@@ -2377,145 +2050,55 @@
   <data name="&gt;&gt;panel11.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;label12.Name" xml:space="preserve">
-    <value>label12</value>
+  <data name="label6.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 27.75pt</value>
   </data>
-  <data name="&gt;&gt;label12.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 0</value>
   </data>
-  <data name="&gt;&gt;label12.Parent" xml:space="preserve">
-    <value>panel12</value>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>870, 79</value>
   </data>
-  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;label13.Name" xml:space="preserve">
-    <value>label13</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Schichtplaner</value>
   </data>
-  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+  <data name="label6.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
-    <value>panel12</value>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>panel13</value>
   </data>
-  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;label11.Name" xml:space="preserve">
-    <value>label11</value>
+  <data name="panel13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>-1, -1</value>
   </data>
-  <data name="&gt;&gt;label11.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="panel13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>886, 81</value>
   </data>
-  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
-    <value>panel12</value>
+  <data name="panel13.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
   </data>
-  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;panel13.Name" xml:space="preserve">
+    <value>panel13</value>
   </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
-  </data>
-  <data name="&gt;&gt;label7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>panel12</value>
-  </data>
-  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;dateTimePicker1.Name" xml:space="preserve">
-    <value>dateTimePicker1</value>
-  </data>
-  <data name="&gt;&gt;dateTimePicker1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dateTimePicker1.Parent" xml:space="preserve">
-    <value>panel12</value>
-  </data>
-  <data name="&gt;&gt;dateTimePicker1.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown3.Name" xml:space="preserve">
-    <value>numericUpDown3</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown3.Parent" xml:space="preserve">
-    <value>panel12</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown3.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown2.Name" xml:space="preserve">
-    <value>numericUpDown2</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown2.Parent" xml:space="preserve">
-    <value>panel12</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown2.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown1.Name" xml:space="preserve">
-    <value>numericUpDown1</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown1.Parent" xml:space="preserve">
-    <value>panel12</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown1.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;button1.Name" xml:space="preserve">
-    <value>button1</value>
-  </data>
-  <data name="&gt;&gt;button1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button1.Parent" xml:space="preserve">
-    <value>panel12</value>
-  </data>
-  <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;listBox_schedule.Name" xml:space="preserve">
-    <value>listBox_schedule</value>
-  </data>
-  <data name="&gt;&gt;listBox_schedule.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;listBox_schedule.Parent" xml:space="preserve">
-    <value>panel12</value>
-  </data>
-  <data name="&gt;&gt;listBox_schedule.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="panel12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1006, 469</value>
-  </data>
-  <data name="panel12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>887, 523</value>
-  </data>
-  <data name="panel12.TabIndex" type="System.Int32, mscorlib">
-    <value>29</value>
-  </data>
-  <data name="&gt;&gt;panel12.Name" xml:space="preserve">
-    <value>panel12</value>
-  </data>
-  <data name="&gt;&gt;panel12.Type" xml:space="preserve">
+  <data name="&gt;&gt;panel13.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;panel12.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;panel13.Parent" xml:space="preserve">
+    <value>panel12</value>
   </data>
-  <data name="&gt;&gt;panel12.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;panel13.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="label12.Font" type="System.Drawing.Font, System.Drawing">
@@ -2525,7 +2108,7 @@
     <value>NoControl</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>452, 43</value>
+    <value>452, 119</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
     <value>136, 29</value>
@@ -2549,7 +2132,7 @@
     <value>panel12</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="label13.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 14.25pt</value>
@@ -2558,7 +2141,7 @@
     <value>NoControl</value>
   </data>
   <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>452, 8</value>
+    <value>452, 84</value>
   </data>
   <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
     <value>136, 29</value>
@@ -2582,7 +2165,7 @@
     <value>panel12</value>
   </data>
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="label11.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 14.25pt</value>
@@ -2591,7 +2174,7 @@
     <value>NoControl</value>
   </data>
   <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 43</value>
+    <value>4, 119</value>
   </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
     <value>136, 29</value>
@@ -2615,13 +2198,13 @@
     <value>panel12</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label7.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 14.25pt</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 8</value>
+    <value>4, 84</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>136, 31</value>
@@ -2645,133 +2228,133 @@
     <value>panel12</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="dateTimePicker1.CustomFormat" xml:space="preserve">
-    <value>dd.MM.yyyy   HH:mm:ss</value>
-  </data>
-  <data name="dateTimePicker1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 14.25pt</value>
-  </data>
-  <data name="dateTimePicker1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>209, 8</value>
-  </data>
-  <data name="dateTimePicker1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 29</value>
-  </data>
-  <data name="dateTimePicker1.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;dateTimePicker1.Name" xml:space="preserve">
-    <value>dateTimePicker1</value>
-  </data>
-  <data name="&gt;&gt;dateTimePicker1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dateTimePicker1.Parent" xml:space="preserve">
-    <value>panel12</value>
-  </data>
-  <data name="&gt;&gt;dateTimePicker1.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="numericUpDown3.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="dateTimePicker_schedule.CustomFormat" xml:space="preserve">
+    <value>dd.MM.yyyy   HH:mm:ss</value>
+  </data>
+  <data name="dateTimePicker_schedule.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 14.25pt</value>
   </data>
-  <data name="numericUpDown3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>209, 43</value>
+  <data name="dateTimePicker_schedule.Location" type="System.Drawing.Point, System.Drawing">
+    <value>209, 84</value>
   </data>
-  <data name="numericUpDown3.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="dateTimePicker_schedule.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 29</value>
   </data>
-  <data name="numericUpDown3.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown3.Name" xml:space="preserve">
-    <value>numericUpDown3</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown3.Parent" xml:space="preserve">
-    <value>panel12</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown3.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="numericUpDown2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 14.25pt</value>
-  </data>
-  <data name="numericUpDown2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>656, 43</value>
-  </data>
-  <data name="numericUpDown2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>220, 29</value>
-  </data>
-  <data name="numericUpDown2.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown2.Name" xml:space="preserve">
-    <value>numericUpDown2</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown2.Parent" xml:space="preserve">
-    <value>panel12</value>
-  </data>
-  <data name="&gt;&gt;numericUpDown2.ZOrder" xml:space="preserve">
+  <data name="dateTimePicker_schedule.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
-  <data name="numericUpDown1.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="&gt;&gt;dateTimePicker_schedule.Name" xml:space="preserve">
+    <value>dateTimePicker_schedule</value>
+  </data>
+  <data name="&gt;&gt;dateTimePicker_schedule.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;dateTimePicker_schedule.Parent" xml:space="preserve">
+    <value>panel12</value>
+  </data>
+  <data name="&gt;&gt;dateTimePicker_schedule.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="numericUpDown_drivetimeSchedule.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 14.25pt</value>
   </data>
-  <data name="numericUpDown1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>656, 9</value>
+  <data name="numericUpDown_drivetimeSchedule.Location" type="System.Drawing.Point, System.Drawing">
+    <value>209, 119</value>
   </data>
-  <data name="numericUpDown1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="numericUpDown_drivetimeSchedule.Size" type="System.Drawing.Size, System.Drawing">
     <value>220, 29</value>
   </data>
-  <data name="numericUpDown1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+  <data name="numericUpDown_drivetimeSchedule.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
-  <data name="&gt;&gt;numericUpDown1.Name" xml:space="preserve">
-    <value>numericUpDown1</value>
+  <data name="&gt;&gt;numericUpDown_drivetimeSchedule.Name" xml:space="preserve">
+    <value>numericUpDown_drivetimeSchedule</value>
   </data>
-  <data name="&gt;&gt;numericUpDown1.Type" xml:space="preserve">
+  <data name="&gt;&gt;numericUpDown_drivetimeSchedule.Type" xml:space="preserve">
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;numericUpDown1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;numericUpDown_drivetimeSchedule.Parent" xml:space="preserve">
     <value>panel12</value>
   </data>
-  <data name="&gt;&gt;numericUpDown1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;numericUpDown_drivetimeSchedule.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="numericUpDown_pausetimeSchedule.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt</value>
+  </data>
+  <data name="numericUpDown_pausetimeSchedule.Location" type="System.Drawing.Point, System.Drawing">
+    <value>656, 119</value>
+  </data>
+  <data name="numericUpDown_pausetimeSchedule.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 29</value>
+  </data>
+  <data name="numericUpDown_pausetimeSchedule.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown_pausetimeSchedule.Name" xml:space="preserve">
+    <value>numericUpDown_pausetimeSchedule</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown_pausetimeSchedule.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown_pausetimeSchedule.Parent" xml:space="preserve">
+    <value>panel12</value>
+  </data>
+  <data name="&gt;&gt;numericUpDown_pausetimeSchedule.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="button1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 26.25pt</value>
+  <data name="numericUpDown_durationSchedule.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt</value>
   </data>
-  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 91</value>
+  <data name="numericUpDown_durationSchedule.Location" type="System.Drawing.Point, System.Drawing">
+    <value>656, 85</value>
   </data>
-  <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>869, 61</value>
+  <data name="numericUpDown_durationSchedule.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 29</value>
   </data>
-  <data name="button1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="numericUpDown_durationSchedule.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
-  <data name="button1.Text" xml:space="preserve">
-    <value>Zeitplan erstellen</value>
+  <data name="&gt;&gt;numericUpDown_durationSchedule.Name" xml:space="preserve">
+    <value>numericUpDown_durationSchedule</value>
   </data>
-  <data name="&gt;&gt;button1.Name" xml:space="preserve">
-    <value>button1</value>
+  <data name="&gt;&gt;numericUpDown_durationSchedule.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;button1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;button1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;numericUpDown_durationSchedule.Parent" xml:space="preserve">
     <value>panel12</value>
   </data>
-  <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;numericUpDown_durationSchedule.ZOrder" xml:space="preserve">
     <value>8</value>
+  </data>
+  <data name="button_CreateSchedule.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 27.75pt</value>
+  </data>
+  <data name="button_CreateSchedule.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 151</value>
+  </data>
+  <data name="button_CreateSchedule.Size" type="System.Drawing.Size, System.Drawing">
+    <value>869, 61</value>
+  </data>
+  <data name="button_CreateSchedule.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="button_CreateSchedule.Text" xml:space="preserve">
+    <value>Schichtplan erstellen</value>
+  </data>
+  <data name="&gt;&gt;button_CreateSchedule.Name" xml:space="preserve">
+    <value>button_CreateSchedule</value>
+  </data>
+  <data name="&gt;&gt;button_CreateSchedule.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;button_CreateSchedule.Parent" xml:space="preserve">
+    <value>panel12</value>
+  </data>
+  <data name="&gt;&gt;button_CreateSchedule.ZOrder" xml:space="preserve">
+    <value>9</value>
   </data>
   <data name="listBox_schedule.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12pt</value>
@@ -2780,10 +2363,10 @@
     <value>20</value>
   </data>
   <data name="listBox_schedule.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 158</value>
+    <value>7, 218</value>
   </data>
   <data name="listBox_schedule.Size" type="System.Drawing.Size, System.Drawing">
-    <value>869, 344</value>
+    <value>869, 284</value>
   </data>
   <data name="listBox_schedule.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -2798,7 +2381,28 @@
     <value>panel12</value>
   </data>
   <data name="&gt;&gt;listBox_schedule.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
+  </data>
+  <data name="panel12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1006, 469</value>
+  </data>
+  <data name="panel12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>887, 523</value>
+  </data>
+  <data name="panel12.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="&gt;&gt;panel12.Name" xml:space="preserve">
+    <value>panel12</value>
+  </data>
+  <data name="&gt;&gt;panel12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel12.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel12.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

@@ -101,12 +101,15 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.button1 = new System.Windows.Forms.Button();
+            this.dateTimePicker_schedule = new System.Windows.Forms.DateTimePicker();
+            this.numericUpDown_drivetimeSchedule = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_pausetimeSchedule = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_durationSchedule = new System.Windows.Forms.NumericUpDown();
+            this.button_CreateSchedule = new System.Windows.Forms.Button();
             this.listBox_schedule = new System.Windows.Forms.ListBox();
+            this.panel13 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label_nextscheduleevent = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -128,9 +131,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_km)).BeginInit();
             this.panel11.SuspendLayout();
             this.panel12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_drivetimeSchedule)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_pausetimeSchedule)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_durationSchedule)).BeginInit();
+            this.panel13.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1_settings
@@ -237,6 +241,7 @@
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.label_nextscheduleevent);
             this.panel1.Controls.Add(this.label2_timescale);
             this.panel1.Name = "panel1";
             // 
@@ -520,6 +525,7 @@
             this.numericUpDown_time3.Name = "numericUpDown_time3";
             this.numericUpDown_time3.ValueChanged += new System.EventHandler(this.CalculatorNumericTIMEChanged);
             this.numericUpDown_time3.Enter += new System.EventHandler(this.Calculator_NumericTimePressed);
+            this.numericUpDown_time3.Validating += new System.ComponentModel.CancelEventHandler(this.Calculator_NumericFocusLost);
             // 
             // label_CalculatortimeH2
             // 
@@ -551,6 +557,7 @@
             this.numericUpDown_time2.Name = "numericUpDown_time2";
             this.numericUpDown_time2.ValueChanged += new System.EventHandler(this.CalculatorNumericTIMEChanged);
             this.numericUpDown_time2.Enter += new System.EventHandler(this.Calculator_NumericTimePressed);
+            this.numericUpDown_time2.Validating += new System.ComponentModel.CancelEventHandler(this.Calculator_NumericFocusLost);
             // 
             // label9
             // 
@@ -635,6 +642,7 @@
             0,
             0});
             this.numericUpDown_speed.ValueChanged += new System.EventHandler(this.CalculatorNumericSPEEDChanged);
+            this.numericUpDown_speed.Validating += new System.ComponentModel.CancelEventHandler(this.Calculator_NumericFocusLost);
             // 
             // numericUpDown_km
             // 
@@ -653,6 +661,7 @@
             this.numericUpDown_km.Name = "numericUpDown_km";
             this.numericUpDown_km.ValueChanged += new System.EventHandler(this.Calculator_NumericKMValueChanged);
             this.numericUpDown_km.Enter += new System.EventHandler(this.Calculator_NumericKmPressed);
+            this.numericUpDown_km.Validating += new System.ComponentModel.CancelEventHandler(this.Calculator_NumericFocusLost);
             // 
             // label10
             // 
@@ -672,15 +681,16 @@
             // 
             this.panel12.BackColor = System.Drawing.Color.Gainsboro;
             this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel12.Controls.Add(this.panel13);
             this.panel12.Controls.Add(this.label12);
             this.panel12.Controls.Add(this.label13);
             this.panel12.Controls.Add(this.label11);
             this.panel12.Controls.Add(this.label7);
-            this.panel12.Controls.Add(this.dateTimePicker1);
-            this.panel12.Controls.Add(this.numericUpDown3);
-            this.panel12.Controls.Add(this.numericUpDown2);
-            this.panel12.Controls.Add(this.numericUpDown1);
-            this.panel12.Controls.Add(this.button1);
+            this.panel12.Controls.Add(this.dateTimePicker_schedule);
+            this.panel12.Controls.Add(this.numericUpDown_drivetimeSchedule);
+            this.panel12.Controls.Add(this.numericUpDown_pausetimeSchedule);
+            this.panel12.Controls.Add(this.numericUpDown_durationSchedule);
+            this.panel12.Controls.Add(this.button_CreateSchedule);
             this.panel12.Controls.Add(this.listBox_schedule);
             resources.ApplyResources(this.panel12, "panel12");
             this.panel12.Name = "panel12";
@@ -709,38 +719,89 @@
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
-            // dateTimePicker1
+            // dateTimePicker_schedule
             // 
-            this.dateTimePicker1.CalendarMonthBackground = System.Drawing.Color.White;
-            resources.ApplyResources(this.dateTimePicker1, "dateTimePicker1");
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker_schedule.CalendarMonthBackground = System.Drawing.Color.White;
+            resources.ApplyResources(this.dateTimePicker_schedule, "dateTimePicker_schedule");
+            this.dateTimePicker_schedule.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker_schedule.Name = "dateTimePicker_schedule";
             // 
-            // numericUpDown3
+            // numericUpDown_drivetimeSchedule
             // 
-            this.numericUpDown3.BackColor = System.Drawing.Color.White;
-            resources.ApplyResources(this.numericUpDown3, "numericUpDown3");
-            this.numericUpDown3.Name = "numericUpDown3";
+            this.numericUpDown_drivetimeSchedule.BackColor = System.Drawing.Color.White;
+            this.numericUpDown_drivetimeSchedule.DecimalPlaces = 2;
+            resources.ApplyResources(this.numericUpDown_drivetimeSchedule, "numericUpDown_drivetimeSchedule");
+            this.numericUpDown_drivetimeSchedule.Maximum = new decimal(new int[] {
+            2399,
+            0,
+            0,
+            131072});
+            this.numericUpDown_drivetimeSchedule.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericUpDown_drivetimeSchedule.Name = "numericUpDown_drivetimeSchedule";
+            this.numericUpDown_drivetimeSchedule.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.numericUpDown_drivetimeSchedule.Validating += new System.ComponentModel.CancelEventHandler(this.Schedule_NumericFocusLost);
             // 
-            // numericUpDown2
+            // numericUpDown_pausetimeSchedule
             // 
-            this.numericUpDown2.BackColor = System.Drawing.Color.White;
-            resources.ApplyResources(this.numericUpDown2, "numericUpDown2");
-            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown_pausetimeSchedule.BackColor = System.Drawing.Color.White;
+            this.numericUpDown_pausetimeSchedule.DecimalPlaces = 2;
+            resources.ApplyResources(this.numericUpDown_pausetimeSchedule, "numericUpDown_pausetimeSchedule");
+            this.numericUpDown_pausetimeSchedule.Maximum = new decimal(new int[] {
+            2399,
+            0,
+            0,
+            131072});
+            this.numericUpDown_pausetimeSchedule.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericUpDown_pausetimeSchedule.Name = "numericUpDown_pausetimeSchedule";
+            this.numericUpDown_pausetimeSchedule.Value = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
+            this.numericUpDown_pausetimeSchedule.Validating += new System.ComponentModel.CancelEventHandler(this.Schedule_NumericFocusLost);
             // 
-            // numericUpDown1
+            // numericUpDown_durationSchedule
             // 
-            this.numericUpDown1.BackColor = System.Drawing.Color.White;
-            resources.ApplyResources(this.numericUpDown1, "numericUpDown1");
-            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown_durationSchedule.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.numericUpDown_durationSchedule, "numericUpDown_durationSchedule");
+            this.numericUpDown_durationSchedule.Maximum = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            this.numericUpDown_durationSchedule.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_durationSchedule.Name = "numericUpDown_durationSchedule";
+            this.numericUpDown_durationSchedule.Value = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+            this.numericUpDown_durationSchedule.Validating += new System.ComponentModel.CancelEventHandler(this.Schedule_NumericFocusLost);
             // 
-            // button1
+            // button_CreateSchedule
             // 
-            this.button1.BackColor = System.Drawing.Color.DarkGray;
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = false;
+            this.button_CreateSchedule.BackColor = System.Drawing.Color.Gainsboro;
+            resources.ApplyResources(this.button_CreateSchedule, "button_CreateSchedule");
+            this.button_CreateSchedule.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button_CreateSchedule.Name = "button_CreateSchedule";
+            this.button_CreateSchedule.UseVisualStyleBackColor = false;
+            this.button_CreateSchedule.Click += new System.EventHandler(this.button_CreateSchedule_Click);
             // 
             // listBox_schedule
             // 
@@ -748,6 +809,25 @@
             resources.ApplyResources(this.listBox_schedule, "listBox_schedule");
             this.listBox_schedule.FormattingEnabled = true;
             this.listBox_schedule.Name = "listBox_schedule";
+            // 
+            // panel13
+            // 
+            this.panel13.BackColor = System.Drawing.Color.DarkGray;
+            this.panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel13.Controls.Add(this.label6);
+            resources.ApplyResources(this.panel13, "panel13");
+            this.panel13.Name = "panel13";
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // label_nextscheduleevent
+            // 
+            resources.ApplyResources(this.label_nextscheduleevent, "label_nextscheduleevent");
+            this.label_nextscheduleevent.Name = "label_nextscheduleevent";
             // 
             // Form1
             // 
@@ -804,9 +884,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_km)).EndInit();
             this.panel11.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_drivetimeSchedule)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_pausetimeSchedule)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_durationSchedule)).EndInit();
+            this.panel13.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -882,15 +963,18 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_time2;
         private System.Windows.Forms.Panel panel12;
         private System.Windows.Forms.ListBox listBox_schedule;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DateTimePicker dateTimePicker_schedule;
+        private System.Windows.Forms.NumericUpDown numericUpDown_drivetimeSchedule;
+        private System.Windows.Forms.NumericUpDown numericUpDown_pausetimeSchedule;
+        private System.Windows.Forms.NumericUpDown numericUpDown_durationSchedule;
+        private System.Windows.Forms.Button button_CreateSchedule;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Panel panel13;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label_nextscheduleevent;
     }
 }
 

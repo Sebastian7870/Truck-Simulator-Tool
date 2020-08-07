@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Workshift.cs" />
     <Compile Include="TelemetryData.cs" />
     <Compile Include="TruckersfmData.cs" />
     <EmbeddedResource Include="Form1.resx">

@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -27,6 +29,8 @@ namespace Truck_Simulator_Tool
         double distancesummary = 0;
         double drivendistance = 0;
         bool bestarrivalset = false;
+        List<Workshift> listWorkshifts = new List<Workshift>();
+
 
 
         // Variables End
@@ -52,6 +56,9 @@ namespace Truck_Simulator_Tool
             label_CalculatortimeH2.Visible = false;
             label_CalculatortimeH3.Visible = false;
             numericUpDown_km.ReadOnly = true;
+
+            //Schedule
+            dateTimePicker_schedule.Value = DateTime.Now.AddDays(1);
         }
 
 
@@ -109,6 +116,7 @@ namespace Truck_Simulator_Tool
             label14_datetimetime.Text = DateTime.Now.ToString("HH:mm");
             label_datetimenowseconds.Text = DateTime.Now.ToString("ss");
             label15_datetimedate.Text = DateTimeFormatInfo.CurrentInfo.GetDayName(DateTime.Now.DayOfWeek) + "\n" + DateTime.Now.ToShortDateString();
+            dateTimePicker_schedule.MinDate = DateTime.Now.AddSeconds(5);
 
             if (bTruckersfmOnline == true)
             {// TFM online
@@ -471,26 +479,31 @@ namespace Truck_Simulator_Tool
         }
 
         private void Calculator_NumericFocusLost(object sender, CancelEventArgs e)
-         {
+        {
             if (numericUpDown_time1.Text == "")
             {
                 numericUpDown_time1.Value = 0;
+                numericUpDown_time1.Text = "0";
             }
             else if (numericUpDown_time2.Text == "")
             {
                 numericUpDown_time2.Value = 0;
+                numericUpDown_time2.Text = "0";
             }
             else if (numericUpDown_time3.Text == "")
             {
                 numericUpDown_time3.Value = 0;
+                numericUpDown_time3.Text = "0";
             }
             else if (numericUpDown_speed.Text == "")
             {
                 numericUpDown_speed.Value = 65;
+                numericUpDown_speed.Text = "65";
             }
             else if (numericUpDown_km.Text == "")
             {
                 numericUpDown_km.Value = 0;
+                numericUpDown_km.Text = "0";
             }
         }
 
@@ -666,6 +679,96 @@ namespace Truck_Simulator_Tool
                 }
             }
         }
+
+
+        // Schedule planner
+        private void Schedule_NumericFocusLost(object sender, CancelEventArgs e)
+        {
+            if (numericUpDown_drivetimeSchedule.Text == "")
+            {
+                numericUpDown_drivetimeSchedule.Value = 9;
+                numericUpDown_drivetimeSchedule.Text = "9";
+            }
+            else if (numericUpDown_durationSchedule.Text == "")
+            {
+                numericUpDown_durationSchedule.Value = 7;
+                numericUpDown_durationSchedule.Text = "7";
+            }
+            else if (numericUpDown_pausetimeSchedule.Text == "")
+            {
+                numericUpDown_pausetimeSchedule.Value = 12;
+                numericUpDown_pausetimeSchedule.Text = "12";
+            }
+        }
+        private void button_CreateSchedule_Click(object sender, EventArgs e)
+        {
+            listWorkshifts.Clear();
+            DateTime start_dt = dateTimePicker_schedule.Value;
+            double TargetDays = Convert.ToDouble(numericUpDown_durationSchedule.Value);
+            double DriveTime = Convert.ToDouble(numericUpDown_drivetimeSchedule.Value);
+            double PauseTime = Convert.ToDouble(numericUpDown_pausetimeSchedule.Value);
+
+            int counter = 0;
+            listBox_schedule.Items.Clear();
+            listBox_schedule.Items.Add("Startfahrtzeit : " + start_dt + "   [" + start_dt.DayOfWeek + "]");
+            listBox_schedule.Items.Add("\n");
+            listBox_schedule.Items.Add("##################################################################################");
+            do
+            {
+                counter += 1;
+
+                listBox_schedule.Items.Add("Schichtnummer : " + counter);
+                listBox_schedule.Items.Add("\n");
+                listBox_schedule.Items.Add("Schichtbeginn                : " + start_dt + "   [" + start_dt.DayOfWeek + "]");
+                start_dt = start_dt.AddHours(DriveTime / 2);
+                listBox_schedule.Items.Add("Schichtpausenbeginn  : " + start_dt + "   [" + start_dt.DayOfWeek + "]");
+                listBox_schedule.Items.Add("\n");
+
+                start_dt = start_dt.AddMinutes(45);
+                listBox_schedule.Items.Add("Schichtpausenende     : " + start_dt + "   [" + start_dt.DayOfWeek + "]");
+                start_dt = start_dt.AddHours(DriveTime / 2);
+                listBox_schedule.Items.Add("Sichtende                       : " + start_dt + "   [" + start_dt.DayOfWeek + "]");
+                listBox_schedule.Items.Add("\n");
+                listBox_schedule.Items.Add("##################################################################################");
+                start_dt = start_dt.AddHours(PauseTime);
+                // Create new Workshift object and add it to our Workshift List
+                Workshift newWorkshift = new Workshift(counter, start_dt, start_dt.AddHours(DriveTime));
+                listWorkshifts.Add(newWorkshift);
+
+            }
+            while (start_dt.Date < Convert.ToDateTime(dateTimePicker_schedule.Value.AddDays(TargetDays)));
+            foreach (Workshift Item in listWorkshifts)
+            {
+                Debug.WriteLine("DEBUG: " + Item.StartDate);
+            }
+
+            LoadSchedule();
+        }
+        
+        void LoadSchedule()
+        {// Load Schedule file and get data
+            if (listWorkshifts[Convert.ToInt32(numericUpDown_durationSchedule.Value)].EndDate > DateTime.Now) // change durationSchedule.Value for file to work (Read file duration counter)
+            {
+                List<DateTime> startdates = new List<DateTime>();
+               
+                foreach (Workshift Item in listWorkshifts)
+                {
+                    startdates.Add(Item.StartDate);
+                }
+               foreach (DateTime datetime in startdates)
+                {
+                    Debug.WriteLine(datetime);
+                }
+
+
+            }
+            else
+            {
+                MessageBox.Show("Dieser Schichtplan ist abgelaufen!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        
+
 
     }
 }
