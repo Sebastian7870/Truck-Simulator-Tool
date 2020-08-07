@@ -144,7 +144,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;button1_settings.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="label1_paused.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 26.25pt</value>
@@ -174,19 +174,25 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1_paused.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
+  </data>
+  <data name="label2_timescale.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
   </data>
   <data name="label2_timescale.Location" type="System.Drawing.Point, System.Drawing">
-    <value>641, 539</value>
+    <value>1792, 0</value>
   </data>
   <data name="label2_timescale.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 48</value>
+    <value>163, 30</value>
   </data>
   <data name="label2_timescale.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="label2_timescale.Text" xml:space="preserve">
     <value>label2</value>
+  </data>
+  <data name="label2_timescale.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
   </data>
   <data name="&gt;&gt;label2_timescale.Name" xml:space="preserve">
     <value>label2_timescale</value>
@@ -195,78 +201,84 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2_timescale.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>panel1</value>
   </data>
   <data name="&gt;&gt;label2_timescale.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>0</value>
   </data>
   <metadata name="timer1_calculate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="label3_currentarrival.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 18pt</value>
+  <data name="label_currentarrival.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt, style=Bold</value>
   </data>
-  <data name="label3_currentarrival.Location" type="System.Drawing.Point, System.Drawing">
-    <value>685, 365</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label_currentarrival.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="label3_currentarrival.Size" type="System.Drawing.Size, System.Drawing">
-    <value>929, 38</value>
+  <data name="label_currentarrival.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 1</value>
   </data>
-  <data name="label3_currentarrival.TabIndex" type="System.Int32, mscorlib">
+  <data name="label_currentarrival.Size" type="System.Drawing.Size, System.Drawing">
+    <value>227, 29</value>
+  </data>
+  <data name="label_currentarrival.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="label3_currentarrival.Text" xml:space="preserve">
-    <value>Derzeitige Ankunft: 10 h 20 m </value>
+  <data name="label_currentarrival.Text" xml:space="preserve">
+    <value>Ankunft ca.:      13:25</value>
   </data>
-  <data name="label3_currentarrival.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="label_currentarrival.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="&gt;&gt;label3_currentarrival.Name" xml:space="preserve">
-    <value>label3_currentarrival</value>
+  <data name="&gt;&gt;label_currentarrival.Name" xml:space="preserve">
+    <value>label_currentarrival</value>
   </data>
-  <data name="&gt;&gt;label3_currentarrival.Type" xml:space="preserve">
+  <data name="&gt;&gt;label_currentarrival.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label3_currentarrival.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;label_currentarrival.Parent" xml:space="preserve">
+    <value>panel7</value>
   </data>
-  <data name="&gt;&gt;label3_currentarrival.ZOrder" xml:space="preserve">
-    <value>15</value>
+  <data name="&gt;&gt;label_currentarrival.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="label4_currentbestarrival.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 18pt</value>
+  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt</value>
   </data>
-  <data name="label4_currentbestarrival.Location" type="System.Drawing.Point, System.Drawing">
-    <value>890, 403</value>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="label4_currentbestarrival.Size" type="System.Drawing.Size, System.Drawing">
-    <value>662, 38</value>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>-1, 30</value>
   </data>
-  <data name="label4_currentbestarrival.TabIndex" type="System.Int32, mscorlib">
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 37</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="label4_currentbestarrival.Text" xml:space="preserve">
-    <value>10h 20m</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Beste Ankunft:</value>
   </data>
-  <data name="label4_currentbestarrival.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
   </data>
-  <data name="&gt;&gt;label4_currentbestarrival.Name" xml:space="preserve">
-    <value>label4_currentbestarrival</value>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
   </data>
-  <data name="&gt;&gt;label4_currentbestarrival.Type" xml:space="preserve">
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label4_currentbestarrival.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>panel6</value>
   </data>
-  <data name="&gt;&gt;label4_currentbestarrival.ZOrder" xml:space="preserve">
-    <value>14</value>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="label5_jobinfo.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 15.75pt</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label5_jobinfo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -316,16 +328,16 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1_distance.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>17</value>
   </data>
   <data name="label6_timebuffer.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="label6_timebuffer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>134, 969</value>
+    <value>243, 969</value>
   </data>
   <data name="label6_timebuffer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>673, 23</value>
+    <value>450, 23</value>
   </data>
   <data name="label6_timebuffer.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -346,7 +358,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label6_timebuffer.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>16</value>
   </data>
   <data name="label7_remainingtime.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 14.25pt</value>
@@ -475,7 +487,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label10_sourcedata.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>15</value>
   </data>
   <data name="label11_destinationdata.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 14.25pt</value>
@@ -505,7 +517,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label11_destinationdata.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>14</value>
   </data>
   <data name="label12_progresspercentage.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
@@ -538,7 +550,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label12_progresspercentage.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>13</value>
   </data>
   <data name="label13_remainingdistance.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
@@ -568,7 +580,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label13_remainingdistance.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>12</value>
   </data>
   <data name="panel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
@@ -592,22 +604,22 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>11</value>
   </data>
   <data name="label14_datetimetime.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 48pt</value>
   </data>
   <data name="label14_datetimetime.Location" type="System.Drawing.Point, System.Drawing">
-    <value>529, 0</value>
+    <value>528, 0</value>
   </data>
   <data name="label14_datetimetime.Size" type="System.Drawing.Size, System.Drawing">
-    <value>284, 69</value>
+    <value>285, 69</value>
   </data>
   <data name="label14_datetimetime.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
   </data>
   <data name="label14_datetimetime.Text" xml:space="preserve">
-    <value>19:30:47</value>
+    <value>21:35</value>
   </data>
   <data name="label14_datetimetime.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
@@ -622,7 +634,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label14_datetimetime.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>10</value>
   </data>
   <data name="label15_datetimedate.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 18pt</value>
@@ -631,10 +643,10 @@
     <value>NoControl</value>
   </data>
   <data name="label15_datetimedate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>808, 0</value>
+    <value>809, 0</value>
   </data>
   <data name="label15_datetimedate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 69</value>
+    <value>164, 69</value>
   </data>
   <data name="label15_datetimedate.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -656,7 +668,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label15_datetimedate.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>9</value>
   </data>
   <data name="pictureBox2_cargodamage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -701,7 +713,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>8</value>
   </data>
   <data name="splitter1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -722,7 +734,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;splitter1.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="panel3.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 685</value>
@@ -743,13 +755,79 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
+  </data>
+  <data name="label_vehicleinformation2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 15.75pt</value>
+  </data>
+  <data name="label_vehicleinformation2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_vehicleinformation2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 121</value>
+  </data>
+  <data name="label_vehicleinformation2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>434, 38</value>
+  </data>
+  <data name="label_vehicleinformation2.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="label_vehicleinformation2.Text" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="label_vehicleinformation2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label_vehicleinformation2.Name" xml:space="preserve">
+    <value>label_vehicleinformation2</value>
+  </data>
+  <data name="&gt;&gt;label_vehicleinformation2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_vehicleinformation2.Parent" xml:space="preserve">
+    <value>panel4</value>
+  </data>
+  <data name="&gt;&gt;label_vehicleinformation2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label_vehicleinformation3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 15.75pt</value>
+  </data>
+  <data name="label_vehicleinformation3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_vehicleinformation3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 159</value>
+  </data>
+  <data name="label_vehicleinformation3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>434, 38</value>
+  </data>
+  <data name="label_vehicleinformation3.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="label_vehicleinformation3.Text" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="label_vehicleinformation3.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label_vehicleinformation3.Name" xml:space="preserve">
+    <value>label_vehicleinformation3</value>
+  </data>
+  <data name="&gt;&gt;label_vehicleinformation3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_vehicleinformation3.Parent" xml:space="preserve">
+    <value>panel4</value>
+  </data>
+  <data name="&gt;&gt;label_vehicleinformation3.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="pictureBox3_fuel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 166</value>
+    <value>5, 200</value>
   </data>
   <data name="pictureBox3_fuel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>434, 39</value>
+    <value>432, 39</value>
   </data>
   <data name="pictureBox3_fuel.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
@@ -764,7 +842,7 @@
     <value>panel4</value>
   </data>
   <data name="&gt;&gt;pictureBox3_fuel.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="label_vehicleinformation.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 15.75pt</value>
@@ -773,13 +851,16 @@
     <value>5, 83</value>
   </data>
   <data name="label_vehicleinformation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>434, 80</value>
+    <value>434, 38</value>
   </data>
   <data name="label_vehicleinformation.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="label_vehicleinformation.Text" xml:space="preserve">
     <value>label2</value>
+  </data>
+  <data name="label_vehicleinformation.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;label_vehicleinformation.Name" xml:space="preserve">
     <value>label_vehicleinformation</value>
@@ -791,13 +872,13 @@
     <value>panel4</value>
   </data>
   <data name="&gt;&gt;label_vehicleinformation.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="panel4.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 81</value>
   </data>
   <data name="panel4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>444, 246</value>
+    <value>444, 245</value>
   </data>
   <data name="panel4.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -812,7 +893,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel4.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="label_vehicleinformationtext.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 27.75pt</value>
@@ -866,6 +947,291 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel5.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label_datetimenowseconds.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label_datetimenowseconds.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
+  <data name="label_datetimenowseconds.Location" type="System.Drawing.Point, System.Drawing">
+    <value>610, 44</value>
+  </data>
+  <data name="label_datetimenowseconds.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 16</value>
+  </data>
+  <data name="label_datetimenowseconds.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="label_datetimenowseconds.Text" xml:space="preserve">
+    <value>24</value>
+  </data>
+  <data name="&gt;&gt;label_datetimenowseconds.Name" xml:space="preserve">
+    <value>label_datetimenowseconds</value>
+  </data>
+  <data name="&gt;&gt;label_datetimenowseconds.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_datetimenowseconds.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label_datetimenowseconds.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label_currentbestarrival2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt</value>
+  </data>
+  <data name="label_currentbestarrival2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>236, 30</value>
+  </data>
+  <data name="label_currentbestarrival2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 35</value>
+  </data>
+  <data name="label_currentbestarrival2.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="label_currentbestarrival2.Text" xml:space="preserve">
+    <value>(1 Std. 20 Min.)</value>
+  </data>
+  <data name="label_currentbestarrival2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;label_currentbestarrival2.Name" xml:space="preserve">
+    <value>label_currentbestarrival2</value>
+  </data>
+  <data name="&gt;&gt;label_currentbestarrival2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_currentbestarrival2.Parent" xml:space="preserve">
+    <value>panel6</value>
+  </data>
+  <data name="&gt;&gt;label_currentbestarrival2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label_currentbestarrival.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt</value>
+  </data>
+  <data name="label_currentbestarrival.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_currentbestarrival.Location" type="System.Drawing.Point, System.Drawing">
+    <value>149, 31</value>
+  </data>
+  <data name="label_currentbestarrival.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 34</value>
+  </data>
+  <data name="label_currentbestarrival.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="label_currentbestarrival.Text" xml:space="preserve">
+    <value>13:25</value>
+  </data>
+  <data name="label_currentbestarrival.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label_currentbestarrival.Name" xml:space="preserve">
+    <value>label_currentbestarrival</value>
+  </data>
+  <data name="&gt;&gt;label_currentbestarrival.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_currentbestarrival.Parent" xml:space="preserve">
+    <value>panel6</value>
+  </data>
+  <data name="&gt;&gt;label_currentbestarrival.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="panel6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 495</value>
+  </data>
+  <data name="panel6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>443, 89</value>
+  </data>
+  <data name="panel6.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="&gt;&gt;panel6.Name" xml:space="preserve">
+    <value>panel6</value>
+  </data>
+  <data name="&gt;&gt;panel6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel6.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel6.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label_bestarrival2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
+  </data>
+  <data name="label_bestarrival2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_bestarrival2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>240, 0</value>
+  </data>
+  <data name="label_bestarrival2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>203, 22</value>
+  </data>
+  <data name="label_bestarrival2.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label_bestarrival2.Text" xml:space="preserve">
+    <value>(+2 Std. 20 Min.)</value>
+  </data>
+  <data name="label_bestarrival2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;label_bestarrival2.Name" xml:space="preserve">
+    <value>label_bestarrival2</value>
+  </data>
+  <data name="&gt;&gt;label_bestarrival2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_bestarrival2.Parent" xml:space="preserve">
+    <value>panel8</value>
+  </data>
+  <data name="&gt;&gt;label_bestarrival2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>222, 22</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Geplante Ankunft:</value>
+  </data>
+  <data name="label3.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>panel8</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_currentarrival2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 14.25pt, style=Bold</value>
+  </data>
+  <data name="label_currentarrival2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>226, 1</value>
+  </data>
+  <data name="label_currentarrival2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 27</value>
+  </data>
+  <data name="label_currentarrival2.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label_currentarrival2.Text" xml:space="preserve">
+    <value>(10  Std. 15 Min.)</value>
+  </data>
+  <data name="label_currentarrival2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;label_currentarrival2.Name" xml:space="preserve">
+    <value>label_currentarrival2</value>
+  </data>
+  <data name="&gt;&gt;label_currentarrival2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_currentarrival2.Parent" xml:space="preserve">
+    <value>panel7</value>
+  </data>
+  <data name="&gt;&gt;label_currentarrival2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panel7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 495</value>
+  </data>
+  <data name="panel7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>444, 31</value>
+  </data>
+  <data name="panel7.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="&gt;&gt;panel7.Name" xml:space="preserve">
+    <value>panel7</value>
+  </data>
+  <data name="&gt;&gt;panel7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel7.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel7.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_bestarrival.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
+  </data>
+  <data name="label_bestarrival.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_bestarrival.Location" type="System.Drawing.Point, System.Drawing">
+    <value>150, -2</value>
+  </data>
+  <data name="label_bestarrival.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 22</value>
+  </data>
+  <data name="label_bestarrival.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="label_bestarrival.Text" xml:space="preserve">
+    <value>01:36</value>
+  </data>
+  <data name="label_bestarrival.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label_bestarrival.Name" xml:space="preserve">
+    <value>label_bestarrival</value>
+  </data>
+  <data name="&gt;&gt;label_bestarrival.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_bestarrival.Parent" xml:space="preserve">
+    <value>panel8</value>
+  </data>
+  <data name="&gt;&gt;label_bestarrival.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panel8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 562</value>
+  </data>
+  <data name="panel8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>443, 22</value>
+  </data>
+  <data name="panel8.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="&gt;&gt;panel8.Name" xml:space="preserve">
+    <value>panel8</value>
+  </data>
+  <data name="&gt;&gt;panel8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel8.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel8.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
