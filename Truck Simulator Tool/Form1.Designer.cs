@@ -76,18 +76,28 @@
             this.label_TFMsongname = new System.Windows.Forms.Label();
             this.pictureBox_TruckersfmSong = new System.Windows.Forms.PictureBox();
             this.panel10 = new System.Windows.Forms.Panel();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.radioButton_extended = new System.Windows.Forms.RadioButton();
+            this.radioButton_standart = new System.Windows.Forms.RadioButton();
+            this.label_CalculatortimeH3 = new System.Windows.Forms.Label();
+            this.label_Calculatortime3 = new System.Windows.Forms.Label();
+            this.numericUpDown_time3 = new System.Windows.Forms.NumericUpDown();
+            this.label_CalculatortimeH2 = new System.Windows.Forms.Label();
+            this.label_Calculatortime2 = new System.Windows.Forms.Label();
+            this.numericUpDown_time2 = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label_CalculatortimeH1 = new System.Windows.Forms.Label();
+            this.label_Calculatortime1 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.numericUpDown_time1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_speed = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_km = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.panel11 = new System.Windows.Forms.Panel();
+            this.panel12 = new System.Windows.Forms.Panel();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -102,10 +112,13 @@
             this.panel9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_TruckersfmSong)).BeginInit();
             this.panel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_time3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_time2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_time1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_speed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_km)).BeginInit();
             this.panel11.SuspendLayout();
+            this.panel12.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1_settings
@@ -388,7 +401,7 @@
             // panel9
             // 
             this.panel9.BackColor = System.Drawing.Color.Gainsboro;
-            this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel9.Controls.Add(this.label_TFMdjname);
             this.panel9.Controls.Add(this.label_TFMsongartist);
             this.panel9.Controls.Add(this.label_TFMsongname);
@@ -424,109 +437,112 @@
             // 
             this.panel10.BackColor = System.Drawing.Color.Gainsboro;
             this.panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel10.Controls.Add(this.radioButton_extended);
+            this.panel10.Controls.Add(this.radioButton_standart);
+            this.panel10.Controls.Add(this.label_CalculatortimeH3);
+            this.panel10.Controls.Add(this.label_Calculatortime3);
+            this.panel10.Controls.Add(this.numericUpDown_time3);
+            this.panel10.Controls.Add(this.label_CalculatortimeH2);
+            this.panel10.Controls.Add(this.label_Calculatortime2);
+            this.panel10.Controls.Add(this.numericUpDown_time2);
             this.panel10.Controls.Add(this.label9);
             this.panel10.Controls.Add(this.label8);
-            this.panel10.Controls.Add(this.label7);
-            this.panel10.Controls.Add(this.label6);
+            this.panel10.Controls.Add(this.label_CalculatortimeH1);
+            this.panel10.Controls.Add(this.label_Calculatortime1);
             this.panel10.Controls.Add(this.label5);
             this.panel10.Controls.Add(this.label4);
             this.panel10.Controls.Add(this.label1);
-            this.panel10.Controls.Add(this.numericUpDown3);
-            this.panel10.Controls.Add(this.numericUpDown2);
-            this.panel10.Controls.Add(this.numericUpDown1);
+            this.panel10.Controls.Add(this.numericUpDown_time1);
+            this.panel10.Controls.Add(this.numericUpDown_speed);
+            this.panel10.Controls.Add(this.numericUpDown_km);
             resources.ApplyResources(this.panel10, "panel10");
             this.panel10.Name = "panel10";
             // 
-            // numericUpDown1
+            // radioButton_extended
             // 
-            resources.ApplyResources(this.numericUpDown1, "numericUpDown1");
-            this.numericUpDown1.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numericUpDown1.Name = "numericUpDown1";
+            resources.ApplyResources(this.radioButton_extended, "radioButton_extended");
+            this.radioButton_extended.BackColor = System.Drawing.Color.Transparent;
+            this.radioButton_extended.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.radioButton_extended.Name = "radioButton_extended";
+            this.radioButton_extended.UseVisualStyleBackColor = false;
+            this.radioButton_extended.CheckedChanged += new System.EventHandler(this.Calculator_RadioButtonChanged);
             // 
-            // numericUpDown2
+            // radioButton_standart
             // 
-            resources.ApplyResources(this.numericUpDown2, "numericUpDown2");
-            this.numericUpDown2.Maximum = new decimal(new int[] {
-            300,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Value = new decimal(new int[] {
-            65,
-            0,
-            0,
-            0});
+            resources.ApplyResources(this.radioButton_standart, "radioButton_standart");
+            this.radioButton_standart.BackColor = System.Drawing.Color.Transparent;
+            this.radioButton_standart.Checked = true;
+            this.radioButton_standart.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.radioButton_standart.Name = "radioButton_standart";
+            this.radioButton_standart.TabStop = true;
+            this.radioButton_standart.UseVisualStyleBackColor = false;
+            this.radioButton_standart.CheckedChanged += new System.EventHandler(this.Calculator_RadioButtonChanged);
             // 
-            // numericUpDown3
+            // label_CalculatortimeH3
             // 
-            this.numericUpDown3.DecimalPlaces = 2;
-            resources.ApplyResources(this.numericUpDown3, "numericUpDown3");
-            this.numericUpDown3.Increment = new decimal(new int[] {
+            this.label_CalculatortimeH3.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label_CalculatortimeH3, "label_CalculatortimeH3");
+            this.label_CalculatortimeH3.Name = "label_CalculatortimeH3";
+            // 
+            // label_Calculatortime3
+            // 
+            this.label_Calculatortime3.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label_Calculatortime3, "label_Calculatortime3");
+            this.label_Calculatortime3.Name = "label_Calculatortime3";
+            // 
+            // numericUpDown_time3
+            // 
+            this.numericUpDown_time3.DecimalPlaces = 2;
+            resources.ApplyResources(this.numericUpDown_time3, "numericUpDown_time3");
+            this.numericUpDown_time3.Increment = new decimal(new int[] {
             16666666,
             0,
             0,
             524288});
-            this.numericUpDown3.Maximum = new decimal(new int[] {
-            100000,
+            this.numericUpDown_time3.Maximum = new decimal(new int[] {
+            10000000,
             0,
             0,
             0});
-            this.numericUpDown3.Minimum = new decimal(new int[] {
+            this.numericUpDown_time3.Name = "numericUpDown_time3";
+            this.numericUpDown_time3.ValueChanged += new System.EventHandler(this.CalculatorNumericTIMEChanged);
+            this.numericUpDown_time3.Enter += new System.EventHandler(this.Calculator_NumericTimePressed);
+            // 
+            // label_CalculatortimeH2
+            // 
+            this.label_CalculatortimeH2.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label_CalculatortimeH2, "label_CalculatortimeH2");
+            this.label_CalculatortimeH2.Name = "label_CalculatortimeH2";
+            // 
+            // label_Calculatortime2
+            // 
+            this.label_Calculatortime2.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label_Calculatortime2, "label_Calculatortime2");
+            this.label_Calculatortime2.Name = "label_Calculatortime2";
+            // 
+            // numericUpDown_time2
+            // 
+            this.numericUpDown_time2.DecimalPlaces = 2;
+            resources.ApplyResources(this.numericUpDown_time2, "numericUpDown_time2");
+            this.numericUpDown_time2.Increment = new decimal(new int[] {
             16666666,
             0,
             0,
             524288});
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Value = new decimal(new int[] {
-            116,
+            this.numericUpDown_time2.Maximum = new decimal(new int[] {
+            10000000,
             0,
             0,
-            131072});
+            0});
+            this.numericUpDown_time2.Name = "numericUpDown_time2";
+            this.numericUpDown_time2.ValueChanged += new System.EventHandler(this.CalculatorNumericTIMEChanged);
+            this.numericUpDown_time2.Enter += new System.EventHandler(this.Calculator_NumericTimePressed);
             // 
-            // label1
+            // label9
             // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // label4
-            // 
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // label5
-            // 
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
-            // 
-            // label6
-            // 
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
-            // 
-            // label7
-            // 
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
             // 
             // label8
             // 
@@ -534,11 +550,92 @@
             resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
             // 
-            // label9
+            // label_CalculatortimeH1
             // 
-            this.label9.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
+            this.label_CalculatortimeH1.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label_CalculatortimeH1, "label_CalculatortimeH1");
+            this.label_CalculatortimeH1.Name = "label_CalculatortimeH1";
+            // 
+            // label_Calculatortime1
+            // 
+            this.label_Calculatortime1.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label_Calculatortime1, "label_Calculatortime1");
+            this.label_Calculatortime1.Name = "label_Calculatortime1";
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // numericUpDown_time1
+            // 
+            this.numericUpDown_time1.DecimalPlaces = 2;
+            resources.ApplyResources(this.numericUpDown_time1, "numericUpDown_time1");
+            this.numericUpDown_time1.Increment = new decimal(new int[] {
+            16666666,
+            0,
+            0,
+            524288});
+            this.numericUpDown_time1.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.numericUpDown_time1.Name = "numericUpDown_time1";
+            this.numericUpDown_time1.ValueChanged += new System.EventHandler(this.CalculatorNumericTIMEChanged);
+            this.numericUpDown_time1.Enter += new System.EventHandler(this.Calculator_NumericTimePressed);
+            this.numericUpDown_time1.Validating += new System.ComponentModel.CancelEventHandler(this.Calculator_NumericFocusLost);
+            // 
+            // numericUpDown_speed
+            // 
+            resources.ApplyResources(this.numericUpDown_speed, "numericUpDown_speed");
+            this.numericUpDown_speed.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.numericUpDown_speed.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_speed.Name = "numericUpDown_speed";
+            this.numericUpDown_speed.Value = new decimal(new int[] {
+            65,
+            0,
+            0,
+            0});
+            this.numericUpDown_speed.ValueChanged += new System.EventHandler(this.CalculatorNumericSPEEDChanged);
+            // 
+            // numericUpDown_km
+            // 
+            resources.ApplyResources(this.numericUpDown_km, "numericUpDown_km");
+            this.numericUpDown_km.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown_km.Maximum = new decimal(new int[] {
+            1410065408,
+            2,
+            0,
+            0});
+            this.numericUpDown_km.Name = "numericUpDown_km";
+            this.numericUpDown_km.ValueChanged += new System.EventHandler(this.Calculator_NumericKMValueChanged);
+            this.numericUpDown_km.Enter += new System.EventHandler(this.Calculator_NumericKmPressed);
             // 
             // label10
             // 
@@ -554,11 +651,26 @@
             resources.ApplyResources(this.panel11, "panel11");
             this.panel11.Name = "panel11";
             // 
+            // panel12
+            // 
+            this.panel12.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel12.Controls.Add(this.listBox1);
+            resources.ApplyResources(this.panel12, "panel12");
+            this.panel12.Name = "panel12";
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            resources.ApplyResources(this.listBox1, "listBox1");
+            this.listBox1.Name = "listBox1";
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
+            this.Controls.Add(this.panel12);
             this.Controls.Add(this.panel11);
             this.Controls.Add(this.panel10);
             this.Controls.Add(this.panel9);
@@ -600,10 +712,14 @@
             this.panel9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_TruckersfmSong)).EndInit();
             this.panel10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            this.panel10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_time3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_time2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_time1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_speed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_km)).EndInit();
             this.panel11.ResumeLayout(false);
+            this.panel12.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -657,18 +773,28 @@
         private System.Windows.Forms.Label label_TFMsongartist;
         private System.Windows.Forms.Label label_TFMdjname;
         private System.Windows.Forms.Panel panel10;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown numericUpDown_km;
+        private System.Windows.Forms.NumericUpDown numericUpDown_time1;
+        private System.Windows.Forms.NumericUpDown numericUpDown_speed;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label_CalculatortimeH1;
+        private System.Windows.Forms.Label label_Calculatortime1;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Panel panel11;
+        private System.Windows.Forms.RadioButton radioButton_extended;
+        private System.Windows.Forms.RadioButton radioButton_standart;
+        private System.Windows.Forms.Label label_CalculatortimeH3;
+        private System.Windows.Forms.Label label_Calculatortime3;
+        private System.Windows.Forms.NumericUpDown numericUpDown_time3;
+        private System.Windows.Forms.Label label_CalculatortimeH2;
+        private System.Windows.Forms.Label label_Calculatortime2;
+        private System.Windows.Forms.NumericUpDown numericUpDown_time2;
+        private System.Windows.Forms.Panel panel12;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

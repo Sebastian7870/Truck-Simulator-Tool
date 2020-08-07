@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -27,6 +28,7 @@ namespace Truck_Simulator_Tool
         double drivendistance = 0;
         bool bestarrivalset = false;
 
+
         // Variables End
 
         public Form1()
@@ -37,6 +39,19 @@ namespace Truck_Simulator_Tool
         private void Form1_Load(object sender, EventArgs e)
         {
             timer1_calculate.Start();
+
+
+            // Distance Calculator
+            radioButton_extended.Checked = false;
+            radioButton_standart.Checked = true;
+            label_Calculatortime1.Text = "Fahrzeit:";
+            label_Calculatortime2.Visible = false;
+            label_Calculatortime3.Visible = false;
+            numericUpDown_time2.Visible = false;
+            numericUpDown_time3.Visible = false;
+            label_CalculatortimeH2.Visible = false;
+            label_CalculatortimeH3.Visible = false;
+            numericUpDown_km.ReadOnly = true;
         }
 
 
@@ -105,7 +120,7 @@ namespace Truck_Simulator_Tool
                 label_TFMsongartist.Text = TruckersfmsongData.artist;
                 label_TFMdjname.Text = "Moderator: " + TruckersfmdjData.result.dj.name;
             }
-            
+
 
             if (bTelemetryOnline == true)
             {// Telemetry online
@@ -149,7 +164,7 @@ namespace Truck_Simulator_Tool
 
                         label_currentarrival.Text = String.Format("Ankunft ca.:      {0}", dt_currentarrival.ToString("HH:mm"));
                         label_currentarrival2.Text = String.Format("({0})", TimeSpanConvertToAvailableValuesOnly(ts_currentarrival));
-                        
+
                         label_currentbestarrival.Text = String.Format("{0}", dt_bestcurrentarrival.ToString("HH:mm"));
                         label_currentbestarrival2.Text = String.Format("({0})", TimeSpanConvertToAvailableValuesOnly(ts_bestcurrentarrival));
 
@@ -160,7 +175,7 @@ namespace Truck_Simulator_Tool
                             string bestarrivaltext = bestarrivaltext = String.Format("(+{0})", TimeSpanConvertToAvailableValuesOnly(TimeSpan.FromSeconds(ts_bestarrival.TotalSeconds * (-1))));
                             if (ts_bestarrival.TotalSeconds > 0)
                             {
-                                bestarrivaltext = String.Format("(-{0})",TimeSpanConvertToAvailableValuesOnly(ts_bestarrival));                                
+                                bestarrivaltext = String.Format("(-{0})", TimeSpanConvertToAvailableValuesOnly(ts_bestarrival));
                             }
                             label_bestarrival.Text = String.Format("{0}", dt_bestarrival.ToString("HH:mm"));
                             label_bestarrival2.Text = bestarrivaltext;
@@ -258,7 +273,7 @@ namespace Truck_Simulator_Tool
                             label7_remainingtime.ForeColor = Color.Brown;
                         }
                         label7_remainingtime.Text = "Restzeit: " + TimeSpanConvertToAvailableValuesOnly(ts_remainingtime);
-                        
+
                         // next pause time (color)
                         if (ts_nextpausetime.TotalSeconds > 0)
                         {
@@ -273,10 +288,10 @@ namespace Truck_Simulator_Tool
                             label8_nextpausetime.ForeColor = Color.Brown;
                         }
                         label8_nextpausetime.Text = "Pause in: " + TimeSpanConvertToAvailableValuesOnly(ts_nextpausetime);
-                        
+
                         // time buffer (color and negate)
                         if (ts_timebuffer.TotalSeconds < 0)
-                        { 
+                        {
                             label6_timebuffer.ForeColor = Color.Brown;
                             ts_timebuffer = TimeSpan.FromSeconds(ts_timebuffer.TotalSeconds * (-1));
                             label6_timebuffer.Text = "Zeitpuffer: -" + TimeSpanConvertToAvailableValuesOnly(ts_timebuffer);
@@ -419,8 +434,240 @@ namespace Truck_Simulator_Tool
                 }
             }
         }
-    }
 
+
+
+        // Distance calculator
+        private void Calculator_RadioButtonChanged(object sender, EventArgs e)
+        {
+            if (radioButton_standart.Checked == true && radioButton_extended.Checked == false)
+            {
+                label_Calculatortime1.Text = "Fahrzeit:";
+                label_Calculatortime2.Visible = false;
+                label_Calculatortime3.Visible = false;
+                numericUpDown_time2.Visible = false;
+                numericUpDown_time3.Visible = false;
+                label_CalculatortimeH2.Visible = false;
+                label_CalculatortimeH3.Visible = false;
+                numericUpDown_time2.Value = 0;
+                numericUpDown_time3.Value = 0;
+            }
+            else if (radioButton_extended.Checked == true && radioButton_standart.Checked == false)
+            {
+                label_Calculatortime1.Text = "Fahrzeit (19):";
+                label_Calculatortime2.Visible = true;
+                label_Calculatortime3.Visible = true;
+                numericUpDown_time2.Visible = true;
+                numericUpDown_time3.Visible = true;
+                label_CalculatortimeH2.Visible = true;
+                label_CalculatortimeH3.Visible = true;
+                if (TimeToKm == false)
+                {
+                    numericUpDown_time1.Value = (numericUpDown_km.Value / 19) / numericUpDown_speed.Value;
+                    numericUpDown_time2.Value = (numericUpDown_km.Value / 15) / numericUpDown_speed.Value;
+                    numericUpDown_time3.Value = (numericUpDown_km.Value / 3) / numericUpDown_speed.Value;
+                }
+            }
+        }
+
+        private void Calculator_NumericFocusLost(object sender, CancelEventArgs e)
+         {
+            if (numericUpDown_time1.Text == "")
+            {
+                numericUpDown_time1.Value = 0;
+            }
+            else if (numericUpDown_time2.Text == "")
+            {
+                numericUpDown_time2.Value = 0;
+            }
+            else if (numericUpDown_time3.Text == "")
+            {
+                numericUpDown_time3.Value = 0;
+            }
+            else if (numericUpDown_speed.Text == "")
+            {
+                numericUpDown_speed.Value = 65;
+            }
+            else if (numericUpDown_km.Text == "")
+            {
+                numericUpDown_km.Value = 0;
+            }
+        }
+
+        bool TimeToKm;
+
+        private void Calculator_NumericTimePressed(object sender, EventArgs e)
+        {
+            TimeToKm = true;
+            numericUpDown_km.ReadOnly = true;
+            numericUpDown_time1.ReadOnly = false;
+            numericUpDown_time2.ReadOnly = false;
+            numericUpDown_time3.ReadOnly = false;
+        }
+
+        private void Calculator_NumericKmPressed(object sender, EventArgs e)
+        {
+            TimeToKm = false;
+            numericUpDown_time1.ReadOnly = true;
+            numericUpDown_time2.ReadOnly = true;
+            numericUpDown_time3.ReadOnly = true;
+            numericUpDown_km.ReadOnly = false;
+        }
+
+        private void Calculator_NumericKMValueChanged(object sender, EventArgs e)
+        {
+
+            if (TimeToKm == false)
+            {
+                if (radioButton_standart.Checked == true && radioButton_extended.Checked == false)
+                {
+                    try
+                    {
+                        numericUpDown_time1.Value = (numericUpDown_km.Value / 19) / numericUpDown_speed.Value;             // ADD CONSTANT (replace "19") [IMPORTANT]
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Zahl zu groß!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        numericUpDown_time1.Value = 0;
+                        numericUpDown_time2.Value = 0;
+                        numericUpDown_time3.Value = 0;
+                        numericUpDown_km.Value = 0;
+                    }
+                }
+                else if (radioButton_extended.Checked == true && radioButton_standart.Checked == false)
+                {
+                    try
+                    {
+                        numericUpDown_time1.Value = (numericUpDown_km.Value / 19) / numericUpDown_speed.Value;
+                        numericUpDown_time2.Value = (numericUpDown_km.Value / 15) / numericUpDown_speed.Value;
+                        numericUpDown_time3.Value = (numericUpDown_km.Value / 3) / numericUpDown_speed.Value;
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Zahl zu groß!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        numericUpDown_time1.Value = 0;
+                        numericUpDown_time2.Value = 0;
+                        numericUpDown_time3.Value = 0;
+                        numericUpDown_km.Value = 0;
+                    }
+                }
+            }
+
+        }
+        private void CalculatorNumericTIMEChanged(object sender, EventArgs e)
+        {
+
+            if (TimeToKm == true)
+            {
+                if (radioButton_standart.Checked == true && radioButton_extended.Checked == false)
+                {
+                    try
+                    {
+                        numericUpDown_km.Value = 19 * (numericUpDown_time1.Value * numericUpDown_speed.Value); // ADD CONSTANT (replace "19") [IMPORTANT]
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Zahl zu groß!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        numericUpDown_time1.Value = 0;
+                        numericUpDown_time2.Value = 0;
+                        numericUpDown_time3.Value = 0;
+                        numericUpDown_km.Value = 0;
+                    }
+                }
+                else if (radioButton_extended.Checked == true && radioButton_standart.Checked == false)
+                {
+                    try
+                    {
+                        numericUpDown_km.Value = (19 * (numericUpDown_time1.Value * numericUpDown_speed.Value)) + (15 * (numericUpDown_time2.Value * numericUpDown_speed.Value)) + (3 * (numericUpDown_time3.Value * numericUpDown_speed.Value));
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Zahl zu groß!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        numericUpDown_time1.Value = 0;
+                        numericUpDown_time2.Value = 0;
+                        numericUpDown_time3.Value = 0;
+                        numericUpDown_km.Value = 0;
+                    }
+                }
+            }
+
+        }
+
+        private void CalculatorNumericSPEEDChanged(object sender, EventArgs e)
+        {
+            if (radioButton_standart.Checked == true && radioButton_extended.Checked == false)
+            {
+                if (TimeToKm == true)
+                {
+                    try
+                    {
+                        numericUpDown_km.Value = 19 * (numericUpDown_time1.Value * numericUpDown_speed.Value); // ADD CONSTANT (replace "19") [IMPORTANT]
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Zahl zu groß!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        numericUpDown_time1.Value = 0;
+                        numericUpDown_time2.Value = 0;
+                        numericUpDown_time3.Value = 0;
+                        numericUpDown_km.Value = 0;
+                    }
+                }
+                else if (TimeToKm == false)
+                {
+                    try
+                    {
+                        numericUpDown_time1.Value = (numericUpDown_km.Value / 19) / numericUpDown_speed.Value;      // ADD CONSTANT (replace "19") [IMPORTANT]
+
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Zahl zu groß!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        numericUpDown_time1.Value = 0;
+                        numericUpDown_time2.Value = 0;
+                        numericUpDown_time3.Value = 0;
+                        numericUpDown_km.Value = 0;
+                    }
+                }
+            }
+            else if (radioButton_extended.Checked == true && radioButton_standart.Checked == false)
+            {
+                if (TimeToKm == true)
+                {
+                    try
+                    {
+                        numericUpDown_km.Value = (19 * (numericUpDown_time1.Value * numericUpDown_speed.Value)) + (15 * (numericUpDown_time2.Value * numericUpDown_speed.Value)) + (3 * (numericUpDown_time3.Value * numericUpDown_speed.Value));
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Zahl zu groß!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        numericUpDown_time1.Value = 0;
+                        numericUpDown_time2.Value = 0;
+                        numericUpDown_time3.Value = 0;
+                        numericUpDown_km.Value = 0;
+                    }
+                }
+                else if (TimeToKm == false)
+                {
+                    try
+                    {
+                        numericUpDown_time1.Value = (numericUpDown_km.Value / 19) / numericUpDown_speed.Value;
+                        numericUpDown_time2.Value = (numericUpDown_km.Value / 15) / numericUpDown_speed.Value;
+                        numericUpDown_time3.Value = (numericUpDown_km.Value / 3) / numericUpDown_speed.Value;
+
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Zahl zu groß!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        numericUpDown_time1.Value = 0;
+                        numericUpDown_time2.Value = 0;
+                        numericUpDown_time3.Value = 0;
+                        numericUpDown_km.Value = 0;
+                    }
+                }
+            }
+        }
+
+    }
 }
 
 

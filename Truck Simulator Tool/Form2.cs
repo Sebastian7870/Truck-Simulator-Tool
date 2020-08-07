@@ -7,7 +7,7 @@ namespace Truck_Simulator_Tool
         public Form2() // settings
         {
             InitializeComponent();
-        }   
+        }
 
     }
 }
