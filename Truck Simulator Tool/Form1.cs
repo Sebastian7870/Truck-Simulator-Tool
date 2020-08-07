@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -118,7 +118,50 @@ namespace Truck_Simulator_Tool
             label15_datetimedate.Text = DateTimeFormatInfo.CurrentInfo.GetDayName(DateTime.Now.DayOfWeek) + "\n" + DateTime.Now.ToShortDateString();
             dateTimePicker_schedule.MinDate = DateTime.Now.AddSeconds(5);
 
+            // schedule
+            try
+            {
+                if (listWorkshifts[Convert.ToInt32(numericUpDown_durationSchedule.Value)].EndDate > DateTime.Now) // change durationSchedule.Value for file to work (Read file duration counter)
+                {// Check if schedule is not outdated
+
+                    List<DateTime> dates = new List<DateTime>();
+                    foreach (Workshift Item in listWorkshifts)
+                    {
+                        dates.Add(Item.StartDate);
+                        dates.Add(Item.StartPause);
+                        dates.Add(Item.EndPause);
+                        dates.Add(Item.EndDate);
+                    }
+
+                    dates.Sort();
+                    var result = dates.BinarySearch(DateTime.Now);
+                    DateTime nearest;
+
+                    if (result >= 0)
+                    {
+                        nearest = dates[result];
+                    }
+                    else if (~result == dates.Count)
+                    {
+                        nearest = dates.Last();
+                    }
+                    else
+                    {
+                        nearest = dates[~result];
+                    }
+                    label_nextscheduleevent.Text = nearest.ToString();
+
+
+                }
+            }
+            catch
+            {
+
+            }
+
             if (bTruckersfmOnline == true)
+
+
             {// TFM online
                 HttpClient client = new HttpClient();
                 Stream stream = await client.GetStreamAsync(TruckersfmsongData.art.ToString());
@@ -704,61 +747,48 @@ namespace Truck_Simulator_Tool
         {
             listWorkshifts.Clear();
             DateTime start_dt = dateTimePicker_schedule.Value;
+
             double TargetDays = Convert.ToDouble(numericUpDown_durationSchedule.Value);
             double DriveTime = Convert.ToDouble(numericUpDown_drivetimeSchedule.Value);
             double PauseTime = Convert.ToDouble(numericUpDown_pausetimeSchedule.Value);
 
             int counter = 0;
             listBox_schedule.Items.Clear();
-            listBox_schedule.Items.Add("Startfahrtzeit : " + start_dt + "   [" + start_dt.DayOfWeek + "]");
-            listBox_schedule.Items.Add("\n");
-            listBox_schedule.Items.Add("##################################################################################");
             do
             {
                 counter += 1;
 
-                listBox_schedule.Items.Add("Schichtnummer : " + counter);
-                listBox_schedule.Items.Add("\n");
-                listBox_schedule.Items.Add("Schichtbeginn                : " + start_dt + "   [" + start_dt.DayOfWeek + "]");
-                start_dt = start_dt.AddHours(DriveTime / 2);
-                listBox_schedule.Items.Add("Schichtpausenbeginn  : " + start_dt + "   [" + start_dt.DayOfWeek + "]");
-                listBox_schedule.Items.Add("\n");
-
-                start_dt = start_dt.AddMinutes(45);
-                listBox_schedule.Items.Add("Schichtpausenende     : " + start_dt + "   [" + start_dt.DayOfWeek + "]");
-                start_dt = start_dt.AddHours(DriveTime / 2);
-                listBox_schedule.Items.Add("Sichtende                       : " + start_dt + "   [" + start_dt.DayOfWeek + "]");
-                listBox_schedule.Items.Add("\n");
-                listBox_schedule.Items.Add("##################################################################################");
-                start_dt = start_dt.AddHours(PauseTime);
                 // Create new Workshift object and add it to our Workshift List
-                Workshift newWorkshift = new Workshift(counter, start_dt, start_dt.AddHours(DriveTime));
+                Workshift newWorkshift = new Workshift(counter, start_dt, start_dt.AddHours(DriveTime), start_dt.AddHours(DriveTime / 2), start_dt.AddHours((DriveTime / 2) + 0.75));
                 listWorkshifts.Add(newWorkshift);
 
+
+                start_dt = start_dt.AddHours(PauseTime + DriveTime);
             }
-            while (start_dt.Date < Convert.ToDateTime(dateTimePicker_schedule.Value.AddDays(TargetDays)));
+            while (start_dt.Date < dateTimePicker_schedule.Value.AddDays(TargetDays));
+
+            listBox_schedule.Items.Add("##################################################################################");
             foreach (Workshift Item in listWorkshifts)
             {
-                Debug.WriteLine("DEBUG: " + Item.StartDate);
+                listBox_schedule.Items.Add("Schicht: " + Item.Count);
+                listBox_schedule.Items.Add("\n");
+                listBox_schedule.Items.Add("Schichtbeginn               : " + Item.StartDate + "   [" + DateTimeFormatInfo.CurrentInfo.GetDayName(Item.StartDate.DayOfWeek) + "]");
+                listBox_schedule.Items.Add("Schichtpausenbeginn  : " + Item.StartPause + "   [" + DateTimeFormatInfo.CurrentInfo.GetDayName(Item.StartPause.DayOfWeek) + "]");
+                listBox_schedule.Items.Add("\n");
+                listBox_schedule.Items.Add("Schichtpausenende     : " + Item.EndPause + "   [" + DateTimeFormatInfo.CurrentInfo.GetDayName(Item.EndPause.DayOfWeek) + "]");
+                listBox_schedule.Items.Add("Schichtende                   : " + Item.EndDate + "   [" + DateTimeFormatInfo.CurrentInfo.GetDayName(Item.EndDate.DayOfWeek) + "]");
+                listBox_schedule.Items.Add("\n");
+                listBox_schedule.Items.Add("##################################################################################");
             }
 
             LoadSchedule();
         }
-        
+
         void LoadSchedule()
-        {// Load Schedule file and get data
+        {// Load schedule file and get data
             if (listWorkshifts[Convert.ToInt32(numericUpDown_durationSchedule.Value)].EndDate > DateTime.Now) // change durationSchedule.Value for file to work (Read file duration counter)
-            {
-                List<DateTime> startdates = new List<DateTime>();
-               
-                foreach (Workshift Item in listWorkshifts)
-                {
-                    startdates.Add(Item.StartDate);
-                }
-               foreach (DateTime datetime in startdates)
-                {
-                    Debug.WriteLine(datetime);
-                }
+            {// Check if schedule is not outdated
+
 
 
             }
@@ -767,7 +797,7 @@ namespace Truck_Simulator_Tool
                 MessageBox.Show("Dieser Schichtplan ist abgelaufen!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
 
 
     }

@@ -47,6 +47,7 @@
             this.label12_progresspercentage = new System.Windows.Forms.Label();
             this.label13_remainingdistance = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label_nextscheduleevent = new System.Windows.Forms.Label();
             this.label14_datetimetime = new System.Windows.Forms.Label();
             this.label15_datetimedate = new System.Windows.Forms.Label();
             this.pictureBox2_cargodamage = new System.Windows.Forms.PictureBox();
@@ -97,6 +98,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.panel11 = new System.Windows.Forms.Panel();
             this.panel12 = new System.Windows.Forms.Panel();
+            this.panel13 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -107,9 +110,6 @@
             this.numericUpDown_durationSchedule = new System.Windows.Forms.NumericUpDown();
             this.button_CreateSchedule = new System.Windows.Forms.Button();
             this.listBox_schedule = new System.Windows.Forms.ListBox();
-            this.panel13 = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label_nextscheduleevent = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -131,10 +131,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_km)).BeginInit();
             this.panel11.SuspendLayout();
             this.panel12.SuspendLayout();
+            this.panel13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_drivetimeSchedule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_pausetimeSchedule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_durationSchedule)).BeginInit();
-            this.panel13.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1_settings
@@ -244,6 +244,11 @@
             this.panel1.Controls.Add(this.label_nextscheduleevent);
             this.panel1.Controls.Add(this.label2_timescale);
             this.panel1.Name = "panel1";
+            // 
+            // label_nextscheduleevent
+            // 
+            resources.ApplyResources(this.label_nextscheduleevent, "label_nextscheduleevent");
+            this.label_nextscheduleevent.Name = "label_nextscheduleevent";
             // 
             // label14_datetimetime
             // 
@@ -695,6 +700,20 @@
             resources.ApplyResources(this.panel12, "panel12");
             this.panel12.Name = "panel12";
             // 
+            // panel13
+            // 
+            this.panel13.BackColor = System.Drawing.Color.DarkGray;
+            this.panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel13.Controls.Add(this.label6);
+            resources.ApplyResources(this.panel13, "panel13");
+            this.panel13.Name = "panel13";
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
             // label12
             // 
             this.label12.BackColor = System.Drawing.Color.Transparent;
@@ -810,25 +829,6 @@
             this.listBox_schedule.FormattingEnabled = true;
             this.listBox_schedule.Name = "listBox_schedule";
             // 
-            // panel13
-            // 
-            this.panel13.BackColor = System.Drawing.Color.DarkGray;
-            this.panel13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel13.Controls.Add(this.label6);
-            resources.ApplyResources(this.panel13, "panel13");
-            this.panel13.Name = "panel13";
-            // 
-            // label6
-            // 
-            this.label6.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
-            // 
-            // label_nextscheduleevent
-            // 
-            resources.ApplyResources(this.label_nextscheduleevent, "label_nextscheduleevent");
-            this.label_nextscheduleevent.Name = "label_nextscheduleevent";
-            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -884,10 +884,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_km)).EndInit();
             this.panel11.ResumeLayout(false);
             this.panel12.ResumeLayout(false);
+            this.panel13.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_drivetimeSchedule)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_pausetimeSchedule)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_durationSchedule)).EndInit();
-            this.panel13.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
