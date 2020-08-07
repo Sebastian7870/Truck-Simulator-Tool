@@ -54,6 +54,7 @@
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.label_vehicleinformation2 = new System.Windows.Forms.Label();
             this.label_vehicleinformation3 = new System.Windows.Forms.Label();
             this.pictureBox3_fuel = new System.Windows.Forms.PictureBox();
             this.label_vehicleinformation = new System.Windows.Forms.Label();
@@ -69,7 +70,24 @@
             this.label_currentarrival2 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
             this.label_bestarrival = new System.Windows.Forms.Label();
-            this.label_vehicleinformation2 = new System.Windows.Forms.Label();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.label_TFMdjname = new System.Windows.Forms.Label();
+            this.label_TFMsongartist = new System.Windows.Forms.Label();
+            this.label_TFMsongname = new System.Windows.Forms.Label();
+            this.pictureBox_TruckersfmSong = new System.Windows.Forms.PictureBox();
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.panel11 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -81,6 +99,13 @@
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
             this.panel8.SuspendLayout();
+            this.panel9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_TruckersfmSong)).BeginInit();
+            this.panel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            this.panel11.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1_settings
@@ -156,6 +181,7 @@
             // 
             // label9_estimatedtime
             // 
+            this.label9_estimatedtime.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.label9_estimatedtime, "label9_estimatedtime");
             this.label9_estimatedtime.Name = "label9_estimatedtime";
             // 
@@ -245,6 +271,12 @@
             resources.ApplyResources(this.panel4, "panel4");
             this.panel4.Name = "panel4";
             // 
+            // label_vehicleinformation2
+            // 
+            this.label_vehicleinformation2.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label_vehicleinformation2, "label_vehicleinformation2");
+            this.label_vehicleinformation2.Name = "label_vehicleinformation2";
+            // 
             // label_vehicleinformation3
             // 
             this.label_vehicleinformation3.BackColor = System.Drawing.Color.Transparent;
@@ -266,7 +298,7 @@
             // 
             // label_vehicleinformationtext
             // 
-            this.label_vehicleinformationtext.BackColor = System.Drawing.Color.DarkGray;
+            this.label_vehicleinformationtext.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.label_vehicleinformationtext, "label_vehicleinformationtext");
             this.label_vehicleinformationtext.Name = "label_vehicleinformationtext";
             // 
@@ -353,17 +385,183 @@
             this.label_bestarrival.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label_bestarrival.Name = "label_bestarrival";
             // 
-            // label_vehicleinformation2
+            // panel9
             // 
-            this.label_vehicleinformation2.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.label_vehicleinformation2, "label_vehicleinformation2");
-            this.label_vehicleinformation2.Name = "label_vehicleinformation2";
+            this.panel9.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel9.Controls.Add(this.label_TFMdjname);
+            this.panel9.Controls.Add(this.label_TFMsongartist);
+            this.panel9.Controls.Add(this.label_TFMsongname);
+            this.panel9.Controls.Add(this.pictureBox_TruckersfmSong);
+            resources.ApplyResources(this.panel9, "panel9");
+            this.panel9.Name = "panel9";
+            // 
+            // label_TFMdjname
+            // 
+            this.label_TFMdjname.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label_TFMdjname, "label_TFMdjname");
+            this.label_TFMdjname.Name = "label_TFMdjname";
+            // 
+            // label_TFMsongartist
+            // 
+            this.label_TFMsongartist.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label_TFMsongartist, "label_TFMsongartist");
+            this.label_TFMsongartist.Name = "label_TFMsongartist";
+            // 
+            // label_TFMsongname
+            // 
+            this.label_TFMsongname.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label_TFMsongname, "label_TFMsongname");
+            this.label_TFMsongname.Name = "label_TFMsongname";
+            // 
+            // pictureBox_TruckersfmSong
+            // 
+            resources.ApplyResources(this.pictureBox_TruckersfmSong, "pictureBox_TruckersfmSong");
+            this.pictureBox_TruckersfmSong.Name = "pictureBox_TruckersfmSong";
+            this.pictureBox_TruckersfmSong.TabStop = false;
+            // 
+            // panel10
+            // 
+            this.panel10.BackColor = System.Drawing.Color.Gainsboro;
+            this.panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel10.Controls.Add(this.label9);
+            this.panel10.Controls.Add(this.label8);
+            this.panel10.Controls.Add(this.label7);
+            this.panel10.Controls.Add(this.label6);
+            this.panel10.Controls.Add(this.label5);
+            this.panel10.Controls.Add(this.label4);
+            this.panel10.Controls.Add(this.label1);
+            this.panel10.Controls.Add(this.numericUpDown3);
+            this.panel10.Controls.Add(this.numericUpDown2);
+            this.panel10.Controls.Add(this.numericUpDown1);
+            resources.ApplyResources(this.panel10, "panel10");
+            this.panel10.Name = "panel10";
+            // 
+            // numericUpDown1
+            // 
+            resources.ApplyResources(this.numericUpDown1, "numericUpDown1");
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            // 
+            // numericUpDown2
+            // 
+            resources.ApplyResources(this.numericUpDown2, "numericUpDown2");
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Value = new decimal(new int[] {
+            65,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDown3
+            // 
+            this.numericUpDown3.DecimalPlaces = 2;
+            resources.ApplyResources(this.numericUpDown3, "numericUpDown3");
+            this.numericUpDown3.Increment = new decimal(new int[] {
+            16666666,
+            0,
+            0,
+            524288});
+            this.numericUpDown3.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDown3.Minimum = new decimal(new int[] {
+            16666666,
+            0,
+            0,
+            524288});
+            this.numericUpDown3.Name = "numericUpDown3";
+            this.numericUpDown3.Value = new decimal(new int[] {
+            116,
+            0,
+            0,
+            131072});
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // label8
+            // 
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // label9
+            // 
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // label10
+            // 
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // panel11
+            // 
+            this.panel11.BackColor = System.Drawing.Color.DarkGray;
+            this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel11.Controls.Add(this.label10);
+            resources.ApplyResources(this.panel11, "panel11");
+            this.panel11.Name = "panel11";
             // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
+            this.Controls.Add(this.panel11);
+            this.Controls.Add(this.panel10);
+            this.Controls.Add(this.panel9);
             this.Controls.Add(this.panel8);
             this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel6);
@@ -399,6 +597,13 @@
             this.panel6.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             this.panel8.ResumeLayout(false);
+            this.panel9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_TruckersfmSong)).EndInit();
+            this.panel10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            this.panel11.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -446,6 +651,24 @@
         private System.Windows.Forms.Label label_currentbestarrival2;
         private System.Windows.Forms.Label label_bestarrival;
         private System.Windows.Forms.Label label_vehicleinformation2;
+        private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.PictureBox pictureBox_TruckersfmSong;
+        private System.Windows.Forms.Label label_TFMsongname;
+        private System.Windows.Forms.Label label_TFMsongartist;
+        private System.Windows.Forms.Label label_TFMdjname;
+        private System.Windows.Forms.Panel panel10;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Panel panel11;
     }
 }
 

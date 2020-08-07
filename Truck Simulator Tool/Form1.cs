@@ -14,7 +14,10 @@ namespace Truck_Simulator_Tool
         // Variables Start
 
         bool bTelemetryOnline = false;
+        bool bTruckersfmOnline = false;
         Rootobject TelemetryData = new Rootobject();
+        Rootobject_TFMdj TruckersfmdjData = new Rootobject_TFMdj();
+        Rootobject_TFMsong TruckersfmsongData = new Rootobject_TFMsong();
         int timercounter = 0;
         string situation = "None";
         double currentaveragespeed = 0;
@@ -38,7 +41,7 @@ namespace Truck_Simulator_Tool
 
 
         async Task UpdateTelemetry()
-        {
+        {// Update Telemetry
             try
             {
                 HttpClient client = new HttpClient();
@@ -57,20 +60,55 @@ namespace Truck_Simulator_Tool
             }
 
         }
+        async Task UpdateTruckersFM()
+        {// Update TruckersFM
+            try
+            {
+                HttpClient client = new HttpClient();
+                Stream stream = await client.GetStreamAsync("https://panel.truckers.fm/api/current");
+                Stream stream1 = await client.GetStreamAsync("https://panel.truckers.fm/api/song/current");
+
+                StreamReader sr = new StreamReader(stream);
+                string sTruckersfmdjJson = sr.ReadToEnd();
+                sr.Close();
+                StreamReader sr1 = new StreamReader(stream1);
+                string sTruckersfmsongJson = sr1.ReadToEnd();
+                sr1.Close();
+
+                TruckersfmdjData = JsonConvert.DeserializeObject<Rootobject_TFMdj>(sTruckersfmdjJson);
+                TruckersfmsongData = JsonConvert.DeserializeObject<Rootobject_TFMsong>(sTruckersfmsongJson);
+                bTruckersfmOnline = true;
+            }
+            catch
+            {
+                bTruckersfmOnline = false;
+            }
+
+        }
 
 
         private async void timer1_calculate_Tick(object sender, EventArgs e)
         {
             await UpdateTelemetry();
+            await UpdateTruckersFM();
             label14_datetimetime.Text = DateTime.Now.ToString("HH:mm");
             label_datetimenowseconds.Text = DateTime.Now.ToString("ss");
             label15_datetimedate.Text = DateTimeFormatInfo.CurrentInfo.GetDayName(DateTime.Now.DayOfWeek) + "\n" + DateTime.Now.ToShortDateString();
 
+            if (bTruckersfmOnline == true)
+            {// TFM online
+                HttpClient client = new HttpClient();
+                Stream stream = await client.GetStreamAsync(TruckersfmsongData.art.ToString());
+                pictureBox_TruckersfmSong.BackgroundImage = System.Drawing.Image.FromStream(stream);
 
+                label_TFMsongname.Text = TruckersfmsongData.title;
+                label_TFMsongartist.Text = TruckersfmsongData.artist;
+                label_TFMdjname.Text = "Moderator: " + TruckersfmdjData.result.dj.name;
+            }
+            
 
-            // Telemetry online
             if (bTelemetryOnline == true)
-            {//Telemetry Online
+            {// Telemetry online
                 if (TelemetryData.ets2.game.connected == true)
                 {// Game connected
 
