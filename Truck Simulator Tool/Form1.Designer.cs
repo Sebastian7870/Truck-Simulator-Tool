@@ -52,7 +52,6 @@
             this.label15_datetimedate = new System.Windows.Forms.Label();
             this.pictureBox2_cargodamage = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label_vehicleinformation2 = new System.Windows.Forms.Label();
@@ -110,6 +109,7 @@
             this.numericUpDown_durationSchedule = new System.Windows.Forms.NumericUpDown();
             this.button_CreateSchedule = new System.Windows.Forms.Button();
             this.listBox_schedule = new System.Windows.Forms.ListBox();
+            this.label_timetoshiftend = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -241,6 +241,7 @@
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.label_timetoshiftend);
             this.panel1.Controls.Add(this.label_nextscheduleevent);
             this.panel1.Controls.Add(this.label2_timescale);
             this.panel1.Name = "panel1";
@@ -280,12 +281,6 @@
             this.panel2.Controls.Add(this.label9_estimatedtime);
             resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
-            // 
-            // splitter1
-            // 
-            resources.ApplyResources(this.splitter1, "splitter1");
-            this.splitter1.Name = "splitter1";
-            this.splitter1.TabStop = false;
             // 
             // panel3
             // 
@@ -829,6 +824,11 @@
             this.listBox_schedule.FormattingEnabled = true;
             this.listBox_schedule.Name = "listBox_schedule";
             // 
+            // label_timetoshiftend
+            // 
+            resources.ApplyResources(this.label_timetoshiftend, "label_timetoshiftend");
+            this.label_timetoshiftend.Name = "label_timetoshiftend";
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -846,7 +846,6 @@
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.splitter1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.label15_datetimedate);
             this.Controls.Add(this.label14_datetimetime);
@@ -916,7 +915,6 @@
         private System.Windows.Forms.Label label15_datetimedate;
         private System.Windows.Forms.PictureBox pictureBox2_cargodamage;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label_vehicleinformationtext;
@@ -975,6 +973,7 @@
         private System.Windows.Forms.Panel panel13;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label_nextscheduleevent;
+        private System.Windows.Forms.Label label_timetoshiftend;
     }
 }
 

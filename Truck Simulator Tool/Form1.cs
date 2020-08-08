@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -109,6 +111,7 @@ namespace Truck_Simulator_Tool
         }
 
 
+
         private async void timer1_calculate_Tick(object sender, EventArgs e)
         {
             await UpdateTelemetry();
@@ -123,35 +126,64 @@ namespace Truck_Simulator_Tool
             {
                 if (listWorkshifts[Convert.ToInt32(numericUpDown_durationSchedule.Value)].EndDate > DateTime.Now) // change durationSchedule.Value for file to work (Read file duration counter)
                 {// Check if schedule is not outdated
+                    
+                    List<AlldatesTimeSpan> listalldates = new List<AlldatesTimeSpan>();
 
-                    List<DateTime> dates = new List<DateTime>();
+                    // Set listalldates
+                    int foreachCounter = 0;
                     foreach (Workshift Item in listWorkshifts)
-                    {
-                        dates.Add(Item.StartDate);
-                        dates.Add(Item.StartPause);
-                        dates.Add(Item.EndPause);
-                        dates.Add(Item.EndDate);
+                    { 
+                        foreachCounter++;
+                        AlldatesTimeSpan startdate = new AlldatesTimeSpan(foreachCounter, Item.StartDate.Subtract(DateTime.Now), "StartDate");
+                        AlldatesTimeSpan enddate = new AlldatesTimeSpan(foreachCounter, Item.EndDate.Subtract(DateTime.Now), "EndDate");
+                        AlldatesTimeSpan startpause = new AlldatesTimeSpan(foreachCounter, Item.StartPause.Subtract(DateTime.Now), "StartPause");
+                        AlldatesTimeSpan endpause = new AlldatesTimeSpan(foreachCounter, Item.EndPause.Subtract(DateTime.Now), "EndPause");
+                        if (Item.StartDate.Ticks > DateTime.Now.Ticks) { listalldates.Add(startdate); }
+                        if (Item.EndDate.Ticks > DateTime.Now.Ticks) { listalldates.Add(enddate); }
+                        if (Item.StartPause.Ticks > DateTime.Now.Ticks) { listalldates.Add(startpause); }
+                        if (Item.EndPause.Ticks > DateTime.Now.Ticks) { listalldates.Add(endpause); }
                     }
 
-                    dates.Sort();
-                    var result = dates.BinarySearch(DateTime.Now);
-                    DateTime nearest;
-
-                    if (result >= 0)
+                    // Set Timespans
+                    List<TimeSpan> timeSpans = new List<TimeSpan>();
+                    foreach (AlldatesTimeSpan timespan in listalldates)
                     {
-                        nearest = dates[result];
+                            TimeSpan ts = new TimeSpan();
+                            ts = timespan.TimeSpan;
+                            timeSpans.Add(ts);
                     }
-                    else if (~result == dates.Count)
-                    {
-                        nearest = dates.Last();
-                    }
-                    else
-                    {
-                        nearest = dates[~result];
-                    }
-                    label_nextscheduleevent.Text = nearest.ToString();
 
+                    // Get Min Value of Timespans and set Index for it
+                    int CurrentIndex = -1;
+                    string CurrentType = "";
+                    foreach (AlldatesTimeSpan Item in listalldates)
+                    {
+                        if (Item.TimeSpan.Ticks  == timeSpans.Min().Ticks)
+                        {
+                            CurrentIndex = Item.Index;
+                            CurrentType = Item.Type;
+                        }
+                    }
 
+                    CurrentIndex--;
+                    if (CurrentType == "StartDate")
+                    {
+                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtbeginn] {0}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm   dd.MM.yyyy"));
+                    }
+                    else if (CurrentType == "EndDate")
+                    {
+                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtende] {0}", listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm   dd.MM.yyyy"));
+                    }
+                    else if (CurrentType == "StartPause")
+                    {
+                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenende] {0}", listWorkshifts[CurrentIndex].StartPause.ToString("HH:mm   dd.MM.yyyy"));
+                    }
+                    else if (CurrentType == "EndPause") 
+                    {
+                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenende] {0}", listWorkshifts[CurrentIndex].EndPause.ToString("HH:mm   dd.MM.yyyy"));
+                    }
+
+                    label_timetoshiftend.Text = "Übrige Zeit zum Schichtende: ";
                 }
             }
             catch
@@ -783,13 +815,21 @@ namespace Truck_Simulator_Tool
 
             LoadSchedule();
         }
+    
 
         void LoadSchedule()
         {// Load schedule file and get data
             if (listWorkshifts[Convert.ToInt32(numericUpDown_durationSchedule.Value)].EndDate > DateTime.Now) // change durationSchedule.Value for file to work (Read file duration counter)
             {// Check if schedule is not outdated
 
-
+                List<DateTime> dates1 = new List<DateTime>();
+                foreach (Workshift Item in listWorkshifts)
+                {
+                    dates1.Add(Item.StartDate);
+                    dates1.Add(Item.StartPause);
+                    dates1.Add(Item.EndPause);
+                    dates1.Add(Item.EndDate);
+                }
 
             }
             else
