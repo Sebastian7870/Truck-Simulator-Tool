@@ -110,6 +110,9 @@
             this.button_CreateSchedule = new System.Windows.Forms.Button();
             this.listBox_schedule = new System.Windows.Forms.ListBox();
             this.label_timetoshiftend = new System.Windows.Forms.Label();
+            this.label_nextpausestartend = new System.Windows.Forms.Label();
+            this.label_shiftcount = new System.Windows.Forms.Label();
+            this.label_currentshift = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -241,6 +244,9 @@
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.label_currentshift);
+            this.panel1.Controls.Add(this.label_shiftcount);
+            this.panel1.Controls.Add(this.label_nextpausestartend);
             this.panel1.Controls.Add(this.label_timetoshiftend);
             this.panel1.Controls.Add(this.label_nextscheduleevent);
             this.panel1.Controls.Add(this.label2_timescale);
@@ -829,6 +835,21 @@
             resources.ApplyResources(this.label_timetoshiftend, "label_timetoshiftend");
             this.label_timetoshiftend.Name = "label_timetoshiftend";
             // 
+            // label_nextpausestartend
+            // 
+            resources.ApplyResources(this.label_nextpausestartend, "label_nextpausestartend");
+            this.label_nextpausestartend.Name = "label_nextpausestartend";
+            // 
+            // label_shiftcount
+            // 
+            resources.ApplyResources(this.label_shiftcount, "label_shiftcount");
+            this.label_shiftcount.Name = "label_shiftcount";
+            // 
+            // label_currentshift
+            // 
+            resources.ApplyResources(this.label_currentshift, "label_currentshift");
+            this.label_currentshift.Name = "label_currentshift";
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -974,6 +995,9 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label_nextscheduleevent;
         private System.Windows.Forms.Label label_timetoshiftend;
+        private System.Windows.Forms.Label label_nextpausestartend;
+        private System.Windows.Forms.Label label_shiftcount;
+        private System.Windows.Forms.Label label_currentshift;
     }
 }
 

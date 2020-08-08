@@ -204,7 +204,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;label2_timescale.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>5</value>
   </data>
   <metadata name="timer1_calculate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -585,6 +585,126 @@
   <data name="panel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left, Right</value>
   </data>
+  <data name="label_currentshift.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
+  </data>
+  <data name="label_currentshift.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_currentshift.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1355, 0</value>
+  </data>
+  <data name="label_currentshift.Size" type="System.Drawing.Size, System.Drawing">
+    <value>375, 30</value>
+  </data>
+  <data name="label_currentshift.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="label_currentshift.Text" xml:space="preserve">
+    <value>derzeitige Schicht: 22:00 Uhr, Sonntag - 06:00 Uhr, Montag</value>
+  </data>
+  <data name="label_currentshift.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label_currentshift.Name" xml:space="preserve">
+    <value>label_currentshift</value>
+  </data>
+  <data name="&gt;&gt;label_currentshift.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_currentshift.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;label_currentshift.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label_shiftcount.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
+  </data>
+  <data name="label_shiftcount.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_shiftcount.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 0</value>
+  </data>
+  <data name="label_shiftcount.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 30</value>
+  </data>
+  <data name="label_shiftcount.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="label_shiftcount.Text" xml:space="preserve">
+    <value>Schicht: 3 / 9</value>
+  </data>
+  <data name="label_shiftcount.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label_shiftcount.Name" xml:space="preserve">
+    <value>label_shiftcount</value>
+  </data>
+  <data name="&gt;&gt;label_shiftcount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_shiftcount.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;label_shiftcount.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label_nextpausestartend.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
+  </data>
+  <data name="label_nextpausestartend.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_nextpausestartend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1049, 0</value>
+  </data>
+  <data name="label_nextpausestartend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>225, 30</value>
+  </data>
+  <data name="label_nextpausestartend.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label_nextpausestartend.Text" xml:space="preserve">
+    <value>Nächste Pause in: 1 Std. 55 Min.</value>
+  </data>
+  <data name="label_nextpausestartend.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;label_nextpausestartend.Name" xml:space="preserve">
+    <value>label_nextpausestartend</value>
+  </data>
+  <data name="&gt;&gt;label_nextpausestartend.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_nextpausestartend.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;label_nextpausestartend.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label_timetoshiftend.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
+  </data>
+  <data name="label_timetoshiftend.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_timetoshiftend.Location" type="System.Drawing.Point, System.Drawing">
+    <value>708, 0</value>
+  </data>
+  <data name="label_timetoshiftend.Size" type="System.Drawing.Size, System.Drawing">
+    <value>234, 30</value>
+  </data>
+  <data name="label_timetoshiftend.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label_timetoshiftend.Text" xml:space="preserve">
+    <value>Übrige Schichtlänge:  1 Std. 45 Min.</value>
+  </data>
+  <data name="label_timetoshiftend.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
   <data name="&gt;&gt;label_timetoshiftend.Name" xml:space="preserve">
     <value>label_timetoshiftend</value>
   </data>
@@ -595,7 +715,28 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;label_timetoshiftend.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>3</value>
+  </data>
+  <data name="label_nextscheduleevent.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
+  </data>
+  <data name="label_nextscheduleevent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_nextscheduleevent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>175, 0</value>
+  </data>
+  <data name="label_nextscheduleevent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>440, 30</value>
+  </data>
+  <data name="label_nextscheduleevent.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label_nextscheduleevent.Text" xml:space="preserve">
+    <value>Nächstes Schichtereignis: [Schichtpausenbeginn]   22:00 Uhr,   8.8.2020</value>
+  </data>
+  <data name="label_nextscheduleevent.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;label_nextscheduleevent.Name" xml:space="preserve">
     <value>label_nextscheduleevent</value>
@@ -607,13 +748,13 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;label_nextscheduleevent.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-17, 1010</value>
+    <value>-14, 1010</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1936, 45</value>
+    <value>1933, 45</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -629,39 +770,6 @@
   </data>
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="label_nextscheduleevent.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
-  </data>
-  <data name="label_nextscheduleevent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label_nextscheduleevent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 0</value>
-  </data>
-  <data name="label_nextscheduleevent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>407, 30</value>
-  </data>
-  <data name="label_nextscheduleevent.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="label_nextscheduleevent.Text" xml:space="preserve">
-    <value>Nächstes Schichtereignis: [Schichtpausenbeginn] 22:00   8.8.2020</value>
-  </data>
-  <data name="label_nextscheduleevent.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="&gt;&gt;label_nextscheduleevent.Name" xml:space="preserve">
-    <value>label_nextscheduleevent</value>
-  </data>
-  <data name="&gt;&gt;label_nextscheduleevent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_nextscheduleevent.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;label_nextscheduleevent.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="label14_datetimetime.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 48pt</value>
@@ -2910,39 +3018,6 @@
   </data>
   <data name="&gt;&gt;listBox_schedule.ZOrder" xml:space="preserve">
     <value>10</value>
-  </data>
-  <data name="label_timetoshiftend.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
-  </data>
-  <data name="label_timetoshiftend.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label_timetoshiftend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>452, 0</value>
-  </data>
-  <data name="label_timetoshiftend.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 30</value>
-  </data>
-  <data name="label_timetoshiftend.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="label_timetoshiftend.Text" xml:space="preserve">
-    <value>Nächstes Schichtereignis:</value>
-  </data>
-  <data name="label_timetoshiftend.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="&gt;&gt;label_timetoshiftend.Name" xml:space="preserve">
-    <value>label_timetoshiftend</value>
-  </data>
-  <data name="&gt;&gt;label_timetoshiftend.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label_timetoshiftend.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;label_timetoshiftend.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

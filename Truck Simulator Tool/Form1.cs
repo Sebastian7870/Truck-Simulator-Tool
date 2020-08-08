@@ -2,13 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -32,7 +30,8 @@ namespace Truck_Simulator_Tool
         double drivendistance = 0;
         bool bestarrivalset = false;
         List<Workshift> listWorkshifts = new List<Workshift>();
-
+        bool ShiftActive = false;
+        bool scheduleLoaded = false;
 
 
         // Variables End
@@ -119,76 +118,217 @@ namespace Truck_Simulator_Tool
             label14_datetimetime.Text = DateTime.Now.ToString("HH:mm");
             label_datetimenowseconds.Text = DateTime.Now.ToString("ss");
             label15_datetimedate.Text = DateTimeFormatInfo.CurrentInfo.GetDayName(DateTime.Now.DayOfWeek) + "\n" + DateTime.Now.ToShortDateString();
-            dateTimePicker_schedule.MinDate = DateTime.Now.AddSeconds(5);
+            dateTimePicker_schedule.MinDate = DateTime.Now.AddDays((-1) * ((Convert.ToDouble(numericUpDown_durationSchedule.Value) - 0.5)));
 
             // schedule
-            try
+            if (scheduleLoaded == true)
             {
-                if (listWorkshifts[Convert.ToInt32(numericUpDown_durationSchedule.Value)].EndDate > DateTime.Now) // change durationSchedule.Value for file to work (Read file duration counter)
-                {// Check if schedule is not outdated
-                    
-                    List<AlldatesTimeSpan> listalldates = new List<AlldatesTimeSpan>();
+                try
+                {
+                    if (listWorkshifts[Convert.ToInt32(numericUpDown_durationSchedule.Value)].EndDate > DateTime.Now) // change durationSchedule.Value for file to work (Read file duration counter)
+                    {// Check if schedule is not outdated
 
-                    // Set listalldates
-                    int foreachCounter = 0;
-                    foreach (Workshift Item in listWorkshifts)
-                    { 
-                        foreachCounter++;
-                        AlldatesTimeSpan startdate = new AlldatesTimeSpan(foreachCounter, Item.StartDate.Subtract(DateTime.Now), "StartDate");
-                        AlldatesTimeSpan enddate = new AlldatesTimeSpan(foreachCounter, Item.EndDate.Subtract(DateTime.Now), "EndDate");
-                        AlldatesTimeSpan startpause = new AlldatesTimeSpan(foreachCounter, Item.StartPause.Subtract(DateTime.Now), "StartPause");
-                        AlldatesTimeSpan endpause = new AlldatesTimeSpan(foreachCounter, Item.EndPause.Subtract(DateTime.Now), "EndPause");
-                        if (Item.StartDate.Ticks > DateTime.Now.Ticks) { listalldates.Add(startdate); }
-                        if (Item.EndDate.Ticks > DateTime.Now.Ticks) { listalldates.Add(enddate); }
-                        if (Item.StartPause.Ticks > DateTime.Now.Ticks) { listalldates.Add(startpause); }
-                        if (Item.EndPause.Ticks > DateTime.Now.Ticks) { listalldates.Add(endpause); }
-                    }
 
-                    // Set Timespans
-                    List<TimeSpan> timeSpans = new List<TimeSpan>();
-                    foreach (AlldatesTimeSpan timespan in listalldates)
-                    {
+                        // Set listalldates
+                        int foreachCounter = 0;
+                        List<AlldatesTimeSpan> listalldates = new List<AlldatesTimeSpan>();
+                        foreach (Workshift Item in listWorkshifts)
+                        {
+                            foreachCounter++;
+                            AlldatesTimeSpan startdate = new AlldatesTimeSpan(foreachCounter, Item.StartDate.Subtract(DateTime.Now), "StartDate");
+                            AlldatesTimeSpan enddate = new AlldatesTimeSpan(foreachCounter, Item.EndDate.Subtract(DateTime.Now), "EndDate");
+                            AlldatesTimeSpan startpause = new AlldatesTimeSpan(foreachCounter, Item.StartPause.Subtract(DateTime.Now), "StartPause");
+                            AlldatesTimeSpan endpause = new AlldatesTimeSpan(foreachCounter, Item.EndPause.Subtract(DateTime.Now), "EndPause");
+                            if (Item.StartDate.Ticks > DateTime.Now.Ticks) { listalldates.Add(startdate); }
+                            if (Item.EndDate.Ticks > DateTime.Now.Ticks) { listalldates.Add(enddate); }
+                            if (Item.StartPause.Ticks > DateTime.Now.Ticks) { listalldates.Add(startpause); }
+                            if (Item.EndPause.Ticks > DateTime.Now.Ticks) { listalldates.Add(endpause); }
+                        }
+
+                        // Set Timespans
+                        List<TimeSpan> timeSpans = new List<TimeSpan>();
+                        foreach (AlldatesTimeSpan timespan in listalldates)
+                        {
                             TimeSpan ts = new TimeSpan();
                             ts = timespan.TimeSpan;
                             timeSpans.Add(ts);
-                    }
-
-                    // Get Min Value of Timespans and set Index for it
-                    int CurrentIndex = -1;
-                    string CurrentType = "";
-                    foreach (AlldatesTimeSpan Item in listalldates)
-                    {
-                        if (Item.TimeSpan.Ticks  == timeSpans.Min().Ticks)
-                        {
-                            CurrentIndex = Item.Index;
-                            CurrentType = Item.Type;
                         }
+
+                        // Get Min Value of Timespans and set Index for it (next event)
+                        int CurrentIndex = -1;
+                        string CurrentType = "";
+                        foreach (AlldatesTimeSpan Item in listalldates)
+                        {
+                            if (Item.TimeSpan.Ticks == timeSpans.Min().Ticks)
+                            {
+                                CurrentIndex = Item.Index;
+                                CurrentType = Item.Type;
+                            }
+                        }
+
+                        bool currentShiftPauseOver = false;
+                        bool schedulePause = false;
+                        CurrentIndex--;
+                        if (CurrentType == "StartDate")
+                        {
+                            ShiftActive = false;
+                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtbeginn]   {0} Uhr", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartDate.ToString("   dd.MM.yyyy"));
+                        }
+                        else if (CurrentType == "EndDate")
+                        {
+                            currentShiftPauseOver = true;
+                            ShiftActive = true;
+                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtende]   {0} Uhr", listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].EndDate.ToString("   dd.MM.yyyy"));
+                        }
+                        else if (CurrentType == "StartPause")
+                        {
+                            ShiftActive = true;
+                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenbeginn]   {0} Uhr", listWorkshifts[CurrentIndex].StartPause.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartPause.ToString("   dd.MM.yyyy"));
+                        }
+                        else if (CurrentType == "EndPause")
+                        {
+                            schedulePause = true;
+                            ShiftActive = true;
+                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenende]   {0} Uhr", listWorkshifts[CurrentIndex].EndPause.ToString("HH:mm"), listWorkshifts[CurrentIndex].EndPause.ToString("   dd.MM.yyyy"));
+                        }
+
+                        // label shiftcount
+                        label_shiftcount.Text = String.Format("Schicht: {0} / {1}", (CurrentIndex + 1), foreachCounter);
+
+
+                        if (ShiftActive == true)
+                        {
+                            // label_currentshift
+                            label_currentshift.Text = String.Format("derzeitige Schicht: {0} Uhr, {1}  -  {2} Uhr, {3}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), DateTimeFormatInfo.CurrentInfo.GetDayName(listWorkshifts[CurrentIndex].StartDate.DayOfWeek), listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"), DateTimeFormatInfo.CurrentInfo.GetDayName(listWorkshifts[CurrentIndex].EndDate.DayOfWeek));
+
+
+                            timeSpans.Sort();
+                            // Get next shift end
+                            CurrentIndex = -1;
+                            foreach (AlldatesTimeSpan Item in listalldates)
+                            {
+                                if (timeSpans.Count >= 3)
+                                {
+                                    if (Item.TimeSpan.Ticks == timeSpans[0].Ticks && Item.Type == "EndDate")
+                                    {
+                                        CurrentIndex = Item.Index;
+                                    }
+                                    else if (Item.TimeSpan.Ticks == timeSpans[1].Ticks && Item.Type == "EndDate")
+                                    {
+                                        CurrentIndex = Item.Index;
+                                    }
+                                    else if (Item.TimeSpan.Ticks == timeSpans[2].Ticks && Item.Type == "EndDate")
+                                    {
+                                        CurrentIndex = Item.Index;
+                                    }
+                                    else if (Item.TimeSpan.Ticks == timeSpans[3].Ticks && Item.Type == "EndDate")
+                                    {
+                                        CurrentIndex = Item.Index;
+                                    }
+                                }
+                                else
+                                {
+                                    CurrentIndex = 1; // (this value later goes to zero)
+                                }
+                            }
+                            CurrentIndex--;
+                            TimeSpan shiftTimeLeft = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].EndDate.Ticks - DateTime.Now.Ticks);
+                            label_timetoshiftend.Text = String.Format("Übrige Schichtlänge: {0}", TimeSpanConvertToAvailableValuesOnly(shiftTimeLeft));
+
+                            
+                            // Get next shift pausestart
+                            if (schedulePause == true)
+                            { 
+                                CurrentIndex = -1;
+                                foreach (AlldatesTimeSpan Item in listalldates)
+                                {
+                                    if (timeSpans.Count >= 3)
+                                    {
+                                        if (Item.TimeSpan.Ticks == timeSpans[0].Ticks && Item.Type == "EndPause")
+                                        {
+                                            CurrentIndex = Item.Index;
+                                        }
+                                        else if (Item.TimeSpan.Ticks == timeSpans[1].Ticks && Item.Type == "EndPause")
+                                        {
+                                            CurrentIndex = Item.Index;
+                                        }
+                                        else if (Item.TimeSpan.Ticks == timeSpans[2].Ticks && Item.Type == "EndPause")
+                                        {
+                                            CurrentIndex = Item.Index;
+                                        }
+                                        else if (Item.TimeSpan.Ticks == timeSpans[3].Ticks && Item.Type == "EndPause")
+                                        {
+                                            CurrentIndex = Item.Index;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        CurrentIndex = 1; // (this value later goes to zero)
+                                    }
+                                }
+                                CurrentIndex--;
+                                TimeSpan nextPauseEnd = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].EndPause.Ticks - DateTime.Now.Ticks);
+                                label_nextpausestartend.Text = String.Format("Pausenende in: {0}", TimeSpanConvertToAvailableValuesOnly(nextPauseEnd));
+                            }
+                            else
+                            {
+                                if (currentShiftPauseOver == false)
+                                {
+                                    CurrentIndex = -1;
+                                    foreach (AlldatesTimeSpan Item in listalldates)
+                                    {
+                                        if (timeSpans.Count >= 3)
+                                        {
+                                            if (Item.TimeSpan.Ticks == timeSpans[0].Ticks && Item.Type == "StartPause")
+                                            {
+                                                CurrentIndex = Item.Index;
+                                            }
+                                            else if (Item.TimeSpan.Ticks == timeSpans[1].Ticks && Item.Type == "StartPause")
+                                            {
+                                                CurrentIndex = Item.Index;
+                                            }
+                                            else if (Item.TimeSpan.Ticks == timeSpans[2].Ticks && Item.Type == "StartPause")
+                                            {
+                                                CurrentIndex = Item.Index;
+                                            }
+                                            else if (Item.TimeSpan.Ticks == timeSpans[3].Ticks && Item.Type == "StartPause")
+                                            {
+                                                CurrentIndex = Item.Index;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            CurrentIndex = 1; // (this value later goes to zero)
+                                        }
+                                    }
+                                    CurrentIndex--;
+                                    TimeSpan nextPauseStart = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].StartPause.Ticks - DateTime.Now.Ticks);
+                                    label_nextpausestartend.Text = String.Format("Nächste Pause in: {0}", TimeSpanConvertToAvailableValuesOnly(nextPauseStart));
+                                }
+                                else
+                                {
+                                    label_nextpausestartend.Text = "Nächste Pause in: ---";
+                                }
+                            }
+                        
+                        }
+                        else
+                        {
+                            label_timetoshiftend.Text = "Übrige Schichtlänge: ---";
+                            label_nextpausestartend.Text = "Nächste Pause in: ---";
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Der Zeitplan wurde abgeschlossen!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
-                    CurrentIndex--;
-                    if (CurrentType == "StartDate")
-                    {
-                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtbeginn] {0}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm   dd.MM.yyyy"));
-                    }
-                    else if (CurrentType == "EndDate")
-                    {
-                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtende] {0}", listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm   dd.MM.yyyy"));
-                    }
-                    else if (CurrentType == "StartPause")
-                    {
-                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenende] {0}", listWorkshifts[CurrentIndex].StartPause.ToString("HH:mm   dd.MM.yyyy"));
-                    }
-                    else if (CurrentType == "EndPause") 
-                    {
-                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenende] {0}", listWorkshifts[CurrentIndex].EndPause.ToString("HH:mm   dd.MM.yyyy"));
-                    }
-
-                    label_timetoshiftend.Text = "Übrige Zeit zum Schichtende: ";
                 }
-            }
-            catch
-            {
-
+                catch
+                {
+                    MessageBox.Show("Fehler in der Zeitplaner_Update Methode!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
 
             if (bTruckersfmOnline == true)
@@ -791,7 +931,7 @@ namespace Truck_Simulator_Tool
                 counter += 1;
 
                 // Create new Workshift object and add it to our Workshift List
-                Workshift newWorkshift = new Workshift(counter, start_dt, start_dt.AddHours(DriveTime), start_dt.AddHours(DriveTime / 2), start_dt.AddHours((DriveTime / 2) + 0.75));
+                Workshift newWorkshift = new Workshift(counter, start_dt, start_dt.AddHours(DriveTime + 0.75), start_dt.AddHours(DriveTime / 2), start_dt.AddHours((DriveTime / 2) + 0.75));
                 listWorkshifts.Add(newWorkshift);
 
 
@@ -815,21 +955,14 @@ namespace Truck_Simulator_Tool
 
             LoadSchedule();
         }
-    
+
 
         void LoadSchedule()
         {// Load schedule file and get data
             if (listWorkshifts[Convert.ToInt32(numericUpDown_durationSchedule.Value)].EndDate > DateTime.Now) // change durationSchedule.Value for file to work (Read file duration counter)
             {// Check if schedule is not outdated
 
-                List<DateTime> dates1 = new List<DateTime>();
-                foreach (Workshift Item in listWorkshifts)
-                {
-                    dates1.Add(Item.StartDate);
-                    dates1.Add(Item.StartPause);
-                    dates1.Add(Item.EndPause);
-                    dates1.Add(Item.EndDate);
-                }
+                scheduleLoaded = true;
 
             }
             else
