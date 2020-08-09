@@ -127,6 +127,8 @@
             this.openFileDialog_Schedule = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog_Schedule = new System.Windows.Forms.SaveFileDialog();
             this.panel15 = new System.Windows.Forms.Panel();
+            this.openFileDialog_Contract = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog_Contract = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -893,11 +895,13 @@
             // 
             this.auftragsdatenLadenToolStripMenuItem.Name = "auftragsdatenLadenToolStripMenuItem";
             resources.ApplyResources(this.auftragsdatenLadenToolStripMenuItem, "auftragsdatenLadenToolStripMenuItem");
+            this.auftragsdatenLadenToolStripMenuItem.Click += new System.EventHandler(this.auftragsdatenLadenToolStripMenuItem_Click);
             // 
             // auftragsdateSpeichernToolStripMenuItem
             // 
             this.auftragsdateSpeichernToolStripMenuItem.Name = "auftragsdateSpeichernToolStripMenuItem";
             resources.ApplyResources(this.auftragsdateSpeichernToolStripMenuItem, "auftragsdateSpeichernToolStripMenuItem");
+            this.auftragsdateSpeichernToolStripMenuItem.Click += new System.EventHandler(this.auftragsdateSpeichernToolStripMenuItem_Click);
             // 
             // schichtplanerToolStripMenuItem
             // 
@@ -962,6 +966,14 @@
             this.panel15.Controls.Add(this.label15_datetimedate);
             resources.ApplyResources(this.panel15, "panel15");
             this.panel15.Name = "panel15";
+            // 
+            // openFileDialog_Contract
+            // 
+            resources.ApplyResources(this.openFileDialog_Contract, "openFileDialog_Contract");
+            // 
+            // saveFileDialog_Contract
+            // 
+            resources.ApplyResources(this.saveFileDialog_Contract, "saveFileDialog_Contract");
             // 
             // Form1
             // 
@@ -1127,6 +1139,8 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog_Schedule;
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Label label14_datetimetime;
+        private System.Windows.Forms.OpenFileDialog openFileDialog_Contract;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog_Contract;
     }
 }
 

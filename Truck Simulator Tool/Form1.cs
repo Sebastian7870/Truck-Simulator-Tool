@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -32,6 +33,7 @@ namespace Truck_Simulator_Tool
         List<Workshift> listWorkshifts = new List<Workshift>();
         bool ShiftActive = false;
         bool scheduleLoaded = false;
+        DateTime dt_bestarrival = DateTime.Now;
 
 
         // Variables End
@@ -379,92 +381,93 @@ namespace Truck_Simulator_Tool
                         timercounter += 1;
                         speedsummary += TelemetryData.ets2.truck.speed;
                         currentaveragespeed = speedsummary / timercounter;
-                        if (TelemetryData.ets2.truck.navigationEstimatedDistance > 0)
-                        {
-                            bestcurrentaveragespeed = (TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / (Convert.ToDouble(TelemetryData.ets2.truck.navigationEstimatedTime) / 3600);
-                        }
-                        else if (TelemetryData.ets2.truck.navigationEstimatedDistance == 0)
-                        {
-                            label_currentarrival.Text = "Ankunft:";
-                            label_currentbestarrival.Text = "";
-                        }
                     }
-                    if (bestcurrentaveragespeed > 0 && currentaveragespeed > 0)
-                    { // Average Calculations SHOW
-                        DateTime dt_currentarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / currentaveragespeed) / 19) * 3600);                  // ADD CONSTANT (replace "19") [IMPORTANT]
-                        TimeSpan ts_currentarrival = dt_currentarrival.Subtract(DateTime.Now);
-
+                    if (TelemetryData.ets2.truck.navigationEstimatedDistance > 0)
+                    {
+                        bestcurrentaveragespeed = (TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / (Convert.ToDouble(TelemetryData.ets2.truck.navigationEstimatedTime) / 3600);
+                    }
+                    else if (TelemetryData.ets2.truck.navigationEstimatedDistance == 0)
+                    {
+                        bestarrivalset = false;
+                        label_currentarrival.Text = "Ankunft: ---";
+                        label_currentbestarrival.Text = "---";
+                    }
+                    if (bestcurrentaveragespeed > 0)
+                    {
                         DateTime dt_bestcurrentarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / bestcurrentaveragespeed) / 19) * 3600);          // ADD CONSTANT (replace "19") [IMPORTANT]
                         TimeSpan ts_bestcurrentarrival = dt_bestcurrentarrival.Subtract(DateTime.Now);
-                        if (ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes > 60)
-                        {// current arrival (color)
-                            panel7.BackColor = Color.Brown;
-                        }
-                        else if (ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes > 30 && ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes < 60)
-                        {
-                            panel7.BackColor = Color.Goldenrod;
-                        }
-                        else
-                        {
-                            panel7.BackColor = Color.LimeGreen;
-                        }
-
-                        label_currentarrival.Text = String.Format("Ankunft ca.:      {0}", dt_currentarrival.ToString("HH:mm"));
-                        label_currentarrival2.Text = String.Format("({0})", TimeSpanConvertToAvailableValuesOnly(ts_currentarrival));
 
                         label_currentbestarrival.Text = String.Format("{0}", dt_bestcurrentarrival.ToString("HH:mm"));
                         label_currentbestarrival2.Text = String.Format("({0})", TimeSpanConvertToAvailableValuesOnly(ts_bestcurrentarrival));
 
                         if (bestarrivalset == false)
-                        {// best arrival (color)
-                            DateTime dt_bestarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / bestcurrentaveragespeed) / 19) * 3600);          // ADD CONSTANT (replace "19") [IMPORTANT]
-                            TimeSpan ts_bestarrival = dt_bestarrival.Subtract(DateTime.Now);
-                            string bestarrivaltext = bestarrivaltext = String.Format("(+{0})", TimeSpanConvertToAvailableValuesOnly(TimeSpan.FromSeconds(ts_bestarrival.TotalSeconds * (-1))));
-                            if (ts_bestarrival.TotalSeconds > 0)
-                            {
-                                bestarrivaltext = String.Format("(-{0})", TimeSpanConvertToAvailableValuesOnly(ts_bestarrival));
-                            }
+                        {// best arrival
+                            dt_bestarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / bestcurrentaveragespeed) / 19) * 3600);          // ADD CONSTANT (replace "19") [IMPORTANT]
+
                             label_bestarrival.Text = String.Format("{0}", dt_bestarrival.ToString("HH:mm"));
-                            label_bestarrival2.Text = bestarrivaltext;
-
+                            bestarrivalset = true;
                         }
-
-                    }
-
-                    if (TelemetryData.ets2.game.paused == false)
-                    {// Not Paused Only
-
-                        if (TelemetryData.ets2.job.cargo.id != "")
-                        {// Contract-Only  
-                            if (situation != "Contract")
-                            {
-                                timercounter = 0;
-                                speedsummary = 0;
-                                currentaveragespeed = 0;
-                            }
-                            if (TelemetryData.ets2.job.cargo.totalDamage > 0)
-                            {// ProgressBar Damage
-                                PictureBoxCustomProgressBar(pictureBox2_cargodamage, Color.White, TelemetryData.ets2.job.cargo.totalDamage * 100, Math.Round(TelemetryData.ets2.job.cargo.totalDamage, 2).ToString("p0"), "Microsoft Sans Serif", Brushes.Brown);
-                            }
-
-                            situation = "Contract";
-                        }
-                        else if (TelemetryData.ets2.job.cargo.id == "")
+                        TimeSpan ts_bestarrival = dt_bestarrival.Subtract(DateTime.Now);
+                        string bestarrivaltext = bestarrivaltext = String.Format("(+{0})", TimeSpanConvertToAvailableValuesOnly(TimeSpan.FromSeconds(ts_bestarrival.TotalSeconds * (-1))));
+                        if (ts_bestarrival.TotalSeconds > 0)
                         {
-                            if (TelemetryData.ets2.truck.navigationEstimatedDistance > 0)
-                            {// DestinationOrFreeDrive-Only
-                                if (situation != "DestinationOrFreeDrive")
-                                {
-                                    timercounter = 0;
-                                    speedsummary = 0;
-                                    currentaveragespeed = 0;
-                                }
-                                situation = "DestinationOrFreeDrive";
+                            bestarrivaltext = String.Format("(-{0})", TimeSpanConvertToAvailableValuesOnly(ts_bestarrival));
+                        }
+                        label_bestarrival2.Text = bestarrivaltext;
+
+                        if (currentaveragespeed > 0)
+                        { // Average Calculations SHOW
+                            DateTime dt_currentarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / currentaveragespeed) / 19) * 3600);                  // ADD CONSTANT (replace "19") [IMPORTANT]
+                            TimeSpan ts_currentarrival = dt_currentarrival.Subtract(DateTime.Now);
+
+                            if (ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes > 60)
+                            {// current arrival (color)
+                                panel7.BackColor = Color.Brown;
                             }
+                            else if (ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes > 30 && ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes < 60)
+                            {
+                                panel7.BackColor = Color.Goldenrod;
+                            }
+                            else
+                            {
+                                panel7.BackColor = Color.LimeGreen;
+                            }
+                            
+                            label_currentarrival.Text = String.Format("Ankunft ca.:      {0}", dt_currentarrival.ToString("HH:mm"));
+                            label_currentarrival2.Text = String.Format("({0})", TimeSpanConvertToAvailableValuesOnly(ts_currentarrival));
                         }
 
+                    }
+
+                    if (TelemetryData.ets2.job.cargo.id != "")
+                    {// Contract-Only  
+                        if (situation != "Contract")
+                        {
+                            timercounter = 0;
+                            speedsummary = 0;
+                            currentaveragespeed = 0;
+                            bestarrivalset = false;
+                        }
+                        if (TelemetryData.ets2.job.cargo.totalDamage > 0)
+                        {// ProgressBar Damage
+                            PictureBoxCustomProgressBar(pictureBox2_cargodamage, Color.White, TelemetryData.ets2.job.cargo.totalDamage * 100, Math.Round(TelemetryData.ets2.job.cargo.totalDamage, 2).ToString("p0"), "Microsoft Sans Serif", Brushes.Brown);
+                        }
+                        situation = "Contract";
+                    }
+                    else if (TelemetryData.ets2.job.cargo.id == "")
+                    {
+                        // DestinationOrFreeDrive-Only
+                        if (situation != "DestinationOrFreeDrive")
+                        {
+                            timercounter = 0;
+                            speedsummary = 0;
+                            currentaveragespeed = 0;
+                            bestarrivalset = false;
+                        }
+                        situation = "DestinationOrFreeDrive";
 
                     }
+                    Debug.WriteLine(DateTime.Now.ToShortTimeString() + situation);
 
 
                     // Pause label
@@ -1094,7 +1097,21 @@ namespace Truck_Simulator_Tool
             return new Point(x, y);
         }
 
+        // Contract Data : Save
+        private void auftragsdateSpeichernToolStripMenuItem_Click(object sender, EventArgs e)                       // ADD : Only if contract available
+        {
+            if (saveFileDialog_Contract.ShowDialog() == DialogResult.OK)
+            {
+                string sJson = JsonConvert.SerializeObject(currentaveragespeed, Formatting.Indented);
+                File.WriteAllText(saveFileDialog_Schedule.FileName, sJson);
+            }
+        }
 
+        // Contract Data : Load
+        private void auftragsdatenLadenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
