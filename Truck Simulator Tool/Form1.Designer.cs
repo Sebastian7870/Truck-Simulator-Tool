@@ -917,7 +917,7 @@
             // 
             this.schichtplanSpeichernToolStripMenuItem1.Name = "schichtplanSpeichernToolStripMenuItem1";
             resources.ApplyResources(this.schichtplanSpeichernToolStripMenuItem1, "schichtplanSpeichernToolStripMenuItem1");
-            this.schichtplanSpeichernToolStripMenuItem1.Click += new System.EventHandler(this.SaveSchedule);
+            this.schichtplanSpeichernToolStripMenuItem1.Click += new System.EventHandler(this.button_SaveScheduleMenu_click);
             // 
             // einstellungenToolStripMenuItem
             // 

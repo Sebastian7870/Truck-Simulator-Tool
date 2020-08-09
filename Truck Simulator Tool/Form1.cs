@@ -358,8 +358,6 @@ namespace Truck_Simulator_Tool
             }
 
             if (bTruckersfmOnline == true)
-
-
             {// TFM online
                 HttpClient client = new HttpClient();
                 Stream stream = await client.GetStreamAsync(TruckersfmsongData.art.ToString());
@@ -922,7 +920,7 @@ namespace Truck_Simulator_Tool
         }
 
 
-        // Schedule planner
+        // Schedule planner : Focus
         private void Schedule_NumericFocusLost(object sender, CancelEventArgs e)
         {
             if (numericUpDown_drivetimeSchedule.Text == "")
@@ -941,6 +939,8 @@ namespace Truck_Simulator_Tool
                 numericUpDown_pausetimeSchedule.Text = "12";
             }
         }
+
+        // Schedule planner : Button Create
         private void button_CreateSchedule_Click(object sender, EventArgs e)
         {
             listWorkshifts.Clear();
@@ -957,7 +957,12 @@ namespace Truck_Simulator_Tool
                 counter += 1;
 
                 // Create new Workshift object and add it to our Workshift List
-                Workshift newWorkshift = new Workshift(counter, start_dt, start_dt.AddHours(DriveTime + 0.75), start_dt.AddHours(DriveTime / 2), start_dt.AddHours((DriveTime / 2) + 0.75));
+                Workshift newWorkshift = new Workshift();
+                newWorkshift.Count = counter;
+                newWorkshift.StartDate = start_dt;
+                newWorkshift.EndDate = start_dt.AddHours(DriveTime + 0.75);
+                newWorkshift.StartPause = start_dt.AddHours(DriveTime / 2);
+                newWorkshift.EndPause = start_dt.AddHours((DriveTime / 2) + 0.75);
                 listWorkshifts.Add(newWorkshift);
 
 
@@ -982,6 +987,40 @@ namespace Truck_Simulator_Tool
             scheduleLoaded = true;
         }
 
+        // Schedule planner : Load Method
+        void SchedulePlannerLoad()
+        {
+            try
+            {// Check if FileFormat is correct
+
+                listWorkshifts = new List<Workshift>(JsonConvert.DeserializeObject<List<Workshift>>(File.ReadAllText(openFileDialog_Schedule.FileName)));
+
+                if (listWorkshifts[listWorkshifts.Count - 1].EndDate > DateTime.Now)
+                {// Check if Schedule is not oudtdated
+                    listBox_schedule.Items.Add("##################################################################################");
+                    foreach (Workshift Item in listWorkshifts)
+                    {
+                        listBox_schedule.Items.Add("Schicht: " + Item.Count);
+                        listBox_schedule.Items.Add("\n");
+                        listBox_schedule.Items.Add("Schichtbeginn               : " + Item.StartDate + "   [" + DateTimeFormatInfo.CurrentInfo.GetDayName(Item.StartDate.DayOfWeek) + "]");
+                        listBox_schedule.Items.Add("Schichtpausenbeginn  : " + Item.StartPause + "   [" + DateTimeFormatInfo.CurrentInfo.GetDayName(Item.StartPause.DayOfWeek) + "]");
+                        listBox_schedule.Items.Add("\n");
+                        listBox_schedule.Items.Add("Schichtpausenende     : " + Item.EndPause + "   [" + DateTimeFormatInfo.CurrentInfo.GetDayName(Item.EndPause.DayOfWeek) + "]");
+                        listBox_schedule.Items.Add("Schichtende                   : " + Item.EndDate + "   [" + DateTimeFormatInfo.CurrentInfo.GetDayName(Item.EndDate.DayOfWeek) + "]");
+                        listBox_schedule.Items.Add("\n");
+                        listBox_schedule.Items.Add("##################################################################################");
+                    }
+                    scheduleLoaded = true;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Die angegebene Datei hat ein falsches Format.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error); ;
+                scheduleLoaded = false;
+            }
+        }
+
+        // Schedule planner : Button LoadDelete 
         private void button_LoadDeleteSchedule_Click(object sender, EventArgs e)
         {
             if (scheduleLoaded == true)
@@ -997,30 +1036,12 @@ namespace Truck_Simulator_Tool
 
                 if (openFileDialog_Schedule.ShowDialog() == DialogResult.OK)
                 {
-                    try
-                    {// Check if FileFormat is correct
-                        Stream stream = File.Open(openFileDialog_Schedule.FileName, FileMode.Open);
-
-                        StreamReader sr = new StreamReader(stream);
-                        string str = sr.ReadToEnd();
-                        sr.Close();
-                        JsonConvert.DeserializeObject<Workshift>(str); 
-
-                        if (listWorkshifts[listWorkshifts.Count].EndDate > DateTime.Now)
-                        {// Check if Schedule is not oudtdated
-                            scheduleLoaded = true;
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Die angegebene Datei hat ein falsches Format.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error); ;
-                        scheduleLoaded = false;
-                    }
-
-
+                    SchedulePlannerLoad();
                 }
             }
         }
+
+        // Schedule planner : Button LoadDelete_MENU
         private void button_LoadDeleteScheduleMenu_Click(object sender, EventArgs e)
         {// LOAD (Get Json Data from file)
 
@@ -1030,69 +1051,28 @@ namespace Truck_Simulator_Tool
                 {
                     if (MessageBox.Show("Möchte Sie fortfahren und damit den derzeitigen Zeitplan löschen?", "Warnung!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                     {
-                        scheduleLoaded = false;
-                        try
-                        {// Check if FileFormat is correct
-                            FileStream fs = File.Open(openFileDialog_Schedule.FileName, FileMode.Open);
-
-                            StreamReader sr = new StreamReader(fs);
-                            string str = sr.ReadToEnd();
-                            sr.Close();
-                            listWorkshifts.Add(JsonConvert.DeserializeObject<Workshift>(str));
-
-
-                            if (listWorkshifts[listWorkshifts.Count].EndDate > DateTime.Now)
-                            {// Check if Schedule is not oudtdated
-                                scheduleLoaded = true;
-                            }
-                        }
-                        catch
-                        {
-                            MessageBox.Show("Die angegebene Datei hat ein falsches Format.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error); ;
-                            scheduleLoaded = false;
-                        }
+                        SchedulePlannerLoad();
                     }
                 }
                 else
                 {
-                    try
-                    {// Check if FileFormat is correct
-                        FileStream fs = File.Open(saveFileDialog_Schedule.FileName, FileMode.Open);
-
-                        StreamReader sr = new StreamReader(fs);
-                        string str = sr.ReadToEnd();
-                        sr.Close();
-                        listWorkshifts.Add(JsonConvert.DeserializeObject<Workshift>(str));
-
-
-                        if (listWorkshifts[listWorkshifts.Count].EndDate > DateTime.Now)
-                        {// Check if Schedule is not oudtdated
-                            scheduleLoaded = true;
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Die angegebene Datei hat ein falsches Format.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error); ;
-                        scheduleLoaded = false;
-                    }
+                    SchedulePlannerLoad();
                 }
 
             }
 
         }
 
-
-        //Save Schedule
-
-        void SaveSchedule(object sender, EventArgs e)
+        // Schedule planner : Button Save_MENU
+        void button_SaveScheduleMenu_click(object sender, EventArgs e)
         {
             if (scheduleLoaded == true)
             {
                 saveFileDialog_Schedule.FileName = String.Format("TimeSchedule_{0} - {1}", listWorkshifts[0].StartDate.ToString("dd-MM-yyyy HHmm"), listWorkshifts[listWorkshifts.Count - 1].EndDate.ToString("dd-MM-yyyy HHmm"));
                 if (saveFileDialog_Schedule.ShowDialog() == DialogResult.OK)
                 {
-                    string s = JsonConvert.SerializeObject(listWorkshifts);
-                    File.WriteAllText(saveFileDialog_Schedule.FileName, s);
+                    string sJson = JsonConvert.SerializeObject(listWorkshifts, Formatting.Indented);
+                    File.WriteAllText(saveFileDialog_Schedule.FileName, sJson);
                 }
             }
             else
