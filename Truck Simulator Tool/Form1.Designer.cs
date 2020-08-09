@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.button1_settings = new System.Windows.Forms.Button();
             this.label1_paused = new System.Windows.Forms.Label();
             this.label2_timescale = new System.Windows.Forms.Label();
             this.timer1_calculate = new System.Windows.Forms.Timer(this.components);
@@ -47,6 +46,10 @@
             this.label12_progresspercentage = new System.Windows.Forms.Label();
             this.label13_remainingdistance = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label_currentshift = new System.Windows.Forms.Label();
+            this.label_shiftcount = new System.Windows.Forms.Label();
+            this.label_nextpausestartend = new System.Windows.Forms.Label();
+            this.label_timetoshiftend = new System.Windows.Forms.Label();
             this.label_nextscheduleevent = new System.Windows.Forms.Label();
             this.label14_datetimetime = new System.Windows.Forms.Label();
             this.label15_datetimedate = new System.Windows.Forms.Label();
@@ -109,10 +112,18 @@
             this.numericUpDown_durationSchedule = new System.Windows.Forms.NumericUpDown();
             this.button_CreateSchedule = new System.Windows.Forms.Button();
             this.listBox_schedule = new System.Windows.Forms.ListBox();
-            this.label_timetoshiftend = new System.Windows.Forms.Label();
-            this.label_nextpausestartend = new System.Windows.Forms.Label();
-            this.label_shiftcount = new System.Windows.Forms.Label();
-            this.label_currentshift = new System.Windows.Forms.Label();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.auftragsdatenLadenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.auftragsdateSpeichernToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.schichtplanerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.schichtplanSpeichernToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.schichtplanSpeichernToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.einstellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.einstellungenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel14 = new System.Windows.Forms.Panel();
+            this.label_shiftText = new System.Windows.Forms.Label();
+            this.button_LoadDeleteSchedule = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -138,14 +149,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_drivetimeSchedule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_pausetimeSchedule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_durationSchedule)).BeginInit();
+            this.menuStrip1.SuspendLayout();
+            this.panel14.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // button1_settings
-            // 
-            resources.ApplyResources(this.button1_settings, "button1_settings");
-            this.button1_settings.Name = "button1_settings";
-            this.button1_settings.UseVisualStyleBackColor = true;
-            this.button1_settings.Click += new System.EventHandler(this.button1_settings_Click);
             // 
             // label1_paused
             // 
@@ -251,6 +257,26 @@
             this.panel1.Controls.Add(this.label_nextscheduleevent);
             this.panel1.Controls.Add(this.label2_timescale);
             this.panel1.Name = "panel1";
+            // 
+            // label_currentshift
+            // 
+            resources.ApplyResources(this.label_currentshift, "label_currentshift");
+            this.label_currentshift.Name = "label_currentshift";
+            // 
+            // label_shiftcount
+            // 
+            resources.ApplyResources(this.label_shiftcount, "label_shiftcount");
+            this.label_shiftcount.Name = "label_shiftcount";
+            // 
+            // label_nextpausestartend
+            // 
+            resources.ApplyResources(this.label_nextpausestartend, "label_nextpausestartend");
+            this.label_nextpausestartend.Name = "label_nextpausestartend";
+            // 
+            // label_timetoshiftend
+            // 
+            resources.ApplyResources(this.label_timetoshiftend, "label_timetoshiftend");
+            this.label_timetoshiftend.Name = "label_timetoshiftend";
             // 
             // label_nextscheduleevent
             // 
@@ -687,6 +713,7 @@
             // 
             this.panel12.BackColor = System.Drawing.Color.Gainsboro;
             this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel12.Controls.Add(this.button_LoadDeleteSchedule);
             this.panel12.Controls.Add(this.panel13);
             this.panel12.Controls.Add(this.label12);
             this.panel12.Controls.Add(this.label13);
@@ -816,7 +843,7 @@
             // 
             // button_CreateSchedule
             // 
-            this.button_CreateSchedule.BackColor = System.Drawing.Color.Gainsboro;
+            this.button_CreateSchedule.BackColor = System.Drawing.Color.LightSteelBlue;
             resources.ApplyResources(this.button_CreateSchedule, "button_CreateSchedule");
             this.button_CreateSchedule.ForeColor = System.Drawing.SystemColors.ControlText;
             this.button_CreateSchedule.Name = "button_CreateSchedule";
@@ -830,31 +857,96 @@
             this.listBox_schedule.FormattingEnabled = true;
             this.listBox_schedule.Name = "listBox_schedule";
             // 
-            // label_timetoshiftend
+            // menuStrip1
             // 
-            resources.ApplyResources(this.label_timetoshiftend, "label_timetoshiftend");
-            this.label_timetoshiftend.Name = "label_timetoshiftend";
+            this.menuStrip1.BackColor = System.Drawing.Color.White;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dateiToolStripMenuItem,
+            this.schichtplanerToolStripMenuItem,
+            this.einstellungenToolStripMenuItem});
+            resources.ApplyResources(this.menuStrip1, "menuStrip1");
+            this.menuStrip1.Name = "menuStrip1";
             // 
-            // label_nextpausestartend
+            // dateiToolStripMenuItem
             // 
-            resources.ApplyResources(this.label_nextpausestartend, "label_nextpausestartend");
-            this.label_nextpausestartend.Name = "label_nextpausestartend";
+            this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.auftragsdatenLadenToolStripMenuItem,
+            this.auftragsdateSpeichernToolStripMenuItem});
+            this.dateiToolStripMenuItem.Name = "dateiToolStripMenuItem";
+            resources.ApplyResources(this.dateiToolStripMenuItem, "dateiToolStripMenuItem");
             // 
-            // label_shiftcount
+            // auftragsdatenLadenToolStripMenuItem
             // 
-            resources.ApplyResources(this.label_shiftcount, "label_shiftcount");
-            this.label_shiftcount.Name = "label_shiftcount";
+            this.auftragsdatenLadenToolStripMenuItem.Name = "auftragsdatenLadenToolStripMenuItem";
+            resources.ApplyResources(this.auftragsdatenLadenToolStripMenuItem, "auftragsdatenLadenToolStripMenuItem");
             // 
-            // label_currentshift
+            // auftragsdateSpeichernToolStripMenuItem
             // 
-            resources.ApplyResources(this.label_currentshift, "label_currentshift");
-            this.label_currentshift.Name = "label_currentshift";
+            this.auftragsdateSpeichernToolStripMenuItem.Name = "auftragsdateSpeichernToolStripMenuItem";
+            resources.ApplyResources(this.auftragsdateSpeichernToolStripMenuItem, "auftragsdateSpeichernToolStripMenuItem");
+            // 
+            // schichtplanerToolStripMenuItem
+            // 
+            this.schichtplanerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.schichtplanSpeichernToolStripMenuItem,
+            this.schichtplanSpeichernToolStripMenuItem1});
+            this.schichtplanerToolStripMenuItem.Name = "schichtplanerToolStripMenuItem";
+            resources.ApplyResources(this.schichtplanerToolStripMenuItem, "schichtplanerToolStripMenuItem");
+            // 
+            // schichtplanSpeichernToolStripMenuItem
+            // 
+            this.schichtplanSpeichernToolStripMenuItem.Name = "schichtplanSpeichernToolStripMenuItem";
+            resources.ApplyResources(this.schichtplanSpeichernToolStripMenuItem, "schichtplanSpeichernToolStripMenuItem");
+            // 
+            // schichtplanSpeichernToolStripMenuItem1
+            // 
+            this.schichtplanSpeichernToolStripMenuItem1.Name = "schichtplanSpeichernToolStripMenuItem1";
+            resources.ApplyResources(this.schichtplanSpeichernToolStripMenuItem1, "schichtplanSpeichernToolStripMenuItem1");
+            // 
+            // einstellungenToolStripMenuItem
+            // 
+            this.einstellungenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.einstellungenToolStripMenuItem1});
+            this.einstellungenToolStripMenuItem.Name = "einstellungenToolStripMenuItem";
+            resources.ApplyResources(this.einstellungenToolStripMenuItem, "einstellungenToolStripMenuItem");
+            // 
+            // einstellungenToolStripMenuItem1
+            // 
+            this.einstellungenToolStripMenuItem1.Name = "einstellungenToolStripMenuItem1";
+            resources.ApplyResources(this.einstellungenToolStripMenuItem1, "einstellungenToolStripMenuItem1");
+            // 
+            // panel14
+            // 
+            this.panel14.BackColor = System.Drawing.Color.Transparent;
+            this.panel14.Controls.Add(this.label_shiftText);
+            this.panel14.Controls.Add(this.label14_datetimetime);
+            this.panel14.Controls.Add(this.label15_datetimedate);
+            this.panel14.Controls.Add(this.label_datetimenowseconds);
+            this.panel14.Controls.Add(this.label1_paused);
+            resources.ApplyResources(this.panel14, "panel14");
+            this.panel14.Name = "panel14";
+            // 
+            // label_shiftText
+            // 
+            this.label_shiftText.BackColor = System.Drawing.Color.Brown;
+            resources.ApplyResources(this.label_shiftText, "label_shiftText");
+            this.label_shiftText.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_shiftText.Name = "label_shiftText";
+            // 
+            // button_LoadDeleteSchedule
+            // 
+            this.button_LoadDeleteSchedule.BackColor = System.Drawing.Color.LightSteelBlue;
+            resources.ApplyResources(this.button_LoadDeleteSchedule, "button_LoadDeleteSchedule");
+            this.button_LoadDeleteSchedule.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button_LoadDeleteSchedule.Name = "button_LoadDeleteSchedule";
+            this.button_LoadDeleteSchedule.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
+            this.Controls.Add(this.panel14);
             this.Controls.Add(this.panel12);
             this.Controls.Add(this.panel11);
             this.Controls.Add(this.panel1);
@@ -863,24 +955,20 @@
             this.Controls.Add(this.panel8);
             this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel6);
-            this.Controls.Add(this.label_datetimenowseconds);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label15_datetimedate);
-            this.Controls.Add(this.label14_datetimetime);
             this.Controls.Add(this.label13_remainingdistance);
             this.Controls.Add(this.label12_progresspercentage);
             this.Controls.Add(this.label11_destinationdata);
             this.Controls.Add(this.label10_sourcedata);
             this.Controls.Add(this.label6_timebuffer);
             this.Controls.Add(this.pictureBox1_distance);
-            this.Controls.Add(this.label1_paused);
-            this.Controls.Add(this.button1_settings);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -908,14 +996,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_drivetimeSchedule)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_pausetimeSchedule)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_durationSchedule)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.panel14.ResumeLayout(false);
+            this.panel14.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button button1_settings;
         private System.Windows.Forms.Label label1_paused;
         private System.Windows.Forms.Label label2_timescale;
         private System.Windows.Forms.Timer timer1_calculate;
@@ -998,6 +1088,18 @@
         private System.Windows.Forms.Label label_nextpausestartend;
         private System.Windows.Forms.Label label_shiftcount;
         private System.Windows.Forms.Label label_currentshift;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem auftragsdatenLadenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem auftragsdateSpeichernToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem schichtplanerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem schichtplanSpeichernToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem schichtplanSpeichernToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem einstellungenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem einstellungenToolStripMenuItem1;
+        private System.Windows.Forms.Panel panel14;
+        private System.Windows.Forms.Label label_shiftText;
+        private System.Windows.Forms.Button button_LoadDeleteSchedule;
     }
 }
 

@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -128,7 +130,6 @@ namespace Truck_Simulator_Tool
                     if (listWorkshifts[Convert.ToInt32(numericUpDown_durationSchedule.Value)].EndDate > DateTime.Now) // change durationSchedule.Value for file to work (Read file duration counter)
                     {// Check if schedule is not outdated
 
-
                         // Set listalldates
                         int foreachCounter = 0;
                         List<AlldatesTimeSpan> listalldates = new List<AlldatesTimeSpan>();
@@ -172,35 +173,41 @@ namespace Truck_Simulator_Tool
                         if (CurrentType == "StartDate")
                         {
                             ShiftActive = false;
-                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtbeginn]   {0} Uhr", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartDate.ToString("   dd.MM.yyyy"));
+                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtbeginn]   {0} Uhr,  {1}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartDate.ToShortDateString());
                         }
                         else if (CurrentType == "EndDate")
                         {
                             currentShiftPauseOver = true;
                             ShiftActive = true;
-                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtende]   {0} Uhr", listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].EndDate.ToString("   dd.MM.yyyy"));
+                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtende]   {0} Uhr", listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"));
                         }
                         else if (CurrentType == "StartPause")
                         {
                             ShiftActive = true;
-                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenbeginn]   {0} Uhr", listWorkshifts[CurrentIndex].StartPause.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartPause.ToString("   dd.MM.yyyy"));
+                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenbeginn]   {0} Uhr", listWorkshifts[CurrentIndex].StartPause.ToString("HH:mm"));
                         }
                         else if (CurrentType == "EndPause")
                         {
                             schedulePause = true;
                             ShiftActive = true;
-                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenende]   {0} Uhr", listWorkshifts[CurrentIndex].EndPause.ToString("HH:mm"), listWorkshifts[CurrentIndex].EndPause.ToString("   dd.MM.yyyy"));
+                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenende]   {0} Uhr", listWorkshifts[CurrentIndex].EndPause.ToString("HH:mm"));
                         }
 
                         // label shiftcount
                         label_shiftcount.Text = String.Format("Schicht: {0} / {1}", (CurrentIndex + 1), foreachCounter);
 
-
                         if (ShiftActive == true)
                         {
-                            // label_currentshift
-                            label_currentshift.Text = String.Format("derzeitige Schicht: {0} Uhr, {1}  -  {2} Uhr, {3}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), DateTimeFormatInfo.CurrentInfo.GetDayName(listWorkshifts[CurrentIndex].StartDate.DayOfWeek), listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"), DateTimeFormatInfo.CurrentInfo.GetDayName(listWorkshifts[CurrentIndex].EndDate.DayOfWeek));
+                            label_shiftText.BackColor = Color.Blue;
+                            label_shiftText.Text = "Schicht aktiv";
 
+                            // label_currentshift
+                            label_currentshift.Text = String.Format("Derzeitige Schicht: {0} Uhr,  {1}  -  {2} Uhr,  {3}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartDate.ToShortDateString(), listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].EndDate.ToShortDateString());
+
+                            label_nextpausestartend.Location = new Point(650, label_nextpausestartend.Location.Y);
+                            label_timetoshiftend.Location = new Point(974, label_timetoshiftend.Location.Y);
+                            label_currentshift.Location = new Point(1293, label_currentshift.Location.Y);
+                            label_currentshift.Width = 432;
 
                             timeSpans.Sort();
                             // Get next shift end
@@ -238,7 +245,10 @@ namespace Truck_Simulator_Tool
                             
                             // Get next shift pausestart
                             if (schedulePause == true)
-                            { 
+                            {
+                                label_shiftText.BackColor = Color.MediumBlue;
+                                label_shiftText.Text = "Schichtpause";
+
                                 CurrentIndex = -1;
                                 foreach (AlldatesTimeSpan Item in listalldates)
                                 {
@@ -316,6 +326,15 @@ namespace Truck_Simulator_Tool
                         {
                             label_timetoshiftend.Text = "Übrige Schichtlänge: ---";
                             label_nextpausestartend.Text = "Nächste Pause in: ---";
+                            label_currentshift.Text = "Derzeitige Schicht: ---";
+
+                            label_shiftText.BackColor = Color.MediumBlue;
+                            label_shiftText.Text = "Schicht nicht aktiv";
+
+                            label_nextpausestartend.Location = new Point(750, label_nextpausestartend.Location.Y);
+                            label_timetoshiftend.Location = new Point(1074, label_timetoshiftend.Location.Y);
+                            label_currentshift.Location = new Point(1393, label_currentshift.Location.Y);
+                            label_currentshift.Width = 200;
                         }
 
                     }
@@ -329,6 +348,11 @@ namespace Truck_Simulator_Tool
                 {
                     MessageBox.Show("Fehler in der Zeitplaner_Update Methode!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+            else
+            {
+                label_shiftText.BackColor = Color.Brown;
+                label_shiftText.Text = "Keine Schicht geladen";
             }
 
             if (bTruckersfmOnline == true)
@@ -446,12 +470,12 @@ namespace Truck_Simulator_Tool
                     // Pause label
                     if (TelemetryData.ets2.game.paused == false)
                     {
-                        label1_paused.Text = "Verbunden!";
+                        label1_paused.Text = "Verbunden";
                         label1_paused.BackColor = System.Drawing.Color.LimeGreen;
                     }
                     else if (TelemetryData.ets2.game.paused == true)
                     {
-                        label1_paused.Text = "Spiel pausiert!";
+                        label1_paused.Text = "Spiel pausiert";
                         label1_paused.BackColor = System.Drawing.Color.Goldenrod;
                     }
 
@@ -592,7 +616,7 @@ namespace Truck_Simulator_Tool
                 }
                 else if (TelemetryData.ets2.game.connected == false)
                 {
-                    label1_paused.Text = "Keine Verbindung zum Spiel!";
+                    label1_paused.Text = "Keine Verbindung zum Spiel";
                     label1_paused.BackColor = System.Drawing.Color.Brown;
 
 
@@ -601,7 +625,7 @@ namespace Truck_Simulator_Tool
             }
             else if (bTelemetryOnline == false)
             {
-                label1_paused.Text = "Keine Verbindung zum Server!";
+                label1_paused.Text = "Keine Verbindung zum Server";
                 label2_timescale.Text = "Zeitskalierung: -";
                 label1_paused.BackColor = System.Drawing.Color.Brown;
             }
@@ -963,7 +987,6 @@ namespace Truck_Simulator_Tool
             {// Check if schedule is not outdated
 
                 scheduleLoaded = true;
-
             }
             else
             {
@@ -972,7 +995,16 @@ namespace Truck_Simulator_Tool
         }
 
 
+        // Set Location
+        Point SetLocation(Point Location, int  OffsetX, int OffsetY)
+        {
+            int x = Location.X;
+            int y = Location.Y;
+            x += OffsetX;
+            y += OffsetY;
 
+            return new Point(x, y);
+        }
     }
 }
 
