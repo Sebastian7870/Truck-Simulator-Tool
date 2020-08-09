@@ -1,20 +1,18 @@
 ﻿namespace Truck_Simulator_Tool
 {
 
-
-
-
     public class Rootobject
     {
         public Ets2 ets2 { get; set; }
         public Omsi omsi { get; set; }
     }
+
     public class Ets2
     {
         public Events events { get; set; }
         public Game game { get; set; }
         public Job job { get; set; }
-        public Trailer[] trailers { get; set; }
+        public object[] trailers { get; set; }
         public Truck truck { get; set; }
     }
 
@@ -185,13 +183,13 @@
     public class Job
     {
         public Cargo cargo { get; set; }
-        public int deadlineTime { get; set; }
+        public long deadlineTime { get; set; }
         public string destinationCity { get; set; }
         public string destinationCityID { get; set; }
         public string destinationCompany { get; set; }
         public string destinationCompanyID { get; set; }
         public int income { get; set; }
-        public int remainingTime { get; set; }
+        public long remainingTime { get; set; }
         public string sourceCity { get; set; }
         public string sourceCityID { get; set; }
         public string sourceCompany { get; set; }
@@ -344,48 +342,9 @@
         public float z { get; set; }
     }
 
-    public class Trailer
-    {
-        public bool attached { get; set; }
-        public string bodyType { get; set; }
-        public string brand { get; set; }
-        public string brandID { get; set; }
-        public string cargoAccessoryID { get; set; }
-        public float cargoDamage { get; set; }
-        public string chainType { get; set; }
-        public Hook1 hook { get; set; }
-        public string id { get; set; }
-        public string licensePlate { get; set; }
-        public string licensePlateCountry { get; set; }
-        public string licensePlateCountryID { get; set; }
-        public string name { get; set; }
-        public Placement1 placement { get; set; }
-        public float wearChassis { get; set; }
-        public float wearWheels { get; set; }
-        public int wheelCount { get; set; }
-    }
-
-    public class Hook1
-    {
-        public float x { get; set; }
-        public float y { get; set; }
-        public float z { get; set; }
-    }
-
-    public class Placement1
-    {
-        public float heading { get; set; }
-        public float pitch { get; set; }
-        public float roll { get; set; }
-        public float x { get; set; }
-        public float y { get; set; }
-        public float z { get; set; }
-    }
-
     public class Omsi
     {
         public bool connected { get; set; }
     }
-
 
 }

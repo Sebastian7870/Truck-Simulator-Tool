@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlldatesTimeSpan.cs" />
-    <Compile Include="Contract.cs" />
+    <Compile Include="SavedContract.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

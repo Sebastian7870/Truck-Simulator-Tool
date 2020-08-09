@@ -161,7 +161,7 @@
             // 
             // label1_paused
             // 
-            this.label1_paused.BackColor = System.Drawing.Color.Brown;
+            this.label1_paused.BackColor = System.Drawing.Color.Goldenrod;
             resources.ApplyResources(this.label1_paused, "label1_paused");
             this.label1_paused.ForeColor = System.Drawing.Color.Gainsboro;
             this.label1_paused.Name = "label1_paused";

@@ -2576,7 +2576,7 @@
     <value>Schichtplaner</value>
   </data>
   <data name="einstellungenToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="einstellungenToolStripMenuItem1.Text" xml:space="preserve">
     <value>Einstellungen</value>
