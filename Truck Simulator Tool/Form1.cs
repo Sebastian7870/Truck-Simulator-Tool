@@ -1004,7 +1004,7 @@ namespace Truck_Simulator_Tool
                         StreamReader sr = new StreamReader(stream);
                         string str = sr.ReadToEnd();
                         sr.Close();
-                        JsonConvert.DeserializeObject<Workshift>(str);
+                        JsonConvert.DeserializeObject<Workshift>(str); 
 
                         if (listWorkshifts[listWorkshifts.Count].EndDate > DateTime.Now)
                         {// Check if Schedule is not oudtdated
