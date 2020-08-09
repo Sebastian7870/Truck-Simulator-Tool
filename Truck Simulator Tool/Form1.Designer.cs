@@ -129,6 +129,7 @@
             this.panel15 = new System.Windows.Forms.Panel();
             this.openFileDialog_Contract = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog_Contract = new System.Windows.Forms.SaveFileDialog();
+            this.timer2_calculateMinute = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -975,6 +976,11 @@
             // 
             resources.ApplyResources(this.saveFileDialog_Contract, "saveFileDialog_Contract");
             // 
+            // timer2_calculateMinute
+            // 
+            this.timer2_calculateMinute.Interval = 60000;
+            this.timer2_calculateMinute.Tick += new System.EventHandler(this.timer2_calculateMinute_Tick);
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
@@ -1141,6 +1147,7 @@
         private System.Windows.Forms.Label label14_datetimetime;
         private System.Windows.Forms.OpenFileDialog openFileDialog_Contract;
         private System.Windows.Forms.SaveFileDialog saveFileDialog_Contract;
+        private System.Windows.Forms.Timer timer2_calculateMinute;
     }
 }
 
