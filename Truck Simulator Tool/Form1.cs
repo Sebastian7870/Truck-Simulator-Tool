@@ -3,12 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection.Emit;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -125,110 +123,149 @@ namespace Truck_Simulator_Tool
             // schedule
             if (scheduleLoaded == true)
             {
-                try
-                {
-                    if (listWorkshifts[Convert.ToInt32(numericUpDown_durationSchedule.Value)].EndDate > DateTime.Now) // change durationSchedule.Value for file to work (Read file duration counter)
-                    {// Check if schedule is not outdated
+                if (listWorkshifts[listWorkshifts.Count - 1].EndDate > DateTime.Now)
+                {// Check if schedule is not outdated
 
-                        // Set listalldates
-                        int foreachCounter = 0;
-                        List<AlldatesTimeSpan> listalldates = new List<AlldatesTimeSpan>();
-                        foreach (Workshift Item in listWorkshifts)
+                    button_LoadDeleteSchedule.BackColor = Color.Brown;
+                    button_LoadDeleteSchedule.Text = "Schichtplan löschen";
+
+                    // Set listalldates
+                    int foreachCounter = 0;
+                    List<AlldatesTimeSpan> listalldates = new List<AlldatesTimeSpan>();
+                    foreach (Workshift Item in listWorkshifts)
+                    {
+                        foreachCounter++;
+                        AlldatesTimeSpan startdate = new AlldatesTimeSpan(foreachCounter, Item.StartDate.Subtract(DateTime.Now), "StartDate");
+                        AlldatesTimeSpan enddate = new AlldatesTimeSpan(foreachCounter, Item.EndDate.Subtract(DateTime.Now), "EndDate");
+                        AlldatesTimeSpan startpause = new AlldatesTimeSpan(foreachCounter, Item.StartPause.Subtract(DateTime.Now), "StartPause");
+                        AlldatesTimeSpan endpause = new AlldatesTimeSpan(foreachCounter, Item.EndPause.Subtract(DateTime.Now), "EndPause");
+                        if (Item.StartDate.Ticks > DateTime.Now.Ticks) { listalldates.Add(startdate); }
+                        if (Item.EndDate.Ticks > DateTime.Now.Ticks) { listalldates.Add(enddate); }
+                        if (Item.StartPause.Ticks > DateTime.Now.Ticks) { listalldates.Add(startpause); }
+                        if (Item.EndPause.Ticks > DateTime.Now.Ticks) { listalldates.Add(endpause); }
+                    }
+
+                    // Set Timespans
+                    List<TimeSpan> timeSpans = new List<TimeSpan>();
+                    foreach (AlldatesTimeSpan timespan in listalldates)
+                    {
+                        TimeSpan ts = new TimeSpan();
+                        ts = timespan.TimeSpan;
+                        timeSpans.Add(ts);
+                    }
+
+                    // Get Min Value of Timespans and set Index for it (next event)
+                    int CurrentIndex = -1;
+                    string CurrentType = "";
+                    foreach (AlldatesTimeSpan Item in listalldates)
+                    {
+                        if (Item.TimeSpan.Ticks == timeSpans.Min().Ticks)
                         {
-                            foreachCounter++;
-                            AlldatesTimeSpan startdate = new AlldatesTimeSpan(foreachCounter, Item.StartDate.Subtract(DateTime.Now), "StartDate");
-                            AlldatesTimeSpan enddate = new AlldatesTimeSpan(foreachCounter, Item.EndDate.Subtract(DateTime.Now), "EndDate");
-                            AlldatesTimeSpan startpause = new AlldatesTimeSpan(foreachCounter, Item.StartPause.Subtract(DateTime.Now), "StartPause");
-                            AlldatesTimeSpan endpause = new AlldatesTimeSpan(foreachCounter, Item.EndPause.Subtract(DateTime.Now), "EndPause");
-                            if (Item.StartDate.Ticks > DateTime.Now.Ticks) { listalldates.Add(startdate); }
-                            if (Item.EndDate.Ticks > DateTime.Now.Ticks) { listalldates.Add(enddate); }
-                            if (Item.StartPause.Ticks > DateTime.Now.Ticks) { listalldates.Add(startpause); }
-                            if (Item.EndPause.Ticks > DateTime.Now.Ticks) { listalldates.Add(endpause); }
+                            CurrentIndex = Item.Index;
+                            CurrentType = Item.Type;
                         }
+                    }
 
-                        // Set Timespans
-                        List<TimeSpan> timeSpans = new List<TimeSpan>();
-                        foreach (AlldatesTimeSpan timespan in listalldates)
-                        {
-                            TimeSpan ts = new TimeSpan();
-                            ts = timespan.TimeSpan;
-                            timeSpans.Add(ts);
-                        }
+                    bool currentShiftPauseOver = false;
+                    bool schedulePause = false;
+                    CurrentIndex--;
+                    if (CurrentType == "StartDate")
+                    {
+                        ShiftActive = false;
+                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtbeginn]   {0} Uhr,  {1}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartDate.ToShortDateString());
+                    }
+                    else if (CurrentType == "EndDate")
+                    {
+                        currentShiftPauseOver = true;
+                        ShiftActive = true;
+                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtende]   {0} Uhr", listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"));
+                    }
+                    else if (CurrentType == "StartPause")
+                    {
+                        ShiftActive = true;
+                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenbeginn]   {0} Uhr", listWorkshifts[CurrentIndex].StartPause.ToString("HH:mm"));
+                    }
+                    else if (CurrentType == "EndPause")
+                    {
+                        schedulePause = true;
+                        ShiftActive = true;
+                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenende]   {0} Uhr", listWorkshifts[CurrentIndex].EndPause.ToString("HH:mm"));
+                    }
 
-                        // Get Min Value of Timespans and set Index for it (next event)
-                        int CurrentIndex = -1;
-                        string CurrentType = "";
+                    // label shiftcount
+                    label_shiftcount.Text = String.Format("Schicht: {0} / {1}", (CurrentIndex + 1), foreachCounter);
+
+                    if (ShiftActive == true)
+                    {
+                        label_shiftText.BackColor = Color.Blue;
+                        label_shiftText.Text = "Schicht aktiv";
+
+                        // label_currentshift
+                        label_currentshift.Text = String.Format("Derzeitige Schicht: {0} Uhr,  {1}  -  {2} Uhr,  {3}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartDate.ToShortDateString(), listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].EndDate.ToShortDateString());
+
+                        label_nextpausestartend.Location = new Point(650, label_nextpausestartend.Location.Y);
+                        label_timetoshiftend.Location = new Point(974, label_timetoshiftend.Location.Y);
+                        label_currentshift.Location = new Point(1293, label_currentshift.Location.Y);
+                        label_currentshift.Width = 432;
+
+                        timeSpans.Sort();
+                        // Get next shift end
+                        CurrentIndex = -1;
                         foreach (AlldatesTimeSpan Item in listalldates)
                         {
-                            if (Item.TimeSpan.Ticks == timeSpans.Min().Ticks)
+                            if (timeSpans.Count >= 3)
                             {
-                                CurrentIndex = Item.Index;
-                                CurrentType = Item.Type;
+                                if (Item.TimeSpan.Ticks == timeSpans[0].Ticks && Item.Type == "EndDate")
+                                {
+                                    CurrentIndex = Item.Index;
+                                }
+                                else if (Item.TimeSpan.Ticks == timeSpans[1].Ticks && Item.Type == "EndDate")
+                                {
+                                    CurrentIndex = Item.Index;
+                                }
+                                else if (Item.TimeSpan.Ticks == timeSpans[2].Ticks && Item.Type == "EndDate")
+                                {
+                                    CurrentIndex = Item.Index;
+                                }
+                                else if (Item.TimeSpan.Ticks == timeSpans[3].Ticks && Item.Type == "EndDate")
+                                {
+                                    CurrentIndex = Item.Index;
+                                }
+                            }
+                            else
+                            {
+                                CurrentIndex = 1; // (this value later goes to zero)
                             }
                         }
-
-                        bool currentShiftPauseOver = false;
-                        bool schedulePause = false;
                         CurrentIndex--;
-                        if (CurrentType == "StartDate")
-                        {
-                            ShiftActive = false;
-                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtbeginn]   {0} Uhr,  {1}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartDate.ToShortDateString());
-                        }
-                        else if (CurrentType == "EndDate")
-                        {
-                            currentShiftPauseOver = true;
-                            ShiftActive = true;
-                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtende]   {0} Uhr", listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"));
-                        }
-                        else if (CurrentType == "StartPause")
-                        {
-                            ShiftActive = true;
-                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenbeginn]   {0} Uhr", listWorkshifts[CurrentIndex].StartPause.ToString("HH:mm"));
-                        }
-                        else if (CurrentType == "EndPause")
-                        {
-                            schedulePause = true;
-                            ShiftActive = true;
-                            label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenende]   {0} Uhr", listWorkshifts[CurrentIndex].EndPause.ToString("HH:mm"));
-                        }
+                        TimeSpan shiftTimeLeft = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].EndDate.Ticks - DateTime.Now.Ticks);
+                        label_timetoshiftend.Text = String.Format("Übrige Schichtlänge: {0}", TimeSpanConvertToAvailableValuesOnly(shiftTimeLeft));
 
-                        // label shiftcount
-                        label_shiftcount.Text = String.Format("Schicht: {0} / {1}", (CurrentIndex + 1), foreachCounter);
 
-                        if (ShiftActive == true)
+                        // Get next shift pausestart
+                        if (schedulePause == true)
                         {
-                            label_shiftText.BackColor = Color.Blue;
-                            label_shiftText.Text = "Schicht aktiv";
+                            label_shiftText.BackColor = Color.MediumBlue;
+                            label_shiftText.Text = "Schichtpause";
 
-                            // label_currentshift
-                            label_currentshift.Text = String.Format("Derzeitige Schicht: {0} Uhr,  {1}  -  {2} Uhr,  {3}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartDate.ToShortDateString(), listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].EndDate.ToShortDateString());
-
-                            label_nextpausestartend.Location = new Point(650, label_nextpausestartend.Location.Y);
-                            label_timetoshiftend.Location = new Point(974, label_timetoshiftend.Location.Y);
-                            label_currentshift.Location = new Point(1293, label_currentshift.Location.Y);
-                            label_currentshift.Width = 432;
-
-                            timeSpans.Sort();
-                            // Get next shift end
                             CurrentIndex = -1;
                             foreach (AlldatesTimeSpan Item in listalldates)
                             {
                                 if (timeSpans.Count >= 3)
                                 {
-                                    if (Item.TimeSpan.Ticks == timeSpans[0].Ticks && Item.Type == "EndDate")
+                                    if (Item.TimeSpan.Ticks == timeSpans[0].Ticks && Item.Type == "EndPause")
                                     {
                                         CurrentIndex = Item.Index;
                                     }
-                                    else if (Item.TimeSpan.Ticks == timeSpans[1].Ticks && Item.Type == "EndDate")
+                                    else if (Item.TimeSpan.Ticks == timeSpans[1].Ticks && Item.Type == "EndPause")
                                     {
                                         CurrentIndex = Item.Index;
                                     }
-                                    else if (Item.TimeSpan.Ticks == timeSpans[2].Ticks && Item.Type == "EndDate")
+                                    else if (Item.TimeSpan.Ticks == timeSpans[2].Ticks && Item.Type == "EndPause")
                                     {
                                         CurrentIndex = Item.Index;
                                     }
-                                    else if (Item.TimeSpan.Ticks == timeSpans[3].Ticks && Item.Type == "EndDate")
+                                    else if (Item.TimeSpan.Ticks == timeSpans[3].Ticks && Item.Type == "EndPause")
                                     {
                                         CurrentIndex = Item.Index;
                                     }
@@ -239,34 +276,31 @@ namespace Truck_Simulator_Tool
                                 }
                             }
                             CurrentIndex--;
-                            TimeSpan shiftTimeLeft = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].EndDate.Ticks - DateTime.Now.Ticks);
-                            label_timetoshiftend.Text = String.Format("Übrige Schichtlänge: {0}", TimeSpanConvertToAvailableValuesOnly(shiftTimeLeft));
-
-                            
-                            // Get next shift pausestart
-                            if (schedulePause == true)
+                            TimeSpan nextPauseEnd = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].EndPause.Ticks - DateTime.Now.Ticks);
+                            label_nextpausestartend.Text = String.Format("Pausenende in: {0}", TimeSpanConvertToAvailableValuesOnly(nextPauseEnd));
+                        }
+                        else
+                        {
+                            if (currentShiftPauseOver == false)
                             {
-                                label_shiftText.BackColor = Color.MediumBlue;
-                                label_shiftText.Text = "Schichtpause";
-
                                 CurrentIndex = -1;
                                 foreach (AlldatesTimeSpan Item in listalldates)
                                 {
                                     if (timeSpans.Count >= 3)
                                     {
-                                        if (Item.TimeSpan.Ticks == timeSpans[0].Ticks && Item.Type == "EndPause")
+                                        if (Item.TimeSpan.Ticks == timeSpans[0].Ticks && Item.Type == "StartPause")
                                         {
                                             CurrentIndex = Item.Index;
                                         }
-                                        else if (Item.TimeSpan.Ticks == timeSpans[1].Ticks && Item.Type == "EndPause")
+                                        else if (Item.TimeSpan.Ticks == timeSpans[1].Ticks && Item.Type == "StartPause")
                                         {
                                             CurrentIndex = Item.Index;
                                         }
-                                        else if (Item.TimeSpan.Ticks == timeSpans[2].Ticks && Item.Type == "EndPause")
+                                        else if (Item.TimeSpan.Ticks == timeSpans[2].Ticks && Item.Type == "StartPause")
                                         {
                                             CurrentIndex = Item.Index;
                                         }
-                                        else if (Item.TimeSpan.Ticks == timeSpans[3].Ticks && Item.Type == "EndPause")
+                                        else if (Item.TimeSpan.Ticks == timeSpans[3].Ticks && Item.Type == "StartPause")
                                         {
                                             CurrentIndex = Item.Index;
                                         }
@@ -277,82 +311,50 @@ namespace Truck_Simulator_Tool
                                     }
                                 }
                                 CurrentIndex--;
-                                TimeSpan nextPauseEnd = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].EndPause.Ticks - DateTime.Now.Ticks);
-                                label_nextpausestartend.Text = String.Format("Pausenende in: {0}", TimeSpanConvertToAvailableValuesOnly(nextPauseEnd));
+                                TimeSpan nextPauseStart = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].StartPause.Ticks - DateTime.Now.Ticks);
+                                label_nextpausestartend.Text = String.Format("Nächste Pause in: {0}", TimeSpanConvertToAvailableValuesOnly(nextPauseStart));
                             }
                             else
                             {
-                                if (currentShiftPauseOver == false)
-                                {
-                                    CurrentIndex = -1;
-                                    foreach (AlldatesTimeSpan Item in listalldates)
-                                    {
-                                        if (timeSpans.Count >= 3)
-                                        {
-                                            if (Item.TimeSpan.Ticks == timeSpans[0].Ticks && Item.Type == "StartPause")
-                                            {
-                                                CurrentIndex = Item.Index;
-                                            }
-                                            else if (Item.TimeSpan.Ticks == timeSpans[1].Ticks && Item.Type == "StartPause")
-                                            {
-                                                CurrentIndex = Item.Index;
-                                            }
-                                            else if (Item.TimeSpan.Ticks == timeSpans[2].Ticks && Item.Type == "StartPause")
-                                            {
-                                                CurrentIndex = Item.Index;
-                                            }
-                                            else if (Item.TimeSpan.Ticks == timeSpans[3].Ticks && Item.Type == "StartPause")
-                                            {
-                                                CurrentIndex = Item.Index;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            CurrentIndex = 1; // (this value later goes to zero)
-                                        }
-                                    }
-                                    CurrentIndex--;
-                                    TimeSpan nextPauseStart = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].StartPause.Ticks - DateTime.Now.Ticks);
-                                    label_nextpausestartend.Text = String.Format("Nächste Pause in: {0}", TimeSpanConvertToAvailableValuesOnly(nextPauseStart));
-                                }
-                                else
-                                {
-                                    label_nextpausestartend.Text = "Nächste Pause in: ---";
-                                }
+                                label_nextpausestartend.Text = "Nächste Pause in: ---";
                             }
-                        
-                        }
-                        else
-                        {
-                            label_timetoshiftend.Text = "Übrige Schichtlänge: ---";
-                            label_nextpausestartend.Text = "Nächste Pause in: ---";
-                            label_currentshift.Text = "Derzeitige Schicht: ---";
-
-                            label_shiftText.BackColor = Color.MediumBlue;
-                            label_shiftText.Text = "Schicht nicht aktiv";
-
-                            label_nextpausestartend.Location = new Point(750, label_nextpausestartend.Location.Y);
-                            label_timetoshiftend.Location = new Point(1074, label_timetoshiftend.Location.Y);
-                            label_currentshift.Location = new Point(1393, label_currentshift.Location.Y);
-                            label_currentshift.Width = 200;
                         }
 
                     }
                     else
                     {
-                        MessageBox.Show("Der Zeitplan wurde abgeschlossen!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        label_timetoshiftend.Text = "Übrige Schichtlänge: ---";
+                        label_nextpausestartend.Text = "Nächste Pause in: ---";
+                        label_currentshift.Text = "Derzeitige Schicht: ---";
+
+                        label_shiftText.BackColor = Color.MediumBlue;
+                        label_shiftText.Text = "Schicht nicht aktiv";
+
+                        label_nextpausestartend.Location = new Point(750, label_nextpausestartend.Location.Y);
+                        label_timetoshiftend.Location = new Point(1074, label_timetoshiftend.Location.Y);
+                        label_currentshift.Location = new Point(1393, label_currentshift.Location.Y);
+                        label_currentshift.Width = 200;
                     }
 
                 }
-                catch
+                else
                 {
-                    MessageBox.Show("Fehler in der Zeitplaner_Update Methode!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Der Zeitplan wurde abgeschlossen!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    scheduleLoaded = false;
                 }
+
             }
             else
             {
                 label_shiftText.BackColor = Color.Brown;
                 label_shiftText.Text = "Keine Schicht geladen";
+
+                button_LoadDeleteSchedule.BackColor = Color.LightSteelBlue;
+                button_LoadDeleteSchedule.Text = "Schichtplan laden";
+
+                listBox_schedule.Items.Clear();
+                listWorkshifts.Clear();
             }
 
             if (bTruckersfmOnline == true)
@@ -977,26 +979,132 @@ namespace Truck_Simulator_Tool
                 listBox_schedule.Items.Add("##################################################################################");
             }
 
-            LoadSchedule();
+            scheduleLoaded = true;
+        }
+
+        private void button_LoadDeleteSchedule_Click(object sender, EventArgs e)
+        {
+            if (scheduleLoaded == true)
+            {// DELETE
+
+                if (MessageBox.Show("Möchten Sie den aktuellen Schichtplan löschen?", "Warnung!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    scheduleLoaded = false;
+                }
+            }
+            else
+            {// LOAD (Get Json Data from file)
+
+                if (openFileDialog_Schedule.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {// Check if FileFormat is correct
+                        Stream stream = File.Open(openFileDialog_Schedule.FileName, FileMode.Open);
+
+                        StreamReader sr = new StreamReader(stream);
+                        string str = sr.ReadToEnd();
+                        sr.Close();
+                        JsonConvert.DeserializeObject<Workshift>(str);
+
+                        if (listWorkshifts[listWorkshifts.Count].EndDate > DateTime.Now)
+                        {// Check if Schedule is not oudtdated
+                            scheduleLoaded = true;
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Die angegebene Datei hat ein falsches Format.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error); ;
+                        scheduleLoaded = false;
+                    }
+
+
+                }
+            }
+        }
+        private void button_LoadDeleteScheduleMenu_Click(object sender, EventArgs e)
+        {// LOAD (Get Json Data from file)
+
+            if (openFileDialog_Schedule.ShowDialog() == DialogResult.OK)
+            {
+                if (scheduleLoaded == true)
+                {
+                    if (MessageBox.Show("Möchte Sie fortfahren und damit den derzeitigen Zeitplan löschen?", "Warnung!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                    {
+                        scheduleLoaded = false;
+                        try
+                        {// Check if FileFormat is correct
+                            FileStream fs = File.Open(openFileDialog_Schedule.FileName, FileMode.Open);
+
+                            StreamReader sr = new StreamReader(fs);
+                            string str = sr.ReadToEnd();
+                            sr.Close();
+                            listWorkshifts.Add(JsonConvert.DeserializeObject<Workshift>(str));
+
+
+                            if (listWorkshifts[listWorkshifts.Count].EndDate > DateTime.Now)
+                            {// Check if Schedule is not oudtdated
+                                scheduleLoaded = true;
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Die angegebene Datei hat ein falsches Format.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error); ;
+                            scheduleLoaded = false;
+                        }
+                    }
+                }
+                else
+                {
+                    try
+                    {// Check if FileFormat is correct
+                        FileStream fs = File.Open(saveFileDialog_Schedule.FileName, FileMode.Open);
+
+                        StreamReader sr = new StreamReader(fs);
+                        string str = sr.ReadToEnd();
+                        sr.Close();
+                        listWorkshifts.Add(JsonConvert.DeserializeObject<Workshift>(str));
+
+
+                        if (listWorkshifts[listWorkshifts.Count].EndDate > DateTime.Now)
+                        {// Check if Schedule is not oudtdated
+                            scheduleLoaded = true;
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Die angegebene Datei hat ein falsches Format.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error); ;
+                        scheduleLoaded = false;
+                    }
+                }
+
+            }
+
         }
 
 
-        void LoadSchedule()
-        {// Load schedule file and get data
-            if (listWorkshifts[Convert.ToInt32(numericUpDown_durationSchedule.Value)].EndDate > DateTime.Now) // change durationSchedule.Value for file to work (Read file duration counter)
-            {// Check if schedule is not outdated
+        //Save Schedule
 
-                scheduleLoaded = true;
+        void SaveSchedule(object sender, EventArgs e)
+        {
+            if (scheduleLoaded == true)
+            {
+                saveFileDialog_Schedule.FileName = String.Format("TimeSchedule_{0} - {1}", listWorkshifts[0].StartDate.ToString("dd-MM-yyyy HHmm"), listWorkshifts[listWorkshifts.Count - 1].EndDate.ToString("dd-MM-yyyy HHmm"));
+                if (saveFileDialog_Schedule.ShowDialog() == DialogResult.OK)
+                {
+                    string s = JsonConvert.SerializeObject(listWorkshifts);
+                    File.WriteAllText(saveFileDialog_Schedule.FileName, s);
+                }
             }
             else
             {
-                MessageBox.Show("Dieser Schichtplan ist abgelaufen!", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Derzeit ist kein Schichtplan geladen worden. Es konnte nichts gespeichert werden.", "Kein Schichtplan!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
 
+
         // Set Location
-        Point SetLocation(Point Location, int  OffsetX, int OffsetY)
+        Point SetLocation(Point Location, int OffsetX, int OffsetY)
         {
             int x = Location.X;
             int y = Location.Y;
@@ -1005,6 +1113,8 @@ namespace Truck_Simulator_Tool
 
             return new Point(x, y);
         }
+
+
     }
 }
 

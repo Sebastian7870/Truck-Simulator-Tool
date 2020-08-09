@@ -100,6 +100,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.panel11 = new System.Windows.Forms.Panel();
             this.panel12 = new System.Windows.Forms.Panel();
+            this.button_LoadDeleteSchedule = new System.Windows.Forms.Button();
             this.panel13 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -123,7 +124,9 @@
             this.einstellungenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.panel14 = new System.Windows.Forms.Panel();
             this.label_shiftText = new System.Windows.Forms.Label();
-            this.button_LoadDeleteSchedule = new System.Windows.Forms.Button();
+            this.openFileDialog_Schedule = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog_Schedule = new System.Windows.Forms.SaveFileDialog();
+            this.panel15 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -151,6 +154,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_durationSchedule)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.panel14.SuspendLayout();
+            this.panel15.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1_paused
@@ -285,14 +289,15 @@
             // 
             // label14_datetimetime
             // 
-            this.label14_datetimetime.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label14_datetimetime.BackColor = System.Drawing.Color.Transparent;
+            this.label14_datetimetime.Cursor = System.Windows.Forms.Cursors.Default;
             resources.ApplyResources(this.label14_datetimetime, "label14_datetimetime");
             this.label14_datetimetime.ForeColor = System.Drawing.Color.Gainsboro;
             this.label14_datetimetime.Name = "label14_datetimetime";
             // 
             // label15_datetimedate
             // 
-            this.label15_datetimedate.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label15_datetimedate.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.label15_datetimedate, "label15_datetimedate");
             this.label15_datetimedate.ForeColor = System.Drawing.Color.Gainsboro;
             this.label15_datetimedate.Name = "label15_datetimedate";
@@ -376,7 +381,7 @@
             // label_datetimenowseconds
             // 
             resources.ApplyResources(this.label_datetimenowseconds, "label_datetimenowseconds");
-            this.label_datetimenowseconds.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label_datetimenowseconds.BackColor = System.Drawing.Color.Transparent;
             this.label_datetimenowseconds.ForeColor = System.Drawing.Color.Gainsboro;
             this.label_datetimenowseconds.Name = "label_datetimenowseconds";
             // 
@@ -728,6 +733,15 @@
             resources.ApplyResources(this.panel12, "panel12");
             this.panel12.Name = "panel12";
             // 
+            // button_LoadDeleteSchedule
+            // 
+            this.button_LoadDeleteSchedule.BackColor = System.Drawing.Color.LightSteelBlue;
+            resources.ApplyResources(this.button_LoadDeleteSchedule, "button_LoadDeleteSchedule");
+            this.button_LoadDeleteSchedule.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button_LoadDeleteSchedule.Name = "button_LoadDeleteSchedule";
+            this.button_LoadDeleteSchedule.UseVisualStyleBackColor = false;
+            this.button_LoadDeleteSchedule.Click += new System.EventHandler(this.button_LoadDeleteSchedule_Click);
+            // 
             // panel13
             // 
             this.panel13.BackColor = System.Drawing.Color.DarkGray;
@@ -897,11 +911,13 @@
             // 
             this.schichtplanSpeichernToolStripMenuItem.Name = "schichtplanSpeichernToolStripMenuItem";
             resources.ApplyResources(this.schichtplanSpeichernToolStripMenuItem, "schichtplanSpeichernToolStripMenuItem");
+            this.schichtplanSpeichernToolStripMenuItem.Click += new System.EventHandler(this.button_LoadDeleteScheduleMenu_Click);
             // 
             // schichtplanSpeichernToolStripMenuItem1
             // 
             this.schichtplanSpeichernToolStripMenuItem1.Name = "schichtplanSpeichernToolStripMenuItem1";
             resources.ApplyResources(this.schichtplanSpeichernToolStripMenuItem1, "schichtplanSpeichernToolStripMenuItem1");
+            this.schichtplanSpeichernToolStripMenuItem1.Click += new System.EventHandler(this.SaveSchedule);
             // 
             // einstellungenToolStripMenuItem
             // 
@@ -919,9 +935,6 @@
             // 
             this.panel14.BackColor = System.Drawing.Color.Transparent;
             this.panel14.Controls.Add(this.label_shiftText);
-            this.panel14.Controls.Add(this.label14_datetimetime);
-            this.panel14.Controls.Add(this.label15_datetimedate);
-            this.panel14.Controls.Add(this.label_datetimenowseconds);
             this.panel14.Controls.Add(this.label1_paused);
             resources.ApplyResources(this.panel14, "panel14");
             this.panel14.Name = "panel14";
@@ -933,19 +946,29 @@
             this.label_shiftText.ForeColor = System.Drawing.Color.Gainsboro;
             this.label_shiftText.Name = "label_shiftText";
             // 
-            // button_LoadDeleteSchedule
+            // openFileDialog_Schedule
             // 
-            this.button_LoadDeleteSchedule.BackColor = System.Drawing.Color.LightSteelBlue;
-            resources.ApplyResources(this.button_LoadDeleteSchedule, "button_LoadDeleteSchedule");
-            this.button_LoadDeleteSchedule.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button_LoadDeleteSchedule.Name = "button_LoadDeleteSchedule";
-            this.button_LoadDeleteSchedule.UseVisualStyleBackColor = false;
+            resources.ApplyResources(this.openFileDialog_Schedule, "openFileDialog_Schedule");
+            // 
+            // saveFileDialog_Schedule
+            // 
+            resources.ApplyResources(this.saveFileDialog_Schedule, "saveFileDialog_Schedule");
+            // 
+            // panel15
+            // 
+            this.panel15.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.panel15.Controls.Add(this.label_datetimenowseconds);
+            this.panel15.Controls.Add(this.label14_datetimetime);
+            this.panel15.Controls.Add(this.label15_datetimedate);
+            resources.ApplyResources(this.panel15, "panel15");
+            this.panel15.Name = "panel15";
             // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
+            this.Controls.Add(this.panel15);
             this.Controls.Add(this.panel14);
             this.Controls.Add(this.panel12);
             this.Controls.Add(this.panel11);
@@ -999,7 +1022,8 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel14.ResumeLayout(false);
-            this.panel14.PerformLayout();
+            this.panel15.ResumeLayout(false);
+            this.panel15.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1022,7 +1046,6 @@
         private System.Windows.Forms.Label label12_progresspercentage;
         private System.Windows.Forms.Label label13_remainingdistance;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label14_datetimetime;
         private System.Windows.Forms.Label label15_datetimedate;
         private System.Windows.Forms.PictureBox pictureBox2_cargodamage;
         private System.Windows.Forms.Panel panel2;
@@ -1100,6 +1123,10 @@
         private System.Windows.Forms.Panel panel14;
         private System.Windows.Forms.Label label_shiftText;
         private System.Windows.Forms.Button button_LoadDeleteSchedule;
+        private System.Windows.Forms.OpenFileDialog openFileDialog_Schedule;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog_Schedule;
+        private System.Windows.Forms.Panel panel15;
+        private System.Windows.Forms.Label label14_datetimetime;
     }
 }
 
