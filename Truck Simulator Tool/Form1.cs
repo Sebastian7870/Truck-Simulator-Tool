@@ -383,18 +383,18 @@ namespace Truck_Simulator_Tool
                     {
                         if (ContractSaved == false)
                         {
-                            label_ContractStatus.BackColor = Color.Goldenrod;
+                            panel_contractstatus.BackColor = Color.Goldenrod;
                             label_ContractStatus.Text = "Auftrag nicht gespeichert";
                         }
                         else if (ContractSaved == true)
                         {
-                            label_ContractStatus.BackColor = Color.LimeGreen;
+                            panel_contractstatus.BackColor = Color.LimeGreen;
                             label_ContractStatus.Text = "Auftrag aktiv";
                         }
                     }
                     else if (TelemetryData.ets2.job.cargo.id == "")
                     {
-                        label_ContractStatus.BackColor = Color.Brown;
+                        panel_contractstatus.BackColor = Color.Brown;
                         label_ContractStatus.Text = "Keinen aktiven Auftrag";
                     }
 
@@ -403,12 +403,12 @@ namespace Truck_Simulator_Tool
                     if (TelemetryData.ets2.game.paused == false)
                     {
                         label1_paused.Text = "Verbunden";
-                        label1_paused.BackColor = System.Drawing.Color.LimeGreen;
+                      panel_connectionstatus.BackColor = System.Drawing.Color.LimeGreen;
                     }
                     else if (TelemetryData.ets2.game.paused == true)
                     {
                         label1_paused.Text = "Spiel pausiert";
-                        label1_paused.BackColor = System.Drawing.Color.Goldenrod;
+                        panel_connectionstatus.BackColor = System.Drawing.Color.Goldenrod;
                     }
 
 
@@ -597,7 +597,7 @@ namespace Truck_Simulator_Tool
                 else if (TelemetryData.ets2.game.connected == false)
                 {
                     label1_paused.Text = "Keine Verbindung zum Spiel";
-                    label1_paused.BackColor = System.Drawing.Color.Brown;
+                    panel_connectionstatus.BackColor = System.Drawing.Color.Brown;
 
 
                     label2_timescale.Text = "Zeitskalierung: -";
@@ -607,7 +607,7 @@ namespace Truck_Simulator_Tool
             {
                 label1_paused.Text = "Keine Verbindung zum Server";
                 label2_timescale.Text = "Zeitskalierung: -";
-                label1_paused.BackColor = System.Drawing.Color.Brown;
+                panel_connectionstatus.BackColor = System.Drawing.Color.Brown;
             }
         }
 
@@ -725,7 +725,7 @@ namespace Truck_Simulator_Tool
 
                     if (ShiftActive == true)
                     {
-                        label_shiftText.BackColor = Color.LimeGreen;
+                        panel_shiftstatus.BackColor = Color.LimeGreen;
                         label_shiftText.Text = "Schicht aktiv";
 
                         // label_currentshift
@@ -773,7 +773,7 @@ namespace Truck_Simulator_Tool
                         // Get next shift pausestart
                         if (schedulePause == true)
                         {
-                            label_shiftText.BackColor = Color.Goldenrod;
+                            panel_shiftstatus.BackColor = Color.Goldenrod;
                             label_shiftText.Text = "Schichtpause";
 
                             CurrentIndex = -1;
@@ -855,7 +855,7 @@ namespace Truck_Simulator_Tool
                         label_nextpausestartend.Text = "Nächste Pause in: ---";
                         label_currentshift.Text = "Derzeitige Schicht: ---";
 
-                        label_shiftText.BackColor = Color.Goldenrod;
+                        panel_shiftstatus.BackColor = Color.Goldenrod;
                         label_shiftText.Text = "Schicht nicht aktiv";
 
                         label_nextpausestartend.Location = new Point(750, label_nextpausestartend.Location.Y);
@@ -875,7 +875,7 @@ namespace Truck_Simulator_Tool
             }
             else
             {
-                label_shiftText.BackColor = Color.Brown;
+                panel_shiftstatus.BackColor = Color.Brown;
                 label_shiftText.Text = "Keine Schicht geladen";
 
                 button_LoadDeleteSchedule.BackColor = Color.LightSteelBlue;
@@ -1491,7 +1491,6 @@ namespace Truck_Simulator_Tool
                 MessageBox.Show("Die Auftragsdaten wurden aufgrund eines Fehlers nicht gespeichert.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
     }
 }
