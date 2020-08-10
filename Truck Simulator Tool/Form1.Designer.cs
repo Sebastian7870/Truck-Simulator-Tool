@@ -74,6 +74,7 @@
             this.panel8 = new System.Windows.Forms.Panel();
             this.label_bestarrival = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
+            this.label_TFMdjTimeleft = new System.Windows.Forms.Label();
             this.label_TFMdjname = new System.Windows.Forms.Label();
             this.label_TFMsongartist = new System.Windows.Forms.Label();
             this.label_TFMsongname = new System.Windows.Forms.Label();
@@ -132,7 +133,9 @@
             this.timer2_calculateMinute = new System.Windows.Forms.Timer(this.components);
             this.timer3_antikick = new System.Windows.Forms.Timer(this.components);
             this.checkBox_antikick = new System.Windows.Forms.CheckBox();
-            this.label_TFMdjTimeleft = new System.Windows.Forms.Label();
+            this.label_ContractStatus = new System.Windows.Forms.Label();
+            this.panel16 = new System.Windows.Forms.Panel();
+            this.panel17 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -161,6 +164,7 @@
             this.menuStrip1.SuspendLayout();
             this.panel14.SuspendLayout();
             this.panel15.SuspendLayout();
+            this.panel16.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1_paused
@@ -202,6 +206,7 @@
             // pictureBox1_distance
             // 
             this.pictureBox1_distance.BackColor = System.Drawing.Color.White;
+            this.pictureBox1_distance.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             resources.ApplyResources(this.pictureBox1_distance, "pictureBox1_distance");
             this.pictureBox1_distance.Name = "pictureBox1_distance";
             this.pictureBox1_distance.TabStop = false;
@@ -257,7 +262,6 @@
             // 
             // panel1
             // 
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.label_currentshift);
@@ -266,6 +270,7 @@
             this.panel1.Controls.Add(this.label_timetoshiftend);
             this.panel1.Controls.Add(this.label_nextscheduleevent);
             this.panel1.Controls.Add(this.label2_timescale);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // label_currentshift
@@ -311,27 +316,28 @@
             // pictureBox2_cargodamage
             // 
             this.pictureBox2_cargodamage.BackColor = System.Drawing.Color.White;
+            this.pictureBox2_cargodamage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             resources.ApplyResources(this.pictureBox2_cargodamage, "pictureBox2_cargodamage");
             this.pictureBox2_cargodamage.Name = "pictureBox2_cargodamage";
             this.pictureBox2_cargodamage.TabStop = false;
             // 
             // panel2
             // 
+            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.BackColor = System.Drawing.Color.DarkGray;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.pictureBox2_cargodamage);
             this.panel2.Controls.Add(this.label5_jobinfo);
             this.panel2.Controls.Add(this.label9_estimatedtime);
-            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
             // 
             // panel3
             // 
+            resources.ApplyResources(this.panel3, "panel3");
             this.panel3.BackColor = System.Drawing.Color.Gainsboro;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.label8_nextpausetime);
             this.panel3.Controls.Add(this.label7_remainingtime);
-            resources.ApplyResources(this.panel3, "panel3");
             this.panel3.Name = "panel3";
             // 
             // panel4
@@ -360,6 +366,7 @@
             // pictureBox3_fuel
             // 
             this.pictureBox3_fuel.BackColor = System.Drawing.Color.White;
+            this.pictureBox3_fuel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             resources.ApplyResources(this.pictureBox3_fuel, "pictureBox3_fuel");
             this.pictureBox3_fuel.Name = "pictureBox3_fuel";
             this.pictureBox3_fuel.TabStop = false;
@@ -393,12 +400,12 @@
             // 
             // panel6
             // 
+            resources.ApplyResources(this.panel6, "panel6");
             this.panel6.BackColor = System.Drawing.Color.Gainsboro;
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel6.Controls.Add(this.label_currentbestarrival2);
             this.panel6.Controls.Add(this.label2);
             this.panel6.Controls.Add(this.label_currentbestarrival);
-            resources.ApplyResources(this.panel6, "panel6");
             this.panel6.Name = "panel6";
             // 
             // label_currentbestarrival2
@@ -430,11 +437,11 @@
             // 
             // panel7
             // 
+            resources.ApplyResources(this.panel7, "panel7");
             this.panel7.BackColor = System.Drawing.Color.Brown;
             this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel7.Controls.Add(this.label_currentarrival2);
             this.panel7.Controls.Add(this.label_currentarrival);
-            resources.ApplyResources(this.panel7, "panel7");
             this.panel7.Name = "panel7";
             // 
             // label_currentarrival2
@@ -444,12 +451,12 @@
             // 
             // panel8
             // 
+            resources.ApplyResources(this.panel8, "panel8");
             this.panel8.BackColor = System.Drawing.Color.DarkGray;
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel8.Controls.Add(this.label_bestarrival);
             this.panel8.Controls.Add(this.label3);
             this.panel8.Controls.Add(this.label_bestarrival2);
-            resources.ApplyResources(this.panel8, "panel8");
             this.panel8.Name = "panel8";
             // 
             // label_bestarrival
@@ -461,6 +468,7 @@
             // 
             // panel9
             // 
+            resources.ApplyResources(this.panel9, "panel9");
             this.panel9.BackColor = System.Drawing.Color.Gainsboro;
             this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel9.Controls.Add(this.label_TFMdjTimeleft);
@@ -468,8 +476,13 @@
             this.panel9.Controls.Add(this.label_TFMsongartist);
             this.panel9.Controls.Add(this.label_TFMsongname);
             this.panel9.Controls.Add(this.pictureBox_TruckersfmSong);
-            resources.ApplyResources(this.panel9, "panel9");
             this.panel9.Name = "panel9";
+            // 
+            // label_TFMdjTimeleft
+            // 
+            this.label_TFMdjTimeleft.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label_TFMdjTimeleft, "label_TFMdjTimeleft");
+            this.label_TFMdjTimeleft.Name = "label_TFMdjTimeleft";
             // 
             // label_TFMdjname
             // 
@@ -497,6 +510,7 @@
             // 
             // panel10
             // 
+            resources.ApplyResources(this.panel10, "panel10");
             this.panel10.BackColor = System.Drawing.Color.Gainsboro;
             this.panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel10.Controls.Add(this.radioButton_extended);
@@ -517,7 +531,6 @@
             this.panel10.Controls.Add(this.numericUpDown_time1);
             this.panel10.Controls.Add(this.numericUpDown_speed);
             this.panel10.Controls.Add(this.numericUpDown_km);
-            resources.ApplyResources(this.panel10, "panel10");
             this.panel10.Name = "panel10";
             // 
             // radioButton_extended
@@ -715,14 +728,15 @@
             // 
             // panel11
             // 
+            resources.ApplyResources(this.panel11, "panel11");
             this.panel11.BackColor = System.Drawing.Color.DarkGray;
             this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel11.Controls.Add(this.label10);
-            resources.ApplyResources(this.panel11, "panel11");
             this.panel11.Name = "panel11";
             // 
             // panel12
             // 
+            resources.ApplyResources(this.panel12, "panel12");
             this.panel12.BackColor = System.Drawing.Color.Gainsboro;
             this.panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel12.Controls.Add(this.button_LoadDeleteSchedule);
@@ -737,7 +751,6 @@
             this.panel12.Controls.Add(this.numericUpDown_durationSchedule);
             this.panel12.Controls.Add(this.button_CreateSchedule);
             this.panel12.Controls.Add(this.listBox_schedule);
-            resources.ApplyResources(this.panel12, "panel12");
             this.panel12.Name = "panel12";
             // 
             // button_LoadDeleteSchedule
@@ -944,6 +957,8 @@
             // panel14
             // 
             this.panel14.BackColor = System.Drawing.Color.Transparent;
+            this.panel14.Controls.Add(this.panel17);
+            this.panel14.Controls.Add(this.label_ContractStatus);
             this.panel14.Controls.Add(this.label_shiftText);
             this.panel14.Controls.Add(this.label1_paused);
             resources.ApplyResources(this.panel14, "panel14");
@@ -993,23 +1008,41 @@
             // 
             // checkBox_antikick
             // 
-            this.checkBox_antikick.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.checkBox_antikick, "checkBox_antikick");
+            this.checkBox_antikick.BackColor = System.Drawing.Color.Transparent;
             this.checkBox_antikick.Name = "checkBox_antikick";
             this.checkBox_antikick.UseVisualStyleBackColor = false;
             this.checkBox_antikick.CheckedChanged += new System.EventHandler(this.checkBox_antikick_CheckedChanged);
             // 
-            // label_TFMdjTimeleft
+            // label_ContractStatus
             // 
-            this.label_TFMdjTimeleft.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.label_TFMdjTimeleft, "label_TFMdjTimeleft");
-            this.label_TFMdjTimeleft.Name = "label_TFMdjTimeleft";
+            this.label_ContractStatus.BackColor = System.Drawing.Color.Brown;
+            resources.ApplyResources(this.label_ContractStatus, "label_ContractStatus");
+            this.label_ContractStatus.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_ContractStatus.Name = "label_ContractStatus";
+            // 
+            // panel16
+            // 
+            resources.ApplyResources(this.panel16, "panel16");
+            this.panel16.Controls.Add(this.pictureBox1_distance);
+            this.panel16.Controls.Add(this.label6_timebuffer);
+            this.panel16.Controls.Add(this.label10_sourcedata);
+            this.panel16.Controls.Add(this.label11_destinationdata);
+            this.panel16.Controls.Add(this.label12_progresspercentage);
+            this.panel16.Controls.Add(this.label13_remainingdistance);
+            this.panel16.Name = "panel16";
+            // 
+            // panel17
+            // 
+            resources.ApplyResources(this.panel17, "panel17");
+            this.panel17.Name = "panel17";
             // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
+            this.Controls.Add(this.panel16);
             this.Controls.Add(this.checkBox_antikick);
             this.Controls.Add(this.panel15);
             this.Controls.Add(this.panel14);
@@ -1025,14 +1058,7 @@
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label13_remainingdistance);
-            this.Controls.Add(this.label12_progresspercentage);
-            this.Controls.Add(this.label11_destinationdata);
-            this.Controls.Add(this.label10_sourcedata);
-            this.Controls.Add(this.label6_timebuffer);
-            this.Controls.Add(this.pictureBox1_distance);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -1068,6 +1094,7 @@
             this.panel14.ResumeLayout(false);
             this.panel15.ResumeLayout(false);
             this.panel15.PerformLayout();
+            this.panel16.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1177,6 +1204,9 @@
         private System.Windows.Forms.Timer timer3_antikick;
         private System.Windows.Forms.CheckBox checkBox_antikick;
         private System.Windows.Forms.Label label_TFMdjTimeleft;
+        private System.Windows.Forms.Label label_ContractStatus;
+        private System.Windows.Forms.Panel panel16;
+        private System.Windows.Forms.Panel panel17;
     }
 }
 

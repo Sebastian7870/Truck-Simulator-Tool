@@ -117,11 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label1_paused.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1_paused.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 26.25pt</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1_paused.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -129,7 +132,7 @@
     <value>0, 0</value>
   </data>
   <data name="label1_paused.Size" type="System.Drawing.Size, System.Drawing">
-    <value>532, 69</value>
+    <value>510, 69</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1_paused.TabIndex" type="System.Int32, mscorlib">
@@ -151,7 +154,7 @@
     <value>panel14</value>
   </data>
   <data name="&gt;&gt;label1_paused.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="label2_timescale.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
@@ -286,7 +289,7 @@
     <value>1</value>
   </data>
   <data name="pictureBox1_distance.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 943</value>
+    <value>3, 64</value>
   </data>
   <data name="pictureBox1_distance.Size" type="System.Drawing.Size, System.Drawing">
     <value>916, 23</value>
@@ -301,16 +304,16 @@
     <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pictureBox1_distance.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>panel16</value>
   </data>
   <data name="&gt;&gt;pictureBox1_distance.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>0</value>
   </data>
   <data name="label6_timebuffer.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="label6_timebuffer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>243, 969</value>
+    <value>233, 90</value>
   </data>
   <data name="label6_timebuffer.Size" type="System.Drawing.Size, System.Drawing">
     <value>450, 23</value>
@@ -331,10 +334,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label6_timebuffer.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>panel16</value>
   </data>
   <data name="&gt;&gt;label6_timebuffer.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>1</value>
   </data>
   <data name="label7_remainingtime.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 14.25pt</value>
@@ -439,7 +442,7 @@
     <value>NoControl</value>
   </data>
   <data name="label10_sourcedata.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 883</value>
+    <value>4, 4</value>
   </data>
   <data name="label10_sourcedata.Size" type="System.Drawing.Size, System.Drawing">
     <value>262, 57</value>
@@ -460,16 +463,16 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label10_sourcedata.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>panel16</value>
   </data>
   <data name="&gt;&gt;label10_sourcedata.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>2</value>
   </data>
   <data name="label11_destinationdata.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 14.25pt</value>
   </data>
   <data name="label11_destinationdata.Location" type="System.Drawing.Point, System.Drawing">
-    <value>667, 883</value>
+    <value>657, 4</value>
   </data>
   <data name="label11_destinationdata.Size" type="System.Drawing.Size, System.Drawing">
     <value>262, 57</value>
@@ -490,10 +493,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label11_destinationdata.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>panel16</value>
   </data>
   <data name="&gt;&gt;label11_destinationdata.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>3</value>
   </data>
   <data name="label12_progresspercentage.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
@@ -502,7 +505,7 @@
     <value>NoControl</value>
   </data>
   <data name="label12_progresspercentage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 969</value>
+    <value>2, 90</value>
   </data>
   <data name="label12_progresspercentage.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 23</value>
@@ -523,16 +526,16 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label12_progresspercentage.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>panel16</value>
   </data>
   <data name="&gt;&gt;label12_progresspercentage.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>4</value>
   </data>
   <data name="label13_remainingdistance.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
   <data name="label13_remainingdistance.Location" type="System.Drawing.Point, System.Drawing">
-    <value>813, 969</value>
+    <value>803, 90</value>
   </data>
   <data name="label13_remainingdistance.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 23</value>
@@ -553,13 +556,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label13_remainingdistance.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>panel16</value>
   </data>
   <data name="&gt;&gt;label13_remainingdistance.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="panel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left, Right</value>
+    <value>5</value>
   </data>
   <data name="label_currentshift.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
@@ -726,11 +726,14 @@
   <data name="&gt;&gt;label_nextscheduleevent.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-14, 1010</value>
+    <value>0, 1010</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1933, 45</value>
+    <value>1904, 31</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
@@ -745,7 +748,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="label14_datetimetime.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 48pt</value>
@@ -844,6 +847,9 @@
   <data name="&gt;&gt;pictureBox2_cargodamage.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="panel2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 602</value>
   </data>
@@ -863,7 +869,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
+  </data>
+  <data name="panel3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
   </data>
   <data name="panel3.Location" type="System.Drawing.Point, System.Drawing">
     <value>9, 685</value>
@@ -884,7 +893,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="label_vehicleinformation2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 15.75pt</value>
@@ -1022,7 +1031,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel4.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="label_vehicleinformationtext.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 27.75pt</value>
@@ -1076,7 +1085,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel5.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="label_datetimenowseconds.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1107,6 +1116,9 @@
   </data>
   <data name="&gt;&gt;label_datetimenowseconds.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="panel6.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
   </data>
   <data name="label_currentbestarrival2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 14.25pt</value>
@@ -1190,7 +1202,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel6.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="label_bestarrival2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
@@ -1258,11 +1270,14 @@
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="panel7.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="label_currentarrival2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 14.25pt, style=Bold</value>
   </data>
   <data name="label_currentarrival2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>226, 1</value>
+    <value>228, 0</value>
   </data>
   <data name="label_currentarrival2.Size" type="System.Drawing.Size, System.Drawing">
     <value>215, 27</value>
@@ -1292,7 +1307,7 @@
     <value>9, 495</value>
   </data>
   <data name="panel7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>444, 31</value>
+    <value>443, 31</value>
   </data>
   <data name="panel7.TabIndex" type="System.Int32, mscorlib">
     <value>25</value>
@@ -1307,7 +1322,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel7.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
+  </data>
+  <data name="panel8.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
   </data>
   <data name="label_bestarrival.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt, style=Italic</value>
@@ -1361,7 +1379,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel8.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
+  </data>
+  <data name="panel9.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <data name="label_TFMdjTimeleft.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
@@ -1379,7 +1400,7 @@
     <value>4</value>
   </data>
   <data name="label_TFMdjTimeleft.Text" xml:space="preserve">
-    <value>Moderator: AutoDJ</value>
+    <value>- Std. - Min.</value>
   </data>
   <data name="label_TFMdjTimeleft.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleCenter</value>
@@ -1412,7 +1433,7 @@
     <value>3</value>
   </data>
   <data name="label_TFMdjname.Text" xml:space="preserve">
-    <value>Moderator: AutoDJ</value>
+    <value>DJ -</value>
   </data>
   <data name="label_TFMdjname.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleCenter</value>
@@ -1436,16 +1457,16 @@
     <value>NoControl</value>
   </data>
   <data name="label_TFMsongartist.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 299</value>
+    <value>3, 295</value>
   </data>
   <data name="label_TFMsongartist.Size" type="System.Drawing.Size, System.Drawing">
-    <value>423, 38</value>
+    <value>423, 34</value>
   </data>
   <data name="label_TFMsongartist.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="label_TFMsongartist.Text" xml:space="preserve">
-    <value>Dua Lipa</value>
+    <value>-</value>
   </data>
   <data name="label_TFMsongartist.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleCenter</value>
@@ -1469,13 +1490,13 @@
     <value>3, 261</value>
   </data>
   <data name="label_TFMsongname.Size" type="System.Drawing.Size, System.Drawing">
-    <value>423, 38</value>
+    <value>423, 34</value>
   </data>
   <data name="label_TFMsongname.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="label_TFMsongname.Text" xml:space="preserve">
-    <value>Break My Heart</value>
+    <value>-</value>
   </data>
   <data name="label_TFMsongname.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleCenter</value>
@@ -1535,7 +1556,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel9.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
+  </data>
+  <data name="panel10.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <data name="radioButton_extended.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2123,7 +2147,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel10.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="label10.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 27.75pt</value>
@@ -2158,6 +2182,9 @@
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="panel11.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
   <data name="panel11.Location" type="System.Drawing.Point, System.Drawing">
     <value>1013, 144</value>
   </data>
@@ -2177,7 +2204,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel11.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
+  </data>
+  <data name="panel12.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
   <data name="button_LoadDeleteSchedule.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 27.75pt</value>
@@ -2567,7 +2597,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel12.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>157, 17</value>
@@ -2609,7 +2639,7 @@
     <value>Schichtplaner</value>
   </data>
   <data name="einstellungenToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 22</value>
+    <value>145, 22</value>
   </data>
   <data name="einstellungenToolStripMenuItem1.Text" xml:space="preserve">
     <value>Einstellungen</value>
@@ -2642,7 +2672,64 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;menuStrip1.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>16</value>
+  </data>
+  <data name="panel17.Location" type="System.Drawing.Point, System.Drawing">
+    <value>732, 71</value>
+  </data>
+  <data name="panel17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 100</value>
+  </data>
+  <data name="panel17.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="&gt;&gt;panel17.Name" xml:space="preserve">
+    <value>panel17</value>
+  </data>
+  <data name="&gt;&gt;panel17.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel17.Parent" xml:space="preserve">
+    <value>panel14</value>
+  </data>
+  <data name="&gt;&gt;panel17.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label_ContractStatus.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label_ContractStatus.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 26.25pt</value>
+  </data>
+  <data name="label_ContractStatus.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_ContractStatus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>510, 0</value>
+  </data>
+  <data name="label_ContractStatus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>510, 69</value>
+  </data>
+  <data name="label_ContractStatus.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="label_ContractStatus.Text" xml:space="preserve">
+    <value>Keinen aktiven Auftrag</value>
+  </data>
+  <data name="label_ContractStatus.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;label_ContractStatus.Name" xml:space="preserve">
+    <value>label_ContractStatus</value>
+  </data>
+  <data name="&gt;&gt;label_ContractStatus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_ContractStatus.Parent" xml:space="preserve">
+    <value>panel14</value>
+  </data>
+  <data name="&gt;&gt;label_ContractStatus.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="label_shiftText.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 26.25pt</value>
@@ -2651,10 +2738,10 @@
     <value>NoControl</value>
   </data>
   <data name="label_shiftText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>527, 0</value>
+    <value>1015, 0</value>
   </data>
   <data name="label_shiftText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>532, 69</value>
+    <value>510, 69</value>
   </data>
   <data name="label_shiftText.TabIndex" type="System.Int32, mscorlib">
     <value>24</value>
@@ -2675,7 +2762,7 @@
     <value>panel14</value>
   </data>
   <data name="&gt;&gt;label_shiftText.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="panel14.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 23</value>
@@ -2696,7 +2783,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel14.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <metadata name="openFileDialog_Schedule.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>272, 17</value>
@@ -2729,7 +2816,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;panel15.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <metadata name="openFileDialog_Contract.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>644, 17</value>
@@ -2749,6 +2836,9 @@
   <metadata name="timer3_antikick.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1188, 17</value>
   </metadata>
+  <data name="checkBox_antikick.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
   <data name="checkBox_antikick.Location" type="System.Drawing.Point, System.Drawing">
     <value>1817, 94</value>
   </data>
@@ -2774,6 +2864,30 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;checkBox_antikick.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panel16.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="panel16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 884</value>
+  </data>
+  <data name="panel16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>923, 120</value>
+  </data>
+  <data name="panel16.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="&gt;&gt;panel16.Name" xml:space="preserve">
+    <value>panel16</value>
+  </data>
+  <data name="&gt;&gt;panel16.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel16.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel16.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

@@ -42,6 +42,7 @@ namespace Truck_Simulator_Tool
         bool StartApplicationContractLoaded = false;
         float LastKnownEstimatedDistance = 0f;
         Settings settings = new Settings();
+        bool ContractSaved = false;
 
 
         [DllImport("user32.dll")]
@@ -215,10 +216,9 @@ namespace Truck_Simulator_Tool
 
                 label_TFMsongname.Text = TruckersfmsongData.title;
                 label_TFMsongartist.Text = TruckersfmsongData.artist;
-                label_TFMdjname.Text = "Moderator: " + TruckersfmdjData.result.dj.name;
-                label_TFMdjTimeleft.Text = "Übrige Zeit des Moderators: " + TruckersfmdjData.result.slot.timestart;
+                label_TFMdjname.Text = "DJ " + TruckersfmdjData.result.dj.name;
+                label_TFMdjTimeleft.Text = TimeSpanConvertToAvailableValuesOnly(TimeSpan.FromSeconds((Convert.ToDouble(TruckersfmdjData.result.slot.timeend) - Convert.ToDouble(TruckersfmdjData.result.slot.timestart))));
             }
-
 
             if (bTelemetryOnline == true)
             {// Telemetry online
@@ -316,6 +316,7 @@ namespace Truck_Simulator_Tool
                             drivendistance = 0;
 
                             bestarrivalset = false;
+                            ContractSaved = false;
                         }
                         situation = "Contract";
                     }
@@ -366,14 +367,35 @@ namespace Truck_Simulator_Tool
                                     timercounter = savedcontract.TimerCounter;
                                     drivendistance = savedcontract.DrivenDistance;
                                     StartApplicationContractLoaded = true;
+                                    ContractSaved = true;
                                 }
                             }
                             catch
                             {
                                 StartApplicationContractLoaded = true;
-                                MessageBox.Show("Es scheint, dass Sie den derzeitigen Auftrag ohne diese Software begonnen haben oder der Auftrag älter als ein Monat ist. Beachten Sie bitte, dass die Auftragsdaten für die Software zurückgesetzt werden.", "Information!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show("Es scheint, dass Sie den derzeitigen Auftrag ohne diese Software begonnen haben oder der Auftrag älter als ein Monat ist. Beachten Sie bitte, dass die Auftragsdaten (gefahrene KM, Durchschnittsgeschwindigkeit) zurückgesetzt werden und es dadurch zu abweichungen in den gennanten Punkten kommen kann.", "Information!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
+                    }
+
+                    // Contract status label
+                    if (TelemetryData.ets2.job.cargo.id != "")
+                    {
+                        if (ContractSaved == false)
+                        {
+                            label_ContractStatus.BackColor = Color.Goldenrod;
+                            label_ContractStatus.Text = "Auftrag nicht gespeichert";
+                        }
+                        else if (ContractSaved == true)
+                        {
+                            label_ContractStatus.BackColor = Color.LimeGreen;
+                            label_ContractStatus.Text = "Auftrag aktiv";
+                        }
+                    }
+                    else if (TelemetryData.ets2.job.cargo.id == "")
+                    {
+                        label_ContractStatus.BackColor = Color.Brown;
+                        label_ContractStatus.Text = "Keinen aktiven Auftrag";
                     }
 
 
@@ -616,11 +638,13 @@ namespace Truck_Simulator_Tool
 
                     string sJson = JsonConvert.SerializeObject(savedcontract);
                     File.WriteAllText(String.Format(SoftwarePath + @"\contracts\AutoSaveContract_{0} - {1}___id-{2}.json", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0)), sJson);
+                    ContractSaved = true;
                 }
             }
             catch
             {
                 MessageBox.Show("Error! (Method Automatic Backupper Save)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ContractSaved = false;
             }
 
 
@@ -701,7 +725,7 @@ namespace Truck_Simulator_Tool
 
                     if (ShiftActive == true)
                     {
-                        label_shiftText.BackColor = Color.Blue;
+                        label_shiftText.BackColor = Color.LimeGreen;
                         label_shiftText.Text = "Schicht aktiv";
 
                         // label_currentshift
@@ -749,7 +773,7 @@ namespace Truck_Simulator_Tool
                         // Get next shift pausestart
                         if (schedulePause == true)
                         {
-                            label_shiftText.BackColor = Color.MediumBlue;
+                            label_shiftText.BackColor = Color.Goldenrod;
                             label_shiftText.Text = "Schichtpause";
 
                             CurrentIndex = -1;
@@ -831,7 +855,7 @@ namespace Truck_Simulator_Tool
                         label_nextpausestartend.Text = "Nächste Pause in: ---";
                         label_currentshift.Text = "Derzeitige Schicht: ---";
 
-                        label_shiftText.BackColor = Color.MediumBlue;
+                        label_shiftText.BackColor = Color.Goldenrod;
                         label_shiftText.Text = "Schicht nicht aktiv";
 
                         label_nextpausestartend.Location = new Point(750, label_nextpausestartend.Location.Y);
@@ -1339,63 +1363,68 @@ namespace Truck_Simulator_Tool
         // Contract Data : Save
         private void auftragsdateSpeichernToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
+            if (MessageBox.Show("Sie haben automatisches Speichern eingeschaltet. Es ist nicht notwendig manuell zu speichern. Möchten Sie trotzdem fortfahren?", "Manuelles Speichern nicht notwendig!", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                if (speedsummary > 0 && timercounter > 0 && drivendistance > 0 && LastKnownEstimatedDistance >= 5 && savedcontract.SourceCity != "" && savedcontract.SourceCompany != "" && savedcontract.DestinationCity != "" && savedcontract.DestinationCompany != "" && savedcontract.LastProfile != "" && savedcontract.Income != 0)
+                try
                 {
-                    saveFileDialog_Contract.InitialDirectory = (SoftwarePath + @"\contracts");
-                    saveFileDialog_Contract.FileName = String.Format("Contract_{0} - {1}___id-{2}", savedcontract.SourceCity, savedcontract.DestinationCity, savedcontract.Income + savedcontract.TotalMass);
-                    if (saveFileDialog_Contract.ShowDialog() == DialogResult.OK)
+                    if (speedsummary > 0 && timercounter > 0 && drivendistance > 0 && LastKnownEstimatedDistance >= 5 && savedcontract.SourceCity != "" && savedcontract.SourceCompany != "" && savedcontract.DestinationCity != "" && savedcontract.DestinationCompany != "" && savedcontract.LastProfile != "" && savedcontract.Income != 0)
                     {
-                        string sJson = JsonConvert.SerializeObject(savedcontract);
-                        File.WriteAllText(saveFileDialog_Contract.FileName, sJson);
+                        saveFileDialog_Contract.InitialDirectory = (SoftwarePath + @"\contracts");
+                        saveFileDialog_Contract.FileName = String.Format("Contract_{0} - {1}___id-{2}", savedcontract.SourceCity, savedcontract.DestinationCity, savedcontract.Income + savedcontract.TotalMass);
+                        if (saveFileDialog_Contract.ShowDialog() == DialogResult.OK)
+                        {
+                            string sJson = JsonConvert.SerializeObject(savedcontract);
+                            File.WriteAllText(saveFileDialog_Contract.FileName, sJson);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Es konnten nicht alle Daten gefunden werden. Haben Sie einen aktiven Auftrag? - Beachten Sie, dass Sie mindestens für ~2 s schneller als 5 km/h gefahren sein müssen.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-                else
+                catch
                 {
-                    MessageBox.Show("Es konnten nicht alle Daten gefunden werden. Haben Sie einen aktiven Auftrag? - Beachten Sie, dass Sie mindestens für ~2 s schneller als 5 km/h gefahren sein müssen.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error! (Method SaveContract)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch
-            {
-                MessageBox.Show("Error! (Method SaveContract)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
         }
 
         // Contract Data : Load
         private void auftragsdatenLadenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
+            if (MessageBox.Show("Sie haben automatisches Speichern eingeschaltet. Es ist nicht notwendig manuell zu speichern. Möchten Sie trotzdem fortfahren?", "Manuelles Speichern nicht notwendig!", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                if (bTelemetryOnline == true && TelemetryData.ets2.game.connected == true && TelemetryData.ets2.job.sourceCity != "" && TelemetryData.ets2.job.sourceCompany != "" && TelemetryData.ets2.job.destinationCity != "" && TelemetryData.ets2.job.destinationCompany != "" && TelemetryData.ets2.game.lastProfile != "" && TelemetryData.ets2.job.income != 0)
+                try
                 {
-                    openFileDialog_Contract.InitialDirectory = (SoftwarePath + @"\contracts");
-                    openFileDialog_Contract.FileName = String.Format("Contract_{0} - {1}___id-{2}", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0));
-                    if (openFileDialog_Contract.ShowDialog() == DialogResult.OK)
+                    if (bTelemetryOnline == true && TelemetryData.ets2.game.connected == true && TelemetryData.ets2.job.sourceCity != "" && TelemetryData.ets2.job.sourceCompany != "" && TelemetryData.ets2.job.destinationCity != "" && TelemetryData.ets2.job.destinationCompany != "" && TelemetryData.ets2.game.lastProfile != "" && TelemetryData.ets2.job.income != 0)
                     {
-                        savedcontract = (JsonConvert.DeserializeObject<SavedContract>(File.ReadAllText(openFileDialog_Contract.FileName)));
+                        openFileDialog_Contract.InitialDirectory = (SoftwarePath + @"\contracts");
+                        openFileDialog_Contract.FileName = String.Format("Contract_{0} - {1}___id-{2}", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0));
+                        if (openFileDialog_Contract.ShowDialog() == DialogResult.OK)
+                        {
+                            savedcontract = (JsonConvert.DeserializeObject<SavedContract>(File.ReadAllText(openFileDialog_Contract.FileName)));
 
-                        if (savedcontract.SourceCity == TelemetryData.ets2.job.sourceCity && savedcontract.SourceCompany == TelemetryData.ets2.job.sourceCompany && savedcontract.DestinationCity == TelemetryData.ets2.job.destinationCity && savedcontract.DestinationCompany == TelemetryData.ets2.job.destinationCompany && savedcontract.Income == TelemetryData.ets2.job.income && savedcontract.LastProfile == TelemetryData.ets2.game.lastProfile)
-                        {
-                            speedsummary = savedcontract.SpeedSummary;
-                            timercounter = savedcontract.TimerCounter;
-                            drivendistance = savedcontract.DrivenDistance;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Um die Auftragsdaten zu laden müssen Sie den gleiche Auftrag im Spiel aktiv haben.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            if (savedcontract.SourceCity == TelemetryData.ets2.job.sourceCity && savedcontract.SourceCompany == TelemetryData.ets2.job.sourceCompany && savedcontract.DestinationCity == TelemetryData.ets2.job.destinationCity && savedcontract.DestinationCompany == TelemetryData.ets2.job.destinationCompany && savedcontract.Income == TelemetryData.ets2.job.income && savedcontract.LastProfile == TelemetryData.ets2.game.lastProfile)
+                            {
+                                speedsummary = savedcontract.SpeedSummary;
+                                timercounter = savedcontract.TimerCounter;
+                                drivendistance = savedcontract.DrivenDistance;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Um die Auftragsdaten zu laden müssen Sie den gleiche Auftrag im Spiel aktiv haben.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
                     }
+                    else
+                    {
+                        MessageBox.Show("Um die Auftragsdaten zu laden müssen Sie den gleiche Auftrag im Spiel aktiv haben.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                else
+                catch
                 {
-                    MessageBox.Show("Um die Auftragsdaten zu laden müssen Sie den gleiche Auftrag im Spiel aktiv haben.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Es wurde entweder eine falsche Datei geöffntet oder die Datei wurde beschädigt. ", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-            catch
-            {
-                MessageBox.Show("Es wurde entweder eine falsche Datei geöffntet oder die Datei wurde beschädigt. ", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -1459,7 +1488,7 @@ namespace Truck_Simulator_Tool
             }
             catch
             {
-                MessageBox.Show("Die Auftragsdaten wurden wegen eines Fehlers nicht gespeichert.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Die Auftragsdaten wurden aufgrund eines Fehlers nicht gespeichert.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
