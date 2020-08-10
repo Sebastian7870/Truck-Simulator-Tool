@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -35,6 +37,16 @@ namespace Truck_Simulator_Tool
         DateTime dt_bestarrival = DateTime.Now;
         double AverageTimeScaleConstant = 19;
         double timescalesummary = 0;
+        string SoftwarePath = Application.StartupPath;
+        SavedContract savedcontract = new SavedContract();
+        bool StartApplicationContractLoaded = false;
+
+
+        [DllImport("user32.dll")]
+        public static extern int SetForegroundWindow(IntPtr H);
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
 
 
         // Variables End
@@ -46,8 +58,26 @@ namespace Truck_Simulator_Tool
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            InitializeTimer1();
-            InitializeTimer2();
+            // Check for SchedulePlans and ContractInfo Files
+            if (Directory.Exists(SoftwarePath + @"\work shifts") && Directory.Exists(SoftwarePath + @"\contracts"))
+            { // Load Data if available
+
+            }
+            else
+            {
+                if (MessageBox.Show(String.Format("Es wurden fehlende Ordner im Installationspfad ({0}) gefunden. Installieren Sie die Software neu, um die Speicherung von Arbeitsschichten und von Auftragsdaten zu ermöglichen. Möchten Sie die Anwendung schließen?", SoftwarePath), "Warnung!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    Application.Exit();
+                }
+            }
+
+            // Schedule
+            dateTimePicker_schedule.Value = DateTime.Now.AddDays(1);
+
+            timer1_calculate.Start();
+            timer2_calculateMinute.Start();
+            Timer1_calculate_MethodTick();
+            Timer2_calculate_MethodTick();
 
             // Distance Calculator
             radioButton_extended.Checked = false;
@@ -60,28 +90,23 @@ namespace Truck_Simulator_Tool
             label_CalculatortimeH2.Visible = false;
             label_CalculatortimeH3.Visible = false;
             numericUpDown_km.ReadOnly = true;
+            checkBox_antikick.Checked = false;
 
-            //Schedule
-            dateTimePicker_schedule.Value = DateTime.Now.AddDays(1);
+            // Check for SchedulePlans and ContractInfo Files
+            if (Directory.Exists(SoftwarePath + @"\work shifts") && Directory.Exists(SoftwarePath + @"\contracts"))
+            { // Load Data if available
+                string[] files = Directory.GetFiles(SoftwarePath + @"\contracts");
+                foreach (string file in files)
+                {
+                    FileInfo fileinfo = new FileInfo(file);
+                    if (fileinfo.LastWriteTime < DateTime.Now.AddMonths(-3))
+                    {
+                        fileinfo.Delete();
+                    }
+                }
+            }
         }
-
-        private void InitializeTimer1()
-        {
-            timer1_calculate.Interval = 1000;
-            timer1_calculate.Enabled = true;
-            timer1_calculate_Tick(null, null);
-
-            timer1_calculate.Tick += new EventHandler(timer1_calculate_Tick);
-        }
-        private void InitializeTimer2()
-        {
-            timer2_calculateMinute.Interval = 60000;
-            timer2_calculateMinute.Enabled = true;
-            timer2_calculateMinute_Tick(null, null);
-
-            timer2_calculateMinute.Tick += new EventHandler(timer2_calculateMinute_Tick);
-        }
-
+       
         async Task UpdateTelemetry()
         {// Update Telemetry
             try
@@ -130,7 +155,12 @@ namespace Truck_Simulator_Tool
 
 
 
-        private async void timer1_calculate_Tick(object sender, EventArgs e)
+        private void Timer1_calculate_Tick(object sender, EventArgs e)
+        {
+            Timer1_calculate_MethodTick();
+        }
+
+        private async void Timer1_calculate_MethodTick()
         {
             await UpdateTelemetry();
             await UpdateTruckersFM();
@@ -138,7 +168,7 @@ namespace Truck_Simulator_Tool
             label_datetimenowseconds.Text = DateTime.Now.ToString("ss");
             label15_datetimedate.Text = DateTimeFormatInfo.CurrentInfo.GetDayName(DateTime.Now.DayOfWeek) + "\n" + DateTime.Now.ToShortDateString();
             dateTimePicker_schedule.MinDate = DateTime.Now.AddDays((-1) * ((Convert.ToDouble(numericUpDown_durationSchedule.Value) - 0.5)));
-
+            Debug.WriteLine("SpeedSum: " + speedsummary + " --- TimerCounter: " + timercounter + " --- DrivenDistance: " + drivendistance);
             if (bTruckersfmOnline == true)
             {// Get Picture and set TFM data from class.
                 HttpClient client = new HttpClient();
@@ -234,10 +264,6 @@ namespace Truck_Simulator_Tool
 
                             bestarrivalset = false;
                         }
-                        if (TelemetryData.ets2.job.cargo.totalDamage > 0)
-                        {// ProgressBar Damage
-                            PictureBoxCustomProgressBar(pictureBox2_cargodamage, Color.White, TelemetryData.ets2.job.cargo.totalDamage * 100, Math.Round(TelemetryData.ets2.job.cargo.totalDamage, 2).ToString("p0"), "Microsoft Sans Serif", Brushes.Brown);
-                        }
                         situation = "Contract";
                     }
                     else if (TelemetryData.ets2.job.cargo.id == "")
@@ -251,12 +277,51 @@ namespace Truck_Simulator_Tool
 
                             distancesummary = 0;
                             drivendistance = 0;
+
                             bestarrivalset = false;
+
+                            try
+                            {
+                                if (File.Exists(SoftwarePath + SoftwarePath + @"\contracts" + String.Format("AutoSaveContract_{0} - {1}___id-{2}", savedcontract.SourceCity, savedcontract.DestinationCity, (savedcontract.Income + savedcontract.TotalMass))))
+                                {
+                                    File.Delete(SoftwarePath + SoftwarePath + @"\contracts" + String.Format("AutoSaveContract_{0} - {1}___id-{2}", savedcontract.SourceCity, savedcontract.DestinationCity, (savedcontract.Income + savedcontract.TotalMass)));
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+
                         }
                         situation = "DestinationOrFreeDrive";
 
                     }// End average Calculations
 
+
+                    // Get ContractData if available
+                    if (StartApplicationContractLoaded == false)
+                    {
+                        if (TelemetryData.ets2.job.sourceCity != "" && TelemetryData.ets2.job.sourceCompany != "" && TelemetryData.ets2.job.destinationCity != "" && TelemetryData.ets2.job.destinationCompany != "" && TelemetryData.ets2.game.lastProfile != "" && TelemetryData.ets2.job.income != 0)
+                        {
+                            try
+                            {
+                                savedcontract = (JsonConvert.DeserializeObject<SavedContract>(File.ReadAllText(String.Format(SoftwarePath + @"\contracts\AutoSaveContract_{0} - {1}___id-{2}.json", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0)))));
+
+                                if (savedcontract.SourceCity == TelemetryData.ets2.job.sourceCity && savedcontract.SourceCompany == TelemetryData.ets2.job.sourceCompany && savedcontract.DestinationCity == TelemetryData.ets2.job.destinationCity && savedcontract.DestinationCompany == TelemetryData.ets2.job.destinationCompany && savedcontract.Income == TelemetryData.ets2.job.income && savedcontract.LastProfile == TelemetryData.ets2.game.lastProfile)
+                                {
+                                    speedsummary = savedcontract.SpeedSummary;
+                                    timercounter = savedcontract.TimerCounter;
+                                    drivendistance = savedcontract.DrivenDistance;
+                                    StartApplicationContractLoaded = true;
+                                }
+                            }
+                            catch
+                            {
+                                StartApplicationContractLoaded = true;
+                                MessageBox.Show("Es scheint, dass Sie den derzeitigen Auftrag ohne diese Software begonnen haben oder der Auftrag älter als ein Monat ist. Beachten Sie bitte, dass die Auftragsdaten für die Software zurückgesetzt werden.", "Information!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                    }
 
 
                     // Pause label
@@ -367,37 +432,45 @@ namespace Truck_Simulator_Tool
                             {
                                 label6_timebuffer.Text = "Zeitpuffer: WoT (soon)";
                             }
-                            
+
                         }
 
                     }
 
 
                     // ProgressBar Distance
-                    if (TelemetryData.ets2.game.paused == false)
+                    if (TelemetryData.ets2.truck.navigationEstimatedDistance > 0)
                     {
-                        if (TelemetryData.ets2.truck.speed > 0.01)
+                        if (TelemetryData.ets2.game.paused == false)
                         {
-                            drivendistance += TelemetryData.ets2.truck.speed / 3600 * TelemetryData.ets2.game.scale;
+                            if (TelemetryData.ets2.truck.speed > 0.01)
+                            {
+                                drivendistance += TelemetryData.ets2.truck.speed / 3600 * TelemetryData.ets2.game.scale;
+                            }
+                            else if (TelemetryData.ets2.truck.speed < -0.01)
+                            {
+                                drivendistance += ((-1) * TelemetryData.ets2.truck.speed) / 3600 * TelemetryData.ets2.game.scale;
+                            }
+                            distancesummary = drivendistance + TelemetryData.ets2.truck.navigationEstimatedDistance / 1000;
+                            double pb_distanceProgress = drivendistance / distancesummary;
+
+                            // Progress Bar Create
+                            PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress * 100, String.Format("{0} km   /   {1} km", Math.Round(drivendistance, 0), Math.Round(distancesummary, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
+                            label12_progresspercentage.Text = (pb_distanceProgress.ToString("p0"));
+                            label13_remainingdistance.Text = "Noch " + Math.Round(TelemetryData.ets2.truck.navigationEstimatedDistance / 1000, 0).ToString() + " km";
                         }
-                        else if (TelemetryData.ets2.truck.speed < -0.01)
+                        if (TelemetryData.ets2.truck.navigationEstimatedDistance == 0 && TelemetryData.ets2.job.cargo.id == "")
                         {
-                            drivendistance += ((-1) * TelemetryData.ets2.truck.speed) / 3600 * TelemetryData.ets2.game.scale;
+                            distancesummary = 0;
+                            drivendistance = 0;
                         }
-                        distancesummary = drivendistance + TelemetryData.ets2.truck.navigationEstimatedDistance / 1000;
-                        double pb_distanceProgress = drivendistance / distancesummary;
-
-                        // Progress Bar Create
-                        PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress * 100, String.Format("{0} km   /   {1} km", Math.Round(drivendistance, 0), Math.Round(distancesummary, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
-                        label12_progresspercentage.Text = (pb_distanceProgress.ToString("p0"));
-                        label13_remainingdistance.Text = "Noch " + Math.Round(TelemetryData.ets2.truck.navigationEstimatedDistance / 1000, 0).ToString() + " km";
                     }
-                    if (TelemetryData.ets2.truck.navigationEstimatedDistance == 0 && TelemetryData.ets2.job.cargo.id == "")
-                    {
-                        distancesummary = 0;
-                        drivendistance = 0;
+                    else
+                    { // Reset Progress Bar
+                        PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, 0, String.Format("---- km   /   ---- km"), "Microsoft Sans Serif", Brushes.LimeGreen);
+                        label12_progresspercentage.Text = ("-- %");
+                        label13_remainingdistance.Text = "Noch ---- km";
                     }
-
 
 
                     // vehicle info
@@ -415,16 +488,35 @@ namespace Truck_Simulator_Tool
                     label_vehicleinformation3.Text = String.Format("Kraftstoffverbrauch: {0} l/100km", Math.Round(TelemetryData.ets2.truck.fuelAverageConsumption * 100, 2));
 
 
-                    // ProgressBar fuel
-                    string pb_fuelText = String.Format("{0} l / {1} l ({2} km)", Math.Round(TelemetryData.ets2.truck.fuel, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity, 0), Math.Round(TelemetryData.ets2.truck.fuelRange, 0));
-                    if (TelemetryData.ets2.truck.fuelWarningOn)
+                    // ProgressBar Damage
+                    if (TelemetryData.ets2.job.cargo.totalDamage > 0)
                     {
-                        PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / TelemetryData.ets2.truck.fuelCapacity) * 100), pb_fuelText, "Microsoft Sans Serif", Brushes.Brown);
+                        PictureBoxCustomProgressBar(pictureBox2_cargodamage, Color.White, TelemetryData.ets2.job.cargo.totalDamage * 100, Math.Round(TelemetryData.ets2.job.cargo.totalDamage, 2).ToString("p0"), "Microsoft Sans Serif", Brushes.Brown);
                     }
                     else
                     {
-                        PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / TelemetryData.ets2.truck.fuelCapacity * 100)), pb_fuelText, "Microsoft Sans Serif", Brushes.LimeGreen);
+                        PictureBoxCustomProgressBar(pictureBox2_cargodamage, Color.White, 0, "-- %", "Microsoft Sans Serif", Brushes.Brown);
                     }
+
+
+                    // ProgressBar fuel
+                    if (TelemetryData.ets2.truck.id != "")
+                    {
+                        string pb_fuelText = String.Format("{0} l / {1} l ({2} km)", Math.Round(TelemetryData.ets2.truck.fuel, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity, 0), Math.Round(TelemetryData.ets2.truck.fuelRange, 0));
+                        if (TelemetryData.ets2.truck.fuelWarningOn)
+                        {
+                            PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / TelemetryData.ets2.truck.fuelCapacity) * 100), String.Format("{0} l / {1} l ({2} km)", Math.Round(TelemetryData.ets2.truck.fuel, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity, 0), Math.Round(TelemetryData.ets2.truck.fuelRange, 0)), "Microsoft Sans Serif", Brushes.Brown);
+                        }
+                        else
+                        {
+                            PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / TelemetryData.ets2.truck.fuelCapacity * 100)), String.Format("{0} l / {1} l ({2} km)", Math.Round(TelemetryData.ets2.truck.fuel, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity, 0), Math.Round(TelemetryData.ets2.truck.fuelRange, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
+                        }
+                    }
+                    else
+                    {
+                        PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, 0, String.Format("---- l / ---- l (---- km"), "Microsoft Sans Serif", Brushes.LimeGreen);
+                    }
+
 
                 }
                 else if (TelemetryData.ets2.game.connected == false)
@@ -442,13 +534,43 @@ namespace Truck_Simulator_Tool
                 label2_timescale.Text = "Zeitskalierung: -";
                 label1_paused.BackColor = System.Drawing.Color.Brown;
             }
-
         }
 
 
         // Timer2_calculateMinute (Every Minute one Tick)
-        private void timer2_calculateMinute_Tick(object sender, EventArgs e)
+        private void Timer2_calculateMinute_Tick(object sender, EventArgs e)
         {
+            Timer2_calculate_MethodTick();
+        }
+        private void Timer2_calculate_MethodTick()
+        {
+            // Backupper
+            try
+            {
+
+                if (bTelemetryOnline == true && TelemetryData.ets2.game.connected == true && TelemetryData.ets2.truck.navigationEstimatedDistance >= 5 && TelemetryData.ets2.job.sourceCity != "" && TelemetryData.ets2.job.sourceCompany != "" && TelemetryData.ets2.job.destinationCity != "" && TelemetryData.ets2.job.destinationCompany != "" && TelemetryData.ets2.game.lastProfile != "" && TelemetryData.ets2.job.income != 0 && speedsummary > 0 && timercounter > 0 && drivendistance > 0)
+                {
+                    savedcontract.SourceCity = TelemetryData.ets2.job.sourceCity;
+                    savedcontract.SourceCompany = TelemetryData.ets2.job.sourceCompany;
+                    savedcontract.DestinationCity = TelemetryData.ets2.job.destinationCity;
+                    savedcontract.DestinationCompany = TelemetryData.ets2.job.destinationCompany;
+                    savedcontract.Income = TelemetryData.ets2.job.income;
+                    savedcontract.TotalMass = (float)Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0);
+                    savedcontract.LastProfile = TelemetryData.ets2.game.lastProfile;
+                    savedcontract.SpeedSummary = speedsummary;
+                    savedcontract.TimerCounter = timercounter;
+                    savedcontract.DrivenDistance = drivendistance;
+
+                    string sJson = JsonConvert.SerializeObject(savedcontract);
+                    File.WriteAllText(String.Format(SoftwarePath + @"\contracts\AutoSaveContract_{0} - {1}___id-{2}.json", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0)), sJson);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error! (Method Automatic Backupper Save)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
             // schedule
             if (scheduleLoaded == true)
             {
@@ -1035,8 +1157,7 @@ namespace Truck_Simulator_Tool
             }
 
             scheduleLoaded = true;
-            timer2_calculateMinute_Tick(null, null);
-            timer2_calculateMinute.Tick += new EventHandler(timer2_calculateMinute_Tick);
+            Timer2_calculate_MethodTick();
 
         }
 
@@ -1064,8 +1185,7 @@ namespace Truck_Simulator_Tool
                         listBox_schedule.Items.Add("##################################################################################");
                     }
                     scheduleLoaded = true;
-                    timer2_calculateMinute_Tick(null, null);
-                    timer2_calculateMinute.Tick += new EventHandler(timer2_calculateMinute_Tick);
+                    Timer2_calculate_MethodTick();
                 }
             }
             catch
@@ -1084,16 +1204,17 @@ namespace Truck_Simulator_Tool
                 if (MessageBox.Show("Möchten Sie den aktuellen Schichtplan löschen?", "Warnung!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {
                     scheduleLoaded = false;
-                    timer2_calculateMinute_Tick(null, null);
-                    timer2_calculateMinute.Tick += new EventHandler(timer2_calculateMinute_Tick);
+                    Timer2_calculate_MethodTick();
                 }
             }
             else
             {// LOAD (Get Json Data from file)
 
+                openFileDialog_Schedule.InitialDirectory = (SoftwarePath + @"\work shifts");
                 if (openFileDialog_Schedule.ShowDialog() == DialogResult.OK)
                 {
                     SchedulePlannerLoad();
+
                 }
             }
         }
@@ -1102,6 +1223,7 @@ namespace Truck_Simulator_Tool
         private void button_LoadDeleteScheduleMenu_Click(object sender, EventArgs e)
         {// LOAD (Get Json Data from file)
 
+            openFileDialog_Schedule.InitialDirectory = (SoftwarePath + @"\work shifts");
             if (openFileDialog_Schedule.ShowDialog() == DialogResult.OK)
             {
                 if (scheduleLoaded == true)
@@ -1123,21 +1245,28 @@ namespace Truck_Simulator_Tool
         // Schedule planner : Button Save_MENU
         void button_SaveScheduleMenu_click(object sender, EventArgs e)
         {
-            if (scheduleLoaded == true)
+            try
             {
-                saveFileDialog_Schedule.FileName = String.Format("TimeSchedule_{0} - {1}", listWorkshifts[0].StartDate.ToString("dd-MM-yyyy HHmm"), listWorkshifts[listWorkshifts.Count - 1].EndDate.ToString("dd-MM-yyyy HHmm"));
-                if (saveFileDialog_Schedule.ShowDialog() == DialogResult.OK)
+                if (scheduleLoaded == true)
                 {
-                    timer2_calculateMinute_Tick(null, null);
-                    timer2_calculateMinute.Tick += new EventHandler(timer2_calculateMinute_Tick);
+                    saveFileDialog_Schedule.InitialDirectory = (SoftwarePath + @"\work shifts");
+                    saveFileDialog_Schedule.FileName = String.Format("TimeSchedule_{0} - {1}", listWorkshifts[0].StartDate.ToString("dd-MM-yyyy HHmm"), listWorkshifts[listWorkshifts.Count - 1].EndDate.ToString("dd-MM-yyyy HHmm"));
+                    if (saveFileDialog_Schedule.ShowDialog() == DialogResult.OK)
+                    {
+                        Timer2_calculate_MethodTick();
 
-                    string sJson = JsonConvert.SerializeObject(listWorkshifts, Formatting.Indented);
-                    File.WriteAllText(saveFileDialog_Schedule.FileName, sJson);
+                        string sJson = JsonConvert.SerializeObject(listWorkshifts, Formatting.Indented);
+                        File.WriteAllText(saveFileDialog_Schedule.FileName, sJson);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Derzeit ist kein Schichtplan geladen worden. Es konnte nichts gespeichert werden.", "Kein Schichtplan!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
-            else
+            catch
             {
-                MessageBox.Show("Derzeit ist kein Schichtplan geladen worden. Es konnte nichts gespeichert werden.", "Kein Schichtplan!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Error! (Method SaveScheduleMenu)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1161,15 +1290,16 @@ namespace Truck_Simulator_Tool
             {
                 if (bTelemetryOnline == true && TelemetryData.ets2.game.connected == true && TelemetryData.ets2.job.sourceCity != "" && TelemetryData.ets2.job.sourceCompany != "" && TelemetryData.ets2.job.destinationCity != "" && TelemetryData.ets2.job.destinationCompany != "" && TelemetryData.ets2.game.lastProfile != "" && TelemetryData.ets2.job.income != 0 && speedsummary > 0 && timercounter > 0 && drivendistance > 0)
                 {
-                    saveFileDialog_Contract.FileName = String.Format("Contract_{0} - {1}___id-{2}", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, Math.Round(TelemetryData.ets2.job.income + TelemetryData.ets2.job.cargo.unitMass, 0));
+                    saveFileDialog_Contract.InitialDirectory = (SoftwarePath + @"\contracts");
+                    saveFileDialog_Contract.FileName = String.Format("Contract_{0} - {1}___id-{2}", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0));
                     if (saveFileDialog_Contract.ShowDialog() == DialogResult.OK)
                     {
-                        SavedContract savedcontract = new SavedContract();
                         savedcontract.SourceCity = TelemetryData.ets2.job.sourceCity;
                         savedcontract.SourceCompany = TelemetryData.ets2.job.sourceCompany;
                         savedcontract.DestinationCity = TelemetryData.ets2.job.destinationCity;
                         savedcontract.DestinationCompany = TelemetryData.ets2.job.destinationCompany;
-                        savedcontract.income = TelemetryData.ets2.job.income;
+                        savedcontract.Income = TelemetryData.ets2.job.income;
+                        savedcontract.TotalMass = (float)Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0);
                         savedcontract.LastProfile = TelemetryData.ets2.game.lastProfile;
                         savedcontract.SpeedSummary = speedsummary;
                         savedcontract.TimerCounter = timercounter;
@@ -1188,6 +1318,7 @@ namespace Truck_Simulator_Tool
             {
                 MessageBox.Show("Error! (Method SaveContract)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         // Contract Data : Load
@@ -1197,12 +1328,13 @@ namespace Truck_Simulator_Tool
             {
                 if (bTelemetryOnline == true && TelemetryData.ets2.game.connected == true && TelemetryData.ets2.job.sourceCity != "" && TelemetryData.ets2.job.sourceCompany != "" && TelemetryData.ets2.job.destinationCity != "" && TelemetryData.ets2.job.destinationCompany != "" && TelemetryData.ets2.game.lastProfile != "" && TelemetryData.ets2.job.income != 0)
                 {
-                    openFileDialog_Contract.FileName = String.Format("Contract_{0} - {1}___id-{2}", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, Math.Round(TelemetryData.ets2.job.income + TelemetryData.ets2.job.cargo.unitMass, 0));
+                    openFileDialog_Contract.InitialDirectory = (SoftwarePath + @"\contracts");
+                    openFileDialog_Contract.FileName = String.Format("Contract_{0} - {1}___id-{2}", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0));
                     if (openFileDialog_Contract.ShowDialog() == DialogResult.OK)
                     {
-                        SavedContract savedcontract = (JsonConvert.DeserializeObject<SavedContract>(File.ReadAllText(openFileDialog_Contract.FileName)));
+                        savedcontract = (JsonConvert.DeserializeObject<SavedContract>(File.ReadAllText(openFileDialog_Contract.FileName)));
 
-                        if (savedcontract.SourceCity == TelemetryData.ets2.job.sourceCity && savedcontract.SourceCompany == TelemetryData.ets2.job.sourceCompany && savedcontract.DestinationCity == TelemetryData.ets2.job.destinationCity && savedcontract.DestinationCompany == TelemetryData.ets2.job.destinationCompany && savedcontract.income == TelemetryData.ets2.job.income && savedcontract.LastProfile == TelemetryData.ets2.game.lastProfile)
+                        if (savedcontract.SourceCity == TelemetryData.ets2.job.sourceCity && savedcontract.SourceCompany == TelemetryData.ets2.job.sourceCompany && savedcontract.DestinationCity == TelemetryData.ets2.job.destinationCity && savedcontract.DestinationCompany == TelemetryData.ets2.job.destinationCompany && savedcontract.Income == TelemetryData.ets2.job.income && savedcontract.LastProfile == TelemetryData.ets2.game.lastProfile)
                         {
                             speedsummary = savedcontract.SpeedSummary;
                             timercounter = savedcontract.TimerCounter;
@@ -1221,11 +1353,74 @@ namespace Truck_Simulator_Tool
             }
             catch
             {
-                MessageBox.Show("Es wurde entweder eine falsche Datei geöffntet oder die Datei wurde beschädigt.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Es wurde entweder eine falsche Datei geöffntet oder die Datei wurde beschädigt. ", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void timer3_antikick_Tick(object sender, EventArgs e)
+        {
+            Process[] process1 = Process.GetProcessesByName("eurotrucks2");
+            Process[] process2 = Process.GetProcessesByName("amtrucks");
+            if (process1.Length != 0)
+            {
+                if (process1[0].MainWindowHandle == Form1.GetForegroundWindow())
+                {
+                    SendKeys.Send("y/p{Enter}");
+                }
+            }
+
+            if (process2.Length != 0)
+            {
+                if (process2[0].MainWindowHandle == Form1.GetForegroundWindow())
+                {
+                    SendKeys.Send("y/p{Enter}");
+                }
+            }
+        }
+
+        private void checkBox_antikick_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_antikick.Checked == true)
+            {
+                timer3_antikick.Start();
+            }
+            else
+            {
+                timer3_antikick.Stop();
             }
         }
 
 
+        // Application Close
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Save Contractdata if available
+            try
+            {
+
+                if (TelemetryData.ets2.truck.navigationEstimatedDistance >= 5 && TelemetryData.ets2.job.sourceCity != "" && TelemetryData.ets2.job.sourceCompany != "" && TelemetryData.ets2.job.destinationCity != "" && TelemetryData.ets2.job.destinationCompany != "" && TelemetryData.ets2.game.lastProfile != "" && TelemetryData.ets2.job.income != 0 && speedsummary > 0 && timercounter > 0 && drivendistance > 0)
+                {
+                    savedcontract.SourceCity = TelemetryData.ets2.job.sourceCity;
+                    savedcontract.SourceCompany = TelemetryData.ets2.job.sourceCompany;
+                    savedcontract.DestinationCity = TelemetryData.ets2.job.destinationCity;
+                    savedcontract.DestinationCompany = TelemetryData.ets2.job.destinationCompany;
+                    savedcontract.Income = TelemetryData.ets2.job.income;
+                    savedcontract.TotalMass = (float)Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0);
+                    savedcontract.LastProfile = TelemetryData.ets2.game.lastProfile;
+                    savedcontract.SpeedSummary = speedsummary;
+                    savedcontract.TimerCounter = timercounter;
+                    savedcontract.DrivenDistance = drivendistance;
+
+                    string sJson = JsonConvert.SerializeObject(savedcontract);
+                    File.WriteAllText(String.Format(SoftwarePath + @"\contracts\AutoSaveContract_{0} - {1}___id-{2}.json", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0)), sJson);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Die Auftragsdaten wurden wegen einem Fehler nicht gespeichert.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
 

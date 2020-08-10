@@ -130,6 +130,8 @@
             this.openFileDialog_Contract = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog_Contract = new System.Windows.Forms.SaveFileDialog();
             this.timer2_calculateMinute = new System.Windows.Forms.Timer(this.components);
+            this.timer3_antikick = new System.Windows.Forms.Timer(this.components);
+            this.checkBox_antikick = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -175,7 +177,7 @@
             // timer1_calculate
             // 
             this.timer1_calculate.Interval = 1000;
-            this.timer1_calculate.Tick += new System.EventHandler(this.timer1_calculate_Tick);
+            this.timer1_calculate.Tick += new System.EventHandler(this.Timer1_calculate_Tick);
             // 
             // label_currentarrival
             // 
@@ -979,13 +981,27 @@
             // timer2_calculateMinute
             // 
             this.timer2_calculateMinute.Interval = 60000;
-            this.timer2_calculateMinute.Tick += new System.EventHandler(this.timer2_calculateMinute_Tick);
+            this.timer2_calculateMinute.Tick += new System.EventHandler(this.Timer2_calculateMinute_Tick);
+            // 
+            // timer3_antikick
+            // 
+            this.timer3_antikick.Interval = 150000;
+            this.timer3_antikick.Tick += new System.EventHandler(this.timer3_antikick_Tick);
+            // 
+            // checkBox_antikick
+            // 
+            this.checkBox_antikick.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.checkBox_antikick, "checkBox_antikick");
+            this.checkBox_antikick.Name = "checkBox_antikick";
+            this.checkBox_antikick.UseVisualStyleBackColor = false;
+            this.checkBox_antikick.CheckedChanged += new System.EventHandler(this.checkBox_antikick_CheckedChanged);
             // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
+            this.Controls.Add(this.checkBox_antikick);
             this.Controls.Add(this.panel15);
             this.Controls.Add(this.panel14);
             this.Controls.Add(this.panel12);
@@ -1010,6 +1026,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -1148,6 +1165,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog_Contract;
         private System.Windows.Forms.SaveFileDialog saveFileDialog_Contract;
         private System.Windows.Forms.Timer timer2_calculateMinute;
+        private System.Windows.Forms.Timer timer3_antikick;
+        private System.Windows.Forms.CheckBox checkBox_antikick;
     }
 }
 
