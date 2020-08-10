@@ -577,10 +577,10 @@
     <value>NoControl</value>
   </data>
   <data name="label_currentshift.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1267, 0</value>
+    <value>1261, 0</value>
   </data>
   <data name="label_currentshift.Size" type="System.Drawing.Size, System.Drawing">
-    <value>493, 27</value>
+    <value>489, 27</value>
   </data>
   <data name="label_currentshift.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -613,10 +613,10 @@
     <value>NoControl</value>
   </data>
   <data name="label2_timescale.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1766, 0</value>
+    <value>1756, 0</value>
   </data>
   <data name="label2_timescale.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 27</value>
+    <value>141, 27</value>
   </data>
   <data name="label2_timescale.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -646,7 +646,7 @@
     <value>3, 0</value>
   </data>
   <data name="label_shiftcount.Size" type="System.Drawing.Size, System.Drawing">
-    <value>125, 27</value>
+    <value>132, 27</value>
   </data>
   <data name="label_shiftcount.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -673,10 +673,10 @@
     <value>Fill</value>
   </data>
   <data name="label_timetoshiftend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>625, 0</value>
+    <value>589, 0</value>
   </data>
   <data name="label_timetoshiftend.Size" type="System.Drawing.Size, System.Drawing">
-    <value>315, 27</value>
+    <value>322, 27</value>
   </data>
   <data name="label_timetoshiftend.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -703,10 +703,10 @@
     <value>Fill</value>
   </data>
   <data name="label_nextpausestartend.Location" type="System.Drawing.Point, System.Drawing">
-    <value>946, 0</value>
+    <value>917, 0</value>
   </data>
   <data name="label_nextpausestartend.Size" type="System.Drawing.Size, System.Drawing">
-    <value>315, 27</value>
+    <value>338, 27</value>
   </data>
   <data name="label_nextpausestartend.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -733,10 +733,10 @@
     <value>Fill</value>
   </data>
   <data name="label_nextscheduleevent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>134, 0</value>
+    <value>141, 0</value>
   </data>
   <data name="label_nextscheduleevent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>485, 27</value>
+    <value>442, 27</value>
   </data>
   <data name="label_nextscheduleevent.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -787,7 +787,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel2.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label_currentshift" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="label2_timescale" Row="0" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="label_shiftcount" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label_timetoshiftend" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label_nextpausestartend" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label_nextscheduleevent" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,6,894737,Percent,25,84211,Percent,16,88049,Percent,16,88049,Percent,26,25853,Percent,7,157327" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label_currentshift" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="label2_timescale" Row="0" RowSpan="1" Column="5" ColumnSpan="1" /&gt;&lt;Control Name="label_shiftcount" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label_timetoshiftend" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label_nextpausestartend" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label_nextscheduleevent" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,7,289458,Percent,23,57895,Percent,17,26316,Percent,18,10526,Percent,26,05263,Percent,7,622781" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
@@ -3908,7 +3908,7 @@
     <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>86</value>
+    <value>87</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
