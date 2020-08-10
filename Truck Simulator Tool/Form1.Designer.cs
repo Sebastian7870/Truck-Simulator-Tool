@@ -132,6 +132,7 @@
             this.timer2_calculateMinute = new System.Windows.Forms.Timer(this.components);
             this.timer3_antikick = new System.Windows.Forms.Timer(this.components);
             this.checkBox_antikick = new System.Windows.Forms.CheckBox();
+            this.label_TFMdjTimeleft = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -164,7 +165,7 @@
             // 
             // label1_paused
             // 
-            this.label1_paused.BackColor = System.Drawing.Color.Goldenrod;
+            this.label1_paused.BackColor = System.Drawing.Color.Brown;
             resources.ApplyResources(this.label1_paused, "label1_paused");
             this.label1_paused.ForeColor = System.Drawing.Color.Gainsboro;
             this.label1_paused.Name = "label1_paused";
@@ -462,6 +463,7 @@
             // 
             this.panel9.BackColor = System.Drawing.Color.Gainsboro;
             this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel9.Controls.Add(this.label_TFMdjTimeleft);
             this.panel9.Controls.Add(this.label_TFMdjname);
             this.panel9.Controls.Add(this.label_TFMsongartist);
             this.panel9.Controls.Add(this.label_TFMsongname);
@@ -937,6 +939,7 @@
             // 
             this.einstellungenToolStripMenuItem1.Name = "einstellungenToolStripMenuItem1";
             resources.ApplyResources(this.einstellungenToolStripMenuItem1, "einstellungenToolStripMenuItem1");
+            this.einstellungenToolStripMenuItem1.Click += new System.EventHandler(this.einstellungenToolStripMenuItem1_Click);
             // 
             // panel14
             // 
@@ -995,6 +998,12 @@
             this.checkBox_antikick.Name = "checkBox_antikick";
             this.checkBox_antikick.UseVisualStyleBackColor = false;
             this.checkBox_antikick.CheckedChanged += new System.EventHandler(this.checkBox_antikick_CheckedChanged);
+            // 
+            // label_TFMdjTimeleft
+            // 
+            this.label_TFMdjTimeleft.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.label_TFMdjTimeleft, "label_TFMdjTimeleft");
+            this.label_TFMdjTimeleft.Name = "label_TFMdjTimeleft";
             // 
             // Form1
             // 
@@ -1167,6 +1176,7 @@
         private System.Windows.Forms.Timer timer2_calculateMinute;
         private System.Windows.Forms.Timer timer3_antikick;
         private System.Windows.Forms.CheckBox checkBox_antikick;
+        private System.Windows.Forms.Label label_TFMdjTimeleft;
     }
 }
 

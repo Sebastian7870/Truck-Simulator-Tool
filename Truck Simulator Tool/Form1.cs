@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace Truck_Simulator_Tool
 {
-    public partial class Form1 : Form // main form
+    public partial class Form1 : Form
     {
         // Variables Start
 
@@ -35,11 +35,13 @@ namespace Truck_Simulator_Tool
         bool ShiftActive = false;
         bool scheduleLoaded = false;
         DateTime dt_bestarrival = DateTime.Now;
-        double AverageTimeScaleConstant = 19;
+        double TimeScaleConstant = 19;
         double timescalesummary = 0;
         string SoftwarePath = Application.StartupPath;
         SavedContract savedcontract = new SavedContract();
         bool StartApplicationContractLoaded = false;
+        float LastKnownEstimatedDistance = 0f;
+        Settings settings = new Settings();
 
 
         [DllImport("user32.dll")]
@@ -58,6 +60,8 @@ namespace Truck_Simulator_Tool
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            LoadSettingsOrCreate();
+
             // Check for SchedulePlans and ContractInfo Files
             if (Directory.Exists(SoftwarePath + @"\work shifts") && Directory.Exists(SoftwarePath + @"\contracts"))
             { // Load Data if available
@@ -106,7 +110,41 @@ namespace Truck_Simulator_Tool
                 }
             }
         }
-       
+
+        public void LoadSettingsOrCreate()
+        {
+            // Check for settings file
+            if (File.Exists(SoftwarePath + @"\config.json"))
+            { // Load Data if available
+                settings = (JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SoftwarePath + @"\config.json")));
+            }
+            else
+            {
+                try
+                {
+                    settings.AutoSaveActive = true;
+                    settings.AverageTimescaleActive = true;
+                    settings.AverageTimescaleValue = 0;
+                    settings.ManualTimescaleValue = 19;
+
+                    string sJson = JsonConvert.SerializeObject(settings);
+                    File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
+                }
+                catch
+                {
+                    MessageBox.Show("Schwerwiegender Fehler gefunde! Bitte Autor kontaktieren.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            if (settings.AverageTimescaleActive == true)
+            {
+                TimeScaleConstant = settings.AverageTimescaleValue;
+            }
+            else
+            {
+                TimeScaleConstant = Convert.ToDouble(settings.ManualTimescaleValue);
+            }
+        }
+
         async Task UpdateTelemetry()
         {// Update Telemetry
             try
@@ -168,7 +206,7 @@ namespace Truck_Simulator_Tool
             label_datetimenowseconds.Text = DateTime.Now.ToString("ss");
             label15_datetimedate.Text = DateTimeFormatInfo.CurrentInfo.GetDayName(DateTime.Now.DayOfWeek) + "\n" + DateTime.Now.ToShortDateString();
             dateTimePicker_schedule.MinDate = DateTime.Now.AddDays((-1) * ((Convert.ToDouble(numericUpDown_durationSchedule.Value) - 0.5)));
-            Debug.WriteLine("SpeedSum: " + speedsummary + " --- TimerCounter: " + timercounter + " --- DrivenDistance: " + drivendistance);
+
             if (bTruckersfmOnline == true)
             {// Get Picture and set TFM data from class.
                 HttpClient client = new HttpClient();
@@ -178,6 +216,7 @@ namespace Truck_Simulator_Tool
                 label_TFMsongname.Text = TruckersfmsongData.title;
                 label_TFMsongartist.Text = TruckersfmsongData.artist;
                 label_TFMdjname.Text = "Moderator: " + TruckersfmdjData.result.dj.name;
+                label_TFMdjTimeleft.Text = "Übrige Zeit des Moderators: " + TruckersfmdjData.result.slot.timestart;
             }
 
 
@@ -186,6 +225,20 @@ namespace Truck_Simulator_Tool
                 if (TelemetryData.ets2.game.connected == true)
                 {// Game connected
 
+                    //Set savedcontract
+                    LastKnownEstimatedDistance = TelemetryData.ets2.truck.navigationEstimatedTime;
+                    savedcontract.SourceCity = TelemetryData.ets2.job.sourceCity;
+                    savedcontract.SourceCompany = TelemetryData.ets2.job.sourceCompany;
+                    savedcontract.DestinationCity = TelemetryData.ets2.job.destinationCity;
+                    savedcontract.DestinationCompany = TelemetryData.ets2.job.destinationCompany;
+                    savedcontract.Income = TelemetryData.ets2.job.income;
+                    savedcontract.TotalMass = (float)Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0);
+                    savedcontract.LastProfile = TelemetryData.ets2.game.lastProfile;
+                    savedcontract.SpeedSummary = speedsummary;
+                    savedcontract.TimerCounter = timercounter;
+                    savedcontract.DrivenDistance = drivendistance;
+
+
                     if (TelemetryData.ets2.truck.speed > 5 && TelemetryData.ets2.game.paused == false)
                     {// Average Variables Calcuations
                         timercounter += 1;
@@ -193,7 +246,7 @@ namespace Truck_Simulator_Tool
                         currentaveragespeed = speedsummary / timercounter;
 
                         timescalesummary += TelemetryData.ets2.game.scale;
-                        AverageTimeScaleConstant = timescalesummary / timercounter;
+                        TimeScaleConstant = timescalesummary / timercounter;
                     }
                     if (TelemetryData.ets2.truck.navigationEstimatedDistance > 0)
                     {
@@ -207,7 +260,7 @@ namespace Truck_Simulator_Tool
                     }
                     if (bestcurrentaveragespeed > 0)
                     {
-                        DateTime dt_bestcurrentarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / bestcurrentaveragespeed) / AverageTimeScaleConstant) * 3600);
+                        DateTime dt_bestcurrentarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / bestcurrentaveragespeed) / TimeScaleConstant) * 3600);
                         TimeSpan ts_bestcurrentarrival = dt_bestcurrentarrival.Subtract(DateTime.Now);
 
                         label_currentbestarrival.Text = String.Format("{0}", dt_bestcurrentarrival.ToString("HH:mm Uhr"));
@@ -215,7 +268,7 @@ namespace Truck_Simulator_Tool
 
                         if (bestarrivalset == false)
                         {// best arrival
-                            dt_bestarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / bestcurrentaveragespeed) / AverageTimeScaleConstant) * 3600);
+                            dt_bestarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / bestcurrentaveragespeed) / TimeScaleConstant) * 3600);
 
                             label_bestarrival.Text = String.Format("{0}", dt_bestarrival.ToString("HH:mm Uhr"));
                             bestarrivalset = true;
@@ -230,7 +283,7 @@ namespace Truck_Simulator_Tool
 
                         if (currentaveragespeed > 0)
                         { // Average Calculations SHOW
-                            DateTime dt_currentarrival = DateTime.Now.AddSeconds(((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / currentaveragespeed) / AverageTimeScaleConstant) * 3600));
+                            DateTime dt_currentarrival = DateTime.Now.AddSeconds(((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / currentaveragespeed) / TimeScaleConstant) * 3600));
                             TimeSpan ts_currentarrival = dt_currentarrival.Subtract(DateTime.Now);
 
                             if (ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes > 60)
@@ -548,7 +601,7 @@ namespace Truck_Simulator_Tool
             try
             {
 
-                if (bTelemetryOnline == true && TelemetryData.ets2.game.connected == true && TelemetryData.ets2.truck.navigationEstimatedDistance >= 5 && TelemetryData.ets2.job.sourceCity != "" && TelemetryData.ets2.job.sourceCompany != "" && TelemetryData.ets2.job.destinationCity != "" && TelemetryData.ets2.job.destinationCompany != "" && TelemetryData.ets2.game.lastProfile != "" && TelemetryData.ets2.job.income != 0 && speedsummary > 0 && timercounter > 0 && drivendistance > 0)
+                if (speedsummary > 0 && timercounter > 0 && drivendistance > 0 && LastKnownEstimatedDistance >= 5 && savedcontract.SourceCity != "" && savedcontract.SourceCompany != "" && savedcontract.DestinationCity != "" && savedcontract.DestinationCompany != "" && savedcontract.LastProfile != "" && savedcontract.Income != 0)
                 {
                     savedcontract.SourceCity = TelemetryData.ets2.job.sourceCity;
                     savedcontract.SourceCompany = TelemetryData.ets2.job.sourceCompany;
@@ -947,7 +1000,7 @@ namespace Truck_Simulator_Tool
                 {
                     try
                     {
-                        numericUpDown_time1.Value = (numericUpDown_km.Value / Convert.ToDecimal(AverageTimeScaleConstant)) / numericUpDown_speed.Value;
+                        numericUpDown_time1.Value = (numericUpDown_km.Value / Convert.ToDecimal(TimeScaleConstant)) / numericUpDown_speed.Value;
                     }
                     catch
                     {
@@ -987,7 +1040,7 @@ namespace Truck_Simulator_Tool
                 {
                     try
                     {
-                        numericUpDown_km.Value = Convert.ToDecimal(AverageTimeScaleConstant) * (numericUpDown_time1.Value * numericUpDown_speed.Value);
+                        numericUpDown_km.Value = Convert.ToDecimal(TimeScaleConstant) * (numericUpDown_time1.Value * numericUpDown_speed.Value);
                     }
                     catch
                     {
@@ -1025,7 +1078,7 @@ namespace Truck_Simulator_Tool
                 {
                     try
                     {
-                        numericUpDown_km.Value = Convert.ToDecimal(AverageTimeScaleConstant) * (numericUpDown_time1.Value * numericUpDown_speed.Value);
+                        numericUpDown_km.Value = Convert.ToDecimal(TimeScaleConstant) * (numericUpDown_time1.Value * numericUpDown_speed.Value);
                     }
                     catch
                     {
@@ -1040,7 +1093,7 @@ namespace Truck_Simulator_Tool
                 {
                     try
                     {
-                        numericUpDown_time1.Value = (numericUpDown_km.Value / Convert.ToDecimal(AverageTimeScaleConstant)) / numericUpDown_speed.Value;
+                        numericUpDown_time1.Value = (numericUpDown_km.Value / Convert.ToDecimal(TimeScaleConstant)) / numericUpDown_speed.Value;
 
                     }
                     catch
@@ -1288,23 +1341,12 @@ namespace Truck_Simulator_Tool
         {
             try
             {
-                if (bTelemetryOnline == true && TelemetryData.ets2.game.connected == true && TelemetryData.ets2.job.sourceCity != "" && TelemetryData.ets2.job.sourceCompany != "" && TelemetryData.ets2.job.destinationCity != "" && TelemetryData.ets2.job.destinationCompany != "" && TelemetryData.ets2.game.lastProfile != "" && TelemetryData.ets2.job.income != 0 && speedsummary > 0 && timercounter > 0 && drivendistance > 0)
+                if (speedsummary > 0 && timercounter > 0 && drivendistance > 0 && LastKnownEstimatedDistance >= 5 && savedcontract.SourceCity != "" && savedcontract.SourceCompany != "" && savedcontract.DestinationCity != "" && savedcontract.DestinationCompany != "" && savedcontract.LastProfile != "" && savedcontract.Income != 0)
                 {
                     saveFileDialog_Contract.InitialDirectory = (SoftwarePath + @"\contracts");
-                    saveFileDialog_Contract.FileName = String.Format("Contract_{0} - {1}___id-{2}", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0));
+                    saveFileDialog_Contract.FileName = String.Format("Contract_{0} - {1}___id-{2}", savedcontract.SourceCity, savedcontract.DestinationCity, savedcontract.Income + savedcontract.TotalMass);
                     if (saveFileDialog_Contract.ShowDialog() == DialogResult.OK)
                     {
-                        savedcontract.SourceCity = TelemetryData.ets2.job.sourceCity;
-                        savedcontract.SourceCompany = TelemetryData.ets2.job.sourceCompany;
-                        savedcontract.DestinationCity = TelemetryData.ets2.job.destinationCity;
-                        savedcontract.DestinationCompany = TelemetryData.ets2.job.destinationCompany;
-                        savedcontract.Income = TelemetryData.ets2.job.income;
-                        savedcontract.TotalMass = (float)Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0);
-                        savedcontract.LastProfile = TelemetryData.ets2.game.lastProfile;
-                        savedcontract.SpeedSummary = speedsummary;
-                        savedcontract.TimerCounter = timercounter;
-                        savedcontract.DrivenDistance = drivendistance;
-
                         string sJson = JsonConvert.SerializeObject(savedcontract);
                         File.WriteAllText(saveFileDialog_Contract.FileName, sJson);
                     }
@@ -1392,6 +1434,14 @@ namespace Truck_Simulator_Tool
         }
 
 
+        // Open settings
+        private void einstellungenToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            form2.Show();
+        }
+
+
         // Application Close
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -1399,18 +1449,9 @@ namespace Truck_Simulator_Tool
             try
             {
 
-                if (TelemetryData.ets2.truck.navigationEstimatedDistance >= 5 && TelemetryData.ets2.job.sourceCity != "" && TelemetryData.ets2.job.sourceCompany != "" && TelemetryData.ets2.job.destinationCity != "" && TelemetryData.ets2.job.destinationCompany != "" && TelemetryData.ets2.game.lastProfile != "" && TelemetryData.ets2.job.income != 0 && speedsummary > 0 && timercounter > 0 && drivendistance > 0)
+                if (speedsummary > 0 && timercounter > 0 && drivendistance > 0 && LastKnownEstimatedDistance >= 5 && savedcontract.SourceCity != "" && savedcontract.SourceCompany != "" && savedcontract.DestinationCity != "" && savedcontract.DestinationCompany != "" && savedcontract.LastProfile != "" && savedcontract.Income != 0)
                 {
-                    savedcontract.SourceCity = TelemetryData.ets2.job.sourceCity;
-                    savedcontract.SourceCompany = TelemetryData.ets2.job.sourceCompany;
-                    savedcontract.DestinationCity = TelemetryData.ets2.job.destinationCity;
-                    savedcontract.DestinationCompany = TelemetryData.ets2.job.destinationCompany;
-                    savedcontract.Income = TelemetryData.ets2.job.income;
-                    savedcontract.TotalMass = (float)Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0);
-                    savedcontract.LastProfile = TelemetryData.ets2.game.lastProfile;
-                    savedcontract.SpeedSummary = speedsummary;
-                    savedcontract.TimerCounter = timercounter;
-                    savedcontract.DrivenDistance = drivendistance;
+
 
                     string sJson = JsonConvert.SerializeObject(savedcontract);
                     File.WriteAllText(String.Format(SoftwarePath + @"\contracts\AutoSaveContract_{0} - {1}___id-{2}.json", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0)), sJson);
@@ -1418,9 +1459,11 @@ namespace Truck_Simulator_Tool
             }
             catch
             {
-                MessageBox.Show("Die Auftragsdaten wurden wegen einem Fehler nicht gespeichert.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Die Auftragsdaten wurden wegen eines Fehlers nicht gespeichert.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
     }
 }
 

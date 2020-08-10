@@ -1363,6 +1363,39 @@
   <data name="&gt;&gt;panel8.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
+  <data name="label_TFMdjTimeleft.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 9.75pt</value>
+  </data>
+  <data name="label_TFMdjTimeleft.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label_TFMdjTimeleft.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 352</value>
+  </data>
+  <data name="label_TFMdjTimeleft.Size" type="System.Drawing.Size, System.Drawing">
+    <value>423, 24</value>
+  </data>
+  <data name="label_TFMdjTimeleft.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label_TFMdjTimeleft.Text" xml:space="preserve">
+    <value>Moderator: AutoDJ</value>
+  </data>
+  <data name="label_TFMdjTimeleft.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="&gt;&gt;label_TFMdjTimeleft.Name" xml:space="preserve">
+    <value>label_TFMdjTimeleft</value>
+  </data>
+  <data name="&gt;&gt;label_TFMdjTimeleft.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label_TFMdjTimeleft.Parent" xml:space="preserve">
+    <value>panel9</value>
+  </data>
+  <data name="&gt;&gt;label_TFMdjTimeleft.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="label_TFMdjname.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 9.75pt</value>
   </data>
@@ -1370,7 +1403,7 @@
     <value>NoControl</value>
   </data>
   <data name="label_TFMdjname.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 354</value>
+    <value>2, 333</value>
   </data>
   <data name="label_TFMdjname.Size" type="System.Drawing.Size, System.Drawing">
     <value>423, 24</value>
@@ -1394,7 +1427,7 @@
     <value>panel9</value>
   </data>
   <data name="&gt;&gt;label_TFMdjname.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="label_TFMsongartist.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 15.75pt</value>
@@ -1427,7 +1460,7 @@
     <value>panel9</value>
   </data>
   <data name="&gt;&gt;label_TFMsongartist.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="label_TFMsongname.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 15.75pt, style=Bold</value>
@@ -1457,7 +1490,7 @@
     <value>panel9</value>
   </data>
   <data name="&gt;&gt;label_TFMsongname.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="pictureBox_TruckersfmSong.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Stretch</value>
@@ -1481,7 +1514,7 @@
     <value>panel9</value>
   </data>
   <data name="&gt;&gt;pictureBox_TruckersfmSong.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="panel9.Location" type="System.Drawing.Point, System.Drawing">
     <value>1470, 144</value>
@@ -2576,7 +2609,7 @@
     <value>Schichtplaner</value>
   </data>
   <data name="einstellungenToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 22</value>
+    <value>180, 22</value>
   </data>
   <data name="einstellungenToolStripMenuItem1.Text" xml:space="preserve">
     <value>Einstellungen</value>

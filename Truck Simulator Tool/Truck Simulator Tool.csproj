@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Workshift.cs" />
     <Compile Include="TelemetryData.cs" />
     <Compile Include="TruckersfmData.cs" />
