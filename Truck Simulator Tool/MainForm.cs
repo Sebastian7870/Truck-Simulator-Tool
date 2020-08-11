@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace Truck_Simulator_Tool
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         // Variables Start
 
@@ -45,6 +45,7 @@ namespace Truck_Simulator_Tool
         float LastKnownEstimatedDistance = 0f;
         Settings settings = new Settings();
         bool ContractSaved = false;
+        int timercountertimescale = 0;
 
 
         [DllImport("user32.dll")]
@@ -56,12 +57,12 @@ namespace Truck_Simulator_Tool
 
         // Variables End
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             LoadSettingsOrCreate();
 
@@ -85,22 +86,14 @@ namespace Truck_Simulator_Tool
             label_datetimenowseconds.Text = DateTime.Now.ToString("ss");
             label15_datetimedate.Text = DateTimeFormatInfo.CurrentInfo.GetDayName(DateTime.Now.DayOfWeek) + "\n" + DateTime.Now.ToShortDateString();
 
+            // TimescaleConstant Calculator label
+            label_TimeScaleConstantCalculator.Text = "Zeitskalierung: " + TimeScaleConstant;
 
             timer1_calculate.Start();
             timer2_calculateMinute.Start();
             Timer1_calculate_MethodTick();
             Timer2_calculate_MethodTick();
 
-            /*
-            // Panel transparency
-            panel16.BackColor = Color.FromArgb(175, Color.White);
-            panel9.BackColor = Color.FromArgb(175, Color.White);
-            panel12.BackColor = Color.FromArgb(175, Color.White);
-            panel10.BackColor = Color.FromArgb(175, Color.White);
-            panel6.BackColor = Color.FromArgb(175, Color.White);
-            panel4.BackColor = Color.FromArgb(175, Color.White);
-            panel2.BackColor = Color.FromArgb(175, Color.White);
-            */
 
             // Distance Calculator
             radioButton_extended.Checked = false;
@@ -144,9 +137,11 @@ namespace Truck_Simulator_Tool
                 {
                     settings.AutoSaveActive = true;
                     settings.AverageTimescaleActive = true;
-                    settings.AverageTimescaleValue = 0;
+                    settings.AverageTimescaleValue = 19;
                     settings.ManualTimescaleValue = 19;
                     settings.BackgroundImageFilePath = "";
+                    settings.TimercounterTimescale = 0;
+                    settings.TimescaleSummary = 1;
 
                     string sJson = JsonConvert.SerializeObject(settings);
                     File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
@@ -170,6 +165,14 @@ namespace Truck_Simulator_Tool
                 {// Set Image
                     Image img = Image.FromFile(settings.BackgroundImageFilePath);
                     panel_BackgroundImage.BackgroundImage = img;
+
+                    // Panel transparency
+                    panel_ContractdistanceData.BackColor = Color.FromArgb(175, Color.Gainsboro);
+                    panel_TruckerFMBox.BackColor = Color.FromArgb(175, Color.Gainsboro);
+                    panel_Shiftbox.BackColor = Color.FromArgb(175, Color.Gainsboro);
+                    panel_Calculator.BackColor = Color.FromArgb(175, Color.Gainsboro);
+                    panel_Vehicleinfo.BackColor = Color.FromArgb(175, Color.Gainsboro);
+                    panel_Jobinfo.BackColor = Color.FromArgb(175, Color.Gainsboro);
                 }
                 catch
                 {
@@ -179,8 +182,16 @@ namespace Truck_Simulator_Tool
                         settings.BackgroundImageFilePath = "";
                         string sJson = JsonConvert.SerializeObject(settings);
                         File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
+
+                        // Panel transparency
+                        panel_ContractdistanceData.BackColor = Color.FromArgb(255, Color.LightGray);
+                        panel_TruckerFMBox.BackColor = Color.FromArgb(255, Color.Gainsboro);
+                        panel_Shiftbox.BackColor = Color.FromArgb(255, Color.Gainsboro);
+                        panel_Calculator.BackColor = Color.FromArgb(255, Color.Gainsboro);
+                        panel_Vehicleinfo.BackColor = Color.FromArgb(255, Color.Gainsboro);
+                        panel_Jobinfo.BackColor = Color.FromArgb(255, Color.Gainsboro);
                     }
-                    catch 
+                    catch
                     {
                         MessageBox.Show("Schwerwiegender Fehler gefunde! Bitte Autor kontaktieren.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
@@ -189,7 +200,18 @@ namespace Truck_Simulator_Tool
             else
             {
                 panel_BackgroundImage.BackgroundImage = null;
+
+                // Panel transparency
+                panel_ContractdistanceData.BackColor = Color.FromArgb(255, Color.LightGray);
+                panel_TruckerFMBox.BackColor = Color.FromArgb(255, Color.Gainsboro);
+                panel_Shiftbox.BackColor = Color.FromArgb(255, Color.Gainsboro);
+                panel_Calculator.BackColor = Color.FromArgb(255, Color.Gainsboro);
+                panel_Vehicleinfo.BackColor = Color.FromArgb(255, Color.Gainsboro);
+                panel_Jobinfo.BackColor = Color.FromArgb(255, Color.Gainsboro);
             }
+            timercountertimescale = settings.TimercounterTimescale;
+            timescalesummary = settings.TimescaleSummary;
+
         }
 
 
@@ -297,8 +319,9 @@ namespace Truck_Simulator_Tool
                         speedsummary += TelemetryData.ets2.truck.speed;
                         currentaveragespeed = speedsummary / timercounter;
 
+                        timercountertimescale += 1;
                         timescalesummary += TelemetryData.ets2.game.scale;
-                        TimeScaleConstant = timescalesummary / timercounter;
+                        TimeScaleConstant = timescalesummary / timercountertimescale;
                     }
                     if (TelemetryData.ets2.truck.navigationEstimatedDistance > 0)
                     {
@@ -348,15 +371,15 @@ namespace Truck_Simulator_Tool
 
                             if (ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes > 60)
                             {// current arrival (color)
-                                panel7.BackColor = Color.Brown;
+                                panel_ArrivalinfoTop.BackColor = Color.Brown;
                             }
                             else if (ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes > 30 && ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes < 60)
                             {
-                                panel7.BackColor = Color.Goldenrod;
+                                panel_ArrivalinfoTop.BackColor = Color.Goldenrod;
                             }
                             else
                             {
-                                panel7.BackColor = Color.LimeGreen;
+                                panel_ArrivalinfoTop.BackColor = Color.LimeGreen;
                             }
 
                             label_currentarrival.Text = String.Format("Ankunft ca.:      {0}", dt_currentarrival.ToString("HH:mm Uhr"));
@@ -374,8 +397,6 @@ namespace Truck_Simulator_Tool
 
                             distancesummary = 0;
                             drivendistance = 0;
-                            
-                            timescalesummary = 0;
 
                             bestarrivalset = false;
                             ContractSaved = false;
@@ -393,8 +414,6 @@ namespace Truck_Simulator_Tool
 
                             distancesummary = 0;
                             drivendistance = 0;
-
-                            timescalesummary = 0;
 
                             bestarrivalset = false;
 
@@ -447,32 +466,36 @@ namespace Truck_Simulator_Tool
                     {
                         if (ContractSaved == false)
                         {
-                            panel_contractstatus.BackColor = Color.Goldenrod;
-                            label_ContractStatus.Text = "Auftrag nicht gespeichert";
+                            label_contractstatus.BackColor = Color.Goldenrod;
+                            label_contractstatus.Text = "Auftrag nicht gespeichert";
                         }
                         else if (ContractSaved == true)
                         {
-                            panel_contractstatus.BackColor = Color.LimeGreen;
-                            label_ContractStatus.Text = "Auftrag aktiv";
+                            label_contractstatus.BackColor = Color.LimeGreen;
+                            label_contractstatus.Text = "Auftrag aktiv";
                         }
                     }
                     else if (TelemetryData.ets2.job.cargo.id == "")
                     {
-                        panel_contractstatus.BackColor = Color.Brown;
-                        label_ContractStatus.Text = "Keinen aktiven Auftrag";
+                        label_contractstatus.BackColor = Color.Brown;
+                        label_contractstatus.Text = "Keinen aktiven Auftrag";
                     }
+
+
+                    // TimescaleConstant Calculator label
+                    label_TimeScaleConstantCalculator.Text = "Zeitskalierung: " + TimeScaleConstant;
 
 
                     // Pause label
                     if (TelemetryData.ets2.game.paused == false)
                     {
-                        label1_paused.Text = "Verbunden";
-                      panel_connectionstatus.BackColor = System.Drawing.Color.LimeGreen;
+                        label_connectionstatus.Text = "Verbunden";
+                        label_connectionstatus.BackColor = System.Drawing.Color.LimeGreen;
                     }
                     else if (TelemetryData.ets2.game.paused == true)
                     {
-                        label1_paused.Text = "Spiel pausiert";
-                        panel_connectionstatus.BackColor = System.Drawing.Color.Goldenrod;
+                        label_connectionstatus.Text = "Spiel pausiert";
+                        label_connectionstatus.BackColor = System.Drawing.Color.Goldenrod;
                     }
 
 
@@ -684,16 +707,16 @@ namespace Truck_Simulator_Tool
                 }
                 else if (TelemetryData.ets2.game.connected == false)
                 {
-                    label1_paused.Text = "Keine Verbindung zum Spiel";
-                    panel_connectionstatus.BackColor = System.Drawing.Color.Brown;
+                    label_connectionstatus.Text = "Keine Verbindung zum Spiel";
+                    label_connectionstatus.BackColor = System.Drawing.Color.Brown;
                     label2_timescale.Text = "Zeitskalierung: -";
                 }
             }
             else if (bTelemetryOnline == false)
             {
-                label1_paused.Text = "Keine Verbindung zum Server";
+                label_connectionstatus.Text = "Keine Verbindung zum Server";
                 label2_timescale.Text = "Zeitskalierung: -";
-                panel_connectionstatus.BackColor = System.Drawing.Color.Brown;
+                label_connectionstatus.BackColor = System.Drawing.Color.Brown;
             }
         }
 
@@ -711,8 +734,6 @@ namespace Truck_Simulator_Tool
 
                 if (bTelemetryOnline == true && TelemetryData.ets2.game.connected == true && speedsummary > 0 && timercounter > 0 && drivendistance > 0 && LastKnownEstimatedDistance >= 5 && savedcontract.SourceCity != "" && savedcontract.SourceCompany != "" && savedcontract.DestinationCity != "" && savedcontract.DestinationCompany != "" && savedcontract.LastProfile != "" && savedcontract.Income != 0)
                 {
-
-                    
                     string sJson = JsonConvert.SerializeObject(savedcontract);
                     File.WriteAllText(String.Format(SoftwarePath + @"\contracts\AutoSaveContract_{0} - {1}___id-{2}.json", TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0)), sJson);
                     ContractSaved = true;
@@ -724,13 +745,16 @@ namespace Truck_Simulator_Tool
                 ContractSaved = false;
             }
 
-            
+
             //Save TimeScaleConstant
             try
             {
                 if (settings.AverageTimescaleActive == true)
                 {
                     settings.AverageTimescaleValue = TimeScaleConstant;
+                    settings.TimercounterTimescale = timercountertimescale;
+                    settings.TimescaleSummary = timescalesummary;
+
 
                     string sJson = JsonConvert.SerializeObject(settings);
                     File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
@@ -748,7 +772,7 @@ namespace Truck_Simulator_Tool
                 if (listWorkshifts[listWorkshifts.Count - 1].EndDate > DateTime.Now)
                 {// Check if schedule is not outdated
 
-                    tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
+                    tableLayoutPanel_Bottom.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
 
                     button_LoadDeleteSchedule.BackColor = Color.Brown;
                     button_LoadDeleteSchedule.Text = "Schichtplan löschen";
@@ -821,8 +845,8 @@ namespace Truck_Simulator_Tool
 
                     if (ShiftActive == true)
                     {
-                        panel_shiftstatus.BackColor = Color.LimeGreen;
-                        label_shiftText.Text = "Schicht aktiv";
+                        label_shiftstatus.BackColor = Color.LimeGreen;
+                        label_shiftstatus.Text = "Schicht aktiv";
 
                         // label_currentshift
                         label_currentshift.Text = String.Format("Derzeitige Schicht: {0} Uhr,  {1}  -  {2} Uhr,  {3}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartDate.ToShortDateString(), listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].EndDate.ToShortDateString());
@@ -869,8 +893,8 @@ namespace Truck_Simulator_Tool
                         // Get next shift pausestart
                         if (schedulePause == true)
                         {
-                            panel_shiftstatus.BackColor = Color.Goldenrod;
-                            label_shiftText.Text = "Schichtpause";
+                            label_shiftstatus.BackColor = Color.Goldenrod;
+                            label_shiftstatus.Text = "Schichtpause";
 
                             CurrentIndex = -1;
                             foreach (AlldatesTimeSpan Item in listalldates)
@@ -951,8 +975,8 @@ namespace Truck_Simulator_Tool
                         label_nextpausestartend.Text = "Nächste Pause in: ---";
                         label_currentshift.Text = "Derzeitige Schicht: ---";
 
-                        panel_shiftstatus.BackColor = Color.Goldenrod;
-                        label_shiftText.Text = "Schicht nicht aktiv";
+                        label_shiftstatus.BackColor = Color.Goldenrod;
+                        label_shiftstatus.Text = "Schicht nicht aktiv";
 
                         label_nextpausestartend.Location = new Point(750, label_nextpausestartend.Location.Y);
                         label_timetoshiftend.Location = new Point(1074, label_timetoshiftend.Location.Y);
@@ -968,7 +992,7 @@ namespace Truck_Simulator_Tool
                     scheduleLoaded = false;
 
                     // ScheduleLoaded = false direct calculations
-                    tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
+                    tableLayoutPanel_Bottom.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
 
                     label_shiftcount.Text = "";
                     label_nextscheduleevent.Text = "";
@@ -977,8 +1001,8 @@ namespace Truck_Simulator_Tool
                     label_currentshift.Text = "";
 
 
-                    panel_shiftstatus.BackColor = Color.Brown;
-                    label_shiftText.Text = "Keine Schicht geladen";
+                    label_shiftstatus.BackColor = Color.Brown;
+                    label_shiftstatus.Text = "Keine Schicht geladen";
 
                     button_LoadDeleteSchedule.BackColor = Color.LightSteelBlue;
                     button_LoadDeleteSchedule.Text = "Schichtplan laden";
@@ -990,7 +1014,7 @@ namespace Truck_Simulator_Tool
             }
             else
             {
-                tableLayoutPanel2.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
+                tableLayoutPanel_Bottom.CellBorderStyle = TableLayoutPanelCellBorderStyle.None;
 
                 label_shiftcount.Text = "";
                 label_nextscheduleevent.Text = "";
@@ -999,8 +1023,8 @@ namespace Truck_Simulator_Tool
                 label_currentshift.Text = "";
 
 
-                panel_shiftstatus.BackColor = Color.Brown;
-                label_shiftText.Text = "Keine Schicht geladen";
+                label_shiftstatus.BackColor = Color.Brown;
+                label_shiftstatus.Text = "Keine Schicht geladen";
 
                 button_LoadDeleteSchedule.BackColor = Color.LightSteelBlue;
                 button_LoadDeleteSchedule.Text = "Schichtplan laden";
@@ -1559,7 +1583,7 @@ namespace Truck_Simulator_Tool
             Process[] process2 = Process.GetProcessesByName("amtrucks");
             if (process1.Length != 0)
             {
-                if (process1[0].MainWindowHandle == Form1.GetForegroundWindow())
+                if (process1[0].MainWindowHandle == MainForm.GetForegroundWindow())
                 {
                     SendKeys.Send("y/p{Enter}");
                 }
@@ -1567,7 +1591,7 @@ namespace Truck_Simulator_Tool
 
             if (process2.Length != 0)
             {
-                if (process2[0].MainWindowHandle == Form1.GetForegroundWindow())
+                if (process2[0].MainWindowHandle == MainForm.GetForegroundWindow())
                 {
                     SendKeys.Send("y/p{Enter}");
                 }
@@ -1577,13 +1601,13 @@ namespace Truck_Simulator_Tool
         // Open settings
         private void einstellungenToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Form2 form2 = new Form2();
-            form2.Show();
+            SettingsForm settingform = new SettingsForm();
+            settingform.Show();
         }
 
 
         // Application Close
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Save Contractdata if available
             try
@@ -1601,22 +1625,32 @@ namespace Truck_Simulator_Tool
             }
         }
 
-        private void antikickToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void MainForm_ResizeBegin(object sender, EventArgs e)
         {
-            if (antikickToolStripMenuItem1.Checked == false)
+            this.SuspendLayout();
+        }
+
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        {
+            this.ResumeLayout();
+        }
+
+        
+        
+        // AntiKick CheckedState changed
+        private void antikickToolStripMenuItem1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (antikickToolStripMenuItem1.Checked == true)
             {
-                antikickToolStripMenuItem1.Checked = true;
                 timer3_antikick.Start();
             }
             else
             {
-                antikickToolStripMenuItem1.Checked = false;
                 timer3_antikick.Stop();
             }
         }
 
     }
 }
-
 
 
