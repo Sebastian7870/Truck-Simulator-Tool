@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace Truck_Simulator_Tool
 {
@@ -40,6 +41,7 @@ namespace Truck_Simulator_Tool
                     settings.AverageTimescaleActive = true;
                     settings.AverageTimescaleValue = 0;
                     settings.ManualTimescaleValue = 19;
+                    settings.BackgroundImageFilePath = "";
 
                     string sJson = JsonConvert.SerializeObject(settings);
                     File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
@@ -68,7 +70,8 @@ namespace Truck_Simulator_Tool
                 checkBox_Sett_UseAverageTimescale.Checked = false;
                 numericUpDown_Sett_SetTimescale.Visible = true;
             }
-
+            
+            textBox_BackgroundfilePath.Text = settings.BackgroundImageFilePath;
             numericUpDown_Sett_SetTimescale.Value = settings.ManualTimescaleValue;
             label_Sett_AverageTimescale.Text = "durchschnittliche Zeitskalierung: " + settings.AverageTimescaleValue.ToString();
         }
@@ -95,6 +98,7 @@ namespace Truck_Simulator_Tool
                     settings.AverageTimescaleActive = false;
                 }
                 settings.ManualTimescaleValue = numericUpDown_Sett_SetTimescale.Value;
+                settings.BackgroundImageFilePath = textBox_BackgroundfilePath.Text;
 
                 string sJson = JsonConvert.SerializeObject(settings);
                 File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
@@ -113,10 +117,18 @@ namespace Truck_Simulator_Tool
         {
             if (ClosedByCross == true)
             {
-                if (MessageBox.Show("Möchten Sie die Änderungen speichern?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                {
-                    SaveSettings();
+                if (settings.AutoSaveActive == checkBox_Sett_AutoSave.Checked && settings.AverageTimescaleActive == checkBox_Sett_UseAverageTimescale.Checked && TimeScaleChanged == false && settings.ManualTimescaleValue == numericUpDown_Sett_SetTimescale.Value && settings.BackgroundImageFilePath == textBox_BackgroundfilePath.Text)
+                {// Check if something was changed
+
                 }
+                else
+                {
+                    if (MessageBox.Show("Möchten Sie die Änderungen speichern?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    {
+                        SaveSettings();
+                    }
+                }
+
             }
         }
 
@@ -141,7 +153,7 @@ namespace Truck_Simulator_Tool
 
         private void button_Cancel_Click(object sender, EventArgs e)
         {
-            if (settings.AutoSaveActive == checkBox_Sett_AutoSave.Checked && settings.AverageTimescaleActive == checkBox_Sett_UseAverageTimescale.Checked && TimeScaleChanged == false && settings.ManualTimescaleValue == numericUpDown_Sett_SetTimescale.Value)
+            if (settings.AutoSaveActive == checkBox_Sett_AutoSave.Checked && settings.AverageTimescaleActive == checkBox_Sett_UseAverageTimescale.Checked && TimeScaleChanged == false && settings.ManualTimescaleValue == numericUpDown_Sett_SetTimescale.Value && settings.BackgroundImageFilePath == textBox_BackgroundfilePath.Text)
             {// Check if something was changed
 
             }
@@ -193,6 +205,41 @@ namespace Truck_Simulator_Tool
             if (System.Windows.Forms.Application.OpenForms["Form1"] != null)
             {
                 (System.Windows.Forms.Application.OpenForms["Form1"] as Form1).LoadSettingsOrCreate();
+            }
+        }
+
+        private void button_Browse_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+        }
+
+        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+                
+            }
+            catch
+            {
+
+            }
+            textBox_BackgroundfilePath.Text = openFileDialog1.FileName;
+        }
+
+        private void button_DeleteBackgroundFilepath_Click(object sender, EventArgs e)
+        {
+            textBox_BackgroundfilePath.Text = "";
+        }
+
+        private void checkBox_Sett_UseAverageTimescale_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_Sett_UseAverageTimescale.Checked == true)
+            {
+                numericUpDown_Sett_SetTimescale.Visible = false;
+            }
+            else
+            {
+                numericUpDown_Sett_SetTimescale.Visible = true;
             }
         }
     }

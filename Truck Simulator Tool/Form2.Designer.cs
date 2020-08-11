@@ -40,6 +40,11 @@
             this.checkBox_Sett_UseAverageTimescale = new System.Windows.Forms.CheckBox();
             this.label_Sett_AverageTimescale = new System.Windows.Forms.Label();
             this.button_Sett_ResetAverageTimescaleValue = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.textBox_BackgroundfilePath = new System.Windows.Forms.TextBox();
+            this.button_Browse = new System.Windows.Forms.Button();
+            this.button_DeleteBackgroundFilepath = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Sett_SetTimescale)).BeginInit();
@@ -47,8 +52,9 @@
             // 
             // button_Save
             // 
+            this.button_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Save.Location = new System.Drawing.Point(6, 159);
+            this.button_Save.Location = new System.Drawing.Point(6, 228);
             this.button_Save.Name = "button_Save";
             this.button_Save.Size = new System.Drawing.Size(107, 23);
             this.button_Save.TabIndex = 0;
@@ -58,8 +64,9 @@
             // 
             // button_Cancel
             // 
+            this.button_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button_Cancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Cancel.Location = new System.Drawing.Point(119, 159);
+            this.button_Cancel.Location = new System.Drawing.Point(119, 228);
             this.button_Cancel.Name = "button_Cancel";
             this.button_Cancel.Size = new System.Drawing.Size(107, 23);
             this.button_Cancel.TabIndex = 1;
@@ -69,8 +76,9 @@
             // 
             // button_resetsettings
             // 
+            this.button_resetsettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button_resetsettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_resetsettings.Location = new System.Drawing.Point(288, 159);
+            this.button_resetsettings.Location = new System.Drawing.Point(288, 228);
             this.button_resetsettings.Name = "button_resetsettings";
             this.button_resetsettings.Size = new System.Drawing.Size(107, 23);
             this.button_resetsettings.TabIndex = 2;
@@ -163,10 +171,12 @@
             this.checkBox_Sett_UseAverageTimescale.Size = new System.Drawing.Size(15, 14);
             this.checkBox_Sett_UseAverageTimescale.TabIndex = 3;
             this.checkBox_Sett_UseAverageTimescale.UseVisualStyleBackColor = true;
+            this.checkBox_Sett_UseAverageTimescale.CheckedChanged += new System.EventHandler(this.checkBox_Sett_UseAverageTimescale_CheckedChanged);
             // 
             // label_Sett_AverageTimescale
             // 
-            this.label_Sett_AverageTimescale.Location = new System.Drawing.Point(3, 132);
+            this.label_Sett_AverageTimescale.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label_Sett_AverageTimescale.Location = new System.Drawing.Point(3, 201);
             this.label_Sett_AverageTimescale.Name = "label_Sett_AverageTimescale";
             this.label_Sett_AverageTimescale.Size = new System.Drawing.Size(280, 13);
             this.label_Sett_AverageTimescale.TabIndex = 6;
@@ -174,10 +184,11 @@
             // 
             // button_Sett_ResetAverageTimescaleValue
             // 
+            this.button_Sett_ResetAverageTimescaleValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button_Sett_ResetAverageTimescaleValue.BackColor = System.Drawing.Color.Brown;
             this.button_Sett_ResetAverageTimescaleValue.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button_Sett_ResetAverageTimescaleValue.ForeColor = System.Drawing.SystemColors.Control;
-            this.button_Sett_ResetAverageTimescaleValue.Location = new System.Drawing.Point(289, 127);
+            this.button_Sett_ResetAverageTimescaleValue.Location = new System.Drawing.Point(289, 196);
             this.button_Sett_ResetAverageTimescaleValue.Name = "button_Sett_ResetAverageTimescaleValue";
             this.button_Sett_ResetAverageTimescaleValue.Size = new System.Drawing.Size(107, 23);
             this.button_Sett_ResetAverageTimescaleValue.TabIndex = 7;
@@ -185,12 +196,58 @@
             this.button_Sett_ResetAverageTimescaleValue.UseVisualStyleBackColor = false;
             this.button_Sett_ResetAverageTimescaleValue.Click += new System.EventHandler(this.button_Sett_ResetAverageTimescaleValue_Click);
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Filter = "Alle Dateien (*.jpg; *.png; *.bmp)|*.jpg; *.png; *.bmp";
+            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            // 
+            // textBox_BackgroundfilePath
+            // 
+            this.textBox_BackgroundfilePath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_BackgroundfilePath.Location = new System.Drawing.Point(6, 144);
+            this.textBox_BackgroundfilePath.Name = "textBox_BackgroundfilePath";
+            this.textBox_BackgroundfilePath.ReadOnly = true;
+            this.textBox_BackgroundfilePath.Size = new System.Drawing.Size(277, 20);
+            this.textBox_BackgroundfilePath.TabIndex = 8;
+            // 
+            // button_Browse
+            // 
+            this.button_Browse.Location = new System.Drawing.Point(288, 144);
+            this.button_Browse.Name = "button_Browse";
+            this.button_Browse.Size = new System.Drawing.Size(82, 21);
+            this.button_Browse.TabIndex = 9;
+            this.button_Browse.Text = "durchsuchen";
+            this.button_Browse.UseVisualStyleBackColor = true;
+            this.button_Browse.Click += new System.EventHandler(this.button_Browse_Click);
+            // 
+            // button_DeleteBackgroundFilepath
+            // 
+            this.button_DeleteBackgroundFilepath.Image = global::Truck_Simulator_Tool.Properties.Resources.Delete;
+            this.button_DeleteBackgroundFilepath.Location = new System.Drawing.Point(376, 145);
+            this.button_DeleteBackgroundFilepath.Name = "button_DeleteBackgroundFilepath";
+            this.button_DeleteBackgroundFilepath.Size = new System.Drawing.Size(20, 20);
+            this.button_DeleteBackgroundFilepath.TabIndex = 10;
+            this.button_DeleteBackgroundFilepath.UseVisualStyleBackColor = true;
+            this.button_DeleteBackgroundFilepath.Click += new System.EventHandler(this.button_DeleteBackgroundFilepath_Click);
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(6, 125);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(277, 16);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Hintergrundbild (beta)";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(404, 194);
+            this.ClientSize = new System.Drawing.Size(404, 263);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.button_DeleteBackgroundFilepath);
+            this.Controls.Add(this.button_Browse);
+            this.Controls.Add(this.textBox_BackgroundfilePath);
             this.Controls.Add(this.button_Sett_ResetAverageTimescaleValue);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -213,6 +270,7 @@
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Sett_SetTimescale)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -230,5 +288,10 @@
         private System.Windows.Forms.CheckBox checkBox_Sett_UseAverageTimescale;
         private System.Windows.Forms.Label label_Sett_AverageTimescale;
         private System.Windows.Forms.Button button_Sett_ResetAverageTimescaleValue;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.TextBox textBox_BackgroundfilePath;
+        private System.Windows.Forms.Button button_Browse;
+        private System.Windows.Forms.Button button_DeleteBackgroundFilepath;
+        private System.Windows.Forms.Label label1;
     }
 }

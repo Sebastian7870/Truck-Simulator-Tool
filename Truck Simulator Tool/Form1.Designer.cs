@@ -47,11 +47,11 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label_currentshift = new System.Windows.Forms.Label();
-            this.label_nextscheduleevent = new System.Windows.Forms.Label();
-            this.label_nextpausestartend = new System.Windows.Forms.Label();
-            this.label_timetoshiftend = new System.Windows.Forms.Label();
             this.label2_timescale = new System.Windows.Forms.Label();
             this.label_shiftcount = new System.Windows.Forms.Label();
+            this.label_timetoshiftend = new System.Windows.Forms.Label();
+            this.label_nextpausestartend = new System.Windows.Forms.Label();
+            this.label_nextscheduleevent = new System.Windows.Forms.Label();
             this.label14_datetimetime = new System.Windows.Forms.Label();
             this.label15_datetimedate = new System.Windows.Forms.Label();
             this.pictureBox2_cargodamage = new System.Windows.Forms.PictureBox();
@@ -122,27 +122,28 @@
             this.schichtplanerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.schichtplanSpeichernToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.schichtplanSpeichernToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.antiKickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.antikickToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.einstellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.einstellungenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.panel14 = new System.Windows.Forms.Panel();
-            this.label_shiftText = new System.Windows.Forms.Label();
-            this.openFileDialog_Schedule = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog_Schedule = new System.Windows.Forms.SaveFileDialog();
-            this.panel15 = new System.Windows.Forms.Panel();
-            this.panel19 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel_shiftstatus = new System.Windows.Forms.Panel();
+            this.label_shiftText = new System.Windows.Forms.Label();
             this.panel_contractstatus = new System.Windows.Forms.Panel();
             this.label_ContractStatus = new System.Windows.Forms.Label();
             this.panel_connectionstatus = new System.Windows.Forms.Panel();
+            this.panel19 = new System.Windows.Forms.Panel();
+            this.openFileDialog_Schedule = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog_Schedule = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog_Contract = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog_Contract = new System.Windows.Forms.SaveFileDialog();
             this.timer2_calculateMinute = new System.Windows.Forms.Timer(this.components);
             this.timer3_antikick = new System.Windows.Forms.Timer(this.components);
-            this.checkBox_antikick = new System.Windows.Forms.CheckBox();
             this.panel16 = new System.Windows.Forms.Panel();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel18 = new System.Windows.Forms.Panel();
+            this.panel_BackgroundImage = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -170,15 +171,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_pausetimeSchedule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_durationSchedule)).BeginInit();
             this.menuStrip1.SuspendLayout();
-            this.panel15.SuspendLayout();
-            this.panel19.SuspendLayout();
+            this.panel14.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel_shiftstatus.SuspendLayout();
             this.panel_contractstatus.SuspendLayout();
             this.panel_connectionstatus.SuspendLayout();
+            this.panel19.SuspendLayout();
             this.panel16.SuspendLayout();
             this.panel17.SuspendLayout();
             this.panel18.SuspendLayout();
+            this.panel_BackgroundImage.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1_paused
@@ -202,7 +204,7 @@
             // 
             // label2
             // 
-            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label2, "label2");
             this.label2.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label2.Name = "label2";
@@ -223,7 +225,7 @@
             // label6_timebuffer
             // 
             resources.ApplyResources(this.label6_timebuffer, "label6_timebuffer");
-            this.label6_timebuffer.BackColor = System.Drawing.Color.LimeGreen;
+            this.label6_timebuffer.BackColor = System.Drawing.Color.Brown;
             this.label6_timebuffer.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label6_timebuffer.Name = "label6_timebuffer";
             // 
@@ -238,37 +240,37 @@
             // 
             resources.ApplyResources(this.label8_nextpausetime, "label8_nextpausetime");
             this.label8_nextpausetime.BackColor = System.Drawing.Color.Gainsboro;
-            this.label8_nextpausetime.ForeColor = System.Drawing.Color.LimeGreen;
+            this.label8_nextpausetime.ForeColor = System.Drawing.Color.Brown;
             this.label8_nextpausetime.Name = "label8_nextpausetime";
             // 
             // label9_estimatedtime
             // 
+            this.label9_estimatedtime.BackColor = System.Drawing.Color.DarkGray;
             resources.ApplyResources(this.label9_estimatedtime, "label9_estimatedtime");
-            this.label9_estimatedtime.BackColor = System.Drawing.Color.Transparent;
             this.label9_estimatedtime.Name = "label9_estimatedtime";
             // 
             // label10_sourcedata
             // 
-            this.label10_sourcedata.BackColor = System.Drawing.Color.Transparent;
+            this.label10_sourcedata.BackColor = System.Drawing.Color.LightGray;
             resources.ApplyResources(this.label10_sourcedata, "label10_sourcedata");
             this.label10_sourcedata.Name = "label10_sourcedata";
             // 
             // label11_destinationdata
             // 
             resources.ApplyResources(this.label11_destinationdata, "label11_destinationdata");
-            this.label11_destinationdata.BackColor = System.Drawing.Color.Transparent;
+            this.label11_destinationdata.BackColor = System.Drawing.Color.LightGray;
             this.label11_destinationdata.Name = "label11_destinationdata";
             // 
             // label12_progresspercentage
             // 
             resources.ApplyResources(this.label12_progresspercentage, "label12_progresspercentage");
-            this.label12_progresspercentage.BackColor = System.Drawing.Color.Transparent;
+            this.label12_progresspercentage.BackColor = System.Drawing.SystemColors.Control;
             this.label12_progresspercentage.Name = "label12_progresspercentage";
             // 
             // label13_remainingdistance
             // 
             resources.ApplyResources(this.label13_remainingdistance, "label13_remainingdistance");
-            this.label13_remainingdistance.BackColor = System.Drawing.Color.Transparent;
+            this.label13_remainingdistance.BackColor = System.Drawing.Color.White;
             this.label13_remainingdistance.Name = "label13_remainingdistance";
             // 
             // panel1
@@ -281,6 +283,7 @@
             // 
             // tableLayoutPanel2
             // 
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
             this.tableLayoutPanel2.Controls.Add(this.label_currentshift, 4, 0);
             this.tableLayoutPanel2.Controls.Add(this.label2_timescale, 5, 0);
@@ -295,21 +298,6 @@
             resources.ApplyResources(this.label_currentshift, "label_currentshift");
             this.label_currentshift.Name = "label_currentshift";
             // 
-            // label_nextscheduleevent
-            // 
-            resources.ApplyResources(this.label_nextscheduleevent, "label_nextscheduleevent");
-            this.label_nextscheduleevent.Name = "label_nextscheduleevent";
-            // 
-            // label_nextpausestartend
-            // 
-            resources.ApplyResources(this.label_nextpausestartend, "label_nextpausestartend");
-            this.label_nextpausestartend.Name = "label_nextpausestartend";
-            // 
-            // label_timetoshiftend
-            // 
-            resources.ApplyResources(this.label_timetoshiftend, "label_timetoshiftend");
-            this.label_timetoshiftend.Name = "label_timetoshiftend";
-            // 
             // label2_timescale
             // 
             resources.ApplyResources(this.label2_timescale, "label2_timescale");
@@ -320,10 +308,25 @@
             resources.ApplyResources(this.label_shiftcount, "label_shiftcount");
             this.label_shiftcount.Name = "label_shiftcount";
             // 
+            // label_timetoshiftend
+            // 
+            resources.ApplyResources(this.label_timetoshiftend, "label_timetoshiftend");
+            this.label_timetoshiftend.Name = "label_timetoshiftend";
+            // 
+            // label_nextpausestartend
+            // 
+            resources.ApplyResources(this.label_nextpausestartend, "label_nextpausestartend");
+            this.label_nextpausestartend.Name = "label_nextpausestartend";
+            // 
+            // label_nextscheduleevent
+            // 
+            resources.ApplyResources(this.label_nextscheduleevent, "label_nextscheduleevent");
+            this.label_nextscheduleevent.Name = "label_nextscheduleevent";
+            // 
             // label14_datetimetime
             // 
             resources.ApplyResources(this.label14_datetimetime, "label14_datetimetime");
-            this.label14_datetimetime.BackColor = System.Drawing.Color.Transparent;
+            this.label14_datetimetime.BackColor = System.Drawing.Color.DimGray;
             this.label14_datetimetime.Cursor = System.Windows.Forms.Cursors.Default;
             this.label14_datetimetime.ForeColor = System.Drawing.Color.Gainsboro;
             this.label14_datetimetime.Name = "label14_datetimetime";
@@ -331,7 +334,7 @@
             // label15_datetimedate
             // 
             resources.ApplyResources(this.label15_datetimedate, "label15_datetimedate");
-            this.label15_datetimedate.BackColor = System.Drawing.Color.Transparent;
+            this.label15_datetimedate.BackColor = System.Drawing.Color.DimGray;
             this.label15_datetimedate.ForeColor = System.Drawing.Color.Gainsboro;
             this.label15_datetimedate.Name = "label15_datetimedate";
             // 
@@ -378,13 +381,13 @@
             // label_vehicleinformation2
             // 
             resources.ApplyResources(this.label_vehicleinformation2, "label_vehicleinformation2");
-            this.label_vehicleinformation2.BackColor = System.Drawing.Color.Transparent;
+            this.label_vehicleinformation2.BackColor = System.Drawing.Color.Gainsboro;
             this.label_vehicleinformation2.Name = "label_vehicleinformation2";
             // 
             // label_vehicleinformation3
             // 
             resources.ApplyResources(this.label_vehicleinformation3, "label_vehicleinformation3");
-            this.label_vehicleinformation3.BackColor = System.Drawing.Color.Transparent;
+            this.label_vehicleinformation3.BackColor = System.Drawing.Color.Gainsboro;
             this.label_vehicleinformation3.Name = "label_vehicleinformation3";
             // 
             // pictureBox3_fuel
@@ -398,7 +401,7 @@
             // label_vehicleinformation
             // 
             resources.ApplyResources(this.label_vehicleinformation, "label_vehicleinformation");
-            this.label_vehicleinformation.BackColor = System.Drawing.Color.Transparent;
+            this.label_vehicleinformation.BackColor = System.Drawing.Color.Gainsboro;
             this.label_vehicleinformation.Name = "label_vehicleinformation";
             // 
             // panel5
@@ -411,14 +414,14 @@
             // 
             // label_vehicleinformationtext
             // 
-            this.label_vehicleinformationtext.BackColor = System.Drawing.Color.Transparent;
+            this.label_vehicleinformationtext.BackColor = System.Drawing.Color.DarkGray;
             resources.ApplyResources(this.label_vehicleinformationtext, "label_vehicleinformationtext");
             this.label_vehicleinformationtext.Name = "label_vehicleinformationtext";
             // 
             // label_datetimenowseconds
             // 
             resources.ApplyResources(this.label_datetimenowseconds, "label_datetimenowseconds");
-            this.label_datetimenowseconds.BackColor = System.Drawing.Color.Transparent;
+            this.label_datetimenowseconds.BackColor = System.Drawing.Color.DimGray;
             this.label_datetimenowseconds.ForeColor = System.Drawing.Color.Gainsboro;
             this.label_datetimenowseconds.Name = "label_datetimenowseconds";
             // 
@@ -436,13 +439,13 @@
             // 
             // label_currentbestarrival2
             // 
-            this.label_currentbestarrival2.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.label_currentbestarrival2, "label_currentbestarrival2");
+            this.label_currentbestarrival2.BackColor = System.Drawing.Color.Gainsboro;
             this.label_currentbestarrival2.Name = "label_currentbestarrival2";
             // 
             // label_currentbestarrival
             // 
-            this.label_currentbestarrival.BackColor = System.Drawing.Color.Transparent;
+            this.label_currentbestarrival.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label_currentbestarrival, "label_currentbestarrival");
             this.label_currentbestarrival.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label_currentbestarrival.Name = "label_currentbestarrival";
@@ -459,22 +462,22 @@
             // 
             // label_bestarrival
             // 
-            this.label_bestarrival.BackColor = System.Drawing.Color.Transparent;
+            this.label_bestarrival.BackColor = System.Drawing.Color.DarkGray;
             resources.ApplyResources(this.label_bestarrival, "label_bestarrival");
             this.label_bestarrival.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label_bestarrival.Name = "label_bestarrival";
             // 
             // label3
             // 
-            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.BackColor = System.Drawing.Color.DarkGray;
             resources.ApplyResources(this.label3, "label3");
             this.label3.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label3.Name = "label3";
             // 
             // label_bestarrival2
             // 
-            this.label_bestarrival2.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.label_bestarrival2, "label_bestarrival2");
+            this.label_bestarrival2.BackColor = System.Drawing.Color.DarkGray;
             this.label_bestarrival2.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label_bestarrival2.Name = "label_bestarrival2";
             // 
@@ -506,30 +509,31 @@
             // 
             // label_TFMdjTimeleft
             // 
-            this.label_TFMdjTimeleft.BackColor = System.Drawing.Color.Transparent;
+            this.label_TFMdjTimeleft.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label_TFMdjTimeleft, "label_TFMdjTimeleft");
             this.label_TFMdjTimeleft.Name = "label_TFMdjTimeleft";
             // 
             // label_TFMdjname
             // 
-            this.label_TFMdjname.BackColor = System.Drawing.Color.Transparent;
+            this.label_TFMdjname.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label_TFMdjname, "label_TFMdjname");
             this.label_TFMdjname.Name = "label_TFMdjname";
             // 
             // label_TFMsongartist
             // 
-            this.label_TFMsongartist.BackColor = System.Drawing.Color.Transparent;
+            this.label_TFMsongartist.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label_TFMsongartist, "label_TFMsongartist");
             this.label_TFMsongartist.Name = "label_TFMsongartist";
             // 
             // label_TFMsongname
             // 
-            this.label_TFMsongname.BackColor = System.Drawing.Color.Transparent;
+            this.label_TFMsongname.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label_TFMsongname, "label_TFMsongname");
             this.label_TFMsongname.Name = "label_TFMsongname";
             // 
             // pictureBox_TruckersfmSong
             // 
+            this.pictureBox_TruckersfmSong.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.pictureBox_TruckersfmSong, "pictureBox_TruckersfmSong");
             this.pictureBox_TruckersfmSong.Name = "pictureBox_TruckersfmSong";
             this.pictureBox_TruckersfmSong.TabStop = false;
@@ -563,7 +567,7 @@
             // radioButton_extended
             // 
             resources.ApplyResources(this.radioButton_extended, "radioButton_extended");
-            this.radioButton_extended.BackColor = System.Drawing.Color.Transparent;
+            this.radioButton_extended.BackColor = System.Drawing.Color.Gainsboro;
             this.radioButton_extended.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioButton_extended.Name = "radioButton_extended";
             this.radioButton_extended.UseVisualStyleBackColor = false;
@@ -572,7 +576,7 @@
             // radioButton_standart
             // 
             resources.ApplyResources(this.radioButton_standart, "radioButton_standart");
-            this.radioButton_standart.BackColor = System.Drawing.Color.Transparent;
+            this.radioButton_standart.BackColor = System.Drawing.Color.Gainsboro;
             this.radioButton_standart.Checked = true;
             this.radioButton_standart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.radioButton_standart.Name = "radioButton_standart";
@@ -582,18 +586,19 @@
             // 
             // label_CalculatortimeH3
             // 
-            this.label_CalculatortimeH3.BackColor = System.Drawing.Color.Transparent;
+            this.label_CalculatortimeH3.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label_CalculatortimeH3, "label_CalculatortimeH3");
             this.label_CalculatortimeH3.Name = "label_CalculatortimeH3";
             // 
             // label_Calculatortime3
             // 
-            this.label_Calculatortime3.BackColor = System.Drawing.Color.Transparent;
+            this.label_Calculatortime3.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label_Calculatortime3, "label_Calculatortime3");
             this.label_Calculatortime3.Name = "label_Calculatortime3";
             // 
             // numericUpDown_time3
             // 
+            this.numericUpDown_time3.BackColor = System.Drawing.Color.White;
             this.numericUpDown_time3.DecimalPlaces = 2;
             resources.ApplyResources(this.numericUpDown_time3, "numericUpDown_time3");
             this.numericUpDown_time3.Increment = new decimal(new int[] {
@@ -621,19 +626,19 @@
             // 
             // label10
             // 
-            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.BackColor = System.Drawing.Color.DarkGray;
             resources.ApplyResources(this.label10, "label10");
             this.label10.Name = "label10";
             // 
             // label_CalculatortimeH2
             // 
-            this.label_CalculatortimeH2.BackColor = System.Drawing.Color.Transparent;
+            this.label_CalculatortimeH2.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label_CalculatortimeH2, "label_CalculatortimeH2");
             this.label_CalculatortimeH2.Name = "label_CalculatortimeH2";
             // 
             // label_Calculatortime2
             // 
-            this.label_Calculatortime2.BackColor = System.Drawing.Color.Transparent;
+            this.label_Calculatortime2.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label_Calculatortime2, "label_Calculatortime2");
             this.label_Calculatortime2.Name = "label_Calculatortime2";
             // 
@@ -665,37 +670,37 @@
             // 
             // label8
             // 
-            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
             // 
             // label_CalculatortimeH1
             // 
-            this.label_CalculatortimeH1.BackColor = System.Drawing.Color.Transparent;
+            this.label_CalculatortimeH1.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label_CalculatortimeH1, "label_CalculatortimeH1");
             this.label_CalculatortimeH1.Name = "label_CalculatortimeH1";
             // 
             // label_Calculatortime1
             // 
-            this.label_Calculatortime1.BackColor = System.Drawing.Color.Transparent;
+            this.label_Calculatortime1.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label_Calculatortime1, "label_Calculatortime1");
             this.label_Calculatortime1.Name = "label_Calculatortime1";
             // 
             // label5
             // 
-            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
             // label4
             // 
-            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
             // 
             // label1
             // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
@@ -799,32 +804,32 @@
             // 
             // label6
             // 
+            this.label6.BackColor = System.Drawing.Color.DarkGray;
             resources.ApplyResources(this.label6, "label6");
-            this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Name = "label6";
             // 
             // label12
             // 
+            this.label12.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label12, "label12");
-            this.label12.BackColor = System.Drawing.Color.Transparent;
             this.label12.Name = "label12";
             // 
             // label13
             // 
+            this.label13.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label13, "label13");
-            this.label13.BackColor = System.Drawing.Color.Transparent;
             this.label13.Name = "label13";
             // 
             // label11
             // 
+            this.label11.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label11, "label11");
-            this.label11.BackColor = System.Drawing.Color.Transparent;
             this.label11.Name = "label11";
             // 
             // label7
             // 
+            this.label7.BackColor = System.Drawing.Color.Gainsboro;
             resources.ApplyResources(this.label7, "label7");
-            this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Name = "label7";
             // 
             // dateTimePicker_schedule
@@ -920,10 +925,11 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.Color.White;
+            this.menuStrip1.BackColor = System.Drawing.Color.Gainsboro;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dateiToolStripMenuItem,
             this.schichtplanerToolStripMenuItem,
+            this.antiKickToolStripMenuItem,
             this.einstellungenToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
@@ -968,6 +974,19 @@
             resources.ApplyResources(this.schichtplanSpeichernToolStripMenuItem1, "schichtplanSpeichernToolStripMenuItem1");
             this.schichtplanSpeichernToolStripMenuItem1.Click += new System.EventHandler(this.button_SaveScheduleMenu_click);
             // 
+            // antiKickToolStripMenuItem
+            // 
+            this.antiKickToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.antikickToolStripMenuItem1});
+            this.antiKickToolStripMenuItem.Name = "antiKickToolStripMenuItem";
+            resources.ApplyResources(this.antiKickToolStripMenuItem, "antiKickToolStripMenuItem");
+            // 
+            // antikickToolStripMenuItem1
+            // 
+            this.antikickToolStripMenuItem1.Name = "antikickToolStripMenuItem1";
+            resources.ApplyResources(this.antikickToolStripMenuItem1, "antikickToolStripMenuItem1");
+            this.antikickToolStripMenuItem1.Click += new System.EventHandler(this.antikickToolStripMenuItem1_Click);
+            // 
             // einstellungenToolStripMenuItem
             // 
             this.einstellungenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -984,45 +1003,15 @@
             // panel14
             // 
             this.panel14.BackColor = System.Drawing.Color.Transparent;
+            this.panel14.Controls.Add(this.tableLayoutPanel1);
+            this.panel14.Controls.Add(this.panel19);
             resources.ApplyResources(this.panel14, "panel14");
             this.panel14.Name = "panel14";
             // 
-            // label_shiftText
-            // 
-            resources.ApplyResources(this.label_shiftText, "label_shiftText");
-            this.label_shiftText.BackColor = System.Drawing.Color.Transparent;
-            this.label_shiftText.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_shiftText.Name = "label_shiftText";
-            // 
-            // openFileDialog_Schedule
-            // 
-            resources.ApplyResources(this.openFileDialog_Schedule, "openFileDialog_Schedule");
-            // 
-            // saveFileDialog_Schedule
-            // 
-            resources.ApplyResources(this.saveFileDialog_Schedule, "saveFileDialog_Schedule");
-            // 
-            // panel15
-            // 
-            this.panel15.BackColor = System.Drawing.Color.Transparent;
-            this.panel15.Controls.Add(this.panel19);
-            this.panel15.Controls.Add(this.tableLayoutPanel1);
-            resources.ApplyResources(this.panel15, "panel15");
-            this.panel15.Name = "panel15";
-            // 
-            // panel19
-            // 
-            this.panel19.BackColor = System.Drawing.Color.DimGray;
-            this.panel19.Controls.Add(this.label_datetimenowseconds);
-            this.panel19.Controls.Add(this.label14_datetimetime);
-            this.panel19.Controls.Add(this.label15_datetimedate);
-            resources.ApplyResources(this.panel19, "panel19");
-            this.panel19.Name = "panel19";
-            // 
             // tableLayoutPanel1
             // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.panel_shiftstatus, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel_contractstatus, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel_connectionstatus, 0, 0);
@@ -1034,6 +1023,13 @@
             this.panel_shiftstatus.BackColor = System.Drawing.Color.Brown;
             this.panel_shiftstatus.Controls.Add(this.label_shiftText);
             this.panel_shiftstatus.Name = "panel_shiftstatus";
+            // 
+            // label_shiftText
+            // 
+            resources.ApplyResources(this.label_shiftText, "label_shiftText");
+            this.label_shiftText.BackColor = System.Drawing.Color.Transparent;
+            this.label_shiftText.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_shiftText.Name = "label_shiftText";
             // 
             // panel_contractstatus
             // 
@@ -1056,6 +1052,23 @@
             this.panel_connectionstatus.Controls.Add(this.label1_paused);
             this.panel_connectionstatus.Name = "panel_connectionstatus";
             // 
+            // panel19
+            // 
+            this.panel19.BackColor = System.Drawing.Color.DimGray;
+            this.panel19.Controls.Add(this.label_datetimenowseconds);
+            this.panel19.Controls.Add(this.label14_datetimetime);
+            this.panel19.Controls.Add(this.label15_datetimedate);
+            resources.ApplyResources(this.panel19, "panel19");
+            this.panel19.Name = "panel19";
+            // 
+            // openFileDialog_Schedule
+            // 
+            resources.ApplyResources(this.openFileDialog_Schedule, "openFileDialog_Schedule");
+            // 
+            // saveFileDialog_Schedule
+            // 
+            resources.ApplyResources(this.saveFileDialog_Schedule, "saveFileDialog_Schedule");
+            // 
             // openFileDialog_Contract
             // 
             resources.ApplyResources(this.openFileDialog_Contract, "openFileDialog_Contract");
@@ -1074,18 +1087,10 @@
             this.timer3_antikick.Interval = 150000;
             this.timer3_antikick.Tick += new System.EventHandler(this.timer3_antikick_Tick);
             // 
-            // checkBox_antikick
-            // 
-            this.checkBox_antikick.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.checkBox_antikick, "checkBox_antikick");
-            this.checkBox_antikick.Name = "checkBox_antikick";
-            this.checkBox_antikick.UseVisualStyleBackColor = false;
-            this.checkBox_antikick.CheckedChanged += new System.EventHandler(this.checkBox_antikick_CheckedChanged);
-            // 
             // panel16
             // 
             resources.ApplyResources(this.panel16, "panel16");
-            this.panel16.BackColor = System.Drawing.Color.Transparent;
+            this.panel16.BackColor = System.Drawing.Color.LightGray;
             this.panel16.Controls.Add(this.pictureBox1_distance);
             this.panel16.Controls.Add(this.label6_timebuffer);
             this.panel16.Controls.Add(this.label10_sourcedata);
@@ -1097,34 +1102,40 @@
             // panel17
             // 
             this.panel17.BackColor = System.Drawing.Color.Transparent;
+            this.panel17.Controls.Add(this.panel12);
             this.panel17.Controls.Add(this.panel10);
             this.panel17.Controls.Add(this.panel9);
-            this.panel17.Controls.Add(this.panel12);
             resources.ApplyResources(this.panel17, "panel17");
             this.panel17.Name = "panel17";
             // 
             // panel18
             // 
             this.panel18.BackColor = System.Drawing.Color.Transparent;
-            this.panel18.Controls.Add(this.panel4);
-            this.panel18.Controls.Add(this.panel6);
-            this.panel18.Controls.Add(this.checkBox_antikick);
             this.panel18.Controls.Add(this.panel16);
+            this.panel18.Controls.Add(this.panel6);
             this.panel18.Controls.Add(this.panel2);
+            this.panel18.Controls.Add(this.panel4);
+            this.panel18.Cursor = System.Windows.Forms.Cursors.Arrow;
             resources.ApplyResources(this.panel18, "panel18");
             this.panel18.Name = "panel18";
+            // 
+            // panel_BackgroundImage
+            // 
+            this.panel_BackgroundImage.BackColor = System.Drawing.Color.LightGray;
+            resources.ApplyResources(this.panel_BackgroundImage, "panel_BackgroundImage");
+            this.panel_BackgroundImage.Controls.Add(this.panel18);
+            this.panel_BackgroundImage.Controls.Add(this.panel17);
+            this.panel_BackgroundImage.Name = "panel_BackgroundImage";
             // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
-            this.Controls.Add(this.panel18);
-            this.Controls.Add(this.panel17);
-            this.Controls.Add(this.panel15);
+            this.Controls.Add(this.panel_BackgroundImage);
             this.Controls.Add(this.panel14);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.panel1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -1158,16 +1169,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_durationSchedule)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.panel15.ResumeLayout(false);
-            this.panel19.ResumeLayout(false);
-            this.panel19.PerformLayout();
+            this.panel14.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel_shiftstatus.ResumeLayout(false);
             this.panel_contractstatus.ResumeLayout(false);
             this.panel_connectionstatus.ResumeLayout(false);
+            this.panel19.ResumeLayout(false);
+            this.panel19.PerformLayout();
             this.panel16.ResumeLayout(false);
             this.panel17.ResumeLayout(false);
             this.panel18.ResumeLayout(false);
+            this.panel_BackgroundImage.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1267,13 +1279,11 @@
         private System.Windows.Forms.Button button_LoadDeleteSchedule;
         private System.Windows.Forms.OpenFileDialog openFileDialog_Schedule;
         private System.Windows.Forms.SaveFileDialog saveFileDialog_Schedule;
-        private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Label label14_datetimetime;
         private System.Windows.Forms.OpenFileDialog openFileDialog_Contract;
         private System.Windows.Forms.SaveFileDialog saveFileDialog_Contract;
         private System.Windows.Forms.Timer timer2_calculateMinute;
         private System.Windows.Forms.Timer timer3_antikick;
-        private System.Windows.Forms.CheckBox checkBox_antikick;
         private System.Windows.Forms.Label label_TFMdjTimeleft;
         private System.Windows.Forms.Label label_ContractStatus;
         private System.Windows.Forms.Panel panel16;
@@ -1287,6 +1297,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label label_currentshift;
         private System.Windows.Forms.Label label2_timescale;
+        private System.Windows.Forms.ToolStripMenuItem antiKickToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem antikickToolStripMenuItem1;
+        private System.Windows.Forms.Panel panel_BackgroundImage;
     }
 }
 

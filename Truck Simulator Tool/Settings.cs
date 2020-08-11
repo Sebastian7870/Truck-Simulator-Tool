@@ -6,5 +6,6 @@
         public bool AverageTimescaleActive { get; set; }
         public double AverageTimescaleValue { get; set; }
         public decimal ManualTimescaleValue { get; set; }
+        public string BackgroundImageFilePath { get; set; }
     }
 }
