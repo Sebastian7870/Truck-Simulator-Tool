@@ -476,7 +476,7 @@ namespace Truck_Simulator_Tool
 
 
                     // JobInfo
-                    if (TelemetryData.ets2.game.gameID == "ets2")
+                    if (TelemetryData.ets2.game.gameID == "eut2")
                     {// ETS2
                         if (TelemetryData.ets2.job.cargo.id != "")
                         {
@@ -612,7 +612,7 @@ namespace Truck_Simulator_Tool
                     {
                         beaconStatus = "ausgeschaltet";
                     }
-                    if (TelemetryData.ets2.game.gameID == "ets2")
+                    if (TelemetryData.ets2.game.gameID == "eut2")
                     {// ETS2
                         label_vehicleinformation.Text = String.Format("Rundumleuchte: {0}", beaconStatus);
                         label_vehicleinformation2.Text = String.Format("Ø Geschwindigkeit: {0} km/h", currentaveragespeed.ToString("n2"));
@@ -631,7 +631,7 @@ namespace Truck_Simulator_Tool
                     double pb_distanceProgress;
                     if (TelemetryData.ets2.truck.navigationEstimatedDistance > 0)
                     {
-                        if (TelemetryData.ets2.game.gameID == "ets2")
+                        if (TelemetryData.ets2.game.gameID == "eut2")
                         {// ETS2
                             if (TelemetryData.ets2.game.paused == false)
                             {
@@ -687,7 +687,7 @@ namespace Truck_Simulator_Tool
                     }
                     if (TelemetryData.ets2.truck.navigationEstimatedDistance == 0)
                     { // ProgressBarDistance reset
-                        if (TelemetryData.ets2.game.gameID == "ets2")
+                        if (TelemetryData.ets2.game.gameID == "eut2")
                         {// ETS2
                             PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, 0, String.Format("0 km   /   0 km"), "Microsoft Sans Serif", Brushes.LimeGreen);
                             label12_progresspercentage.Text = ("0,00 %");
@@ -717,7 +717,7 @@ namespace Truck_Simulator_Tool
 
 
                     // ProgressBar fuel
-                    if (TelemetryData.ets2.game.gameID == "ets2")
+                    if (TelemetryData.ets2.game.gameID == "eut2")
                     {// ETS2
                         if (TelemetryData.ets2.truck.id != "")
                         {
@@ -755,7 +755,7 @@ namespace Truck_Simulator_Tool
                     }
 
                     // Calculator label
-                    if (TelemetryData.ets2.game.gameID == "ets2")
+                    if (TelemetryData.ets2.game.gameID == "eut2")
                     {// ETS2
                         label8.Text = "km/h";
                         label9.Text = "km";
