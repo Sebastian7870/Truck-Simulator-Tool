@@ -2,6 +2,7 @@
 {
     class SavedContract
     {
+        public string GameId { get; set; }
         public string SourceCity { get; set; }
         public string SourceCompany { get; set; }
         public string DestinationCity { get; set; }

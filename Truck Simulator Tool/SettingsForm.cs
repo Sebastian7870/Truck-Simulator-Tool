@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
-using System.Drawing;
 
 namespace Truck_Simulator_Tool
 {
@@ -72,7 +71,7 @@ namespace Truck_Simulator_Tool
                 checkBox_Sett_UseAverageTimescale.Checked = false;
                 numericUpDown_SetTimescale.Visible = true;
             }
-            
+
             textBox_BackgroundfilePath.Text = settings.BackgroundImageFilePath;
             numericUpDown_SetTimescale.Value = settings.ManualTimescaleValue;
             label_AverageTimescale.Text = "durchschnittliche Zeitskalierung: " + settings.AverageTimescaleValue.ToString();

@@ -205,7 +205,7 @@
             this.label_currentarrival.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label_currentarrival.Location = new System.Drawing.Point(3, 1);
             this.label_currentarrival.Name = "label_currentarrival";
-            this.label_currentarrival.Size = new System.Drawing.Size(251, 29);
+            this.label_currentarrival.Size = new System.Drawing.Size(249, 29);
             this.label_currentarrival.TabIndex = 3;
             this.label_currentarrival.Text = "Ankunft ca.:      00:00 Uhr";
             this.label_currentarrival.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -618,11 +618,10 @@
             // label_currentbestarrival2
             // 
             this.label_currentbestarrival2.BackColor = System.Drawing.Color.Gainsboro;
-            this.label_currentbestarrival2.Dock = System.Windows.Forms.DockStyle.Right;
             this.label_currentbestarrival2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.label_currentbestarrival2.Location = new System.Drawing.Point(259, 31);
+            this.label_currentbestarrival2.Location = new System.Drawing.Point(252, 31);
             this.label_currentbestarrival2.Name = "label_currentbestarrival2";
-            this.label_currentbestarrival2.Size = new System.Drawing.Size(154, 34);
+            this.label_currentbestarrival2.Size = new System.Drawing.Size(161, 34);
             this.label_currentbestarrival2.TabIndex = 7;
             this.label_currentbestarrival2.Text = "(0 Min.)";
             this.label_currentbestarrival2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -682,13 +681,12 @@
             // label_bestarrival2
             // 
             this.label_bestarrival2.BackColor = System.Drawing.Color.DarkGray;
-            this.label_bestarrival2.Dock = System.Windows.Forms.DockStyle.Right;
             this.label_bestarrival2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.label_bestarrival2.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label_bestarrival2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label_bestarrival2.Location = new System.Drawing.Point(261, 0);
+            this.label_bestarrival2.Location = new System.Drawing.Point(251, 0);
             this.label_bestarrival2.Name = "label_bestarrival2";
-            this.label_bestarrival2.Size = new System.Drawing.Size(150, 20);
+            this.label_bestarrival2.Size = new System.Drawing.Size(160, 20);
             this.label_bestarrival2.TabIndex = 5;
             this.label_bestarrival2.Text = "(0 Min.)";
             this.label_bestarrival2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -707,11 +705,10 @@
             // 
             // label_currentarrival2
             // 
-            this.label_currentarrival2.Dock = System.Windows.Forms.DockStyle.Right;
             this.label_currentarrival2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
-            this.label_currentarrival2.Location = new System.Drawing.Point(257, 0);
+            this.label_currentarrival2.Location = new System.Drawing.Point(247, 0);
             this.label_currentarrival2.Name = "label_currentarrival2";
-            this.label_currentarrival2.Size = new System.Drawing.Size(154, 29);
+            this.label_currentarrival2.Size = new System.Drawing.Size(166, 29);
             this.label_currentarrival2.TabIndex = 4;
             this.label_currentarrival2.Text = "(0 Min.)";
             this.label_currentarrival2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -853,9 +850,9 @@
             this.label_CalculatortimeH3.BackColor = System.Drawing.Color.Transparent;
             this.label_CalculatortimeH3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.label_CalculatortimeH3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label_CalculatortimeH3.Location = new System.Drawing.Point(347, 157);
+            this.label_CalculatortimeH3.Location = new System.Drawing.Point(347, 161);
             this.label_CalculatortimeH3.Name = "label_CalculatortimeH3";
-            this.label_CalculatortimeH3.Size = new System.Drawing.Size(43, 29);
+            this.label_CalculatortimeH3.Size = new System.Drawing.Size(43, 22);
             this.label_CalculatortimeH3.TabIndex = 15;
             this.label_CalculatortimeH3.Text = "Std.";
             this.label_CalculatortimeH3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -867,7 +864,7 @@
             this.label_Calculatortime3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label_Calculatortime3.Location = new System.Drawing.Point(3, 161);
             this.label_Calculatortime3.Name = "label_Calculatortime3";
-            this.label_Calculatortime3.Size = new System.Drawing.Size(144, 29);
+            this.label_Calculatortime3.Size = new System.Drawing.Size(144, 22);
             this.label_Calculatortime3.TabIndex = 14;
             this.label_Calculatortime3.Text = "Fahrzeit (3):";
             this.label_Calculatortime3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -925,9 +922,9 @@
             this.label_CalculatortimeH2.BackColor = System.Drawing.Color.Transparent;
             this.label_CalculatortimeH2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.label_CalculatortimeH2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label_CalculatortimeH2.Location = new System.Drawing.Point(347, 122);
+            this.label_CalculatortimeH2.Location = new System.Drawing.Point(347, 126);
             this.label_CalculatortimeH2.Name = "label_CalculatortimeH2";
-            this.label_CalculatortimeH2.Size = new System.Drawing.Size(43, 29);
+            this.label_CalculatortimeH2.Size = new System.Drawing.Size(43, 22);
             this.label_CalculatortimeH2.TabIndex = 12;
             this.label_CalculatortimeH2.Text = "Std.";
             this.label_CalculatortimeH2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -939,7 +936,7 @@
             this.label_Calculatortime2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label_Calculatortime2.Location = new System.Drawing.Point(3, 126);
             this.label_Calculatortime2.Name = "label_Calculatortime2";
-            this.label_Calculatortime2.Size = new System.Drawing.Size(144, 29);
+            this.label_Calculatortime2.Size = new System.Drawing.Size(144, 22);
             this.label_Calculatortime2.TabIndex = 11;
             this.label_Calculatortime2.Text = "Fahrzeit (15):";
             this.label_Calculatortime2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -973,9 +970,9 @@
             this.label9.BackColor = System.Drawing.Color.Transparent;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.label9.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label9.Location = new System.Drawing.Point(347, 325);
+            this.label9.Location = new System.Drawing.Point(347, 329);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(43, 29);
+            this.label9.Size = new System.Drawing.Size(43, 22);
             this.label9.TabIndex = 9;
             this.label9.Text = "km";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -985,9 +982,9 @@
             this.label8.BackColor = System.Drawing.Color.Transparent;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label8.Location = new System.Drawing.Point(347, 244);
+            this.label8.Location = new System.Drawing.Point(347, 249);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(43, 29);
+            this.label8.Size = new System.Drawing.Size(43, 22);
             this.label8.TabIndex = 8;
             this.label8.Text = "km/h";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -997,9 +994,9 @@
             this.label_CalculatortimeH1.BackColor = System.Drawing.Color.Transparent;
             this.label_CalculatortimeH1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.label_CalculatortimeH1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label_CalculatortimeH1.Location = new System.Drawing.Point(347, 87);
+            this.label_CalculatortimeH1.Location = new System.Drawing.Point(347, 91);
             this.label_CalculatortimeH1.Name = "label_CalculatortimeH1";
-            this.label_CalculatortimeH1.Size = new System.Drawing.Size(43, 29);
+            this.label_CalculatortimeH1.Size = new System.Drawing.Size(43, 20);
             this.label_CalculatortimeH1.TabIndex = 7;
             this.label_CalculatortimeH1.Text = "Std.";
             this.label_CalculatortimeH1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1011,7 +1008,7 @@
             this.label_Calculatortime1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label_Calculatortime1.Location = new System.Drawing.Point(3, 91);
             this.label_Calculatortime1.Name = "label_Calculatortime1";
-            this.label_Calculatortime1.Size = new System.Drawing.Size(144, 29);
+            this.label_Calculatortime1.Size = new System.Drawing.Size(144, 20);
             this.label_Calculatortime1.TabIndex = 6;
             this.label_Calculatortime1.Text = "Fahrzeit:";
             this.label_Calculatortime1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1023,7 +1020,7 @@
             this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label5.Location = new System.Drawing.Point(3, 249);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(144, 29);
+            this.label5.Size = new System.Drawing.Size(144, 22);
             this.label5.TabIndex = 5;
             this.label5.Text = "Ø Geschwindigkeit:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1035,9 +1032,9 @@
             this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label4.Location = new System.Drawing.Point(3, 329);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(144, 29);
+            this.label4.Size = new System.Drawing.Size(144, 22);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Kilometer (ingame):";
+            this.label4.Text = "Distanz (ingame):";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label_TimeScaleConstantCalculator
