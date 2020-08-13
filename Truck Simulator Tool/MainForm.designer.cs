@@ -36,7 +36,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label5_jobinfo = new System.Windows.Forms.Label();
             this.pictureBox1_distance = new System.Windows.Forms.PictureBox();
-            this.label6_timebuffer = new System.Windows.Forms.Label();
             this.label7_remainingtime = new System.Windows.Forms.Label();
             this.label8_nextpausetime = new System.Windows.Forms.Label();
             this.label9_estimatedtime = new System.Windows.Forms.Label();
@@ -137,10 +136,12 @@
             this.timer2_calculateMinute = new System.Windows.Forms.Timer(this.components);
             this.timer3_antikick = new System.Windows.Forms.Timer(this.components);
             this.panel_ContractdistanceData = new System.Windows.Forms.Panel();
+            this.label_Timebuffer = new System.Windows.Forms.Label();
             this.panel_Dock_Right = new System.Windows.Forms.Panel();
             this.panel_Dock_Fill = new System.Windows.Forms.Panel();
             this.panel_BackgroundImage = new System.Windows.Forms.Panel();
             this.panel_DockBottom = new System.Windows.Forms.Panel();
+            this.label_ingametime = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.tableLayoutPanel_Bottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -226,7 +227,7 @@
             // label5_jobinfo
             // 
             this.label5_jobinfo.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label5_jobinfo.BackColor = System.Drawing.Color.Transparent;
+            this.label5_jobinfo.BackColor = System.Drawing.Color.DarkGray;
             this.label5_jobinfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.label5_jobinfo.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label5_jobinfo.Location = new System.Drawing.Point(3, 151);
@@ -247,30 +248,16 @@
             this.pictureBox1_distance.TabIndex = 6;
             this.pictureBox1_distance.TabStop = false;
             // 
-            // label6_timebuffer
-            // 
-            this.label6_timebuffer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6_timebuffer.BackColor = System.Drawing.Color.Brown;
-            this.label6_timebuffer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.label6_timebuffer.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label6_timebuffer.Location = new System.Drawing.Point(107, 89);
-            this.label6_timebuffer.Name = "label6_timebuffer";
-            this.label6_timebuffer.Size = new System.Drawing.Size(356, 23);
-            this.label6_timebuffer.TabIndex = 7;
-            this.label6_timebuffer.Text = "Zeitpuffer: 0 Min.";
-            this.label6_timebuffer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // label7_remainingtime
             // 
             this.label7_remainingtime.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label7_remainingtime.BackColor = System.Drawing.Color.Transparent;
             this.label7_remainingtime.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.label7_remainingtime.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label7_remainingtime.ForeColor = System.Drawing.Color.Brown;
             this.label7_remainingtime.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7_remainingtime.Location = new System.Drawing.Point(19, 44);
+            this.label7_remainingtime.Location = new System.Drawing.Point(15, 36);
             this.label7_remainingtime.Name = "label7_remainingtime";
-            this.label7_remainingtime.Size = new System.Drawing.Size(408, 25);
+            this.label7_remainingtime.Size = new System.Drawing.Size(415, 38);
             this.label7_remainingtime.TabIndex = 8;
             this.label7_remainingtime.Text = "Restzeit: 0 Min.";
             this.label7_remainingtime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -282,9 +269,9 @@
             this.label8_nextpausetime.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
             this.label8_nextpausetime.ForeColor = System.Drawing.Color.Brown;
             this.label8_nextpausetime.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label8_nextpausetime.Location = new System.Drawing.Point(19, 10);
+            this.label8_nextpausetime.Location = new System.Drawing.Point(16, -1);
             this.label8_nextpausetime.Name = "label8_nextpausetime";
-            this.label8_nextpausetime.Size = new System.Drawing.Size(408, 25);
+            this.label8_nextpausetime.Size = new System.Drawing.Size(415, 38);
             this.label8_nextpausetime.TabIndex = 9;
             this.label8_nextpausetime.Text = "Pause in: 0 Min.";
             this.label8_nextpausetime.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -309,7 +296,7 @@
             this.label10_sourcedata.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label10_sourcedata.Location = new System.Drawing.Point(2, 8);
             this.label10_sourcedata.Name = "label10_sourcedata";
-            this.label10_sourcedata.Size = new System.Drawing.Size(240, 52);
+            this.label10_sourcedata.Size = new System.Drawing.Size(200, 52);
             this.label10_sourcedata.TabIndex = 11;
             this.label10_sourcedata.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -318,9 +305,9 @@
             this.label11_destinationdata.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label11_destinationdata.BackColor = System.Drawing.Color.Transparent;
             this.label11_destinationdata.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.label11_destinationdata.Location = new System.Drawing.Point(331, 8);
+            this.label11_destinationdata.Location = new System.Drawing.Point(369, 8);
             this.label11_destinationdata.Name = "label11_destinationdata";
-            this.label11_destinationdata.Size = new System.Drawing.Size(240, 52);
+            this.label11_destinationdata.Size = new System.Drawing.Size(200, 52);
             this.label11_destinationdata.TabIndex = 12;
             this.label11_destinationdata.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -328,11 +315,11 @@
             // 
             this.label12_progresspercentage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label12_progresspercentage.BackColor = System.Drawing.SystemColors.Control;
-            this.label12_progresspercentage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.label12_progresspercentage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12_progresspercentage.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label12_progresspercentage.Location = new System.Drawing.Point(1, 89);
             this.label12_progresspercentage.Name = "label12_progresspercentage";
-            this.label12_progresspercentage.Size = new System.Drawing.Size(100, 23);
+            this.label12_progresspercentage.Size = new System.Drawing.Size(125, 23);
             this.label12_progresspercentage.TabIndex = 13;
             this.label12_progresspercentage.Text = "0,00 %";
             this.label12_progresspercentage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -341,10 +328,10 @@
             // 
             this.label13_remainingdistance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label13_remainingdistance.BackColor = System.Drawing.Color.White;
-            this.label13_remainingdistance.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.label13_remainingdistance.Location = new System.Drawing.Point(469, 89);
+            this.label13_remainingdistance.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13_remainingdistance.Location = new System.Drawing.Point(444, 89);
             this.label13_remainingdistance.Name = "label13_remainingdistance";
-            this.label13_remainingdistance.Size = new System.Drawing.Size(100, 23);
+            this.label13_remainingdistance.Size = new System.Drawing.Size(125, 23);
             this.label13_remainingdistance.TabIndex = 14;
             this.label13_remainingdistance.Text = "Noch  0 km";
             this.label13_remainingdistance.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -496,9 +483,9 @@
             this.panel_JobinfoLight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_JobinfoLight.Controls.Add(this.label8_nextpausetime);
             this.panel_JobinfoLight.Controls.Add(this.label7_remainingtime);
-            this.panel_JobinfoLight.Location = new System.Drawing.Point(-17, 67);
+            this.panel_JobinfoLight.Location = new System.Drawing.Point(-17, 65);
             this.panel_JobinfoLight.Name = "panel_JobinfoLight";
-            this.panel_JobinfoLight.Size = new System.Drawing.Size(446, 81);
+            this.panel_JobinfoLight.Size = new System.Drawing.Size(446, 75);
             this.panel_JobinfoLight.TabIndex = 19;
             // 
             // panel_Vehicleinfo
@@ -557,6 +544,7 @@
             this.label_vehicleinformation.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label_vehicleinformation.BackColor = System.Drawing.Color.Transparent;
             this.label_vehicleinformation.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
+            this.label_vehicleinformation.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label_vehicleinformation.Location = new System.Drawing.Point(3, 73);
             this.label_vehicleinformation.Name = "label_vehicleinformation";
             this.label_vehicleinformation.Size = new System.Drawing.Size(408, 38);
@@ -706,6 +694,7 @@
             // label_currentarrival2
             // 
             this.label_currentarrival2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
+            this.label_currentarrival2.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label_currentarrival2.Location = new System.Drawing.Point(247, 0);
             this.label_currentarrival2.Name = "label_currentarrival2";
             this.label_currentarrival2.Size = new System.Drawing.Size(166, 29);
@@ -1502,7 +1491,7 @@
             // 
             // label_contractstatus
             // 
-            this.label_contractstatus.BackColor = System.Drawing.Color.Brown;
+            this.label_contractstatus.BackColor = System.Drawing.Color.LimeGreen;
             this.label_contractstatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label_contractstatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold);
             this.label_contractstatus.ForeColor = System.Drawing.Color.Gainsboro;
@@ -1575,8 +1564,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel_ContractdistanceData.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel_ContractdistanceData.BackColor = System.Drawing.Color.LightGray;
+            this.panel_ContractdistanceData.Controls.Add(this.label_Timebuffer);
             this.panel_ContractdistanceData.Controls.Add(this.pictureBox1_distance);
-            this.panel_ContractdistanceData.Controls.Add(this.label6_timebuffer);
             this.panel_ContractdistanceData.Controls.Add(this.label10_sourcedata);
             this.panel_ContractdistanceData.Controls.Add(this.label11_destinationdata);
             this.panel_ContractdistanceData.Controls.Add(this.label12_progresspercentage);
@@ -1585,6 +1574,20 @@
             this.panel_ContractdistanceData.Name = "panel_ContractdistanceData";
             this.panel_ContractdistanceData.Size = new System.Drawing.Size(575, 123);
             this.panel_ContractdistanceData.TabIndex = 34;
+            // 
+            // label_Timebuffer
+            // 
+            this.label_Timebuffer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_Timebuffer.BackColor = System.Drawing.Color.Brown;
+            this.label_Timebuffer.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Timebuffer.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label_Timebuffer.Location = new System.Drawing.Point(132, 90);
+            this.label_Timebuffer.Name = "label_Timebuffer";
+            this.label_Timebuffer.Size = new System.Drawing.Size(306, 20);
+            this.label_Timebuffer.TabIndex = 15;
+            this.label_Timebuffer.Text = "Zeitpuffer: 0 Min.";
+            this.label_Timebuffer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel_Dock_Right
             // 
@@ -1637,6 +1640,19 @@
             this.panel_DockBottom.Size = new System.Drawing.Size(1424, 33);
             this.panel_DockBottom.TabIndex = 15;
             // 
+            // label_ingametime
+            // 
+            this.label_ingametime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_ingametime.BackColor = System.Drawing.Color.White;
+            this.label_ingametime.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ingametime.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label_ingametime.Location = new System.Drawing.Point(1285, 0);
+            this.label_ingametime.Name = "label_ingametime";
+            this.label_ingametime.Size = new System.Drawing.Size(139, 24);
+            this.label_ingametime.TabIndex = 15;
+            this.label_ingametime.Text = "Mo 0:00";
+            this.label_ingametime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1644,6 +1660,7 @@
             this.BackColor = System.Drawing.Color.LightGray;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1424, 899);
+            this.Controls.Add(this.label_ingametime);
             this.Controls.Add(this.panel_BackgroundImage);
             this.Controls.Add(this.panel_Dock_Top);
             this.Controls.Add(this.menuStrip_Top);
@@ -1706,7 +1723,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label5_jobinfo;
         private System.Windows.Forms.PictureBox pictureBox1_distance;
-        private System.Windows.Forms.Label label6_timebuffer;
         private System.Windows.Forms.Label label7_remainingtime;
         private System.Windows.Forms.Label label8_nextpausetime;
         private System.Windows.Forms.Label label9_estimatedtime;
@@ -1811,6 +1827,8 @@
         private System.Windows.Forms.Panel panel_BackgroundImage;
         private System.Windows.Forms.Label label_shiftstatus;
         private System.Windows.Forms.Panel panel_DockBottom;
+        private System.Windows.Forms.Label label_ingametime;
+        private System.Windows.Forms.Label label_Timebuffer;
     }
 }
 

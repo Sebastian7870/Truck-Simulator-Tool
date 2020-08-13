@@ -9,7 +9,6 @@ namespace Truck_Simulator_Tool
     {
         Settings settings = new Settings();
         string SoftwarePath = Application.StartupPath;
-        bool TimeScaleChanged = false;
         bool ClosedByCross = true;
 
 
@@ -37,12 +36,9 @@ namespace Truck_Simulator_Tool
                 try
                 {
                     settings.AutoSaveActive = true;
-                    settings.AverageTimescaleActive = true;
-                    settings.AverageTimescaleValue = 19;
+                    settings.AntiKickDefaultOn = true;
                     settings.ManualTimescaleValue = 19;
                     settings.BackgroundImageFilePath = "";
-                    settings.TimercounterTimescale = 0;
-                    settings.TimescaleSummary = 1;
 
                     string sJson = JsonConvert.SerializeObject(settings);
                     File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
@@ -60,23 +56,23 @@ namespace Truck_Simulator_Tool
             {
                 checkBox_Sett_AutoSave.Checked = false;
             }
-
-            if (settings.AverageTimescaleActive == true)
-            {// Average TimeScale Checked
-                checkBox_Sett_UseAverageTimescale.Checked = true;
-                numericUpDown_SetTimescale.Visible = false;
+            
+            if (settings.AntiKickDefaultOn == true)
+            {// AntiKick Checked
+                checkBox_Sett_AntiKick.Checked = true;
             }
             else
             {
-                checkBox_Sett_UseAverageTimescale.Checked = false;
-                numericUpDown_SetTimescale.Visible = true;
+                checkBox_Sett_AntiKick.Checked = false;
             }
+
 
             textBox_BackgroundfilePath.Text = settings.BackgroundImageFilePath;
             numericUpDown_SetTimescale.Value = settings.ManualTimescaleValue;
-            label_AverageTimescale.Text = "durchschnittliche Zeitskalierung: " + settings.AverageTimescaleValue.ToString();
         }
 
+
+        //Save settings
         void SaveSettings()
         {
             try
@@ -89,15 +85,16 @@ namespace Truck_Simulator_Tool
                 {
                     settings.AutoSaveActive = false;
                 }
-
-                if (checkBox_Sett_UseAverageTimescale.Checked == true)
-                {// Set AverageTimescale to settings
-                    settings.AverageTimescaleActive = true;
+                
+                if (checkBox_Sett_AntiKick.Checked == true)
+                {// AntiKick to settings
+                    settings.AntiKickDefaultOn = true;
                 }
                 else
                 {
-                    settings.AverageTimescaleActive = false;
+                    settings.AntiKickDefaultOn = false;
                 }
+
                 settings.ManualTimescaleValue = numericUpDown_SetTimescale.Value;
                 settings.BackgroundImageFilePath = textBox_BackgroundfilePath.Text;
 
@@ -105,7 +102,10 @@ namespace Truck_Simulator_Tool
                 File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
 
                 ClosedByCross = false;
-                this.Close();
+                if (System.Windows.Forms.Application.OpenForms["MainForm"] != null)
+                {
+                    (System.Windows.Forms.Application.OpenForms["MainForm"] as MainForm).LoadSettingsOrCreate();
+                }
             }
             catch
             {
@@ -118,7 +118,7 @@ namespace Truck_Simulator_Tool
         {
             if (ClosedByCross == true)
             {
-                if (settings.AutoSaveActive == checkBox_Sett_AutoSave.Checked && settings.AverageTimescaleActive == checkBox_Sett_UseAverageTimescale.Checked && TimeScaleChanged == false && settings.ManualTimescaleValue == numericUpDown_SetTimescale.Value && settings.BackgroundImageFilePath == textBox_BackgroundfilePath.Text)
+                if (settings.AutoSaveActive == checkBox_Sett_AutoSave.Checked && settings.ManualTimescaleValue == numericUpDown_SetTimescale.Value && settings.BackgroundImageFilePath == textBox_BackgroundfilePath.Text)
                 {// Check if something was changed
 
                 }
@@ -133,30 +133,14 @@ namespace Truck_Simulator_Tool
             }
         }
 
-        private void button_Sett_ResetAverageTimescaleValue_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Dieser Wert ist sehr bedeutsam und beim Zurücksetzen kann es zu unerwünschten Werten führen. Möchten Sie fortfahren?", "Warnung!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-            {
-                if (MessageBox.Show("Sie bestätigen hiermit, dass Sie den Wert löschen möchten.", "Möchten Sie diese Datei wirklich löschen?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-                {
-                    settings.AverageTimescaleValue = 19;
-                    settings.TimercounterTimescale = 0;
-                    settings.TimescaleSummary = 1;
-                    label_AverageTimescale.Text = "durchschnittliche Zeitskalierung: " + settings.AverageTimescaleValue.ToString();
-                    TimeScaleChanged = true;
-                }
-            }
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             SaveSettings();
-            this.Close();
         }
 
         private void button_Cancel_Click(object sender, EventArgs e)
         {
-            if (settings.AutoSaveActive == checkBox_Sett_AutoSave.Checked && settings.AverageTimescaleActive == checkBox_Sett_UseAverageTimescale.Checked && TimeScaleChanged == false && settings.ManualTimescaleValue == numericUpDown_SetTimescale.Value && settings.BackgroundImageFilePath == textBox_BackgroundfilePath.Text)
+            if (settings.AutoSaveActive == checkBox_Sett_AutoSave.Checked && settings.ManualTimescaleValue == numericUpDown_SetTimescale.Value && settings.BackgroundImageFilePath == textBox_BackgroundfilePath.Text)
             {// Check if something was changed
 
             }
@@ -176,38 +160,15 @@ namespace Truck_Simulator_Tool
             if (MessageBox.Show("Möchten Sie die Einstellungen zurücksetzen? Die Durchschnittliche Zeitskalierung ist dabei ausgeschlossen.", "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
                 settings.AutoSaveActive = true;
-                settings.AverageTimescaleActive = true;
+                checkBox_Sett_AutoSave.Checked = true;
+
+                settings.AntiKickDefaultOn = true;
+                checkBox_Sett_AntiKick.Checked = true;
+                
                 settings.ManualTimescaleValue = 19;
+                numericUpDown_SetTimescale.Value = 19;
 
-                if (settings.AutoSaveActive == true)
-                {// Auto Save Checked
-                    checkBox_Sett_AutoSave.Checked = true;
-                }
-                else
-                {
-                    checkBox_Sett_AutoSave.Checked = false;
-                }
-
-                if (settings.AverageTimescaleActive == true)
-                {// Average TimeScale Checked
-                    checkBox_Sett_UseAverageTimescale.Checked = true;
-                    numericUpDown_SetTimescale.Visible = false;
-                }
-                else
-                {
-                    checkBox_Sett_UseAverageTimescale.Checked = false;
-                    numericUpDown_SetTimescale.Visible = true;
-                }
-
-                numericUpDown_SetTimescale.Value = settings.ManualTimescaleValue;
-            }
-        }
-
-        private void SettingsForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            if (System.Windows.Forms.Application.OpenForms["MainForm"] != null)
-            {
-                (System.Windows.Forms.Application.OpenForms["MainForm"] as MainForm).LoadSettingsOrCreate();
+                textBox_BackgroundfilePath.Text = "";
             }
         }
 
@@ -226,16 +187,9 @@ namespace Truck_Simulator_Tool
             textBox_BackgroundfilePath.Text = "";
         }
 
-        private void checkBox_Sett_UseAverageTimescale_CheckedChanged(object sender, EventArgs e)
+        private void button_Help_ManualTimescale_Click(object sender, EventArgs e)
         {
-            if (checkBox_Sett_UseAverageTimescale.Checked == true)
-            {
-                numericUpDown_SetTimescale.Visible = false;
-            }
-            else
-            {
-                numericUpDown_SetTimescale.Visible = true;
-            }
+            MessageBox.Show("Durch diesen Wert wird die Ingame-Zeit dividiert. Um korrekte Auftragsdaten zu erhalten, ändern Sie diesen Wert entsprechned der Region. Sie können die derzeitige Zeitskalierung der Region unten rechts im Hauptfenster erkennen.\n(ETS2 Autobahn: 19, ETS2 UK Autobahn: 15, ETS2 Städte: 3)\n (ATS  highways: 20, ATS Städte: 3)", "Zeitskalierungshilfe", MessageBoxButtons.OK, MessageBoxIcon.Question);
         }
     }
 }

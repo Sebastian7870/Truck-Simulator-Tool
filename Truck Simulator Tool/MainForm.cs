@@ -36,14 +36,14 @@ namespace Truck_Simulator_Tool
         bool scheduleLoaded = false;
         DateTime dt_bestarrival = DateTime.Now;
         double TimeScaleConstant = 19;
-        double timescalesummary = 0;
-        string SoftwarePath = Application.StartupPath;
+        readonly string SoftwarePath = Application.StartupPath;
         SavedContract savedcontract = new SavedContract();
         bool StartApplicationContractLoaded = false;
         float LastKnownEstimatedDistance = 0f;
         Settings settings = new Settings();
         bool ContractSaved = false;
-        int timercountertimescale = 0;
+        readonly DateTimeFormatInfo dateTimeFormatInfoDE = CultureInfo.GetCultureInfo("de-DE").DateTimeFormat;
+        readonly DateTimeFormatInfo dateTimeFormatInfoUSA = CultureInfo.GetCultureInfo("en-US").DateTimeFormat;
 
 
         [DllImport("user32.dll")]
@@ -102,9 +102,6 @@ namespace Truck_Simulator_Tool
             label_CalculatortimeH3.Visible = false;
             numericUpDown_km.ReadOnly = true;
 
-
-            antikickToolStripMenuItem1.Checked = false;
-
             // Check for SchedulePlans and ContractInfo Files
             if (Directory.Exists(SoftwarePath + @"\work shifts") && Directory.Exists(SoftwarePath + @"\contracts"))
             { // Load Data if available
@@ -120,6 +117,8 @@ namespace Truck_Simulator_Tool
             }
         }
 
+
+        // Load Settings (or create)
         public void LoadSettingsOrCreate()
         {
             // Check for settings file
@@ -132,12 +131,9 @@ namespace Truck_Simulator_Tool
                 try
                 {
                     settings.AutoSaveActive = true;
-                    settings.AverageTimescaleActive = true;
-                    settings.AverageTimescaleValue = 19;
+                    settings.AntiKickDefaultOn = true;
                     settings.ManualTimescaleValue = 19;
                     settings.BackgroundImageFilePath = "";
-                    settings.TimercounterTimescale = 0;
-                    settings.TimescaleSummary = 1;
 
                     string sJson = JsonConvert.SerializeObject(settings);
                     File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
@@ -147,14 +143,18 @@ namespace Truck_Simulator_Tool
                     MessageBox.Show("Schwerwiegender Fehler gefunde! Bitte Autor kontaktieren.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            if (settings.AverageTimescaleActive == true)
+            TimeScaleConstant = Convert.ToDouble(settings.ManualTimescaleValue);
+            if (settings.AntiKickDefaultOn == true)
             {
-                TimeScaleConstant = settings.AverageTimescaleValue;
+                antikickToolStripMenuItem1.Checked = true;
+                timer3_antikick.Start();
             }
             else
             {
-                TimeScaleConstant = Convert.ToDouble(settings.ManualTimescaleValue);
+                antikickToolStripMenuItem1.Checked = false;
             }
+
+            // Background Image settings
             if (settings.BackgroundImageFilePath != "")
             {
                 try
@@ -162,7 +162,7 @@ namespace Truck_Simulator_Tool
                     Image img = Image.FromFile(settings.BackgroundImageFilePath);
                     panel_BackgroundImage.BackgroundImage = img;
 
-                    // Panel transparency
+                    // Panel transparency on
                     panel_ContractdistanceData.BackColor = Color.FromArgb(175, Color.Gainsboro);
                     panel_TruckerFMBox.BackColor = Color.FromArgb(175, Color.Gainsboro);
                     panel_Shiftbox.BackColor = Color.FromArgb(175, Color.Gainsboro);
@@ -179,13 +179,13 @@ namespace Truck_Simulator_Tool
                         string sJson = JsonConvert.SerializeObject(settings);
                         File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
 
-                        // Panel transparency
+                        // Panel transparency off
                         panel_ContractdistanceData.BackColor = Color.FromArgb(255, Color.LightGray);
                         panel_TruckerFMBox.BackColor = Color.FromArgb(255, Color.Gainsboro);
                         panel_Shiftbox.BackColor = Color.FromArgb(255, Color.Gainsboro);
                         panel_Calculator.BackColor = Color.FromArgb(255, Color.Gainsboro);
                         panel_Vehicleinfo.BackColor = Color.FromArgb(255, Color.Gainsboro);
-                        panel_Jobinfo.BackColor = Color.FromArgb(255, Color.Gainsboro);
+                        panel_Jobinfo.BackColor = Color.FromArgb(255, Color.DarkGray);
                     }
                     catch
                     {
@@ -197,17 +197,14 @@ namespace Truck_Simulator_Tool
             {
                 panel_BackgroundImage.BackgroundImage = null;
 
-                // Panel transparency
+                // Panel transparency off
                 panel_ContractdistanceData.BackColor = Color.FromArgb(255, Color.LightGray);
                 panel_TruckerFMBox.BackColor = Color.FromArgb(255, Color.Gainsboro);
                 panel_Shiftbox.BackColor = Color.FromArgb(255, Color.Gainsboro);
                 panel_Calculator.BackColor = Color.FromArgb(255, Color.Gainsboro);
                 panel_Vehicleinfo.BackColor = Color.FromArgb(255, Color.Gainsboro);
-                panel_Jobinfo.BackColor = Color.FromArgb(255, Color.Gainsboro);
+                panel_Jobinfo.BackColor = Color.FromArgb(255, Color.DarkGray);
             }
-            timercountertimescale = settings.TimercounterTimescale;
-            timescalesummary = settings.TimescaleSummary;
-
         }
 
 
@@ -309,15 +306,12 @@ namespace Truck_Simulator_Tool
                 if (TelemetryData.ets2.game.connected == true)
                 {// Game connected
 
+                    currentaveragespeed = speedsummary / timercounter;
                     if (TelemetryData.ets2.truck.speed > 5 && TelemetryData.ets2.game.paused == false)
                     {// Average Variables Calcuations
                         timercounter += 1;
                         speedsummary += TelemetryData.ets2.truck.speed;
                         currentaveragespeed = speedsummary / timercounter;
-
-                        timercountertimescale += 1;
-                        timescalesummary += TelemetryData.ets2.game.scale;
-                        TimeScaleConstant = timescalesummary / timercountertimescale;
                     }
                     if (TelemetryData.ets2.truck.navigationEstimatedDistance > 0)
                     {
@@ -329,6 +323,7 @@ namespace Truck_Simulator_Tool
                         bestcurrentaveragespeed = 0;
 
                         panel_ArrivalinfoTop.BackColor = Color.Brown;
+
                         label_currentarrival.Text = "Ankunft ca.:      00:00 Uhr";
                         label_currentarrival2.Text = "(0 Min.)";
 
@@ -341,15 +336,17 @@ namespace Truck_Simulator_Tool
                     }
                     if (bestcurrentaveragespeed > 0)
                     {
+                       // Best Current Average Speed
+                        
                         DateTime dt_bestcurrentarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / bestcurrentaveragespeed) / TimeScaleConstant) * 3600);
                         TimeSpan ts_bestcurrentarrival = dt_bestcurrentarrival.Subtract(DateTime.Now);
                         label_currentbestarrival.Text = String.Format("{0} Uhr", dt_bestcurrentarrival.ToString("HH:mm"));
                         label_currentbestarrival2.Text = String.Format("({0})", TimeSpanConvertToAvailableValuesOnly(ts_bestcurrentarrival));
 
-                        // best arrival
+                        // Best Arrival
                         if (bestarrivalset == false)
                         {
-                            dt_bestarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / bestcurrentaveragespeed) / TimeScaleConstant) * 3600);
+                            dt_bestarrival = DateTime.Now.AddSeconds(((TelemetryData.ets2.job.cargo.plannedDistanceKM / bestcurrentaveragespeed) / TimeScaleConstant) * 3600);
 
                             label_bestarrival.Text = String.Format("{0} Uhr", dt_bestarrival.ToString("HH:mm"));
                             bestarrivalset = true;
@@ -362,8 +359,9 @@ namespace Truck_Simulator_Tool
                         }
                         label_bestarrival2.Text = bestarrivaltext;
 
+                        // Current Average Speed
                         if (currentaveragespeed > 0)
-                        { // Average Calculations SHOW
+                        { 
                             DateTime dt_currentarrival = DateTime.Now.AddSeconds(((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / currentaveragespeed) / TimeScaleConstant) * 3600));
                             TimeSpan ts_currentarrival = dt_currentarrival.Subtract(DateTime.Now);
 
@@ -471,6 +469,18 @@ namespace Truck_Simulator_Tool
                     }
 
 
+                    //Ingametime Label
+                    TimeSpan Ingametime = TimeSpan.FromSeconds(TelemetryData.ets2.game.gameTime);
+                    DateTime dt_ingametime = new DateTime(1, 1, 1, 0, 0, 0).Add(Ingametime);
+                    if (TelemetryData.ets2.game.gameID == "eut2")
+                    {
+                        label_ingametime.Text = String.Format("{0} {1}", dateTimeFormatInfoDE.GetShortestDayName(dt_ingametime.DayOfWeek), dt_ingametime.ToString("H:mm", CultureInfo.GetCultureInfo("de-DE")));
+                    }
+                    else
+                    {
+                        label_ingametime.Text = String.Format("{0} {1}", dateTimeFormatInfoUSA.GetShortestDayName(dt_ingametime.DayOfWeek), dt_ingametime.ToString("h:mm tt", CultureInfo.GetCultureInfo("en-US")));
+                    }
+                    
                     // TimeScale
                     label2_timescale.Text = "Zeitskalierung: " + TelemetryData.ets2.game.scale.ToString();
 
@@ -514,7 +524,7 @@ namespace Truck_Simulator_Tool
                     {
                         if (ts_nextpausetime.TotalHours < 5)
                         {
-                            label8_nextpausetime.ForeColor = Color.Gold;
+                            label8_nextpausetime.ForeColor = Color.Goldenrod;
                         }
                         label8_nextpausetime.ForeColor = Color.LimeGreen;
                     }
@@ -524,73 +534,73 @@ namespace Truck_Simulator_Tool
                     }
                     label8_nextpausetime.Text = "Pause in: " + TimeSpanConvertToAvailableValuesOnly(ts_nextpausetime);
 
+
                     // JobRemainingTime
                     if (TelemetryData.ets2.job.cargo.id != "")
                     {
                         TimeSpan ts_remainingtime = TimeSpan.FromSeconds(TelemetryData.ets2.job.remainingTime);
                         TimeSpan ts_estimatedtime = TimeSpan.FromSeconds(TelemetryData.ets2.truck.navigationEstimatedTime);
-                        TimeSpan ts_timebuffer = ts_remainingtime - ts_estimatedtime;
+                        TimeSpan ts_timebuffer = ts_remainingtime - ts_estimatedtime; 
                         if (ts_nextpausetime < ts_estimatedtime)
                         {
                             double d = Math.Ceiling((ts_estimatedtime.TotalSeconds - ts_nextpausetime.TotalSeconds) / (11 * 3600));
                             ts_timebuffer = ts_remainingtime - (ts_estimatedtime.Add(TimeSpan.FromHours(d * 9)));
-
                         }
 
-                        // remaining time (color)
-                        if (ts_remainingtime.TotalSeconds > 0)
+                        // Remaining time
+                        if (ts_remainingtime.TotalSeconds > 0 && ts_remainingtime.TotalSeconds < 1000000)
                         {
                             if (ts_remainingtime.TotalHours < 1)
                             {
-                                label7_remainingtime.ForeColor = Color.Gold;
+                                label8_nextpausetime.ForeColor = Color.Goldenrod;
                             }
                             label7_remainingtime.ForeColor = Color.LimeGreen;
-                        }
-                        else
-                        {
-                            label7_remainingtime.ForeColor = Color.Brown;
-                        }
-                        if (ts_remainingtime.TotalSeconds < 1000000)
-                        { // Set remaining time (only if it is not external contract
                             label7_remainingtime.Text = "Restzeit: " + TimeSpanConvertToAvailableValuesOnly(ts_remainingtime);
                         }
-                        else
+                        else if (ts_remainingtime.TotalSeconds > 1000000)
                         {
+                            label7_remainingtime.ForeColor = Color.CornflowerBlue;
                             label7_remainingtime.Text = "Restzeit: WoT";
                         }
+                        else
+                        {// (smaller than 0)
+                            label7_remainingtime.ForeColor = Color.Brown;
+                        }
 
-                        // time buffer (color and negate)
+                        // time buffer
                         if (ts_timebuffer.TotalSeconds < 0)
                         {
-                            label6_timebuffer.BackColor = Color.Brown;
+                            label_Timebuffer.BackColor = Color.Brown;
+                            
                             ts_timebuffer = TimeSpan.FromSeconds(ts_timebuffer.TotalSeconds * (-1));
                             if (ts_remainingtime.TotalSeconds < 1000000)
                             { // Set timebuffer time (only if it is not external contract
-                                label6_timebuffer.Text = "Zeitpuffer: " + TimeSpanConvertToAvailableValuesOnly(ts_remainingtime);
+                                label_Timebuffer.Text = "Zeitpuffer: " + TimeSpanConvertToAvailableValuesOnly(ts_remainingtime);
                             }
                             else
                             {
-                                label6_timebuffer.BackColor = Color.RoyalBlue;
-                                label6_timebuffer.Text = "Zeitpuffer: WoT";
+                                label_Timebuffer.BackColor = Color.CornflowerBlue;
+                                label_Timebuffer.Text = "Zeitpuffer: WoT";
                             }
                         }
                         else
                         {
                             if (ts_timebuffer.TotalHours < 5)
                             {
-                                label6_timebuffer.BackColor = Color.Gold;
+                                label_Timebuffer.BackColor = Color.Goldenrod;
                             }
                             else
                             {
-                                label6_timebuffer.BackColor = Color.LimeGreen;
+                                label_Timebuffer.BackColor = Color.LimeGreen;
                             }
                             if (ts_remainingtime.TotalSeconds < 1000000)
                             { // Set timebuffer time (only if it is not external contract
-                                label6_timebuffer.Text = "Zeitpuffer: " + TimeSpanConvertToAvailableValuesOnly(ts_remainingtime);
+                                label_Timebuffer.Text = "Zeitpuffer: " + TimeSpanConvertToAvailableValuesOnly(ts_timebuffer);
                             }
                             else
                             {
-                                label6_timebuffer.Text = "Zeitpuffer: WoT";
+                                label_Timebuffer.ForeColor = Color.CornflowerBlue;
+                                label_Timebuffer.Text = "Zeitpuffer: WoT";
                             }
 
                         }
@@ -598,7 +608,10 @@ namespace Truck_Simulator_Tool
                     }
                     else
                     {
+                        label_Timebuffer.BackColor = Color.Brown;
+                        label7_remainingtime.ForeColor = Color.Brown;
                         label7_remainingtime.Text = "Restzeit: 0 Min.";
+                        label_Timebuffer.Text = "Zeitpuffer: 0 Min.";
                     }
 
 
@@ -644,18 +657,18 @@ namespace Truck_Simulator_Tool
                                     drivendistance += ((-1) * TelemetryData.ets2.truck.speed) / 3600 * TelemetryData.ets2.game.scale;
                                 }
                                 distancesummary = drivendistance + TelemetryData.ets2.truck.navigationEstimatedDistance / 1000;
-
-                                // ProgressBar Create ETS2
-                                pb_distanceProgress = drivendistance / distancesummary;
-                                PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress * 100, String.Format("{0} km   /   {1} km", Math.Round(drivendistance, 0), Math.Round(distancesummary, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
-                                label12_progresspercentage.Text = (pb_distanceProgress.ToString("p0"));
-                                label13_remainingdistance.Text = "Noch " + Math.Round(TelemetryData.ets2.truck.navigationEstimatedDistance / 1000, 0).ToString() + " km";
                             }
                             if (TelemetryData.ets2.truck.navigationEstimatedDistance == 0 && TelemetryData.ets2.job.cargo.id == "")
                             {
                                 distancesummary = 0;
                                 drivendistance = 0;
                             }
+
+                            // ProgressBar Create ETS2
+                            pb_distanceProgress = drivendistance / distancesummary;
+                            PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress * 100, String.Format("{0} km   /   {1} km", Math.Round(drivendistance, 0), Math.Round(distancesummary, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
+                            label12_progresspercentage.Text = (pb_distanceProgress.ToString("p2"));
+                            label13_remainingdistance.Text = "Noch " + Math.Round(TelemetryData.ets2.truck.navigationEstimatedDistance / 1000, 0).ToString() + " km";
                         }
                         else
                         {// ATS
@@ -670,18 +683,19 @@ namespace Truck_Simulator_Tool
                                     drivendistance += ((-1) * (TelemetryData.ets2.truck.speed / 1.609344) / 3600) * TelemetryData.ets2.game.scale;
                                 }
                                 distancesummary = drivendistance + (TelemetryData.ets2.truck.navigationEstimatedDistance / 1.609344) / 1000;
-
-                                // ProgressBar Create ATS
-                                pb_distanceProgress = drivendistance / distancesummary;
-                                PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress * 100, String.Format("{0} mi   /   {1} mi", Math.Round(drivendistance, 0), Math.Round(distancesummary, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
-                                label12_progresspercentage.Text = (pb_distanceProgress.ToString("p0"));
-                                label13_remainingdistance.Text = "Noch " + Math.Round((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000), 0).ToString() + " mi";
                             }
                             if (TelemetryData.ets2.truck.navigationEstimatedDistance == 0 && TelemetryData.ets2.job.cargo.id == "")
                             {
                                 distancesummary = 0;
                                 drivendistance = 0;
                             }
+
+                            // ProgressBar Create ATS
+                            pb_distanceProgress = drivendistance / distancesummary;
+                            PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress * 100, String.Format("{0} mi   /   {1} mi", Math.Round(drivendistance, 0), Math.Round(distancesummary, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
+                            label12_progresspercentage.Text = (pb_distanceProgress.ToString("p0"));
+                            label13_remainingdistance.Text = "Noch " + Math.Round((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000), 0).ToString() + " mi";
+
                         }
 
                     }
@@ -693,10 +707,7 @@ namespace Truck_Simulator_Tool
                             label12_progresspercentage.Text = ("0,00 %");
                             label13_remainingdistance.Text = "Noch 0 km";
                         }
-
-                    }
-                    else
-                    {
+                        else
                         {// ATS
                             PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, 0, String.Format("0 mi   /   0 mi"), "Microsoft Sans Serif", Brushes.LimeGreen);
                             label12_progresspercentage.Text = ("0,00 %");
@@ -723,11 +734,11 @@ namespace Truck_Simulator_Tool
                         {
                             if (TelemetryData.ets2.truck.fuelWarningOn)
                             {
-                                PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / TelemetryData.ets2.truck.fuelCapacity) * 100), String.Format("{0} l / {1} l ({2} km)", Math.Round(TelemetryData.ets2.truck.fuel, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity, 0), Math.Round(TelemetryData.ets2.truck.fuelRange, 0)), "Microsoft Sans Serif", Brushes.Brown);
+                                PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, (TelemetryData.ets2.truck.fuel / TelemetryData.ets2.truck.fuelCapacity) * 100, String.Format("{0} l / {1} l ({2} km)", Math.Round(TelemetryData.ets2.truck.fuel, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity, 0), Math.Round(TelemetryData.ets2.truck.fuelRange, 0)), "Microsoft Sans Serif", Brushes.Brown);
                             }
                             else
                             {
-                                PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / TelemetryData.ets2.truck.fuelCapacity * 100)), String.Format("{0} l / {1} l ({2} km)", Math.Round(TelemetryData.ets2.truck.fuel, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity, 0), Math.Round(TelemetryData.ets2.truck.fuelRange, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
+                                PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, (TelemetryData.ets2.truck.fuel / TelemetryData.ets2.truck.fuelCapacity) * 100, String.Format("{0} l / {1} l ({2} km)", Math.Round(TelemetryData.ets2.truck.fuel, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity, 0), Math.Round(TelemetryData.ets2.truck.fuelRange, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
                             }
                         }
                         else
@@ -741,11 +752,11 @@ namespace Truck_Simulator_Tool
                         {
                             if (TelemetryData.ets2.truck.fuelWarningOn)
                             {
-                                PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((((TelemetryData.ets2.truck.fuel / 4.546092) / (TelemetryData.ets2.truck.fuelCapacity) / 4.546092)) * 100), String.Format("{0} gal / {1} gal ({2} mi)", Math.Round(TelemetryData.ets2.truck.fuel / 4.546092, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity / 4.546092, 0), Math.Round(TelemetryData.ets2.truck.fuelRange / 1.609344, 0)), "Microsoft Sans Serif", Brushes.Brown);
+                                PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / 4.546092) / (TelemetryData.ets2.truck.fuelCapacity / 4.546092)) * 100, String.Format("{0} gal / {1} gal ({2} mi)", Math.Round(TelemetryData.ets2.truck.fuel / 4.546092, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity / 4.546092, 0), Math.Round(TelemetryData.ets2.truck.fuelRange / 1.609344, 0)), "Microsoft Sans Serif", Brushes.Brown);
                             }
                             else
                             {
-                                PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((((TelemetryData.ets2.truck.fuel / 4.546092) / (TelemetryData.ets2.truck.fuelCapacity / 4.546092)) * 100)), String.Format("{0} gal / {1} gal ({2} mi)", Math.Round(TelemetryData.ets2.truck.fuel / 4.546092, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity / 4.546092, 0), Math.Round(TelemetryData.ets2.truck.fuelRange / 1.609344, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
+                                PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / 4.546092) / (TelemetryData.ets2.truck.fuelCapacity / 4.546092)) * 100, String.Format("{0} gal / {1} gal ({2} mi)", Math.Round(TelemetryData.ets2.truck.fuel / 4.546092, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity / 4.546092, 0), Math.Round(TelemetryData.ets2.truck.fuelRange / 1.609344, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
                             }
                         }
                         else
@@ -784,7 +795,7 @@ namespace Truck_Simulator_Tool
                     // Get ContractData if available
                     if (StartApplicationContractLoaded == false)
                     {
-                        if (TelemetryData.ets2.job.sourceCity != "" && TelemetryData.ets2.job.sourceCompany != "" && TelemetryData.ets2.job.destinationCity != "" && TelemetryData.ets2.job.destinationCompany != "" && TelemetryData.ets2.game.lastProfile != "" && TelemetryData.ets2.job.income != 0)
+                        if (settings.AutoSaveActive == true && TelemetryData.ets2.job.sourceCity != "" && TelemetryData.ets2.job.sourceCompany != "" && TelemetryData.ets2.job.destinationCity != "" && TelemetryData.ets2.job.destinationCompany != "" && TelemetryData.ets2.game.lastProfile != "" && TelemetryData.ets2.job.income != 0)
                         {
                             try
                             {
@@ -802,8 +813,15 @@ namespace Truck_Simulator_Tool
                             catch
                             {
                                 StartApplicationContractLoaded = true;
-                                MessageBox.Show("Es scheint, dass Sie den derzeitigen Auftrag ohne diese Software begonnen haben oder der Auftrag älter als ein Monat ist. Beachten Sie bitte, dass die Auftragsdaten (gefahrene KM, Durchschnittsgeschwindigkeit) zurückgesetzt werden und es dadurch zu abweichungen in den gennanten Punkten kommen kann.", "Information!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                if (TelemetryData.ets2.truck.navigationEstimatedDistance < (TelemetryData.ets2.job.cargo.plannedDistanceKM - 5))
+                                {
+                                    MessageBox.Show("Es scheint, dass Sie den derzeitigen Auftrag ohne diese Software begonnen haben oder der Auftrag älter als ein Monat ist. Beachten Sie bitte, dass die Auftragsdaten (gefahrene KM, Durchschnittsgeschwindigkeit) zurückgesetzt werden und es dadurch zu abweichungen in den gennanten Punkten kommen kann.", "Information!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
                             }
+                        }
+                        else
+                        {
+                            StartApplicationContractLoaded = true;
                         }
                     }
 
@@ -835,7 +853,7 @@ namespace Truck_Simulator_Tool
             try
             {
 
-                if (bTelemetryOnline == true && TelemetryData.ets2.game.connected == true && speedsummary > 0 && timercounter > 0 && drivendistance > 0 && LastKnownEstimatedDistance >= 5 && savedcontract.SourceCity != "" && savedcontract.SourceCompany != "" && savedcontract.DestinationCity != "" && savedcontract.DestinationCompany != "" && savedcontract.LastProfile != "" && savedcontract.Income != 0)
+                if (settings.AutoSaveActive == true && bTelemetryOnline == true && TelemetryData.ets2.game.connected == true && speedsummary > 0 && timercounter > 0 && drivendistance > 0 && LastKnownEstimatedDistance >= 5 && savedcontract.SourceCity != "" && savedcontract.SourceCompany != "" && savedcontract.DestinationCity != "" && savedcontract.DestinationCompany != "" && savedcontract.LastProfile != "" && savedcontract.Income != 0)
                 {
                     string sJson = JsonConvert.SerializeObject(savedcontract);
                     File.WriteAllText(String.Format(SoftwarePath + @"\contracts\{0}_AutoSaveContract_{1} - {2}___id-{3}.json", savedcontract.GameId, TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0)), sJson);
@@ -846,26 +864,6 @@ namespace Truck_Simulator_Tool
             {
                 MessageBox.Show("Error! (Method Automatic Backupper Save)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 ContractSaved = false;
-            }
-
-
-            //Save TimeScaleConstant
-            try
-            {
-                if (settings.AverageTimescaleActive == true)
-                {
-                    settings.AverageTimescaleValue = TimeScaleConstant;
-                    settings.TimercounterTimescale = timercountertimescale;
-                    settings.TimescaleSummary = timescalesummary;
-
-
-                    string sJson = JsonConvert.SerializeObject(settings);
-                    File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Error! (Method Save TimeScaleConstant))", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
 
@@ -1144,13 +1142,14 @@ namespace Truck_Simulator_Tool
             {
                 try
                 {
-                    double pbUnit = pb.Width / 100;
+                    double pbUnit = pb.Width;
+                    pbUnit = pbUnit / 100;
                     Bitmap bmp;
                     Graphics graphics;
                     bmp = new Bitmap(pb.Width, pb.Height);
                     graphics = Graphics.FromImage(bmp);
                     graphics.Clear(colorBack);
-                    graphics.FillRectangle(brushProgressColor, new Rectangle(0, 0, (int)(dProgress * pbUnit), pb.Height)); //(int)
+                    graphics.FillRectangle(brushProgressColor, new Rectangle(0, 0, (int)(pbUnit * dProgress), pb.Height)); //(int)
                     StringFormat stringFormat = new StringFormat();
                     stringFormat.Alignment = StringAlignment.Center;
                     graphics.DrawString(sBarText, new Font(sFont, pb.Height / 2), Brushes.Black, new PointF(pb.Width / 2, pb.Height / 10), stringFormat);
@@ -1716,7 +1715,7 @@ namespace Truck_Simulator_Tool
             try
             {
 
-                if (speedsummary > 0 && timercounter > 0 && drivendistance > 0 && LastKnownEstimatedDistance >= 5 && savedcontract.SourceCity != "" && savedcontract.SourceCompany != "" && savedcontract.DestinationCity != "" && savedcontract.DestinationCompany != "" && savedcontract.LastProfile != "" && savedcontract.Income != 0)
+                if (settings.AutoSaveActive == true && speedsummary > 0 && timercounter > 0 && drivendistance > 0 && LastKnownEstimatedDistance >= 5 && savedcontract.SourceCity != "" && savedcontract.SourceCompany != "" && savedcontract.DestinationCity != "" && savedcontract.DestinationCompany != "" && savedcontract.LastProfile != "" && savedcontract.Income != 0)
                 {
                     string sJson = JsonConvert.SerializeObject(savedcontract);
                     File.WriteAllText(String.Format(SoftwarePath + @"\contracts\{0}_AutoSaveContract_{1} - {2}___id-{3}.json", savedcontract.GameId, TelemetryData.ets2.job.sourceCity, TelemetryData.ets2.job.destinationCity, TelemetryData.ets2.job.income + Math.Round(TelemetryData.ets2.job.cargo.totalMass, 0)), sJson);
@@ -1724,7 +1723,7 @@ namespace Truck_Simulator_Tool
             }
             catch
             {
-                MessageBox.Show("Die Auftragsdaten wurden aufgrund eines Fehlers nicht gespeichert.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Die Auftragsdaten wurden aufgrund eines Fehlers nicht gespeichert. (Der letzte Autosave wurde maximal eine Minute früher erstellt)", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
