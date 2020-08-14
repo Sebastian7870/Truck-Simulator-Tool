@@ -1151,7 +1151,7 @@
             this.button_LoadDeleteSchedule.TabIndex = 2;
             this.button_LoadDeleteSchedule.Text = "Schichtplan laden";
             this.button_LoadDeleteSchedule.UseVisualStyleBackColor = false;
-            this.button_LoadDeleteSchedule.Click += new System.EventHandler(this.button_LoadDeleteSchedule_Click);
+            this.button_LoadDeleteSchedule.Click += new System.EventHandler(this.Button_LoadDeleteSchedule_Click);
             // 
             // panel_ShiftboxHeading
             // 
@@ -1335,7 +1335,7 @@
             this.button_CreateSchedule.TabIndex = 1;
             this.button_CreateSchedule.Text = "Schichtplan erstellen";
             this.button_CreateSchedule.UseVisualStyleBackColor = false;
-            this.button_CreateSchedule.Click += new System.EventHandler(this.button_CreateSchedule_Click);
+            this.button_CreateSchedule.Click += new System.EventHandler(this.Button_CreateSchedule_Click);
             // 
             // listBox_schedule
             // 
@@ -1382,14 +1382,14 @@
             this.auftragsdatenLadenToolStripMenuItem.Name = "auftragsdatenLadenToolStripMenuItem";
             this.auftragsdatenLadenToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.auftragsdatenLadenToolStripMenuItem.Text = "Auftragsdaten laden";
-            this.auftragsdatenLadenToolStripMenuItem.Click += new System.EventHandler(this.auftragsdatenLadenToolStripMenuItem_Click);
+            this.auftragsdatenLadenToolStripMenuItem.Click += new System.EventHandler(this.AuftragsdatenLadenToolStripMenuItem_Click);
             // 
             // auftragsdateSpeichernToolStripMenuItem
             // 
             this.auftragsdateSpeichernToolStripMenuItem.Name = "auftragsdateSpeichernToolStripMenuItem";
             this.auftragsdateSpeichernToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.auftragsdateSpeichernToolStripMenuItem.Text = "Auftragsdaten speichern";
-            this.auftragsdateSpeichernToolStripMenuItem.Click += new System.EventHandler(this.auftragsdateSpeichernToolStripMenuItem_Click);
+            this.auftragsdateSpeichernToolStripMenuItem.Click += new System.EventHandler(this.AuftragsdateSpeichernToolStripMenuItem_Click);
             // 
             // schichtplanerToolStripMenuItem
             // 
@@ -1407,14 +1407,14 @@
             this.schichtplanSpeichernToolStripMenuItem.Name = "schichtplanSpeichernToolStripMenuItem";
             this.schichtplanSpeichernToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.schichtplanSpeichernToolStripMenuItem.Text = "Schichtplan  laden";
-            this.schichtplanSpeichernToolStripMenuItem.Click += new System.EventHandler(this.button_LoadDeleteScheduleMenu_Click);
+            this.schichtplanSpeichernToolStripMenuItem.Click += new System.EventHandler(this.Button_LoadDeleteScheduleMenu_Click);
             // 
             // schichtplanSpeichernToolStripMenuItem1
             // 
             this.schichtplanSpeichernToolStripMenuItem1.Name = "schichtplanSpeichernToolStripMenuItem1";
             this.schichtplanSpeichernToolStripMenuItem1.Size = new System.Drawing.Size(193, 22);
             this.schichtplanSpeichernToolStripMenuItem1.Text = "Schichtplan  speichern";
-            this.schichtplanSpeichernToolStripMenuItem1.Click += new System.EventHandler(this.button_SaveScheduleMenu_click);
+            this.schichtplanSpeichernToolStripMenuItem1.Click += new System.EventHandler(this.Button_SaveScheduleMenu_click);
             // 
             // antiKickToolStripMenuItem
             // 
@@ -1440,7 +1440,7 @@
             this.antikickToolStripMenuItem1.ToolTipText = "AntiKick verhindert, dass Sie von einem TruckersMP Server gekickt werden, wenn si" +
     "ch das Spiel im Vordergrund befindet und Sie sich nicht im Menü befinden, indem " +
     "es /p in den Chat schreibt";
-            this.antikickToolStripMenuItem1.CheckedChanged += new System.EventHandler(this.antikickToolStripMenuItem1_CheckedChanged);
+            this.antikickToolStripMenuItem1.CheckedChanged += new System.EventHandler(this.AntikickToolStripMenuItem1_CheckedChanged);
             // 
             // einstellungenToolStripMenuItem
             // 
@@ -1457,7 +1457,7 @@
             this.einstellungenToolStripMenuItem1.Name = "einstellungenToolStripMenuItem1";
             this.einstellungenToolStripMenuItem1.Size = new System.Drawing.Size(145, 22);
             this.einstellungenToolStripMenuItem1.Text = "Einstellungen";
-            this.einstellungenToolStripMenuItem1.Click += new System.EventHandler(this.einstellungenToolStripMenuItem1_Click);
+            this.einstellungenToolStripMenuItem1.Click += new System.EventHandler(this.EinstellungenToolStripMenuItem1_Click);
             // 
             // panel_Dock_Top
             // 
@@ -1556,7 +1556,7 @@
             // timer3_antikick
             // 
             this.timer3_antikick.Interval = 150000;
-            this.timer3_antikick.Tick += new System.EventHandler(this.timer3_antikick_Tick);
+            this.timer3_antikick.Tick += new System.EventHandler(this.Timer3_antikick_Tick);
             // 
             // panel_ContractdistanceData
             // 
