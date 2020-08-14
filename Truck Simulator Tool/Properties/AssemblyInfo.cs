@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Truck Simulator Tool")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This tool gives you information about ATS and ETS2.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("- - -")]
 [assembly: AssemblyProduct("Truck Simulator Tool")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright ©  2020 by Sebastian M.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
