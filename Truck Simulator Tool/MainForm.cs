@@ -35,6 +35,8 @@ namespace Truck_Simulator_Tool
         bool ShiftActive = false;
         bool scheduleLoaded = false;
         DateTime dt_bestarrival = DateTime.Now;
+        DateTime dt_currentarrival = DateTime.Now;
+        TimeSpan ts_bestarrival = new TimeSpan();
         double TimeScaleConstant = 19;
         readonly string SoftwarePath = Application.StartupPath;
         SavedContract savedcontract = new SavedContract();
@@ -88,7 +90,6 @@ namespace Truck_Simulator_Tool
             timer2_calculateMinute.Start();
             Timer1_calculate_MethodTick();
             Timer2_calculate_MethodTick();
-
 
             // Distance Calculator
             radioButton_extended.Checked = false;
@@ -306,83 +307,155 @@ namespace Truck_Simulator_Tool
                 if (TelemetryData.ets2.game.connected == true)
                 {// Game connected
 
+                    // Average Variables Calcuations
                     currentaveragespeed = speedsummary / timercounter;
                     if (TelemetryData.ets2.truck.speed > 5 && TelemetryData.ets2.game.paused == false)
-                    {// Average Variables Calcuations
-                        timercounter += 1;
-                        speedsummary += TelemetryData.ets2.truck.speed;
-                        currentaveragespeed = speedsummary / timercounter;
-                    }
-                    if (TelemetryData.ets2.truck.navigationEstimatedDistance > 0)
-                    {
-                        bestcurrentaveragespeed = (TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / (Convert.ToDouble(TelemetryData.ets2.truck.navigationEstimatedTime) / 3600);
-                    }
-                    else if (TelemetryData.ets2.truck.navigationEstimatedDistance == 0)
-                    {
-                        bestarrivalset = false;
-                        bestcurrentaveragespeed = 0;
+                    {// Current Average Speed
 
-                        panel_ArrivalinfoTop.BackColor = Color.Brown;
-
-                        label_currentarrival.Text = "Ankunft ca.:      00:00 Uhr";
-                        label_currentarrival2.Text = "(0 Min.)";
-
-                        label_currentbestarrival.Text = "00:00 Uhr";
-                        label_currentbestarrival2.Text = "(0 Min.)";
-
-
-                        label_bestarrival.Text = "00:00 Uhr";
-                        label_bestarrival2.Text = "(0 Min.)";
-                    }
-                    if (bestcurrentaveragespeed > 0)
-                    {
-                       // Best Current Average Speed
-                        
-                        DateTime dt_bestcurrentarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / bestcurrentaveragespeed) / TimeScaleConstant) * 3600);
-                        TimeSpan ts_bestcurrentarrival = dt_bestcurrentarrival.Subtract(DateTime.Now);
-                        label_currentbestarrival.Text = String.Format("{0} Uhr", dt_bestcurrentarrival.ToString("HH:mm"));
-                        label_currentbestarrival2.Text = String.Format("({0})", TimeSpanConvertToAvailableValuesOnly(ts_bestcurrentarrival));
-
-                        // Best Arrival
-                        if (bestarrivalset == false)
-                        {
-                            dt_bestarrival = DateTime.Now.AddSeconds(((TelemetryData.ets2.job.cargo.plannedDistanceKM / bestcurrentaveragespeed) / TimeScaleConstant) * 3600);
-
-                            label_bestarrival.Text = String.Format("{0} Uhr", dt_bestarrival.ToString("HH:mm"));
-                            bestarrivalset = true;
+                        if (TelemetryData.ets2.game.gameID == "eut2")
+                        {// ETS2
+                            timercounter += 1;
+                            speedsummary += TelemetryData.ets2.truck.speed;
+                            currentaveragespeed = speedsummary / timercounter;
                         }
-                        TimeSpan ts_bestarrival = dt_bestarrival.Subtract(DateTime.Now);
-                        string bestarrivaltext = String.Format("(+{0})", TimeSpanConvertToAvailableValuesOnly(TimeSpan.FromSeconds(ts_bestarrival.TotalSeconds * (-1))));
-                        if (ts_bestarrival.TotalSeconds > 0)
-                        {
-                            bestarrivaltext = String.Format("(-{0})", TimeSpanConvertToAvailableValuesOnly(ts_bestarrival));
+                        else
+                        {// ATS
+                            timercounter += 1;
+                            speedsummary += TelemetryData.ets2.truck.speed / 1.609344;
+                            currentaveragespeed = speedsummary / timercounter;
                         }
-                        label_bestarrival2.Text = bestarrivaltext;
+                    }
 
-                        // Current Average Speed
-                        if (currentaveragespeed > 0)
-                        { 
-                            DateTime dt_currentarrival = DateTime.Now.AddSeconds(((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / currentaveragespeed) / TimeScaleConstant) * 3600));
-                            TimeSpan ts_currentarrival = dt_currentarrival.Subtract(DateTime.Now);
+                    if (TelemetryData.ets2.game.gameID == "eut2")
+                    {// ETS2
+                        if (TelemetryData.ets2.truck.navigationEstimatedDistance > 0)
+                        {// best current average speed
+                            bestcurrentaveragespeed = (TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / (Convert.ToDouble(TelemetryData.ets2.truck.navigationEstimatedTime) / 3600);
+                        }
+                        else if (TelemetryData.ets2.truck.navigationEstimatedDistance == 0)
+                        {
+                            bestarrivalset = false;
+                            bestcurrentaveragespeed = 0;
 
-                            if (ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes > 60)
-                            {// current arrival (color)
-                                panel_ArrivalinfoTop.BackColor = Color.Brown;
+                            panel_ArrivalinfoTop.BackColor = Color.Brown;
+
+                            label_currentarrival.Text = "Ankunft ca.:      00:00 Uhr";
+                            label_currentarrival2.Text = "(0 Min.)";
+
+                            label_currentbestarrival.Text = "00:00 Uhr";
+                            label_currentbestarrival2.Text = "(0 Min.)";
+
+
+                            label_bestarrival.Text = "00:00 Uhr";
+                            label_bestarrival2.Text = "(0 Min.)";
+                        }
+                    }
+                    else
+                    {// ATS
+                        if (TelemetryData.ets2.truck.navigationEstimatedDistance > 0)
+                        {// best current average speed
+                            bestcurrentaveragespeed = ((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / 1.609344) / (Convert.ToDouble(TelemetryData.ets2.truck.navigationEstimatedTime) / 3600);
+                        }
+                        else if (TelemetryData.ets2.truck.navigationEstimatedDistance == 0)
+                        {
+                            bestarrivalset = false;
+                            bestcurrentaveragespeed = 0;
+
+                            panel_ArrivalinfoTop.BackColor = Color.Brown;
+
+                            label_currentarrival.Text = "Ankunft ca.:      00:00 Uhr";
+                            label_currentarrival2.Text = "(0 Min.)";
+
+                            label_currentbestarrival.Text = "00:00 Uhr";
+                            label_currentbestarrival2.Text = "(0 Min.)";
+
+
+                            label_bestarrival.Text = "00:00 Uhr";
+                            label_bestarrival2.Text = "(0 Min.)";
+                        }
+
+                        if (bestcurrentaveragespeed > 0)
+                        {
+                            // Best Current Average Speed
+                            TimeSpan ts_bestcurrentarrival = TimeSpan.FromSeconds(0);
+                            if (TelemetryData.ets2.game.gameID == "eut2")
+                            { // ETS2
+                                DateTime dt_bestcurrentarrival = DateTime.Now.AddSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / bestcurrentaveragespeed) / TimeScaleConstant) * 3600);
+                                ts_bestcurrentarrival = dt_bestcurrentarrival.Subtract(DateTime.Now);
+                                label_currentbestarrival.Text = String.Format("{0} Uhr", dt_bestcurrentarrival.ToString("HH:mm"));
+                                label_currentbestarrival2.Text = String.Format("({0})", TimeSpanConvertToAvailableValuesOnly(ts_bestcurrentarrival));
                             }
-                            else if (ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes > 30 && ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes < 60)
+                            else
+                            { // ATS
+                                DateTime dt_bestcurrentarrival = DateTime.Now.AddSeconds(((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / 1.609344) / bestcurrentaveragespeed) / TimeScaleConstant) * 3600);
+                                ts_bestcurrentarrival = dt_bestcurrentarrival.Subtract(DateTime.Now);
+                                label_currentbestarrival.Text = String.Format("{0} Uhr", dt_bestcurrentarrival.ToString("HH:mm"));
+                                label_currentbestarrival2.Text = String.Format("({0})", TimeSpanConvertToAvailableValuesOnly(ts_bestcurrentarrival));
+                            }
+
+                            // Best Arrival
+                            if (bestarrivalset == false)
                             {
-                                panel_ArrivalinfoTop.BackColor = Color.Goldenrod;
+
+                                if (TelemetryData.ets2.game.gameID == "eut2")
+                                {// ETS2
+                                    ts_bestarrival = TimeSpan.FromSeconds((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / bestcurrentaveragespeed) / TimeScaleConstant) * 3600);
+                                    bestarrivalset = true;
+                                }
+                                else
+                                {// ATS
+                                    ts_bestarrival = TimeSpan.FromSeconds(((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / 1.609344) / bestcurrentaveragespeed) / TimeScaleConstant) * 3600);
+                                    bestarrivalset = true;
+                                }
+
+                                dt_bestarrival = DateTime.Now.Add(ts_bestarrival);
+                                label_bestarrival.Text = dt_bestarrival.ToString("HH:mm") + " Uhr";
+                            }
+
+                            ts_bestarrival = dt_bestarrival - DateTime.Now;
+                                
+                            if (ts_bestarrival.TotalSeconds > 0)
+                            {
+                                label_bestarrival2.Text = String.Format("(-{0})", TimeSpanConvertToAvailableValuesOnly(ts_bestarrival));
                             }
                             else
                             {
-                                panel_ArrivalinfoTop.BackColor = Color.LimeGreen;
+                                label_bestarrival2.Text = String.Format("(+{0})", TimeSpanConvertToAvailableValuesOnly(TimeSpan.FromSeconds(ts_bestarrival.TotalSeconds * (-1))));
                             }
 
-                            label_currentarrival.Text = String.Format("Ankunft ca.:      {0} Uhr", dt_currentarrival.ToString("HH:mm"));
-                            label_currentarrival2.Text = String.Format("({0})", TimeSpanConvertToAvailableValuesOnly(ts_currentarrival));
-                        }
 
-                    }
+                            // Current Average Speed
+                            if (currentaveragespeed > 0)
+                            {
+                                if (TelemetryData.ets2.game.gameID == "eut2")
+                                {// ETS2
+                                    dt_currentarrival = DateTime.Now.AddSeconds(((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / currentaveragespeed) / TimeScaleConstant) * 3600));
+                                }
+                                else
+                                {// ATS
+                                    dt_currentarrival = DateTime.Now.AddSeconds((((((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / 1.609344) / currentaveragespeed) / TimeScaleConstant) * 3600));
+                                }
+                                TimeSpan ts_currentarrival = dt_currentarrival.Subtract(DateTime.Now);
+
+                                if (ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes > 60)
+                                {// current arrival (color)
+                                    panel_ArrivalinfoTop.BackColor = Color.Brown;
+                                }
+                                else if (ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes > 30 && ts_currentarrival.TotalMinutes - ts_bestcurrentarrival.TotalMinutes < 60)
+                                {
+                                    panel_ArrivalinfoTop.BackColor = Color.Goldenrod;
+                                }
+                                else
+                                {
+                                    panel_ArrivalinfoTop.BackColor = Color.LimeGreen;
+                                }
+
+                                label_currentarrival.Text = String.Format("Ankunft ca.:      {0} Uhr", dt_currentarrival.ToString("HH:mm"));
+                                label_currentarrival2.Text = String.Format("({0})", TimeSpanConvertToAvailableValuesOnly(ts_currentarrival));
+                            }
+                        }
+                    }// End average Calculations
+
                     if (TelemetryData.ets2.job.cargo.id != "")
                     {// Contract-Only  
                         if (situation != "Contract")
@@ -428,7 +501,7 @@ namespace Truck_Simulator_Tool
                         }
                         situation = "DestinationOrFreeDrive";
 
-                    }// End average Calculations
+                    }
 
 
                     // Contract status label
@@ -480,7 +553,7 @@ namespace Truck_Simulator_Tool
                     {
                         label_ingametime.Text = String.Format("{0} {1}", dateTimeFormatInfoUSA.GetShortestDayName(dt_ingametime.DayOfWeek), dt_ingametime.ToString("h:mm tt", CultureInfo.GetCultureInfo("en-US")));
                     }
-                    
+
                     // TimeScale
                     label2_timescale.Text = "Zeitskalierung: " + TelemetryData.ets2.game.scale.ToString();
 
@@ -505,7 +578,7 @@ namespace Truck_Simulator_Tool
                     {// ATS
                         if (TelemetryData.ets2.job.cargo.id != "")
                         {
-                            label5_jobinfo.Text = TelemetryData.ets2.job.cargo.name + "\n" + (TelemetryData.ets2.job.cargo.totalMass / 1000 * 2240).ToString("n1") + " lb\n" + TelemetryData.ets2.job.income.ToString("c0", new CultureInfo("en-US")) + " (" + Math.Round(Convert.ToDecimal(TelemetryData.ets2.job.income) / Convert.ToDecimal(TelemetryData.ets2.job.cargo.plannedDistanceKM / 1.609344), 2) + " $/mi)";
+                            label5_jobinfo.Text = TelemetryData.ets2.job.cargo.name + "\n" + (TelemetryData.ets2.job.cargo.totalMass / 0.453595347).ToString("n0") + " lb\n" + TelemetryData.ets2.job.income.ToString("c0", new CultureInfo("en-US")) + " (" + Math.Round(Convert.ToDecimal(TelemetryData.ets2.job.income) / Convert.ToDecimal(TelemetryData.ets2.job.cargo.plannedDistanceKM / 1.609344), 2) + " $/mi)";
                             label10_sourcedata.Text = TelemetryData.ets2.job.sourceCity + "\n" + TelemetryData.ets2.job.sourceCompany;
                             label11_destinationdata.Text = TelemetryData.ets2.job.destinationCity + "\n" + TelemetryData.ets2.job.destinationCompany;
                         }
@@ -540,15 +613,23 @@ namespace Truck_Simulator_Tool
                     {
                         TimeSpan ts_remainingtime = TimeSpan.FromSeconds(TelemetryData.ets2.job.remainingTime);
                         TimeSpan ts_estimatedtime = TimeSpan.FromSeconds(TelemetryData.ets2.truck.navigationEstimatedTime);
-                        TimeSpan ts_timebuffer = ts_remainingtime - ts_estimatedtime; 
+                        TimeSpan ts_timebuffer = ts_remainingtime - ts_estimatedtime;
                         if (ts_nextpausetime < ts_estimatedtime)
                         {
-                            double d = Math.Ceiling((ts_estimatedtime.TotalSeconds - ts_nextpausetime.TotalSeconds) / (11 * 3600));
-                            ts_timebuffer = ts_remainingtime - (ts_estimatedtime.Add(TimeSpan.FromHours(d * 9)));
+                            if (TelemetryData.ets2.game.gameID == "eut2")
+                            {// ETS2
+                                double d = Math.Ceiling((ts_estimatedtime.TotalSeconds - ts_nextpausetime.TotalSeconds) / (11 * 3600));
+                                ts_timebuffer = ts_remainingtime - (ts_estimatedtime.Add(TimeSpan.FromHours(d * 9)));
+                            }
+                            else
+                            {// ATS
+                                double d = Math.Ceiling((ts_estimatedtime.TotalSeconds - ts_nextpausetime.TotalSeconds) / (14 * 3600));
+                                ts_timebuffer = ts_remainingtime - (ts_estimatedtime.Add(TimeSpan.FromHours(d * 10)));
+                            }
                         }
 
                         // Remaining time
-                        if (ts_remainingtime.TotalSeconds > 0 && ts_remainingtime.TotalSeconds < 1000000)
+                        if (ts_remainingtime.TotalSeconds > 0 && ts_remainingtime.TotalSeconds < 10000000)
                         {
                             if (ts_remainingtime.TotalHours < 1)
                             {
@@ -557,31 +638,22 @@ namespace Truck_Simulator_Tool
                             label7_remainingtime.ForeColor = Color.LimeGreen;
                             label7_remainingtime.Text = "Restzeit: " + TimeSpanConvertToAvailableValuesOnly(ts_remainingtime);
                         }
-                        else if (ts_remainingtime.TotalSeconds > 1000000)
+                        else if (ts_remainingtime.TotalSeconds > 10000000)
                         {
                             label7_remainingtime.ForeColor = Color.CornflowerBlue;
                             label7_remainingtime.Text = "Restzeit: WoT";
                         }
-                        else
-                        {// (smaller than 0)
+                        else if (ts_remainingtime.TotalSeconds < 0)
+                        {
                             label7_remainingtime.ForeColor = Color.Brown;
+                            label7_remainingtime.Text = "0";
                         }
 
                         // time buffer
                         if (ts_timebuffer.TotalSeconds < 0)
                         {
                             label_Timebuffer.BackColor = Color.Brown;
-                            
-                            ts_timebuffer = TimeSpan.FromSeconds(ts_timebuffer.TotalSeconds * (-1));
-                            if (ts_remainingtime.TotalSeconds < 1000000)
-                            { // Set timebuffer time (only if it is not external contract
-                                label_Timebuffer.Text = "Zeitpuffer: " + TimeSpanConvertToAvailableValuesOnly(ts_remainingtime);
-                            }
-                            else
-                            {
-                                label_Timebuffer.BackColor = Color.CornflowerBlue;
-                                label_Timebuffer.Text = "Zeitpuffer: WoT";
-                            }
+                            label_Timebuffer.Text = "Zeitpuffer: 0 Min.";
                         }
                         else
                         {
@@ -593,13 +665,14 @@ namespace Truck_Simulator_Tool
                             {
                                 label_Timebuffer.BackColor = Color.LimeGreen;
                             }
-                            if (ts_remainingtime.TotalSeconds < 1000000)
-                            { // Set timebuffer time (only if it is not external contract
+                            
+                            if (ts_remainingtime.TotalSeconds < 100000000)
+                            {// Set timebuffer time (only if it is not external contract
                                 label_Timebuffer.Text = "Zeitpuffer: " + TimeSpanConvertToAvailableValuesOnly(ts_timebuffer);
                             }
                             else
                             {
-                                label_Timebuffer.ForeColor = Color.CornflowerBlue;
+                                label_Timebuffer.BackColor = Color.CornflowerBlue;
                                 label_Timebuffer.Text = "Zeitpuffer: WoT";
                             }
 
@@ -634,8 +707,8 @@ namespace Truck_Simulator_Tool
                     else
                     {// ATS
                         label_vehicleinformation.Text = String.Format("Rundumleuchte: {0}", beaconStatus);
-                        label_vehicleinformation2.Text = String.Format("Ø Geschwindigkeit: {0} mph", (currentaveragespeed / 1.609344).ToString("n2"));
-                        label_vehicleinformation3.Text = String.Format("Kraftstoffverbrauch: {0} mpg", ((3.785411784 / 1.609344) / TelemetryData.ets2.truck.fuelAverageConsumption).ToString("n2"));
+                        label_vehicleinformation2.Text = String.Format("Ø Geschwindigkeit: {0} mph", (currentaveragespeed).ToString("n2"));
+                        label_vehicleinformation3.Text = String.Format("Kraftstoffverbrauch: {0} mpg", ((TelemetryData.ets2.truck.fuelAverageConsumption * 100) / 6.43242746591568).ToString("n2"));
                     }
 
 
@@ -693,8 +766,8 @@ namespace Truck_Simulator_Tool
                             // ProgressBar Create ATS
                             pb_distanceProgress = drivendistance / distancesummary;
                             PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress * 100, String.Format("{0} mi   /   {1} mi", Math.Round(drivendistance, 0), Math.Round(distancesummary, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
-                            label12_progresspercentage.Text = (pb_distanceProgress.ToString("p0"));
-                            label13_remainingdistance.Text = "Noch " + Math.Round((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000), 0).ToString() + " mi";
+                            label12_progresspercentage.Text = (pb_distanceProgress.ToString("p2"));
+                            label13_remainingdistance.Text = "Noch " + Math.Round(((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / 1.609344), 0).ToString() + " mi";
 
                         }
 
@@ -750,13 +823,13 @@ namespace Truck_Simulator_Tool
                     {// ATS
                         if (TelemetryData.ets2.truck.id != "")
                         {
-                            if (TelemetryData.ets2.truck.fuelWarningOn)
+                            if (TelemetryData.ets2.truck.fuelWarningOn) 
                             {
-                                PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / 4.546092) / (TelemetryData.ets2.truck.fuelCapacity / 4.546092)) * 100, String.Format("{0} gal / {1} gal ({2} mi)", Math.Round(TelemetryData.ets2.truck.fuel / 4.546092, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity / 4.546092, 0), Math.Round(TelemetryData.ets2.truck.fuelRange / 1.609344, 0)), "Microsoft Sans Serif", Brushes.Brown);
+                                PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / 3.7886952) / (TelemetryData.ets2.truck.fuelCapacity / 3.7886952)) * 100, String.Format("{0} gal / {1} gal ({2} mi)", Math.Round(TelemetryData.ets2.truck.fuel / 3.7886952, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity / 3.7886952, 0), Math.Round(TelemetryData.ets2.truck.fuelRange / 1.609344, 0)), "Microsoft Sans Serif", Brushes.Brown);
                             }
                             else
                             {
-                                PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / 4.546092) / (TelemetryData.ets2.truck.fuelCapacity / 4.546092)) * 100, String.Format("{0} gal / {1} gal ({2} mi)", Math.Round(TelemetryData.ets2.truck.fuel / 4.546092, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity / 4.546092, 0), Math.Round(TelemetryData.ets2.truck.fuelRange / 1.609344, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
+                                PictureBoxCustomProgressBar(pictureBox3_fuel, Color.White, ((TelemetryData.ets2.truck.fuel / 3.7886952) / (TelemetryData.ets2.truck.fuelCapacity / 3.7886952)) * 100, String.Format("{0} gal / {1} gal ({2} mi)", Math.Round(TelemetryData.ets2.truck.fuel / 3.7886952, 0), Math.Round(TelemetryData.ets2.truck.fuelCapacity / 3.7886952, 0), Math.Round(TelemetryData.ets2.truck.fuelRange / 1.609344, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
                             }
                         }
                         else
@@ -1164,13 +1237,13 @@ namespace Truck_Simulator_Tool
 
         static string TimeSpanConvertToAvailableValuesOnly(TimeSpan ts)
         {// Only shows available values (00:02 ---> 2 min. (and not 0 hrs. 2 min.))
-            if (ts.Days > 0)
+            if (ts.Days != 0)
             {
                 return ((ts.Days * 24) + ts.Hours) + " Std. " + ts.Minutes + " Min.";
             }
             else
             {
-                if (ts.Hours > 0)
+                if (ts.Hours != 0)
                 {
                     return ts.Hours + " Std. " + ts.Minutes + " Min.";
                 }

@@ -1491,7 +1491,7 @@
             // 
             // label_contractstatus
             // 
-            this.label_contractstatus.BackColor = System.Drawing.Color.LimeGreen;
+            this.label_contractstatus.BackColor = System.Drawing.Color.Brown;
             this.label_contractstatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label_contractstatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold);
             this.label_contractstatus.ForeColor = System.Drawing.Color.Gainsboro;

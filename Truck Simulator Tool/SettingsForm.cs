@@ -56,7 +56,7 @@ namespace Truck_Simulator_Tool
             {
                 checkBox_Sett_AutoSave.Checked = false;
             }
-            
+
             if (settings.AntiKickDefaultOn == true)
             {// AntiKick Checked
                 checkBox_Sett_AntiKick.Checked = true;
@@ -85,7 +85,7 @@ namespace Truck_Simulator_Tool
                 {
                     settings.AutoSaveActive = false;
                 }
-                
+
                 if (checkBox_Sett_AntiKick.Checked == true)
                 {// AntiKick to settings
                     settings.AntiKickDefaultOn = true;
@@ -164,7 +164,7 @@ namespace Truck_Simulator_Tool
 
                 settings.AntiKickDefaultOn = true;
                 checkBox_Sett_AntiKick.Checked = true;
-                
+
                 settings.ManualTimescaleValue = 19;
                 numericUpDown_SetTimescale.Value = 19;
 
