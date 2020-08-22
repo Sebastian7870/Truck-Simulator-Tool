@@ -7,8 +7,12 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,6 +22,7 @@ namespace Truck_Simulator_Tool
     {
         // Variables Start
 
+        HttpWebServer server = new HttpWebServer();
         bool bTelemetryOnline = false;
         bool bTruckersfmOnline = false;
         Rootobject TelemetryData = new Rootobject();
@@ -135,13 +140,14 @@ namespace Truck_Simulator_Tool
                     settings.AntiKickDefaultOn = true;
                     settings.ManualTimescaleValue = 19;
                     settings.BackgroundImageFilePath = "";
+                    settings.ServerDefaultStart = true;
 
                     string sJson = JsonConvert.SerializeObject(settings);
                     File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
                 }
                 catch
                 {
-                    MessageBox.Show("Schwerwiegender Fehler gefunde! Bitte Autor kontaktieren.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Schwerwiegender Fehler gefunden! Bitte Autor kontaktieren.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             TimeScaleConstant = Convert.ToDouble(settings.ManualTimescaleValue);
@@ -190,7 +196,7 @@ namespace Truck_Simulator_Tool
                     }
                     catch
                     {
-                        MessageBox.Show("Schwerwiegender Fehler gefunde! Bitte Autor kontaktieren.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Schwerwiegender Fehler gefunden! Bitte Autor kontaktieren.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -206,8 +212,15 @@ namespace Truck_Simulator_Tool
                 panel_Vehicleinfo.BackColor = Color.FromArgb(255, Color.Gainsboro);
                 panel_Jobinfo.BackColor = Color.FromArgb(255, Color.DarkGray);
             }
-        }
 
+
+            //Server
+            server.Port = 25558;
+            if (settings.ServerDefaultStart == true)
+            {
+                StartServer();
+            }
+        }
 
         async Task UpdateTelemetry()
         {// Update Telemetry
@@ -270,6 +283,8 @@ namespace Truck_Simulator_Tool
             label_datetimenowseconds.Text = DateTime.Now.ToString("ss");
             label15_datetimedate.Text = DateTimeFormatInfo.CurrentInfo.GetDayName(DateTime.Now.DayOfWeek) + "\n" + DateTime.Now.ToShortDateString();
             dateTimePicker_schedule.MinDate = DateTime.Now.AddDays((-1) * ((Convert.ToDouble(numericUpDown_durationSchedule.Value) - 0.5)));
+
+            SetServerLabels();
 
             if (bTruckersfmOnline == true)
             {// Get Picture and set TFM data from class.
@@ -482,10 +497,10 @@ namespace Truck_Simulator_Tool
                             timercounter = 0;
                             speedsummary = 0;
                             currentaveragespeed = 0;
+                            bestcurrentaveragespeed = 0;
 
                             distancesummary = 0;
                             drivendistance = 0;
-
                             bestarrivalset = false;
 
                             try
@@ -601,7 +616,10 @@ namespace Truck_Simulator_Tool
                         {
                             label8_nextpausetime.ForeColor = Color.Goldenrod;
                         }
-                        label8_nextpausetime.ForeColor = Color.LimeGreen;
+                        else
+                        {
+                            label8_nextpausetime.ForeColor = Color.LimeGreen;
+                        }
                     }
                     else
                     {
@@ -637,7 +655,10 @@ namespace Truck_Simulator_Tool
                             {
                                 label8_nextpausetime.ForeColor = Color.Goldenrod;
                             }
-                            label7_remainingtime.ForeColor = Color.LimeGreen;
+                            else
+                            {
+                                label7_remainingtime.ForeColor = Color.LimeGreen;
+                            }
                             label7_remainingtime.Text = "Restzeit: " + TimeSpanConvertToAvailableValuesOnly(ts_remainingtime);
                         }
                         else if (ts_remainingtime.TotalSeconds > 10000000)
@@ -866,7 +887,6 @@ namespace Truck_Simulator_Tool
                     savedcontract.TimerCounter = timercounter;
                     savedcontract.DrivenDistance = drivendistance;
 
-
                     // Get ContractData if available
                     if (StartApplicationContractLoaded == false)
                     {
@@ -894,7 +914,7 @@ namespace Truck_Simulator_Tool
                                 }
                             }
                         }
-                        else
+                        else if (TelemetryData.ets2.truck.brandID != "" && TelemetryData.ets2.job.sourceCity == "" && TelemetryData.ets2.job.sourceCompany == "" && TelemetryData.ets2.job.destinationCity == "" && TelemetryData.ets2.job.destinationCompany == "" && TelemetryData.ets2.job.income == 0)
                         {
                             StartApplicationContractLoaded = true;
                         }
@@ -1804,6 +1824,95 @@ namespace Truck_Simulator_Tool
         }
 
 
+        // Try to start Server
+        private void StartServer()
+        {
+            server.Start();
+
+            if (server.HasEntries() == false)
+            {
+                if (MessageBox.Show("Es scheint, dass der Server dieser Anwendung nicht richtig implementiert wurde. Soll dieses Problem jetzt behoben werden?", "Fehlende Einträge des Servers!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    server.SetPowerShellEntries();
+                    server.Start();
+                }
+            }
+            SetServerLabels();
+        }
+        // Try to stop server
+        private void StopServer()
+        {
+            if (server.IsRunning() == true)
+            {
+                server.Stop();
+            }
+            SetServerLabels();
+        }
+        // Try to install server
+        private void InstallServer()
+        {
+            if (server.HasEntries() == false)
+            {
+                server.SetPowerShellEntries();
+                StartServer();
+            }
+            SetServerLabels();
+        }
+        // Try to uninstall server
+        private void UninstallServer()
+        {
+            if (server.HasEntries() == true)
+            {
+                server.DeletePowerShellEntries();
+            }
+            SetServerLabels();
+        }
+        // Server buttons 
+        private void serverInstallUninstallToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (server.HasEntries() == true)
+            {
+                UninstallServer();
+            }
+            else
+            {
+                InstallServer();
+            }
+        }
+        private void serverStartStopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (server.IsRunning() == true)
+            {
+                StopServer();
+            }
+            else
+            {
+                StartServer();
+            }
+        }
+        private void SetServerLabels()
+        {
+            // Set server labels
+            if (server.HasEntries() == true)
+            {
+                serverInstallUninstallToolStripMenuItem.Text = "Server deinstallieren";
+            }
+            else
+            {
+                serverInstallUninstallToolStripMenuItem.Text = "Server installieren";
+            }
+            if (server.IsRunning() == true)
+            {
+                serverToolStripMenuItem.BackColor = Color.LimeGreen;
+                serverStartStopToolStripMenuItem.Text = "Server stoppen";
+            }
+            else
+            {
+                serverToolStripMenuItem.BackColor = Color.Brown;
+                serverStartStopToolStripMenuItem.Text = "Server starten";
+            }
+        }
+       
 
         // AntiKick CheckedState changed
         private void AntikickToolStripMenuItem1_CheckedChanged(object sender, EventArgs e)
@@ -1817,7 +1926,6 @@ namespace Truck_Simulator_Tool
                 timer3_antikick.Stop();
             }
         }
-
     }
 }
 

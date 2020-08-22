@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlldatesTimeSpan.cs" />
+    <Compile Include="HttpWebServer.cs" />
     <Compile Include="SavedContract.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -138,6 +139,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,5 +6,6 @@
         public bool AntiKickDefaultOn { get; set; }
         public decimal ManualTimescaleValue { get; set; }
         public string BackgroundImageFilePath { get; set; }
+        public bool ServerDefaultStart { get; set; }
     }
 }

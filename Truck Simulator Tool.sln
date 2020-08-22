@@ -14,8 +14,8 @@ Global
 		Description = Truck Simulator Tool for ETS2 and ATS.
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DFEC6652-CB6C-4FBF-9231-A493B4884BA0}.Debug|Any CPU.ActiveCfg = Release|Any CPU
-		{DFEC6652-CB6C-4FBF-9231-A493B4884BA0}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{DFEC6652-CB6C-4FBF-9231-A493B4884BA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFEC6652-CB6C-4FBF-9231-A493B4884BA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFEC6652-CB6C-4FBF-9231-A493B4884BA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFEC6652-CB6C-4FBF-9231-A493B4884BA0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{27440B87-FE9A-44D3-A897-B84A41EB26AE}.Debug|Any CPU.ActiveCfg = Debug

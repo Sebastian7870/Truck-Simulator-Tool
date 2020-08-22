@@ -114,14 +114,16 @@
             this.button_CreateSchedule = new System.Windows.Forms.Button();
             this.listBox_schedule = new System.Windows.Forms.ListBox();
             this.menuStrip_Top = new System.Windows.Forms.MenuStrip();
-            this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.auftragsdatenLadenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.auftragsdateSpeichernToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.serverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.serverInstallUninstallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.schichtplanerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.schichtplanSpeichernToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.schichtplanSpeichernToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.antiKickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.antikickToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.auftragsdatenLadenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.auftragsdateSpeichernToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.einstellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.einstellungenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.panel_Dock_Top = new System.Windows.Forms.Panel();
@@ -142,6 +144,7 @@
             this.panel_BackgroundImage = new System.Windows.Forms.Panel();
             this.panel_DockBottom = new System.Windows.Forms.Panel();
             this.label_ingametime = new System.Windows.Forms.Label();
+            this.serverStartStopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.tableLayoutPanel_Bottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -1356,9 +1359,10 @@
             // 
             this.menuStrip_Top.BackColor = System.Drawing.Color.White;
             this.menuStrip_Top.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dateiToolStripMenuItem,
+            this.serverToolStripMenuItem,
             this.schichtplanerToolStripMenuItem,
             this.antiKickToolStripMenuItem,
+            this.dateiToolStripMenuItem,
             this.einstellungenToolStripMenuItem});
             this.menuStrip_Top.Location = new System.Drawing.Point(0, 0);
             this.menuStrip_Top.Name = "menuStrip_Top";
@@ -1366,36 +1370,31 @@
             this.menuStrip_Top.TabIndex = 31;
             this.menuStrip_Top.Text = "menuStrip1";
             // 
-            // dateiToolStripMenuItem
+            // serverToolStripMenuItem
             // 
-            this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.auftragsdatenLadenToolStripMenuItem,
-            this.auftragsdateSpeichernToolStripMenuItem});
-            this.dateiToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.dateiToolStripMenuItem.Name = "dateiToolStripMenuItem";
-            this.dateiToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
-            this.dateiToolStripMenuItem.Text = "Datei";
-            this.dateiToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.serverToolStripMenuItem.BackColor = System.Drawing.Color.Brown;
+            this.serverToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.serverInstallUninstallToolStripMenuItem,
+            this.serverStartStopToolStripMenuItem});
+            this.serverToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.serverToolStripMenuItem.ForeColor = System.Drawing.Color.Gainsboro;
+            this.serverToolStripMenuItem.Name = "serverToolStripMenuItem";
+            this.serverToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.serverToolStripMenuItem.Text = "Server";
             // 
-            // auftragsdatenLadenToolStripMenuItem
+            // serverInstallUninstallToolStripMenuItem
             // 
-            this.auftragsdatenLadenToolStripMenuItem.Name = "auftragsdatenLadenToolStripMenuItem";
-            this.auftragsdatenLadenToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.auftragsdatenLadenToolStripMenuItem.Text = "Auftragsdaten laden";
-            this.auftragsdatenLadenToolStripMenuItem.Click += new System.EventHandler(this.AuftragsdatenLadenToolStripMenuItem_Click);
-            // 
-            // auftragsdateSpeichernToolStripMenuItem
-            // 
-            this.auftragsdateSpeichernToolStripMenuItem.Name = "auftragsdateSpeichernToolStripMenuItem";
-            this.auftragsdateSpeichernToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.auftragsdateSpeichernToolStripMenuItem.Text = "Auftragsdaten speichern";
-            this.auftragsdateSpeichernToolStripMenuItem.Click += new System.EventHandler(this.AuftragsdateSpeichernToolStripMenuItem_Click);
+            this.serverInstallUninstallToolStripMenuItem.Name = "serverInstallUninstallToolStripMenuItem";
+            this.serverInstallUninstallToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.serverInstallUninstallToolStripMenuItem.Text = "Server installieren";
+            this.serverInstallUninstallToolStripMenuItem.Click += new System.EventHandler(this.serverInstallUninstallToolStripMenuItem_Click);
             // 
             // schichtplanerToolStripMenuItem
             // 
             this.schichtplanerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.schichtplanSpeichernToolStripMenuItem,
             this.schichtplanSpeichernToolStripMenuItem1});
+            this.schichtplanerToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.schichtplanerToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.schichtplanerToolStripMenuItem.Name = "schichtplanerToolStripMenuItem";
             this.schichtplanerToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
@@ -1418,7 +1417,7 @@
             // 
             // antiKickToolStripMenuItem
             // 
-            this.antiKickToolStripMenuItem.BackColor = System.Drawing.Color.Gainsboro;
+            this.antiKickToolStripMenuItem.BackColor = System.Drawing.Color.White;
             this.antiKickToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.antikickToolStripMenuItem1});
             this.antiKickToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -1441,6 +1440,32 @@
     "ch das Spiel im Vordergrund befindet und Sie sich nicht im Menü befinden, indem " +
     "es /p in den Chat schreibt";
             this.antikickToolStripMenuItem1.CheckedChanged += new System.EventHandler(this.AntikickToolStripMenuItem1_CheckedChanged);
+            // 
+            // dateiToolStripMenuItem
+            // 
+            this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.auftragsdatenLadenToolStripMenuItem,
+            this.auftragsdateSpeichernToolStripMenuItem});
+            this.dateiToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dateiToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.dateiToolStripMenuItem.Name = "dateiToolStripMenuItem";
+            this.dateiToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.dateiToolStripMenuItem.Text = "Auftrag";
+            this.dateiToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            // 
+            // auftragsdatenLadenToolStripMenuItem
+            // 
+            this.auftragsdatenLadenToolStripMenuItem.Name = "auftragsdatenLadenToolStripMenuItem";
+            this.auftragsdatenLadenToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.auftragsdatenLadenToolStripMenuItem.Text = "Auftragsdaten laden";
+            this.auftragsdatenLadenToolStripMenuItem.Click += new System.EventHandler(this.AuftragsdatenLadenToolStripMenuItem_Click);
+            // 
+            // auftragsdateSpeichernToolStripMenuItem
+            // 
+            this.auftragsdateSpeichernToolStripMenuItem.Name = "auftragsdateSpeichernToolStripMenuItem";
+            this.auftragsdateSpeichernToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.auftragsdateSpeichernToolStripMenuItem.Text = "Auftragsdaten speichern";
+            this.auftragsdateSpeichernToolStripMenuItem.Click += new System.EventHandler(this.AuftragsdateSpeichernToolStripMenuItem_Click);
             // 
             // einstellungenToolStripMenuItem
             // 
@@ -1653,6 +1678,13 @@
             this.label_ingametime.Text = "Mo 0:00";
             this.label_ingametime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // serverStartStopToolStripMenuItem
+            // 
+            this.serverStartStopToolStripMenuItem.Name = "serverStartStopToolStripMenuItem";
+            this.serverStartStopToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.serverStartStopToolStripMenuItem.Text = "Server starten";
+            this.serverStartStopToolStripMenuItem.Click += new System.EventHandler(this.serverStartStopToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1829,6 +1861,9 @@
         private System.Windows.Forms.Panel panel_DockBottom;
         private System.Windows.Forms.Label label_ingametime;
         private System.Windows.Forms.Label label_Timebuffer;
+        private System.Windows.Forms.ToolStripMenuItem serverToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem serverInstallUninstallToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem serverStartStopToolStripMenuItem;
     }
 }
 
