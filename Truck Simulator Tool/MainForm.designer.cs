@@ -145,6 +145,7 @@
             this.panel_DockBottom = new System.Windows.Forms.Panel();
             this.label_ingametime = new System.Windows.Forms.Label();
             this.serverStartStopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowIPAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.tableLayoutPanel_Bottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -1375,7 +1376,8 @@
             this.serverToolStripMenuItem.BackColor = System.Drawing.Color.Brown;
             this.serverToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.serverInstallUninstallToolStripMenuItem,
-            this.serverStartStopToolStripMenuItem});
+            this.serverStartStopToolStripMenuItem,
+            this.ShowIPAddressToolStripMenuItem});
             this.serverToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.serverToolStripMenuItem.ForeColor = System.Drawing.Color.Gainsboro;
             this.serverToolStripMenuItem.Name = "serverToolStripMenuItem";
@@ -1685,6 +1687,13 @@
             this.serverStartStopToolStripMenuItem.Text = "Server starten";
             this.serverStartStopToolStripMenuItem.Click += new System.EventHandler(this.serverStartStopToolStripMenuItem_Click);
             // 
+            // ShowIPAddressToolStripMenuItem
+            // 
+            this.ShowIPAddressToolStripMenuItem.Name = "ShowIPAddressToolStripMenuItem";
+            this.ShowIPAddressToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ShowIPAddressToolStripMenuItem.Text = "IP Adresse anzeigen";
+            this.ShowIPAddressToolStripMenuItem.Click += new System.EventHandler(this.IPAdresseAnzeigenToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1864,6 +1873,7 @@
         private System.Windows.Forms.ToolStripMenuItem serverToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem serverInstallUninstallToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem serverStartStopToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ShowIPAddressToolStripMenuItem;
     }
 }
 

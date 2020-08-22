@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.SqlServer.Server;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,10 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Security.Principal;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -121,6 +120,15 @@ namespace Truck_Simulator_Tool
                     }
                 }
             }
+
+            //Server
+            server.Start();// -- Check for Entry
+            server.Stop();// --
+            if (settings.ServerDefaultStart == true)
+            {
+                StartServer();
+            }
+            SetServerLabels();
         }
 
 
@@ -211,14 +219,6 @@ namespace Truck_Simulator_Tool
                 panel_Calculator.BackColor = Color.FromArgb(255, Color.Gainsboro);
                 panel_Vehicleinfo.BackColor = Color.FromArgb(255, Color.Gainsboro);
                 panel_Jobinfo.BackColor = Color.FromArgb(255, Color.DarkGray);
-            }
-
-
-            //Server
-            server.Port = 25558;
-            if (settings.ServerDefaultStart == true)
-            {
-                StartServer();
             }
         }
 
@@ -1834,7 +1834,6 @@ namespace Truck_Simulator_Tool
                 if (MessageBox.Show("Es scheint, dass der Server dieser Anwendung nicht richtig implementiert wurde. Soll dieses Problem jetzt behoben werden?", "Fehlende Einträge des Servers!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     server.SetPowerShellEntries();
-                    server.Start();
                 }
             }
             SetServerLabels();
@@ -1854,7 +1853,6 @@ namespace Truck_Simulator_Tool
             if (server.HasEntries() == false)
             {
                 server.SetPowerShellEntries();
-                StartServer();
             }
             SetServerLabels();
         }
@@ -1877,6 +1875,35 @@ namespace Truck_Simulator_Tool
             else
             {
                 InstallServer();
+            }
+        }
+
+        private void IPAdresseAnzeigenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (server.IsRunning() == true)
+            {
+                try
+                {
+                    IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+                    string ipAddress = "000.000.000.00";
+                    foreach (IPAddress ip in host.AddressList)
+                    {
+                        if (ip.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            ipAddress = ip.ToString();
+                        }
+                    }
+
+                    MessageBox.Show(String.Format("http://{0}:{1}/", ipAddress, Port.iPort), "IpAdresse", MessageBoxButtons.OK);
+                }
+                catch
+                {
+                    MessageBox.Show("Für diesen Computer konnte keine IpAdresse gefunden werden. Sind Sie mit dem Internet verbunden?", "Keine IpAdresse gefunden!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Bitte starten Sie den Server.", "Server wurde nicht gestartet!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void serverStartStopToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1912,7 +1939,7 @@ namespace Truck_Simulator_Tool
                 serverStartStopToolStripMenuItem.Text = "Server starten";
             }
         }
-       
+
 
         // AntiKick CheckedState changed
         private void AntikickToolStripMenuItem1_CheckedChanged(object sender, EventArgs e)

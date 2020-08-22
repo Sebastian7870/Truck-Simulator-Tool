@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="AlldatesTimeSpan.cs" />
     <Compile Include="HttpWebServer.cs" />
+    <Compile Include="Port.cs" />
     <Compile Include="SavedContract.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

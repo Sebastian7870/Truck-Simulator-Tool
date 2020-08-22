@@ -39,6 +39,7 @@ namespace Truck_Simulator_Tool
                     settings.AntiKickDefaultOn = true;
                     settings.ManualTimescaleValue = 19;
                     settings.BackgroundImageFilePath = "";
+                    settings.ServerDefaultStart = true;
 
                     string sJson = JsonConvert.SerializeObject(settings);
                     File.WriteAllText((String.Format(SoftwarePath + @"\config.json")), sJson);
@@ -64,6 +65,15 @@ namespace Truck_Simulator_Tool
             else
             {
                 checkBox_Sett_AntiKick.Checked = false;
+            }
+
+            if (settings.ServerDefaultStart == true)
+            {// ServerStart Checked
+                checkBox_Sett_ServerStartDefault.Checked = true;
+            }
+            else
+            {
+                checkBox_Sett_ServerStartDefault.Checked = false;
             }
 
 
@@ -93,6 +103,15 @@ namespace Truck_Simulator_Tool
                 else
                 {
                     settings.AntiKickDefaultOn = false;
+                }
+
+                if (checkBox_Sett_ServerStartDefault.Checked == true)
+                {// ServerStart to settings
+                    settings.ServerDefaultStart = true;
+                }
+                else
+                {
+                    settings.ServerDefaultStart = false;
                 }
 
                 settings.ManualTimescaleValue = numericUpDown_SetTimescale.Value;
@@ -168,7 +187,11 @@ namespace Truck_Simulator_Tool
                 settings.ManualTimescaleValue = 19;
                 numericUpDown_SetTimescale.Value = 19;
 
+                settings.BackgroundImageFilePath = "";
                 textBox_BackgroundfilePath.Text = "";
+
+                settings.ServerDefaultStart = true;
+                checkBox_Sett_ServerStartDefault.Checked = true;
             }
         }
 

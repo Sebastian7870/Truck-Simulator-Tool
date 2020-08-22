@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
-using System.Runtime.CompilerServices;
-using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -13,8 +11,6 @@ namespace Truck_Simulator_Tool
     {
         private HttpListener listener;
         private bool _HasEntries;
-        public int Port { get; set; }
-
 
         public bool IsRunning()
         {
@@ -52,7 +48,7 @@ namespace Truck_Simulator_Tool
             try
             {
                 listener = new HttpListener();
-                listener.Prefixes.Add(String.Format("http://+:{0}/", Port));
+                listener.Prefixes.Add(String.Format("http://+:{0}/", Port.iPort));
                 listener.Start();
                 _HasEntries = true;
                 Run();
@@ -100,13 +96,18 @@ namespace Truck_Simulator_Tool
         {
             try
             {
-                Process process = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo("netsh", String.Format("http add urlacl url=http://+:{0}/ user=\"{1}\"", Port, (object)new SecurityIdentifier("S-1-1-0").Translate(typeof(NTAccount)).ToString()));
+                Process SetPortEntries = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                startInfo.FileName = Application.ExecutablePath;
                 startInfo.Verb = "runas";
-                process.StartInfo = startInfo;
-                process.Start();
-                process.WaitForExit();
+                startInfo.Arguments = "-install";//String.Format("netsh http add urlacl url=http://+:{0}/ user=\"{1}\"; netsh advfirewall firewall add rule name=\"TruckSimulatorTool Server\" dir=in action=allow protocol=TCP localport={0}", Port.iPort, (object)new SecurityIdentifier("S-1-1-0").Translate(typeof(NTAccount)).ToString());
+
+                SetPortEntries.StartInfo = startInfo;
+                SetPortEntries.Start();
+                SetPortEntries.WaitForExit();
+
+                this.Start();
                 _HasEntries = true;
             }
             catch
@@ -122,14 +123,18 @@ namespace Truck_Simulator_Tool
         {
             try
             {
-                this.Stop();
-                Process process = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo("netsh", String.Format("http delete urlacl url=http://+:{0}/", Port));
+                Process SetPortEntries = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                startInfo.FileName = Application.ExecutablePath;
                 startInfo.Verb = "runas";
-                process.StartInfo = startInfo;
-                process.Start();
-                process.WaitForExit();
+                startInfo.Arguments = "-uninstall";//String.Format("netsh http add urlacl url=http://+:{0}/ user=\"{1}\"; netsh advfirewall firewall add rule name=\"TruckSimulatorTool Server\" dir=in action=allow protocol=TCP localport={0}", Port.iPort, (object)new SecurityIdentifier("S-1-1-0").Translate(typeof(NTAccount)).ToString());
+
+                SetPortEntries.StartInfo = startInfo;
+                SetPortEntries.Start();
+                SetPortEntries.WaitForExit();
+
+                this.Stop();
                 _HasEntries = false;
             }
             catch (Exception)
