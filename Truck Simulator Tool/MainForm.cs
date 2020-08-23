@@ -1894,7 +1894,7 @@ namespace Truck_Simulator_Tool
                         }
                     }
 
-                    MessageBox.Show(String.Format("http://{0}:{1}/", ipAddress, Port.iPort), "IpAdresse", MessageBoxButtons.OK);
+                    MessageBox.Show(String.Format("{0}:{1}", ipAddress, Port.iPort), "IpAdresse", MessageBoxButtons.OK);
                 }
                 catch
                 {
