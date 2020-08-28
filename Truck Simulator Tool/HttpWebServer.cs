@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 using System.Net;
 using System.Text;
@@ -11,6 +12,32 @@ namespace Truck_Simulator_Tool
     {
         private HttpListener listener;
         private bool _HasEntries;
+        private string _message;
+        private string message
+        {
+            get
+            {
+                if (this._message != null)
+                {
+                    return _message;
+                }
+                else
+                {
+                    return "error... no data!";
+                }
+            }
+            set
+            {
+                if (this._message != null)
+                {
+                    this.message = _message;
+                }
+                else
+                {
+                    this.message =  "error... no data!";
+                }
+            }
+        }
 
         public bool IsRunning()
         {
@@ -41,6 +68,11 @@ namespace Truck_Simulator_Tool
                 return false;
             }
         }
+        public void SetMessage(string json)
+        {
+            _message = json;
+        }
+
 
         // Start and run server
         public void Start()
@@ -66,8 +98,7 @@ namespace Truck_Simulator_Tool
                 try
                 {
                     HttpListenerContext context = listener.GetContext();
-                    string msg = "- - - Hello world - - -";
-                    byte[] bytes = Encoding.UTF8.GetBytes(msg);
+                    byte[] bytes = Encoding.UTF8.GetBytes(message);
                     context.Response.ContentLength64 = (long)bytes.Length;
                     context.Response.ContentEncoding = Encoding.UTF8;
                     context.Response.ContentType = "application/json;charset=UTF-8";

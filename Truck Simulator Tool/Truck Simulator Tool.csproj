@@ -72,8 +72,9 @@
   <ItemGroup>
     <Compile Include="AlldatesTimeSpan.cs" />
     <Compile Include="HttpWebServer.cs" />
+    <Compile Include="Json\TST_ServerData.cs" />
     <Compile Include="Port.cs" />
-    <Compile Include="SavedContract.cs" />
+    <Compile Include="Json\SavedContract.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,10 +89,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="Workshift.cs" />
-    <Compile Include="TelemetryData.cs" />
-    <Compile Include="TruckersfmData.cs" />
+    <Compile Include="Json\Settings.cs" />
+    <Compile Include="Json\Workshift.cs" />
+    <Compile Include="Json\TelemetryData.cs" />
+    <Compile Include="Json\TruckersfmData.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>

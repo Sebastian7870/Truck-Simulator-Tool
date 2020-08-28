@@ -12,8 +12,10 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Truck_Simulator_Tool.Json;
 
 namespace Truck_Simulator_Tool
 {
@@ -28,6 +30,7 @@ namespace Truck_Simulator_Tool
         Rootobject_TFMdj TruckersfmdjData = new Rootobject_TFMdj();
         Rootobject_TFMsong TruckersfmsongData = new Rootobject_TFMsong();
         int timercounter = 0;
+        string nextshiftevent;
         string situation = "None";
         double currentaveragespeed = 0;
         double bestcurrentaveragespeed = 0;
@@ -47,9 +50,17 @@ namespace Truck_Simulator_Tool
         bool StartApplicationContractLoaded = false;
         float LastKnownEstimatedDistance = 0f;
         Settings settings = new Settings();
+        TST_ServerData tst_serverdata = new TST_ServerData();
         bool ContractSaved = false;
         readonly DateTimeFormatInfo dateTimeFormatInfoDE = CultureInfo.GetCultureInfo("de-DE").DateTimeFormat;
         readonly DateTimeFormatInfo dateTimeFormatInfoUSA = CultureInfo.GetCultureInfo("en-US").DateTimeFormat;
+        string spb_damageText = "0,00 %";
+        double pb_damageProgress = 0;
+        string spb_distanceText = "0,00 %";
+        double pb_distanceProgress = 0;
+        string stimescale = "-";
+        string snextShiftPause = "---";
+        string sshiftTimeLeft = "---";
 
 
         [DllImport("user32.dll")]
@@ -354,7 +365,7 @@ namespace Truck_Simulator_Tool
 
                             panel_ArrivalinfoTop.BackColor = Color.Brown;
 
-                            label_currentarrival.Text = "Ankunft ca.:      00:00 Uhr";
+                            label_currentarrival.Text = "00:00 Uhr";
                             label_currentarrival2.Text = "(0 Min.)";
 
                             label_currentbestarrival.Text = "00:00 Uhr";
@@ -378,7 +389,7 @@ namespace Truck_Simulator_Tool
 
                             panel_ArrivalinfoTop.BackColor = Color.Brown;
 
-                            label_currentarrival.Text = "Ankunft ca.:      00:00 Uhr";
+                            label_currentarrival.Text = "00:00 Uhr";
                             label_currentarrival2.Text = "(0 Min.)";
 
                             label_currentbestarrival.Text = "00:00 Uhr";
@@ -467,7 +478,7 @@ namespace Truck_Simulator_Tool
                                 panel_ArrivalinfoTop.BackColor = Color.LimeGreen;
                             }
 
-                            label_currentarrival.Text = String.Format("Ankunft ca.:      {0} Uhr", dt_currentarrival.ToString("HH:mm"));
+                            label_currentarrival.Text = String.Format("{0} Uhr", dt_currentarrival.ToString("HH:mm"));
                             label_currentarrival2.Text = String.Format("({0})", TimeSpanConvertToAvailableValuesOnly(ts_currentarrival));
                         }
 
@@ -572,7 +583,8 @@ namespace Truck_Simulator_Tool
                     }
 
                     // TimeScale
-                    label2_timescale.Text = "Zeitskalierung: " + TelemetryData.ets2.game.scale.ToString();
+                    stimescale = TelemetryData.ets2.game.scale.ToString();
+                    label2_timescale.Text = "Zeitskalierung: " + stimescale;
 
 
                     // JobInfo
@@ -580,13 +592,17 @@ namespace Truck_Simulator_Tool
                     {// ETS2
                         if (TelemetryData.ets2.job.cargo.id != "")
                         {
-                            label5_jobinfo.Text = TelemetryData.ets2.job.cargo.name + "\n" + (TelemetryData.ets2.job.cargo.totalMass / 1000).ToString("n1") + " t\n" + TelemetryData.ets2.job.income.ToString("c0") + " (" + Math.Round(Convert.ToDecimal(TelemetryData.ets2.job.income) / Convert.ToDecimal(TelemetryData.ets2.job.cargo.plannedDistanceKM), 2) + " €/km)";
+                            label_jobinfo1.Text = TelemetryData.ets2.job.cargo.name;
+                            label_jobinfo2.Text = (TelemetryData.ets2.job.cargo.totalMass / 1000).ToString("n1") + " t";
+                            label_jobinfo3.Text =  TelemetryData.ets2.job.income.ToString("c0") + " (" + Math.Round(Convert.ToDecimal(TelemetryData.ets2.job.income) / Convert.ToDecimal(TelemetryData.ets2.job.cargo.plannedDistanceKM), 2) + " €/km)";
                             label10_sourcedata.Text = TelemetryData.ets2.job.sourceCity + "\n" + TelemetryData.ets2.job.sourceCompany;
                             label11_destinationdata.Text = TelemetryData.ets2.job.destinationCity + "\n" + TelemetryData.ets2.job.destinationCompany;
                         }
                         else
                         {
-                            label5_jobinfo.Text = "Leerfahrt\n0 t\n0 € (0 €/ km)";
+                            label_jobinfo1.Text = "Leerfahrt";
+                            label_jobinfo2.Text = "0 t";
+                            label_jobinfo3.Text = "0 € (0 €/ km)";
                             label10_sourcedata.Text = "";
                             label11_destinationdata.Text = "";
                         }
@@ -595,13 +611,17 @@ namespace Truck_Simulator_Tool
                     {// ATS
                         if (TelemetryData.ets2.job.cargo.id != "")
                         {
-                            label5_jobinfo.Text = TelemetryData.ets2.job.cargo.name + "\n" + (TelemetryData.ets2.job.cargo.totalMass / 0.453595347).ToString("n0") + " lb\n" + TelemetryData.ets2.job.income.ToString("c0", new CultureInfo("en-US")) + " (" + Math.Round(Convert.ToDecimal(TelemetryData.ets2.job.income) / Convert.ToDecimal(TelemetryData.ets2.job.cargo.plannedDistanceKM / 1.609344), 2) + " $/mi)";
+                            label_jobinfo1.Text = TelemetryData.ets2.job.cargo.name;
+                            label_jobinfo2.Text = (TelemetryData.ets2.job.cargo.totalMass / 0.453595347).ToString("n0") + " lb";
+                            label_jobinfo3.Text = TelemetryData.ets2.job.income.ToString("c0", new CultureInfo("en-US")) + " (" + Math.Round(Convert.ToDecimal(TelemetryData.ets2.job.income) / Convert.ToDecimal(TelemetryData.ets2.job.cargo.plannedDistanceKM / 1.609344), 2) + " $/mi)";
                             label10_sourcedata.Text = TelemetryData.ets2.job.sourceCity + "\n" + TelemetryData.ets2.job.sourceCompany;
                             label11_destinationdata.Text = TelemetryData.ets2.job.destinationCity + "\n" + TelemetryData.ets2.job.destinationCompany;
                         }
                         else
                         {
-                            label5_jobinfo.Text = "Leerfahrt\n0 lb\n0 $ (0 $/mi)";
+                            label_jobinfo1.Text = "Leerfahrt";
+                            label_jobinfo2.Text = "0 lb";
+                            label_jobinfo3.Text = "0 $ (0 $/ km)";
                             label10_sourcedata.Text = "";
                             label11_destinationdata.Text = "";
                         }
@@ -737,7 +757,6 @@ namespace Truck_Simulator_Tool
 
 
                     // ProgressBar Distance
-                    double pb_distanceProgress;
                     if (TelemetryData.ets2.truck.navigationEstimatedDistance > 0)
                     {
                         if (TelemetryData.ets2.game.gameID == "eut2")
@@ -762,7 +781,8 @@ namespace Truck_Simulator_Tool
 
                             // ProgressBar Create ETS2
                             pb_distanceProgress = drivendistance / distancesummary;
-                            PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress * 100, String.Format("{0} km   /   {1} km", Math.Round(drivendistance, 0), Math.Round(distancesummary, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
+                            spb_distanceText = String.Format("{0} km   /   {1} km", Math.Round(drivendistance, 0), Math.Round(distancesummary, 0));
+                            PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress * 100, spb_distanceText, "Microsoft Sans Serif", Brushes.LimeGreen);
                             label12_progresspercentage.Text = (pb_distanceProgress.ToString("p2"));
                             label13_remainingdistance.Text = "Noch " + Math.Round(TelemetryData.ets2.truck.navigationEstimatedDistance / 1000, 0).ToString() + " km";
                         }
@@ -788,24 +808,29 @@ namespace Truck_Simulator_Tool
 
                             // ProgressBar Create ATS
                             pb_distanceProgress = drivendistance / distancesummary;
-                            PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress * 100, String.Format("{0} mi   /   {1} mi", Math.Round(drivendistance, 0), Math.Round(distancesummary, 0)), "Microsoft Sans Serif", Brushes.LimeGreen);
+                            spb_distanceText = String.Format("{0} mi   /   {1} mi", Math.Round(drivendistance, 0), Math.Round(distancesummary, 0));
+                            PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress * 100, spb_distanceText, "Microsoft Sans Serif", Brushes.LimeGreen);
                             label12_progresspercentage.Text = (pb_distanceProgress.ToString("p2"));
                             label13_remainingdistance.Text = "Noch " + Math.Round(((TelemetryData.ets2.truck.navigationEstimatedDistance / 1000) / 1.609344), 0).ToString() + " mi";
 
                         }
 
                     }
-                    if (TelemetryData.ets2.truck.navigationEstimatedDistance == 0)
+                    else
                     { // ProgressBarDistance reset
                         if (TelemetryData.ets2.game.gameID == "eut2")
                         {// ETS2
-                            PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, 0, String.Format("0 km   /   0 km"), "Microsoft Sans Serif", Brushes.LimeGreen);
+                            pb_distanceProgress = 0;
+                            spb_distanceText = String.Format("0 km   /   0 km");
+                            PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress, spb_distanceText, "Microsoft Sans Serif", Brushes.LimeGreen);
                             label12_progresspercentage.Text = ("0,00 %");
                             label13_remainingdistance.Text = "Noch 0 km";
                         }
                         else
                         {// ATS
-                            PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, 0, String.Format("0 mi   /   0 mi"), "Microsoft Sans Serif", Brushes.LimeGreen);
+                            pb_distanceProgress = 0;
+                            spb_distanceText = String.Format("0 mi   /   0 mi");
+                            PictureBoxCustomProgressBar(pictureBox1_distance, Color.White, pb_distanceProgress, spb_distanceText, "Microsoft Sans Serif", Brushes.LimeGreen);
                             label12_progresspercentage.Text = ("0,00 %");
                             label13_remainingdistance.Text = "Noch 0 mi";
                         }
@@ -815,11 +840,15 @@ namespace Truck_Simulator_Tool
                     // ProgressBar Damage
                     if (TelemetryData.ets2.job.cargo.totalDamage > 0)
                     {
-                        PictureBoxCustomProgressBar(pictureBox2_cargodamage, Color.White, TelemetryData.ets2.job.cargo.totalDamage * 100, Math.Round(TelemetryData.ets2.job.cargo.totalDamage, 2).ToString("p0"), "Microsoft Sans Serif", Brushes.Brown);
+                        pb_damageProgress = TelemetryData.ets2.job.cargo.totalDamage;
+                        spb_damageText = Math.Round(TelemetryData.ets2.job.cargo.totalDamage, 2).ToString("p0");
+                        PictureBoxCustomProgressBar(pictureBox2_cargodamage, Color.White, pb_damageProgress * 100, spb_damageText, "Microsoft Sans Serif", Brushes.Brown);
                     }
                     else
                     {// ProgressBar Damage reset
-                        PictureBoxCustomProgressBar(pictureBox2_cargodamage, Color.White, 0, "0,00 %", "Microsoft Sans Serif", Brushes.Brown);
+                        pb_damageProgress = 0;
+                        spb_damageText = "0,00 %";
+                        PictureBoxCustomProgressBar(pictureBox2_cargodamage, Color.White, pb_damageProgress, spb_damageText, "Microsoft Sans Serif", Brushes.Brown);
                     }
 
 
@@ -919,13 +948,12 @@ namespace Truck_Simulator_Tool
                             StartApplicationContractLoaded = true;
                         }
                     }
-
                 }
                 else if (TelemetryData.ets2.game.connected == false)
                 {
                     label_connectionstatus.Text = "Keine Verbindung zum Spiel";
                     label_connectionstatus.BackColor = System.Drawing.Color.Brown;
-                    label2_timescale.Text = "Zeitskalierung: -";
+                    label2_timescale.Text = "Zeitskalierung: " + label2_timescale;
                 }
             }
             else if (bTelemetryOnline == false)
@@ -933,6 +961,68 @@ namespace Truck_Simulator_Tool
                 label_connectionstatus.Text = "Keine Verbindung zum Server";
                 label2_timescale.Text = "Zeitskalierung: -";
                 label_connectionstatus.BackColor = System.Drawing.Color.Brown;
+            }
+
+            //Set TST server data
+            if (server.IsRunning() == true)
+            {
+                //Set TST Server Data
+                int[] i = { panel_ArrivalinfoTop.BackColor.A, panel_ArrivalinfoTop.BackColor.R, panel_ArrivalinfoTop.BackColor.G, panel_ArrivalinfoTop.BackColor.B };
+
+                tst_serverdata.connectionStatusText = label_connectionstatus.Text;
+                tst_serverdata.connectionStatusArgb = GetARGBfromLabel(label_connectionstatus, true);
+                tst_serverdata.contractStatusText = label_contractstatus.Text;
+                tst_serverdata.contractStatusArgb = GetARGBfromLabel(label_contractstatus, true);
+                tst_serverdata.shiftStatusText = label_shiftstatus.Text;
+                tst_serverdata.shiftStatusArgb = GetARGBfromLabel(label_shiftstatus, true);
+                tst_serverdata.currentArrival_dtText = label_currentarrival.Text;
+                tst_serverdata.currentArrival_tsText = label_currentarrival2.Text;
+                tst_serverdata.currentArrivalArgb = i;
+                tst_serverdata.currentBestArrival_dtText = label_currentbestarrival.Text;
+                tst_serverdata.currentBestArrival_tsText = label_currentbestarrival2.Text;
+                tst_serverdata.bestArrival_dtText = label_bestarrival.Text;
+                tst_serverdata.bestArrival_tsText = label_bestarrival2.Text;
+                tst_serverdata.nextPauseTimeText = label8_nextpausetime.Text;
+                tst_serverdata.nextPauseTimeArgb = GetARGBfromLabel(label8_nextpausetime, false);
+                tst_serverdata.remainingTimeText = label7_remainingtime.Text;
+                tst_serverdata.remainingTimeArgb = GetARGBfromLabel(label7_remainingtime, false);
+                tst_serverdata.jobInfo_FreightText = label_jobinfo1.Text;
+                tst_serverdata.jobInfo_MassText = label_jobinfo2.Text;
+                tst_serverdata.jobInfo_IncomeText = label_jobinfo3.Text;
+                tst_serverdata.sourceText = label10_sourcedata.Text;
+                tst_serverdata.destinationText = label11_destinationdata.Text;
+                tst_serverdata.progressBarPercentage = label12_progresspercentage.Text;
+                tst_serverdata.timebufferText = label_Timebuffer.Text;
+                tst_serverdata.remainingDistanceText = label13_remainingdistance.Text;
+                tst_serverdata.timescaleText = stimescale;
+                tst_serverdata.pb_distanceProgress = pb_distanceProgress;
+                tst_serverdata.pb_distanceText = spb_distanceText;
+                tst_serverdata.pb_damageProgress = pb_damageProgress;
+                tst_serverdata.pb_damageText = spb_damageText;
+                if (scheduleLoaded == true)
+                {
+                    tst_serverdata.hasShift = true;
+                    tst_serverdata.nextShiftEvent = nextshiftevent;
+                    tst_serverdata.nextShiftPause = snextShiftPause;
+                    tst_serverdata.shiftTimeLeft = sshiftTimeLeft;
+                }
+                else
+                {
+                    tst_serverdata.hasShift = false;
+                    tst_serverdata.nextShiftEvent = null;
+                    tst_serverdata.nextShiftPause = null;
+                    tst_serverdata.shiftTimeLeft = null;
+                }
+                // Set Json
+                try
+                {
+                    string json = JsonConvert.SerializeObject(tst_serverdata);
+                    server.SetMessage(json);
+                }
+                catch (SerializationException)
+                {
+
+                }
             }
         }
 
@@ -1013,29 +1103,34 @@ namespace Truck_Simulator_Tool
                     bool currentShiftPauseOver = false;
                     bool schedulePause = false;
                     CurrentIndex--;
+                    
                     if (CurrentType == "StartDate")
                     {
                         ShiftActive = false;
-                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtbeginn]   {0} Uhr,  {1}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartDate.ToShortDateString());
+                        nextshiftevent = String.Format("[Schichtbeginn]   {0} Uhr,  {1}", listWorkshifts[CurrentIndex].StartDate.ToString("HH:mm"), listWorkshifts[CurrentIndex].StartDate.ToShortDateString());
+                        label_nextscheduleevent.Text = "Nächstes Schichtereignis: " + nextshiftevent;
                     }
                     else if (CurrentType == "EndDate")
                     {
                         currentShiftPauseOver = true;
                         ShiftActive = true;
-                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtende]   {0} Uhr", listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"));
+                        nextshiftevent = String.Format("[Schichtende]   {0} Uhr", listWorkshifts[CurrentIndex].EndDate.ToString("HH:mm"));
+                        label_nextscheduleevent.Text = "Nächstes Schichtereignis: " + nextshiftevent;
                     }
                     else if (CurrentType == "StartPause")
                     {
                         ShiftActive = true;
-                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenbeginn]   {0} Uhr", listWorkshifts[CurrentIndex].StartPause.ToString("HH:mm"));
+                        nextshiftevent = String.Format("[Schichtpausenbeginn]   {0} Uhr", listWorkshifts[CurrentIndex].StartPause.ToString("HH:mm"));
+                        label_nextscheduleevent.Text = "Nächstes Schichtereignis: " + nextshiftevent;
                     }
                     else if (CurrentType == "EndPause")
                     {
                         schedulePause = true;
                         ShiftActive = true;
-                        label_nextscheduleevent.Text = String.Format("Nächstes Schichtereignis: [Schichtpausenende]   {0} Uhr", listWorkshifts[CurrentIndex].EndPause.ToString("HH:mm"));
+                        nextshiftevent = String.Format("[Schichtpausenende]   {0} Uhr", listWorkshifts[CurrentIndex].EndPause.ToString("HH:mm"));
+                        label_nextscheduleevent.Text = "Nächstes Schichtereignis: " + nextshiftevent;
                     }
-
+                    
                     // label shiftcount
                     label_shiftcount.Text = String.Format("Schicht: {0} / {1}", (CurrentIndex + 1), foreachCounter);
 
@@ -1082,8 +1177,9 @@ namespace Truck_Simulator_Tool
                             }
                         }
                         CurrentIndex--;
-                        TimeSpan shiftTimeLeft = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].EndDate.Ticks - DateTime.Now.Ticks);
-                        label_timetoshiftend.Text = String.Format("Übrige Schichtlänge: {0}", TimeSpanConvertToAvailableValuesOnly(shiftTimeLeft));
+                        TimeSpan ts_shiftTimeLeft = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].EndDate.Ticks - DateTime.Now.Ticks);
+                        sshiftTimeLeft = TimeSpanConvertToAvailableValuesOnly(ts_shiftTimeLeft);
+                        label_timetoshiftend.Text = String.Format("Übrige Schichtlänge: {0}", sshiftTimeLeft);
 
 
                         // Get next shift pausestart
@@ -1121,7 +1217,8 @@ namespace Truck_Simulator_Tool
                             }
                             CurrentIndex--;
                             TimeSpan nextPauseEnd = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].EndPause.Ticks - DateTime.Now.Ticks);
-                            label_nextpausestartend.Text = String.Format("Pausenende in: {0}", TimeSpanConvertToAvailableValuesOnly(nextPauseEnd));
+                            snextShiftPause = TimeSpanConvertToAvailableValuesOnly(nextPauseEnd);
+                            label_nextpausestartend.Text = String.Format("Pausenende in: {0}", snextShiftPause);
                         }
                         else
                         {
@@ -1156,19 +1253,23 @@ namespace Truck_Simulator_Tool
                                 }
                                 CurrentIndex--;
                                 TimeSpan nextPauseStart = TimeSpan.FromTicks(listWorkshifts[CurrentIndex].StartPause.Ticks - DateTime.Now.Ticks);
-                                label_nextpausestartend.Text = String.Format("Nächste Pause in: {0}", TimeSpanConvertToAvailableValuesOnly(nextPauseStart));
+                                snextShiftPause = TimeSpanConvertToAvailableValuesOnly(nextPauseStart);
+                                label_nextpausestartend.Text = String.Format("Nächste Pause in: {0}", snextShiftPause);
                             }
                             else
                             {
-                                label_nextpausestartend.Text = "Nächste Pause in: ---";
+                                snextShiftPause = "---";
+                                label_nextpausestartend.Text = "Nächste Pause in: " + snextShiftPause;
                             }
                         }
 
                     }
                     else
                     {
-                        label_timetoshiftend.Text = "Übrige Schichtlänge: ---";
-                        label_nextpausestartend.Text = "Nächste Pause in: ---";
+                        sshiftTimeLeft = "---";
+                        label_timetoshiftend.Text = "Übrige Schichtlänge: " + sshiftTimeLeft;
+                        snextShiftPause = "---";
+                        label_nextpausestartend.Text = "Nächste Pause in: " + snextShiftPause;
                         label_currentshift.Text = "Derzeitige Schicht: ---";
 
                         label_shiftstatus.BackColor = Color.Goldenrod;
@@ -1894,7 +1995,7 @@ namespace Truck_Simulator_Tool
                         }
                     }
 
-                    MessageBox.Show(String.Format("{0}:{1}", ipAddress, Port.iPort), "IpAdresse", MessageBoxButtons.OK);
+                    MessageBox.Show(String.Format("{0} (Port: {1})", ipAddress, Port.iPort), "IpAdresse", MessageBoxButtons.OK);
                 }
                 catch
                 {
@@ -1951,6 +2052,22 @@ namespace Truck_Simulator_Tool
             else
             {
                 timer3_antikick.Stop();
+            }
+        }
+
+        
+        //Get RGB color from Label.BackColor to int[]
+        private int[] GetARGBfromLabel(Label label, bool isBackColor)
+        {
+            if (isBackColor == true)
+            {
+                int[] i = { label.BackColor.A, label.BackColor.R, label.BackColor.G, label.BackColor.B };
+                return i;
+            }
+            else
+            {
+                int[] i = { label.ForeColor.A, label.ForeColor.R, label.ForeColor.G, label.ForeColor.B };
+                return i;
             }
         }
     }

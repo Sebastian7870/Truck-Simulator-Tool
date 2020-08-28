@@ -34,7 +34,7 @@
             this.timer1_calculate = new System.Windows.Forms.Timer(this.components);
             this.label_currentarrival = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label5_jobinfo = new System.Windows.Forms.Label();
+            this.label_jobinfo3 = new System.Windows.Forms.Label();
             this.pictureBox1_distance = new System.Windows.Forms.PictureBox();
             this.label7_remainingtime = new System.Windows.Forms.Label();
             this.label8_nextpausetime = new System.Windows.Forms.Label();
@@ -54,6 +54,8 @@
             this.label15_datetimedate = new System.Windows.Forms.Label();
             this.pictureBox2_cargodamage = new System.Windows.Forms.PictureBox();
             this.panel_Jobinfo = new System.Windows.Forms.Panel();
+            this.label_jobinfo1 = new System.Windows.Forms.Label();
+            this.label_jobinfo2 = new System.Windows.Forms.Label();
             this.panel_JobinfoLight = new System.Windows.Forms.Panel();
             this.panel_Vehicleinfo = new System.Windows.Forms.Panel();
             this.label_vehicleinformation2 = new System.Windows.Forms.Label();
@@ -71,6 +73,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label_bestarrival2 = new System.Windows.Forms.Label();
             this.panel_ArrivalinfoTop = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.label_currentarrival2 = new System.Windows.Forms.Label();
             this.panel_TruckerFMBox = new System.Windows.Forms.Panel();
             this.label_TFMdjTimeleft = new System.Windows.Forms.Label();
@@ -116,6 +119,8 @@
             this.menuStrip_Top = new System.Windows.Forms.MenuStrip();
             this.serverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.serverInstallUninstallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.serverStartStopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowIPAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.schichtplanerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.schichtplanSpeichernToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.schichtplanSpeichernToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -144,8 +149,6 @@
             this.panel_BackgroundImage = new System.Windows.Forms.Panel();
             this.panel_DockBottom = new System.Windows.Forms.Panel();
             this.label_ingametime = new System.Windows.Forms.Label();
-            this.serverStartStopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ShowIPAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1_distance)).BeginInit();
             this.tableLayoutPanel_Bottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2_cargodamage)).BeginInit();
@@ -208,11 +211,11 @@
             this.label_currentarrival.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
             this.label_currentarrival.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label_currentarrival.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label_currentarrival.Location = new System.Drawing.Point(3, 1);
+            this.label_currentarrival.Location = new System.Drawing.Point(146, 1);
             this.label_currentarrival.Name = "label_currentarrival";
-            this.label_currentarrival.Size = new System.Drawing.Size(249, 29);
+            this.label_currentarrival.Size = new System.Drawing.Size(106, 29);
             this.label_currentarrival.TabIndex = 3;
-            this.label_currentarrival.Text = "Ankunft ca.:      00:00 Uhr";
+            this.label_currentarrival.Text = "00:00 Uhr";
             this.label_currentarrival.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label2
@@ -228,18 +231,18 @@
             this.label2.Text = "Beste Ankunft:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label5_jobinfo
+            // label_jobinfo3
             // 
-            this.label5_jobinfo.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.label5_jobinfo.BackColor = System.Drawing.Color.DarkGray;
-            this.label5_jobinfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.label5_jobinfo.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label5_jobinfo.Location = new System.Drawing.Point(3, 151);
-            this.label5_jobinfo.Name = "label5_jobinfo";
-            this.label5_jobinfo.Size = new System.Drawing.Size(411, 80);
-            this.label5_jobinfo.TabIndex = 5;
-            this.label5_jobinfo.Text = "Leerfahrt\r\n0 t\r\n0 € (0 €/km)\r\n\r\n\r\n";
-            this.label5_jobinfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label_jobinfo3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label_jobinfo3.BackColor = System.Drawing.Color.DarkGray;
+            this.label_jobinfo3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
+            this.label_jobinfo3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label_jobinfo3.Location = new System.Drawing.Point(3, 198);
+            this.label_jobinfo3.Name = "label_jobinfo3";
+            this.label_jobinfo3.Size = new System.Drawing.Size(407, 26);
+            this.label_jobinfo3.TabIndex = 5;
+            this.label_jobinfo3.Text = "0 € (0 €/km)";
+            this.label_jobinfo3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pictureBox1_distance
             // 
@@ -471,14 +474,42 @@
             this.panel_Jobinfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panel_Jobinfo.BackColor = System.Drawing.Color.DarkGray;
             this.panel_Jobinfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_Jobinfo.Controls.Add(this.label_jobinfo1);
+            this.panel_Jobinfo.Controls.Add(this.label_jobinfo2);
             this.panel_Jobinfo.Controls.Add(this.pictureBox2_cargodamage);
-            this.panel_Jobinfo.Controls.Add(this.label5_jobinfo);
+            this.panel_Jobinfo.Controls.Add(this.label_jobinfo3);
             this.panel_Jobinfo.Controls.Add(this.label9_estimatedtime);
             this.panel_Jobinfo.Controls.Add(this.panel_JobinfoLight);
             this.panel_Jobinfo.Location = new System.Drawing.Point(10, 370);
             this.panel_Jobinfo.Name = "panel_Jobinfo";
             this.panel_Jobinfo.Size = new System.Drawing.Size(416, 263);
             this.panel_Jobinfo.TabIndex = 19;
+            // 
+            // label_jobinfo1
+            // 
+            this.label_jobinfo1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label_jobinfo1.BackColor = System.Drawing.Color.DarkGray;
+            this.label_jobinfo1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
+            this.label_jobinfo1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label_jobinfo1.Location = new System.Drawing.Point(4, 146);
+            this.label_jobinfo1.Name = "label_jobinfo1";
+            this.label_jobinfo1.Size = new System.Drawing.Size(407, 26);
+            this.label_jobinfo1.TabIndex = 21;
+            this.label_jobinfo1.Text = "Leerfahrt";
+            this.label_jobinfo1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label_jobinfo2
+            // 
+            this.label_jobinfo2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label_jobinfo2.BackColor = System.Drawing.Color.DarkGray;
+            this.label_jobinfo2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
+            this.label_jobinfo2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label_jobinfo2.Location = new System.Drawing.Point(3, 172);
+            this.label_jobinfo2.Name = "label_jobinfo2";
+            this.label_jobinfo2.Size = new System.Drawing.Size(408, 26);
+            this.label_jobinfo2.TabIndex = 20;
+            this.label_jobinfo2.Text = "0 t";
+            this.label_jobinfo2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel_JobinfoLight
             // 
@@ -687,6 +718,7 @@
             // 
             this.panel_ArrivalinfoTop.BackColor = System.Drawing.Color.Brown;
             this.panel_ArrivalinfoTop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_ArrivalinfoTop.Controls.Add(this.label1);
             this.panel_ArrivalinfoTop.Controls.Add(this.label_currentarrival2);
             this.panel_ArrivalinfoTop.Controls.Add(this.label_currentarrival);
             this.panel_ArrivalinfoTop.Dock = System.Windows.Forms.DockStyle.Top;
@@ -694,6 +726,19 @@
             this.panel_ArrivalinfoTop.Name = "panel_ArrivalinfoTop";
             this.panel_ArrivalinfoTop.Size = new System.Drawing.Size(413, 31);
             this.panel_ArrivalinfoTop.TabIndex = 25;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label1.Location = new System.Drawing.Point(-2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(144, 29);
+            this.label1.TabIndex = 27;
+            this.label1.Text = "Ankunft ca.:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label_currentarrival2
             // 
@@ -1387,9 +1432,23 @@
             // serverInstallUninstallToolStripMenuItem
             // 
             this.serverInstallUninstallToolStripMenuItem.Name = "serverInstallUninstallToolStripMenuItem";
-            this.serverInstallUninstallToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.serverInstallUninstallToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.serverInstallUninstallToolStripMenuItem.Text = "Server installieren";
             this.serverInstallUninstallToolStripMenuItem.Click += new System.EventHandler(this.serverInstallUninstallToolStripMenuItem_Click);
+            // 
+            // serverStartStopToolStripMenuItem
+            // 
+            this.serverStartStopToolStripMenuItem.Name = "serverStartStopToolStripMenuItem";
+            this.serverStartStopToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.serverStartStopToolStripMenuItem.Text = "Server starten";
+            this.serverStartStopToolStripMenuItem.Click += new System.EventHandler(this.serverStartStopToolStripMenuItem_Click);
+            // 
+            // ShowIPAddressToolStripMenuItem
+            // 
+            this.ShowIPAddressToolStripMenuItem.Name = "ShowIPAddressToolStripMenuItem";
+            this.ShowIPAddressToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.ShowIPAddressToolStripMenuItem.Text = "IP Adresse anzeigen";
+            this.ShowIPAddressToolStripMenuItem.Click += new System.EventHandler(this.IPAdresseAnzeigenToolStripMenuItem_Click);
             // 
             // schichtplanerToolStripMenuItem
             // 
@@ -1680,20 +1739,6 @@
             this.label_ingametime.Text = "Mo 0:00";
             this.label_ingametime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // serverStartStopToolStripMenuItem
-            // 
-            this.serverStartStopToolStripMenuItem.Name = "serverStartStopToolStripMenuItem";
-            this.serverStartStopToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.serverStartStopToolStripMenuItem.Text = "Server starten";
-            this.serverStartStopToolStripMenuItem.Click += new System.EventHandler(this.serverStartStopToolStripMenuItem_Click);
-            // 
-            // ShowIPAddressToolStripMenuItem
-            // 
-            this.ShowIPAddressToolStripMenuItem.Name = "ShowIPAddressToolStripMenuItem";
-            this.ShowIPAddressToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.ShowIPAddressToolStripMenuItem.Text = "IP Adresse anzeigen";
-            this.ShowIPAddressToolStripMenuItem.Click += new System.EventHandler(this.IPAdresseAnzeigenToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1762,7 +1807,7 @@
         private System.Windows.Forms.Timer timer1_calculate;
         private System.Windows.Forms.Label label_currentarrival;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label5_jobinfo;
+        private System.Windows.Forms.Label label_jobinfo3;
         private System.Windows.Forms.PictureBox pictureBox1_distance;
         private System.Windows.Forms.Label label7_remainingtime;
         private System.Windows.Forms.Label label8_nextpausetime;
@@ -1874,6 +1919,9 @@
         private System.Windows.Forms.ToolStripMenuItem serverInstallUninstallToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem serverStartStopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ShowIPAddressToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label_jobinfo1;
+        private System.Windows.Forms.Label label_jobinfo2;
     }
 }
 
