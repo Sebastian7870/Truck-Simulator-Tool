@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="Truck Simulator Tool" Height="1080" Width="1920" Background="#FFEEEEEE" Foreground="Black" MinWidth="1280" MinHeight="938" WindowStartupLocation="CenterScreen">
     <Grid Cursor="Arrow">
+        <Grid Height="100" VerticalAlignment="Top" Width="1912" RenderTransformOrigin="-1.64,-0.26" Background="#FF666666">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top" Height="78" Width="486" Background="Brown"/>
+        </Grid>
+
 
     </Grid>
 </Window>
