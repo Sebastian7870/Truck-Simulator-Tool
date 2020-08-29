@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SCSSdkClient">
+      <HintPath>..\..\..\references\ETS2_ATS___RenCloudscs-sdk-plugin\release_v_1_10_6\release_v_1_10_6\Demo\SCSSdkClient.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
