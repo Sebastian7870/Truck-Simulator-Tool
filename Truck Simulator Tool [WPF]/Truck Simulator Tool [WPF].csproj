@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BE81A4EF-6306-4231-9255-5E497E578539}</ProjectGuid>
+    <ProjectGuid>{DEE7C471-158E-4BC2-8744-1D2E4045A413}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Truck_Simulator_Tool__WPF_</RootNamespace>
     <AssemblyName>Truck Simulator Tool [WPF]</AssemblyName>
@@ -98,7 +98,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Actros Mercedes.jpg" />
+    <Resource Include="Mercedes actros 2019 street.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
