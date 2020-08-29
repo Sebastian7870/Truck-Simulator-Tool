@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Truck_Simulator_Tool__WPF_"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Truck Simulator Tool" Height="1080" Width="1920" Background="#FFEEEEEE" Foreground="Black" MinWidth="1280" MinHeight="938" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+
     </Grid>
 </Window>
