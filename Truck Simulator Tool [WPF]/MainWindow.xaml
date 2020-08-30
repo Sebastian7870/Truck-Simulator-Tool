@@ -41,12 +41,12 @@
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="400"/>
             </Grid.ColumnDefinitions>
-            <Label  Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" FontWeight="Bold" Padding="25,5">
+            <Label  x:Name="label_connectionStatus" Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" FontWeight="Bold" Padding="25,5">
                 <Label.Content>
-                    <AccessText TextWrapping="Wrap" Text="Keine Verbindung zum Spiel" FontSize="24" TextAlignment="Center"/>
+                    <AccessText TextWrapping="Wrap" Text="null" FontSize="24" TextAlignment="Center"/>
                 </Label.Content>
             </Label>
-            <Label Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" Grid.Column="1" FontWeight="Bold" Padding="25,5">
+            <Label  Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" Grid.Column="1" FontWeight="Bold" Padding="25,5">
                 <Label.Content>
                     <AccessText TextWrapping="Wrap" Text="Keinen aktiven Auftrag" FontSize="24" TextAlignment="Center"/>
                 </Label.Content>
@@ -57,9 +57,9 @@
                 </Label.Content>
             </Label>
             <Canvas Grid.Column="3" Margin="0" Background="DimGray">
-                <Label Content="47" Canvas.Top="45" Padding="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="12" Width="18" Foreground="Gainsboro" Canvas.Left="33" FontSize="12" RenderTransformOrigin="0.63,0.556"/>
-                <Label Content="22:00" Canvas.Left="56" Foreground="Gainsboro" Height="70" Width="159" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0,0,10,0" FontSize="60" Margin="0"/>
-                <Label Content="Mittwoch&#xa;05.08.2020" Canvas.Left="220" Width="120" Foreground="Gainsboro" FontSize="24" VerticalContentAlignment="Center" Padding="0" Height="70" HorizontalAlignment="Right"/>
+                <Label x:Name="label_dateTimeNowSeconds" Content="47" Canvas.Top="45" Padding="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="12" Width="18" Foreground="Gainsboro" Canvas.Left="33" FontSize="12" RenderTransformOrigin="0.63,0.556"/>
+                <Label x:Name="label_dateTimeNowTime" Content="22:00" Canvas.Left="56" Foreground="Gainsboro" Height="70" Width="159" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0,0,10,0" FontSize="60" Margin="0"/>
+                <Label x:Name="label_dateTimeNowDate" Content="Mittwoch&#xa;05.08.2020" Canvas.Left="220" Width="120" Foreground="Gainsboro" FontSize="24" VerticalContentAlignment="Center" Padding="0" Height="70" HorizontalAlignment="Right"/>
                 <Label Content="Mo 0:00"  Height="25" Padding="0" Width="110" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="20" FontWeight="Bold" Canvas.Left="205" Canvas.Top="-25"/>
             </Canvas>
         </Grid>
@@ -170,8 +170,8 @@
                     <Label Content="0 € (0 €/km)" Height="25" Width="410" Padding="5,0,5,0.2" VerticalContentAlignment="Center" Canvas.Top="50"/>
                     <ProgressBar Height="25" Foreground="Brown" Value="0" Background="White" Width="400" Canvas.Top="81" Canvas.Left="5"/>
                 </Canvas>
-                <Label Content="Pause in: 0 Min." Canvas.Top="72" Height="40" Width="205" VerticalContentAlignment="Center" Foreground="Brown"/>
-                <Label Content="Restzeit: 0 Min." Canvas.Top="112" Height="40" Width="205" VerticalContentAlignment="Center" Foreground="Brown" />
+                <Label x:Name="label_nextRestStop" Content="Pause in: 0 Min." Canvas.Top="72" Height="40" Width="205" VerticalContentAlignment="Center" Foreground="Brown"/>
+                <Label x:Name="label_remainingDeliveryTime" Content="Restzeit: 0 Min." Canvas.Top="112" Height="40" Width="205" VerticalContentAlignment="Center" Foreground="Brown" />
                 <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" BorderThickness="2" Height="268" Width="410" />
             </Canvas>
             <StackPanel Height="116" Margin="15,15,15,8">

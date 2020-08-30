@@ -116,5 +116,8 @@
   <ItemGroup>
     <Resource Include="Mercedes actros 2019 street.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TruckSimulatorTool\Methods\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
