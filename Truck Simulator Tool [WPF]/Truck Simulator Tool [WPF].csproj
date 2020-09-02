@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="SCSSdkClient">
       <HintPath>..\..\..\references\ETS2_ATS___RenCloudscs-sdk-plugin\release_v_1_10_6\release_v_1_10_6\Demo\SCSSdkClient.dll</HintPath>
     </Reference>
@@ -73,6 +76,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="TruckSimulatorTool\Classes\SpeedCalculations.cs" />
+    <Compile Include="TruckSimulatorTool\Methods\ConverterMethods.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -116,8 +121,6 @@
   <ItemGroup>
     <Resource Include="Mercedes actros 2019 street.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TruckSimulatorTool\Methods\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
