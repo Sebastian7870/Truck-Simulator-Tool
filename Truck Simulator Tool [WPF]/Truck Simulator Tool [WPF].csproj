@@ -77,6 +77,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="TruckSimulatorTool\Classes\SpeedCalculations.cs" />
+    <Compile Include="TruckSimulatorTool\Json\TruckersFmData.cs" />
     <Compile Include="TruckSimulatorTool\Methods\ConverterMethods.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

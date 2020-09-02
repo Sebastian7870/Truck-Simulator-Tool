@@ -1,5 +1,4 @@
-﻿using SCSSdkClient.Object;
-using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Methods;
+﻿using System;
 
 namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
 {
@@ -17,7 +16,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
         // Speed Summary
         public void SetSpeedSummary(double speed, double multiplier)
         {
-            speedSummary += multiplier * speed;
+            speedSummary += speed;
         }
         public double GetSpeedSummary()
         {
@@ -28,7 +27,11 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
         public double GetCurrentAverageSpeed()
         {
             this.currentAverageSpeed = this.speedSummary / this.timerCounter;
-            return this.currentAverageSpeed;
+            if (Double.IsNaN(this.currentAverageSpeed))
+                return 0;
+            else
+                return this.currentAverageSpeed;
+
         }
 
         // Current Best AverageSpeed
@@ -42,9 +45,9 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
         }
 
         // DrivenDistance
-        public void SetDrivenDistance(double speed, double multiplier, double timeScale)
+        public void SetDrivenDistance(double speed, double timeScale, double multiplier)
         {
-            this.drivenDistance += timeScale *  multiplier * (speed / 3600);
+            this.drivenDistance += speed / 3600 * timeScale * multiplier;
         }
         public double GetDrivenDistance()
         {

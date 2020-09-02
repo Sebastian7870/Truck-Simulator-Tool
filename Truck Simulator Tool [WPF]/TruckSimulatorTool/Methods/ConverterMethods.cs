@@ -1,6 +1,4 @@
-﻿using SCSSdkClient;
-using SCSSdkClient.Object;
-using System;
+﻿using System;
 
 namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Methods
 {
@@ -24,11 +22,6 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Methods
         public static double ConvertEUAverageFueltoAMAverageFuel(double averageFuelConsumption)
         {
             return averageFuelConsumption * 100 / 6.43242746591568;
-        }
-
-        public static double GetKmHFromFVector(SCSTelemetry.FVector fVector)
-        {// linear is the correct velocity-value.
-            return (Math.Sqrt((Math.Pow(fVector.X, 2) + Math.Pow(fVector.Y, 2) + Math.Pow(fVector.Z, 2))) / 1000) * 3600;
         }
 
         public static string ConvertTimespanToCustomString(TimeSpan timeSpan)
