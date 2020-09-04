@@ -98,7 +98,7 @@
                     <xctk:IntegerUpDown Grid.Column="5" DefaultValue="7" FontSize="14" Margin="0,2" DisplayDefaultValueOnEmptyText="True"/>
                     <xctk:DoubleUpDown Grid.Column="5" DefaultValue="12" DisplayDefaultValueOnEmptyText="True" FontSize="14" Margin="0,2" Grid.Row="1"/>
                 </Grid>
-                <Button Content="Schichtplan erstellen" Margin="10,143,398,0" VerticalAlignment="Top" Height="50" Background="LightSteelBlue"/>
+                <Button x:Name="button_shiftCreate" Content="Schichtplan erstellen" Margin="10,143,398,0" VerticalAlignment="Top" Height="50" Background="LightSteelBlue" Click="button_shiftCreate_Click"/>
                 <Button Content="Schichtplan laden" Margin="405,143,10,0" VerticalAlignment="Top" Height="50" Background="LightSteelBlue"/>
             </Grid>
             <ListView Margin="10,621,10,20" VerticalContentAlignment="Center" />

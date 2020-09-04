@@ -77,6 +77,15 @@ namespace Truck_Simulator_Tool__WPF_
 
             }
             //Todo: TST Server implementation
+
+            if (!shiftSchedule.HasShift)
+            {
+                // Clear all labels
+            }
+            else
+            {
+                shiftSchedule.Update();
+            }
         }
 
 
@@ -432,6 +441,18 @@ namespace Truck_Simulator_Tool__WPF_
             catch
             {
 
+            }
+        }
+
+        private void button_shiftCreate_Click(object sender, RoutedEventArgs e)
+        {
+            if (!shiftSchedule.HasShift)
+            {
+                // Set Values and listbox, .............
+            }
+            else
+            {
+                // Ask if current shiftSchedule should be deleted.
             }
         }
     }
