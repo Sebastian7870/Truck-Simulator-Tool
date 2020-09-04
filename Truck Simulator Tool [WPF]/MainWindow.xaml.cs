@@ -4,6 +4,7 @@ using SCSSdkClient.Object;
 using System;
 using System.Globalization;
 using System.IO;
+using System.Net.Cache;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +24,7 @@ namespace Truck_Simulator_Tool__WPF_
     public partial class MainWindow : Window
     {
         public SpeedCalculations speedCalcs = new SpeedCalculations();
+        public ShiftSchedule shiftSchedule = new ShiftSchedule();
         public SCSSdkTelemetry Telemetry;
         Rootobject_TFMdj tfmDJ_data = new Rootobject_TFMdj();
         Rootobject_TFMsong tfmSong_data = new Rootobject_TFMsong();
@@ -74,7 +76,6 @@ namespace Truck_Simulator_Tool__WPF_
             {
 
             }
-
             //Todo: TST Server implementation
         }
 
@@ -431,7 +432,7 @@ namespace Truck_Simulator_Tool__WPF_
             catch
             {
 
-            } 
+            }
         }
     }
 }

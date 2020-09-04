@@ -65,17 +65,13 @@
         </Grid>
         <Grid Height="30.3" Background="DarkGray" DockPanel.Dock="Bottom" />
         <Grid DockPanel.Dock="Right"  Width="780" Margin="0,15,15,0">
-            <Canvas Background="Gainsboro" Margin="0" Height="400" VerticalAlignment="Top" Width="380" HorizontalAlignment="Left">
-                <Canvas x:Name="canvas_tfmSongPicture" Height="270" Canvas.Left="10" Canvas.Top="10" Width="360">
-                    <Canvas.Background>
-                        <ImageBrush Stretch="UniformToFill" />
-                    </Canvas.Background>
-                </Canvas>
+            <Canvas Margin="0" Height="400" VerticalAlignment="Top" Width="380" HorizontalAlignment="Left" Background="Gainsboro">
+                <Canvas x:Name="canvas_tfmSongPicture" Height="270" Canvas.Left="10" Canvas.Top="10" Width="360" OpacityMask="White" />
                 <Label x:Name="label_tfmSongTitle" Content="" Canvas.Left="10" Canvas.Top="285" Width="360" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="0" Height="30" FontSize="20"/>
                 <Label x:Name="label_tfmSongAuthor"  Content="" Canvas.Left="10" Canvas.Top="315" Width="360" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="0" Height="30" FontSize="20"/>
                 <Label x:Name="label_tfmDJName" Content="" Canvas.Left="10" Canvas.Top="350" Width="360" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Center" RenderTransformOrigin="0.486,1.367" FontSize="12" Height="26"/>
                 <Label x:Name="label_tfmDuration"  Content="" Canvas.Left="10" Canvas.Top="376" Width="360" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Center" RenderTransformOrigin="0.486,1.367" FontSize="12"/>
-                <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" BorderThickness="2" Margin="0,0,0,0" Height="400" Width="380" />
+                <!--Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" BorderThickness="2" Margin="0,0,0,0" Height="400" Width="380" /-->
             </Canvas>
             <Grid Background="Gainsboro" Margin="0,418,0,10">
                 <Label Content="Schichtplaner" Height="72" VerticalAlignment="Top" FontSize="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="DarkGray"/>
