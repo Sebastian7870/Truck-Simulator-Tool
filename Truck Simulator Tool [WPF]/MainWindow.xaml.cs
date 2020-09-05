@@ -5,6 +5,7 @@ using SCSSdkClient.Object;
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,12 +16,10 @@ using System.Windows.Threading;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Methods;
+using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses;
 
 namespace Truck_Simulator_Tool__WPF_
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public bool MainWindowIsInitialized = false;
@@ -32,7 +31,7 @@ namespace Truck_Simulator_Tool__WPF_
         bool tfmIsOnline = false;
 
         bool hasBestArrival = false;
-        int timeScaleConstant = 19; // Todo: change to settings
+        int timeScaleConstant = 19;
         TimeSpan ts_bestArrival;
         DateTime dt_bestArrival = DateTime.Now;
 
@@ -45,15 +44,14 @@ namespace Truck_Simulator_Tool__WPF_
         double fuelRange;
         string ingameTime;
 
-        public string SoftwarePath
-        {
-            get { return AppDomain.CurrentDomain.BaseDirectory; }
-        }
-
         public MainWindow()
         {
             InitializeComponent();
             MainWindowIsInitialized = true;
+
+            SettingsHelper.LoadCreateSettings();
+            GetSettings();
+
             Telemetry = new SCSSdkTelemetry();
 
             Telemetry.Data += Telemetry_Data;
@@ -64,12 +62,47 @@ namespace Truck_Simulator_Tool__WPF_
             dateTimePicker_shiftStart.Minimum = DateTime.Now.AddDays(-10);
         }
 
+        private void Button_Save_Click(object sender, RoutedEventArgs e)
+        {
+            SetBackground();
+        }
+
+        private void SetBackground()
+        {
+            if (SettingsHelper.SettingsJson.BackgroundPath != string.Empty)
+                this.Background = new ImageBrush(new BitmapImage(new Uri(SettingsHelper.SettingsJson.BackgroundPath)));
+            else
+                this.Background = new SolidColorBrush(Colors.LightGray);
+        }
+
+        private void GetSettings()
+        {// TODO: Load every settings
+            menuItem_antiKick.IsChecked = SettingsHelper.SettingsJson.AntiKickAutoStart;
+            if (menuItem_antiKick.IsChecked)
+                AntiKick.Start();
+            else
+                AntiKick.Stop();
+
+            timeScaleConstant = SettingsHelper.SettingsJson.TimeScaleValue;
+
+            SetBackground();
+        }
+        private void menuItem_antiKick_Click(object sender, RoutedEventArgs e)
+        {
+            if (menuItem_antiKick.IsChecked)
+                AntiKick.Start();
+            else
+                AntiKick.Stop();
+        }
+
         private string lastTFMPicturePath = null;
         private async void Timer_Tick(object sender, EventArgs e)
         {
             label_dateTimeNowSeconds.Content = DateTime.Now.Second.ToString();
             label_dateTimeNowTime.Content = DateTime.Now.ToString("HH:mm");
             label_dateTimeNowDate.Content = $"{CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)}\n{DateTime.Now.Date.ToShortDateString()}";
+            label_distanceCalculatorTimeScale.Content = $"Zeitskalierung: {timeScaleConstant}";
+
             await UpdateTFM();
             if (tfmIsOnline)
             {
@@ -93,6 +126,13 @@ namespace Truck_Simulator_Tool__WPF_
 
             if (shiftSchedule.HasShift)
             {
+                label_shiftCount.Visibility = Visibility.Visible;
+                label_nextShiftEvent.Visibility = Visibility.Visible;
+                label_shiftTimeLeft.Visibility = Visibility.Visible;
+                label_nextShiftPause.Visibility = Visibility.Visible;
+                label_currentShift.Visibility = Visibility.Visible;
+                menuItem_shiftScheduleSave.IsEnabled = true;
+
                 if (shiftSchedule.CurrentShiftIsActive)
                 {
                     if (shiftSchedule.ShiftPaused)
@@ -149,6 +189,12 @@ namespace Truck_Simulator_Tool__WPF_
                 button_shiftLoadDelete.Background = new SolidColorBrush(Colors.LightSteelBlue);
                 accessText_shiftStatus.Text = "Keine Schicht geladen";
                 label_shiftStatus.Background = new SolidColorBrush(Colors.Brown);
+                label_shiftCount.Visibility = Visibility.Hidden;
+                label_nextShiftEvent.Visibility = Visibility.Hidden;
+                label_shiftTimeLeft.Visibility = Visibility.Hidden;
+                label_nextShiftPause.Visibility = Visibility.Hidden;
+                label_currentShift.Visibility = Visibility.Hidden;
+                menuItem_shiftScheduleSave.IsEnabled = false;
             }
 
             //Todo: TST Server implementation
@@ -551,20 +597,51 @@ namespace Truck_Simulator_Tool__WPF_
         {
             if (!shiftSchedule.HasShift)
             {
-                OpenFileDialog fileDialog = new OpenFileDialog();
-                fileDialog.Filter = "json|*.json";
-                fileDialog.InitialDirectory = $@"{SoftwarePath}shift schedules";
-                if (!fileDialog.CheckPathExists)
-                    fileDialog.InitialDirectory = null;
-                if (fileDialog.ShowDialog() == true)
-                {
-                    shiftSchedule.LoadShift(fileDialog.FileName);
-                    SetShiftScheduleTextView();
-                }
+                LoadShiftSchedule();
             }
             else
             {
                 DeleteShiftSchedule();
+            }
+        }
+
+        private void menuItem_shiftScheduleLoad_Click(object sender, RoutedEventArgs e)
+        {
+            LoadShiftSchedule();
+        }
+        private void menuItem_shiftScheduleSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveShiftSchedule();
+        }
+
+        private void SaveShiftSchedule()
+        {
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.Filter = "json|*.json";
+            fileDialog.InitialDirectory = $@"{StaticValues.SoftwarePath}shift schedules";
+            if (!fileDialog.CheckPathExists)
+                fileDialog.InitialDirectory = null;
+            if (fileDialog.ShowDialog() == true)
+            {
+                string json = JsonConvert.SerializeObject(shiftSchedule.Getlist_ShiftScheduleJson);
+                File.WriteAllText(fileDialog.FileName, json);
+            }
+        }
+
+        private void LoadShiftSchedule()
+        {
+            if (shiftSchedule.HasShift)
+                if (MessageBox.Show("Sie haben bereits einen Schichtplan geladen. Wenn Sie den Schichtplan nicht gespeichert haben, wird er dauerhaft gelöscht.", "Soll der derzeitige Schichtplan gelöscht werden?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                    return;
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "json|*.json";
+            fileDialog.InitialDirectory = $@"{StaticValues.SoftwarePath}shift schedules";
+            if (!fileDialog.CheckPathExists)
+                fileDialog.InitialDirectory = null;
+            if (fileDialog.ShowDialog() == true)
+            {
+                shiftSchedule.LoadShift(fileDialog.FileName);
+                SetShiftScheduleTextView();
             }
         }
 
@@ -764,6 +841,23 @@ namespace Truck_Simulator_Tool__WPF_
                         break;
                 }
             }
+        }
+
+        private void menuItem_settings_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsWindowOpen<SettingsWindow>())
+            {
+                SettingsWindow window = new SettingsWindow();
+                window.Show();
+                window.button_Save.Click += Button_Save_Click;
+            }
+        }
+
+        public static bool IsWindowOpen<T>(string name = "") where T : Window
+        {
+            return string.IsNullOrEmpty(name)
+               ? Application.Current.Windows.OfType<T>().Any()
+               : Application.Current.Windows.OfType<T>().Any(w => w.Name.Equals(name));
         }
     }
 }

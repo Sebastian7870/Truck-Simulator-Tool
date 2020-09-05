@@ -1,0 +1,28 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Truck_Simulator_Tool__WPF_"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="Truck_Simulator_Tool__WPF_.SettingsWindow"
+        mc:Ignorable="d"
+        Title="Einstellungen" ResizeMode="NoResize" ShowInTaskbar="False" FontSize="14" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Topmost="True" Width="400" Height="320" >
+    <Grid Margin="0">
+        <Label HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="250" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Padding="5,0" Content="Auftragsdaten automatisch speichern&#xa;(stark empfohlen)"/>
+        <Label HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="250" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Padding="5,0" Content="AntiKick standartmäßig einschalten" Margin="0,40,0,0"/>
+        <Label HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="250" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Padding="5,0" Content="TST Server standartmäßig starten" Margin="0,80,0,0"/>
+        <Label HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="250" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Padding="5,0" Content="Zeitskalierung" Margin="0,120,0,0"/>
+        <Label HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="250" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Left" Padding="5,0" Content="Hintergrundbild" Margin="0,160,0,0"/>
+        <CheckBox x:Name="checkBox_contractAutoSave" HorizontalAlignment="Right" VerticalAlignment="Top" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0" Margin="0,0,10,0"/>
+        <CheckBox x:Name="checkBox_antiKickAutoStart" HorizontalAlignment="Right" VerticalAlignment="Top" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0" Margin="0,40,10,0"/>
+        <CheckBox x:Name="checkBox_tstServerAutoStart" HorizontalAlignment="Right" VerticalAlignment="Top" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0" Margin="0,80,10,0"/>
+        <xctk:IntegerUpDown x:Name="integerUpDown_timeScale" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0" Margin="0,133,10,0" Minimum="1" Maximum="20" Width="50" Value="19" />
+        <Button x:Name="button_timeScaleInfo" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Width="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0" Margin="0,133,65,0" Content="?" Click="button_timeScaleInfo_Click"/>
+        <TextBox x:Name="textBox_imageFilePath" HorizontalAlignment="Left" Height="23" Margin="5,190,0,0" TextWrapping="NoWrap" IsReadOnly="True" VerticalAlignment="Top" Width="245" />
+        <Button x:Name="button_imageDelete" HorizontalAlignment="Right" VerticalAlignment="Top" Height="23" Width="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0" Margin="0,190,10,0" Content="X" Click="button_imageDelete_Click"/>
+        <Button x:Name="button_imageBrowse" VerticalAlignment="Top" Height="23" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0,0" Margin="257,190,35,0" Content="durchsuchen" Click="button_imageBrowse_Click"/>
+        <Button x:Name="button_Save" Content="Speichern" HorizontalAlignment="Left" Margin="10,0,0,6" Width="100" Height="23" VerticalAlignment="Bottom" Click="button_Save_Click"/>
+        <Button x:Name="button_cancel" Content="Abbrechen" HorizontalAlignment="Left" Margin="115,0,0,6" Width="100" Height="23" VerticalAlignment="Bottom" Click="button_cancel_Click"/>
+        <Button x:Name="button_reset" Content="Zurücksetzen" Margin="0,0,12,6" HorizontalAlignment="Right" Width="100" Height="23" VerticalAlignment="Bottom" Click="button_reset_Click"/>
+    </Grid>
+</Window>

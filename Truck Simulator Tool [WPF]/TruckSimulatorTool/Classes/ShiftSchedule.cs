@@ -168,6 +168,10 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
                 _startDate = _startDate.AddHours(shiftPauseTimeHours + shiftTimeHours + _pauseTime);
             }
             while (_startDate < startDate.AddDays(durationDays));
+
+            if (list_ShiftScheduleJson[(list_ShiftScheduleJson.Count - 1)].EndDate < DateTime.Now)
+                MessageBox.Show("Das gewählte Startdatum liegt zu weit in der Vergangenheit. Bitte erstellen Sie einen Zeitgemäßen Schichtplan.", "Schicht abgelaufen!", MessageBoxButton.OK, MessageBoxImage.Information);
+            // values will be resetted in HasShift method.
         }
 
         public void LoadShift(string path)
