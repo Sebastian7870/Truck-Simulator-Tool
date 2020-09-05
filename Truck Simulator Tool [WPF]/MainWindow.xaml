@@ -63,7 +63,22 @@
                 <Label x:Name="label_ingameTime" Content="Mo 0:00"  Height="25" Padding="0" Width="110" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="20" FontWeight="Bold" Canvas.Left="205" Canvas.Top="-25"/>
             </Canvas>
         </Grid>
-        <Grid Height="30.3" Background="DarkGray" DockPanel.Dock="Bottom" />
+        <Grid Background="DarkGray" DockPanel.Dock="Bottom" Height="30" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="103*"/>
+                <ColumnDefinition Width="414*"/>
+                <ColumnDefinition Width="234*"/>
+                <ColumnDefinition Width="221*"/>
+                <ColumnDefinition Width="427*"/>
+                <ColumnDefinition Width="513*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="label_shiftCount" Content="Schicht: 11 / 50" Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14" Padding="3,0"/>
+            <Label x:Name="label_nextShiftEvent" Content="Nächstes Schichtereignis: [Schichtbeginn] 12:12 Uhr, 06.09.2020" Grid.Column="1" FontSize="14" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Label x:Name="label_shiftTimeLeft" Content="Übrige Schichtlänge: 20 Std. 29 Min." Grid.Column="2" Margin="0" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14"/>
+            <Label x:Name="label_nextShiftPause" Content="Nächste Pause in: 12 Std. 20 Min." Grid.Column="3" Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="3,0" FontSize="14"/>
+            <Label x:Name="label_currentShift" Content="Derzeitige Schicht: 08:14 Uhr, 05.09.2020 - 18:05 Uhr, 05.12.2020" Grid.Column="4" Margin="0" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14"/>
+            <Label x:Name="label_timeScale" Content="Zeitskalierung: 19" Grid.Column="5" Margin="0" Padding="3,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14"/>
+        </Grid>
         <Grid DockPanel.Dock="Right"  Width="780" Margin="0,15,15,0">
             <Canvas Margin="0" Height="400" VerticalAlignment="Top" Width="380" HorizontalAlignment="Left" Background="Gainsboro">
                 <Canvas x:Name="canvas_tfmSongPicture" Height="270" Canvas.Left="10" Canvas.Top="10" Width="360" OpacityMask="White" />
