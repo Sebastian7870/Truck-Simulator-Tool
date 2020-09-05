@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using SCSSdkClient;
 using SCSSdkClient.Object;
 using System;
 using System.Globalization;
 using System.IO;
-using System.Net.Cache;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +23,7 @@ namespace Truck_Simulator_Tool__WPF_
     /// </summary>
     public partial class MainWindow : Window
     {
+        public bool MainWindowIsInitialized = false;
         public SpeedCalculations speedCalcs = new SpeedCalculations();
         public ShiftSchedule shiftSchedule = new ShiftSchedule();
         public SCSSdkTelemetry Telemetry;
@@ -44,19 +45,26 @@ namespace Truck_Simulator_Tool__WPF_
         double fuelRange;
         string ingameTime;
 
+        public string SoftwarePath
+        {
+            get { return AppDomain.CurrentDomain.BaseDirectory; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+            MainWindowIsInitialized = true;
             Telemetry = new SCSSdkTelemetry();
 
             Telemetry.Data += Telemetry_Data;
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(1000);
+            timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.Tick += Timer_Tick;
             timer.Start();
-            dateTimePicker_shiftStart.Minimum = DateTime.Now;
+            dateTimePicker_shiftStart.Minimum = DateTime.Now.AddDays(-10);
         }
 
+        private string lastTFMPicturePath = null;
         private async void Timer_Tick(object sender, EventArgs e)
         {
             label_dateTimeNowSeconds.Content = DateTime.Now.Second.ToString();
@@ -65,17 +73,84 @@ namespace Truck_Simulator_Tool__WPF_
             await UpdateTFM();
             if (tfmIsOnline)
             {
-                await SetTFMSongPicture();
+                if (tfmSong_data.art.ToString() != lastTFMPicturePath)
+                    await SetTFMSongPicture();
                 label_tfmSongTitle.Content = tfmSong_data.title;
                 label_tfmSongAuthor.Content = tfmSong_data.artist;
                 label_tfmDJName.Content = $"DJ {tfmDJ_data.result.dj.name}";
                 TimeSpan ts = TimeSpan.FromSeconds(Convert.ToDouble(tfmDJ_data.result.slot.timeend) - Convert.ToDouble(tfmDJ_data.result.slot.timestart));
                 label_tfmDuration.Content = $"{ts.TotalHours} Std.";
+                lastTFMPicturePath = tfmSong_data.art.ToString();
             }
             else
             {
-
+                canvas_tfmSongPicture.Background = new SolidColorBrush(Colors.Transparent);
+                label_tfmSongTitle.Content = "";
+                label_tfmSongAuthor.Content = "";
+                label_tfmDJName.Content = "";
+                label_tfmDuration.Content = "";
             }
+
+            if (shiftSchedule.HasShift)
+            {
+                if (shiftSchedule.CurrentShiftIsActive)
+                {
+                    if (shiftSchedule.ShiftPaused)
+                    {
+                        accessText_shiftStatus.Text = "Schichtpause";
+                        label_shiftStatus.Background = new SolidColorBrush(Colors.CornflowerBlue);
+                    }
+                    else
+                    {
+                        accessText_shiftStatus.Text = "Schicht aktiv";
+                        label_shiftStatus.Background = new SolidColorBrush(Colors.LimeGreen);
+                    }
+                }
+                else
+                {
+                    accessText_shiftStatus.Text = "Schicht nicht aktiv";
+                    label_shiftStatus.Background = new SolidColorBrush(Colors.Goldenrod);
+                }
+                button_shiftLoadDelete.Content = "Schichtplan löschen";
+                button_shiftLoadDelete.Background = new SolidColorBrush(Colors.Brown);
+
+                shiftSchedule.Update();
+                label_shiftCount.Content = $"Schicht: {shiftSchedule.ShiftCount}";
+                label_nextShiftEvent.Content = $"Nächstes Schichtereignis: {ReturnNextShiftEventString(shiftSchedule.NextShiftEvent)}";
+                if (shiftSchedule.CurrentShiftIsActive)
+                {
+                    label_shiftTimeLeft.Content = $"Übrige Schichtlänge: {ConverterMethods.ConvertTimespanToCustomString(shiftSchedule.NextShiftEnd - DateTime.Now)}";
+                    label_currentShift.Content = $"Derzeitige Schicht: {shiftSchedule.CurrentShiftStartEnd[0].ToString("HH:mm")} Uhr,  {shiftSchedule.CurrentShiftStartEnd[0].ToShortDateString()}   -   {shiftSchedule.CurrentShiftStartEnd[1].ToString("HH:mm")} Uhr,  {shiftSchedule.CurrentShiftStartEnd[1].ToShortDateString()}";
+
+                    if (shiftSchedule.CurrentShiftHasPause)
+                    {
+                        if (shiftSchedule.ShiftPaused)
+                            label_nextShiftPause.Content = $"Pausenende in: {ConverterMethods.ConvertTimespanToCustomString(shiftSchedule.NextShiftPauseEnd - DateTime.Now)}";
+                        else
+                            label_nextShiftPause.Content = $"Nächste Pause in: {ConverterMethods.ConvertTimespanToCustomString(shiftSchedule.NextShiftPauseStart - DateTime.Now)}";
+                    }
+                    else
+                    {
+                        label_nextShiftPause.Content = "Nächste Pause in: ---";
+                    }
+                }
+                else
+                {
+                    label_shiftTimeLeft.Content = "Übrige Schichtlänge: ---";
+                    label_nextShiftPause.Content = "Nächste Pause in: ---";
+                    label_currentShift.Content = "Derzeitige Schicht: ---";
+                }
+            }
+            else
+            {
+                ResetShiftScheduleLabels();
+                listView_shiftScheduleText.Items.Clear();
+                button_shiftLoadDelete.Content = "Schichtplan laden";
+                button_shiftLoadDelete.Background = new SolidColorBrush(Colors.LightSteelBlue);
+                accessText_shiftStatus.Text = "Keine Schicht geladen";
+                label_shiftStatus.Background = new SolidColorBrush(Colors.Brown);
+            }
+
             //Todo: TST Server implementation
 
             if (!shiftSchedule.HasShift)
@@ -103,7 +178,7 @@ namespace Truck_Simulator_Tool__WPF_
                 double IntervalFactor = (double)Telemetry.UpdateInterval / 1000;
                 if (!data.SdkActive)
                 {
-                    label_connectionStatus.Content = "Keine Verbindung zum Spiel";
+                    accessText_connectionStatus.Text = "Keine Verbindung zum Spiel";
                     label_connectionStatus.Background = new SolidColorBrush(Colors.Brown);
                 }
                 else
@@ -134,12 +209,12 @@ namespace Truck_Simulator_Tool__WPF_
 
                     if (data.Paused)
                     {
-                        label_connectionStatus.Content = "Spiel pausiert";
+                        accessText_connectionStatus.Text = "Spiel pausiert";
                         label_connectionStatus.Background = new SolidColorBrush(Colors.Goldenrod);
                     }
                     else
                     {// notPaused-only
-                        label_connectionStatus.Content = "Verbunden";
+                        accessText_connectionStatus.Text = "Verbunden";
                         label_connectionStatus.Background = new SolidColorBrush(Colors.LimeGreen);
 
 
@@ -370,7 +445,7 @@ namespace Truck_Simulator_Tool__WPF_
                 label_timebuffer.Content = $"Zeitpuffer: {ConverterMethods.ConvertTimespanToCustomString(timebuffer)}";
             }
         }
-        
+
         private void SetRemainingtimeLabel(SCSGame scsGame, TimeSpan remainingTime)
         {
             if (remainingTime.TotalSeconds < 0)
@@ -444,15 +519,250 @@ namespace Truck_Simulator_Tool__WPF_
             }
         }
 
+
         private void button_shiftCreate_Click(object sender, RoutedEventArgs e)
         {
             if (!shiftSchedule.HasShift)
             {
-                // Set Values and listbox, .............
+                CreateShiftSchedule();
             }
             else
             {
-                // Ask if current shiftSchedule should be deleted.
+                if (MessageBox.Show("Sie haben zurzeit eine Schicht geladen, möchten Sie diese ersetzen?", "Schicht schon aktiv!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    CreateShiftSchedule();
+                }
+            }
+        }
+        private void CreateShiftSchedule()
+        {
+            if (dateTimePicker_shiftStart.Value.HasValue && doubleUpDown_driveTimeHours.Value != null && integerUpDown_durationDays.Value != null && doubleUpDown_pauseTimeHours.Value != null)
+            {
+                shiftSchedule.CreateShift((DateTime)dateTimePicker_shiftStart.Value, (int)integerUpDown_durationDays.Value, (double)doubleUpDown_driveTimeHours.Value, (double)doubleUpDown_pauseTimeHours.Value);
+                SetShiftScheduleTextView();
+            }
+            else
+            {
+                MessageBox.Show("Es konnte kein Schichtplan erstellt werden, da Werte fehlen.", "Fehlende Werte!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void button_shiftScheduleLoadDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (!shiftSchedule.HasShift)
+            {
+                OpenFileDialog fileDialog = new OpenFileDialog();
+                fileDialog.Filter = "json|*.json";
+                fileDialog.InitialDirectory = $@"{SoftwarePath}shift schedules";
+                if (!fileDialog.CheckPathExists)
+                    fileDialog.InitialDirectory = null;
+                if (fileDialog.ShowDialog() == true)
+                {
+                    shiftSchedule.LoadShift(fileDialog.FileName);
+                    SetShiftScheduleTextView();
+                }
+            }
+            else
+            {
+                DeleteShiftSchedule();
+            }
+        }
+
+        private void DeleteShiftSchedule()
+        {
+            shiftSchedule.DeleteShift();
+            ResetShiftScheduleLabels();
+            listView_shiftScheduleText.Items.Clear();
+        }
+
+        private void ResetShiftScheduleLabels()
+        {
+            label_shiftCount.Content = "Schicht: ---";
+            label_nextShiftEvent.Content = "Nächstes Schichtereignis: ---";
+            label_shiftTimeLeft.Content = "Übrige Schichtlänge: ---";
+            label_nextShiftPause.Content = "Nächste Pause in: ---";
+            label_currentShift.Content = "Derzeitige Schicht: ---";
+        }
+
+        private void SetShiftScheduleTextView()
+        {
+            if (shiftSchedule.HasShift)
+            {
+                listView_shiftScheduleText.Items.Clear();
+                foreach (ShiftScheduleJson Item in shiftSchedule.Getlist_ShiftScheduleJson)
+                {
+                    ListBoxItem count = new ListBoxItem();
+                    count.Content = $"Schicht: {Item.Count}";
+                    count.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
+
+                    listView_shiftScheduleText.Items.Add(count);//$"Schich: {Item.Count}");
+                    listView_shiftScheduleText.Items.Add(new Separator());
+                    listView_shiftScheduleText.Items.Add($"Schichtbeginn_______:    {Item.StartDate}          [{DateTimeFormatInfo.CurrentInfo.GetDayName(Item.StartDate.DayOfWeek)}]");
+                    listView_shiftScheduleText.Items.Add($"Schichtpausenbeginn_:    {Item.StartPause}          [{DateTimeFormatInfo.CurrentInfo.GetDayName(Item.StartPause.DayOfWeek)}]");
+                    listView_shiftScheduleText.Items.Add(new Separator());
+                    listView_shiftScheduleText.Items.Add($"Schichtpausenende___:    {Item.EndPause}          [{DateTimeFormatInfo.CurrentInfo.GetDayName(Item.EndPause.DayOfWeek)}]");
+                    listView_shiftScheduleText.Items.Add($"Schichtende_________:    {Item.EndDate}          [{DateTimeFormatInfo.CurrentInfo.GetDayName(Item.EndDate.DayOfWeek)}]");
+                    listView_shiftScheduleText.Items.Add("\n");
+                }
+            }
+        }
+
+        private string ReturnNextShiftEventString(Tuple<DateTime, int, ShiftSchedule.IndexType> tuple)
+        {
+            switch (tuple.Item3)
+            {
+                case ShiftSchedule.IndexType.startDate:
+                    return $"[Schichtbeginn]  {tuple.Item1.ToString("HH:mm")} Uhr, {tuple.Item1.ToShortDateString()}";
+                case ShiftSchedule.IndexType.endDate:
+                    return $"[Schichtende]  {tuple.Item1.ToString("HH:mm")} Uhr, {tuple.Item1.ToShortDateString()}";
+                case ShiftSchedule.IndexType.startPause:
+                    return $"[Schichtpausenbeginn]  {tuple.Item1.ToString("HH:mm")} Uhr, {tuple.Item1.ToShortDateString()}";
+                case ShiftSchedule.IndexType.endPause:
+                    return $"[Schichtpausenende]  {tuple.Item1.ToString("HH:mm")} Uhr, {tuple.Item1.ToShortDateString()}";
+                default:
+                    return "---";
+            }
+        }
+
+        // distance calculator
+        public enum calc_LastChangedType
+        {
+            Time,
+            Speed,
+            Distance,
+        };
+        private bool calc_IsDefault
+        {
+            get
+            {
+                if ((bool)radioButton_distanceCalculatorDefault.IsChecked)
+                    return true;
+                else
+                    return false;
+            }
+        }
+        private bool calc_distanceWasLastChanged = false;
+        private void doubleUpDown_distanceCalculatorTime1_GotFocus(object sender, RoutedEventArgs e)
+        {
+            calc_distanceWasLastChanged = false;
+        }
+        private void doubleUpDown_distanceCalculatorTime2_GotFocus(object sender, RoutedEventArgs e)
+        {
+            calc_distanceWasLastChanged = false;
+        }
+        private void doubleUpDown_distanceCalculatorTime3_GotFocus(object sender, RoutedEventArgs e)
+        {
+            calc_distanceWasLastChanged = false;
+        }
+        private void integerUpDown_distanceCalculatorDistance_GotFocus(object sender, RoutedEventArgs e)
+        {
+            calc_distanceWasLastChanged = true;
+        }
+
+        private void doubleUpDown_distanceCalculatorTime1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (!calc_distanceWasLastChanged)
+                UpdateDistanceCalculator(calc_LastChangedType.Time);
+        }
+        private void doubleUpDown_distanceCalculatorTime2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (!calc_distanceWasLastChanged)
+                UpdateDistanceCalculator(calc_LastChangedType.Time);
+        }
+        private void doubleUpDown_distanceCalculatorTime3_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (!calc_distanceWasLastChanged)
+                UpdateDistanceCalculator(calc_LastChangedType.Time);
+        }
+        private void integerUpDown_distanceCalculatorAverageSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            UpdateDistanceCalculator(calc_LastChangedType.Speed);
+        }
+        private void integerUpDown_distanceCalculatorDistance_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (calc_distanceWasLastChanged)
+                UpdateDistanceCalculator(calc_LastChangedType.Distance);
+        }
+
+        private void radioButton_distanceCalculatorDefault_Click(object sender, RoutedEventArgs e)
+        {
+            label_distanceCalculatorText1_1.Content = "Fahrzeit:";
+            label_distanceCalculatorTimeScale.Content = $"Zeitskalierung: {timeScaleConstant}";
+            label_distanceCalculatorText1_2.Visibility = Visibility.Hidden;
+            label_distanceCalculatorText1_3.Visibility = Visibility.Hidden;
+            doubleUpDown_distanceCalculatorTime2.Visibility = Visibility.Hidden;
+            doubleUpDown_distanceCalculatorTime3.Visibility = Visibility.Hidden;
+            label_distanceCalculatorText2_2.Visibility = Visibility.Hidden;
+            label_distanceCalculatorText2_3.Visibility = Visibility.Hidden;
+            if (calc_distanceWasLastChanged)
+                UpdateDistanceCalculator(calc_LastChangedType.Distance);
+            else
+                UpdateDistanceCalculator(calc_LastChangedType.Time);
+        }
+        private void radioButton_distanceCalculatorExtended_Click(object sender, RoutedEventArgs e)
+        {
+            doubleUpDown_distanceCalculatorTime2.Value = 0;
+            doubleUpDown_distanceCalculatorTime3.Value = 0;
+            label_distanceCalculatorText1_1.Content = "Fahrzeit (19):";
+            label_distanceCalculatorTimeScale.Content = "Zeitskalierung: individuell";
+            label_distanceCalculatorText1_2.Visibility = Visibility.Visible;
+            label_distanceCalculatorText1_3.Visibility = Visibility.Visible;
+            doubleUpDown_distanceCalculatorTime2.Visibility = Visibility.Visible;
+            doubleUpDown_distanceCalculatorTime3.Visibility = Visibility.Visible;
+            label_distanceCalculatorText2_2.Visibility = Visibility.Visible;
+            label_distanceCalculatorText2_3.Visibility = Visibility.Visible;
+            if (calc_distanceWasLastChanged)
+                UpdateDistanceCalculator(calc_LastChangedType.Distance);
+            else
+                UpdateDistanceCalculator(calc_LastChangedType.Time);
+        }
+
+        private void UpdateDistanceCalculator(calc_LastChangedType lastChangedType)
+        {
+
+            if (MainWindowIsInitialized)
+            {
+                switch (lastChangedType)
+                {
+                    case calc_LastChangedType.Time:
+                        if (calc_IsDefault)
+                            integerUpDown_distanceCalculatorDistance.Value = (int)(timeScaleConstant * doubleUpDown_distanceCalculatorTime1.Value * integerUpDown_distanceCalculatorAverageSpeed.Value);
+                        else
+                            integerUpDown_distanceCalculatorDistance.Value = (int)(((19 * doubleUpDown_distanceCalculatorTime1.Value) + (15 * doubleUpDown_distanceCalculatorTime2.Value) + (3 * doubleUpDown_distanceCalculatorTime3.Value)) * integerUpDown_distanceCalculatorAverageSpeed.Value);
+                        break;
+
+                    case calc_LastChangedType.Speed:
+                        if (calc_distanceWasLastChanged)
+                        {
+                            if (calc_IsDefault)
+                                doubleUpDown_distanceCalculatorTime1.Value = (double)((integerUpDown_distanceCalculatorDistance.Value / timeScaleConstant) / integerUpDown_distanceCalculatorAverageSpeed.Value);
+                            else
+                            {
+                                doubleUpDown_distanceCalculatorTime1.Value = (double)Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / 19) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
+                                doubleUpDown_distanceCalculatorTime2.Value = (double)Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / 15) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
+                                doubleUpDown_distanceCalculatorTime3.Value = (double)Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / 3) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
+                            }
+                        }
+                        else
+                        {
+                            if (calc_IsDefault)
+                                integerUpDown_distanceCalculatorDistance.Value = (int)(timeScaleConstant * doubleUpDown_distanceCalculatorTime1.Value * integerUpDown_distanceCalculatorAverageSpeed.Value);
+                            else
+                                integerUpDown_distanceCalculatorDistance.Value = (int)(((19 * doubleUpDown_distanceCalculatorTime1.Value) + (15 * doubleUpDown_distanceCalculatorTime2.Value) + (3 * doubleUpDown_distanceCalculatorTime3.Value)) * integerUpDown_distanceCalculatorAverageSpeed.Value);
+                        }
+                        break;
+
+                    case calc_LastChangedType.Distance:
+                        if (calc_IsDefault)
+                            doubleUpDown_distanceCalculatorTime1.Value = (double)Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / timeScaleConstant) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
+                        else
+                        {
+                            doubleUpDown_distanceCalculatorTime1.Value = (double)Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / 19) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
+                            doubleUpDown_distanceCalculatorTime2.Value = (double)Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / 15) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
+                            doubleUpDown_distanceCalculatorTime3.Value = Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / 3) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
+                        }
+                        break;
+                }
             }
         }
     }

@@ -41,19 +41,19 @@
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="400"/>
             </Grid.ColumnDefinitions>
-            <Label  x:Name="label_connectionStatus" Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" FontWeight="Bold" Padding="25,5">
+            <Label  x:Name="label_connectionStatus" Margin="0" Foreground="Gainsboro" Background="Brown"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" FontWeight="Bold"  Padding="25,5">
                 <Label.Content>
-                    <AccessText TextWrapping="Wrap" Text="Keine Verbindung zum Spiel" FontSize="24" TextAlignment="Center"/>
+                    <AccessText x:Name="accessText_connectionStatus" TextWrapping="Wrap" Text="Keine Verbindung zum Spiel" FontSize="24" TextAlignment="Center"/>
                 </Label.Content>
             </Label>
-            <Label  Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" Grid.Column="1" FontWeight="Bold" Padding="25,5">
+            <Label x:Name="label_contractStatus"  Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" Grid.Column="1" FontWeight="Bold" Padding="25,5">
                 <Label.Content>
-                    <AccessText TextWrapping="Wrap" Text="Keinen aktiven Auftrag" FontSize="24" TextAlignment="Center"/>
+                    <AccessText x:Name="accessText_contractStatus" TextWrapping="Wrap" Text="Keinen aktiven Auftrag" FontSize="24" TextAlignment="Center"/>
                 </Label.Content>
             </Label>
-            <Label Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" Grid.Column="2" FontWeight="Bold" Padding="25,5">
+            <Label x:Name="label_shiftStatus" Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" Grid.Column="2" FontWeight="Bold" Padding="25,5">
                 <Label.Content>
-                    <AccessText TextWrapping="Wrap" Text="Keine Schicht geladen" FontSize="24" TextAlignment="Center"/>
+                    <AccessText x:Name="accessText_shiftStatus" TextWrapping="Wrap" Text="Keine Schicht geladen" FontSize="24" TextAlignment="Center"/>
                 </Label.Content>
             </Label>
             <Canvas Grid.Column="3" Margin="0" Background="DimGray">
@@ -63,21 +63,21 @@
                 <Label x:Name="label_ingameTime" Content="Mo 0:00"  Height="25" Padding="0" Width="110" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="20" FontWeight="Bold" Canvas.Left="205" Canvas.Top="-25"/>
             </Canvas>
         </Grid>
-        <Grid Background="DarkGray" DockPanel.Dock="Bottom" Height="30" >
+        <Grid Background="DarkGray" DockPanel.Dock="Bottom" Height="35" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="103*"/>
-                <ColumnDefinition Width="414*"/>
-                <ColumnDefinition Width="234*"/>
-                <ColumnDefinition Width="221*"/>
-                <ColumnDefinition Width="427*"/>
-                <ColumnDefinition Width="513*"/>
+                <ColumnDefinition Width="65*"/>
+                <ColumnDefinition Width="275*"/>
+                <ColumnDefinition Width="160*"/>
+                <ColumnDefinition Width="150*"/>
+                <ColumnDefinition Width="275*"/>
+                <ColumnDefinition Width="80*"/>
             </Grid.ColumnDefinitions>
-            <Label x:Name="label_shiftCount" Content="Schicht: 11 / 50" Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14" Padding="3,0"/>
-            <Label x:Name="label_nextShiftEvent" Content="Nächstes Schichtereignis: [Schichtbeginn] 12:12 Uhr, 06.09.2020" Grid.Column="1" FontSize="14" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-            <Label x:Name="label_shiftTimeLeft" Content="Übrige Schichtlänge: 20 Std. 29 Min." Grid.Column="2" Margin="0" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14"/>
-            <Label x:Name="label_nextShiftPause" Content="Nächste Pause in: 12 Std. 20 Min." Grid.Column="3" Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="3,0" FontSize="14"/>
-            <Label x:Name="label_currentShift" Content="Derzeitige Schicht: 08:14 Uhr, 05.09.2020 - 18:05 Uhr, 05.12.2020" Grid.Column="4" Margin="0" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="14"/>
-            <Label x:Name="label_timeScale" Content="Zeitskalierung: 19" Grid.Column="5" Margin="0" Padding="3,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14"/>
+            <Label x:Name="label_shiftCount" Content="Schicht: ---" Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="11" Padding="3,0"/>
+            <Label x:Name="label_nextShiftEvent" Content="Nächstes Schichtereignis: ---" Grid.Column="1" FontSize="11" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Label x:Name="label_shiftTimeLeft" Content="Übrige Schichtlänge: ---" Grid.Column="2" Margin="0" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="11"/>
+            <Label x:Name="label_nextShiftPause" Content="Nächste Pause in: ---" Grid.Column="3" Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="3,0" FontSize="11"/>
+            <Label x:Name="label_currentShift" Content="Derzeitige Schicht: ---" Grid.Column="4" Margin="0" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="11"/>
+            <Label x:Name="label_timeScale" Content="Zeitskalierung: -" Grid.Column="5" Margin="0" Padding="3,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="11"/>
         </Grid>
         <Grid DockPanel.Dock="Right"  Width="780" Margin="0,15,15,0">
             <Canvas Margin="0" Height="400" VerticalAlignment="Top" Width="380" HorizontalAlignment="Left" Background="Gainsboro">
@@ -86,7 +86,7 @@
                 <Label x:Name="label_tfmSongAuthor"  Content="" Canvas.Left="10" Canvas.Top="315" Width="360" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="0" Height="30" FontSize="20"/>
                 <Label x:Name="label_tfmDJName" Content="" Canvas.Left="10" Canvas.Top="350" Width="360" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Center" RenderTransformOrigin="0.486,1.367" FontSize="12" Height="26"/>
                 <Label x:Name="label_tfmDuration"  Content="" Canvas.Left="10" Canvas.Top="376" Width="360" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Center" RenderTransformOrigin="0.486,1.367" FontSize="12"/>
-                <!--Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" BorderThickness="2" Margin="0,0,0,0" Height="400" Width="380" /-->
+                <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" BorderThickness="2" Margin="0,0,0,0" Height="400" Width="380" />
             </Canvas>
             <Grid Background="Gainsboro" Margin="0,418,0,10">
                 <Label Content="Schichtplaner" Height="72" VerticalAlignment="Top" FontSize="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="DarkGray"/>
@@ -108,36 +108,36 @@
                     <Label Content="Fahrzeit (Std.):" Grid.Row="1" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Padding="0,0,5,0" FontSize="14" Grid.Column="1" Margin="0"/>
                     <Label Content="Dauer (Tage):" Grid.Column="4" VerticalContentAlignment="Center" Padding="5,0" FontSize="14" Margin="0"/>
                     <Label Content="Pausezeit (Std.):" Grid.Row="1" Grid.Column="4" VerticalContentAlignment="Center" Padding="5,0" FontSize="14" Margin="0"/>
-                    <xctk:DoubleUpDown Grid.Column="2" Grid.Row="1" DefaultValue="9" DisplayDefaultValueOnEmptyText="True" FontSize="14" Margin="0,2"/>
+                    <xctk:DoubleUpDown x:Name="doubleUpDown_driveTimeHours" Grid.Column="2" Grid.Row="1" DefaultValue="9" DisplayDefaultValueOnEmptyText="True" FontSize="14" Margin="0,2"/>
                     <xctk:DateTimePicker x:Name="dateTimePicker_shiftStart" Grid.Column="2" Height="22" Format="Custom" FormatString="dddd, dd.MM.yyyy HH:mm" FontSize="14" Margin="0,2"/>
-                    <xctk:IntegerUpDown Grid.Column="5" DefaultValue="7" FontSize="14" Margin="0,2" DisplayDefaultValueOnEmptyText="True"/>
-                    <xctk:DoubleUpDown Grid.Column="5" DefaultValue="12" DisplayDefaultValueOnEmptyText="True" FontSize="14" Margin="0,2" Grid.Row="1"/>
+                    <xctk:IntegerUpDown x:Name="integerUpDown_durationDays" Grid.Column="5" DefaultValue="7" FontSize="14" Margin="0,2" DisplayDefaultValueOnEmptyText="True"/>
+                    <xctk:DoubleUpDown x:Name="doubleUpDown_pauseTimeHours" Grid.Column="5" DefaultValue="12" DisplayDefaultValueOnEmptyText="True" FontSize="14" Margin="0,2" Grid.Row="1"/>
                 </Grid>
                 <Button x:Name="button_shiftCreate" Content="Schichtplan erstellen" Margin="10,143,398,0" VerticalAlignment="Top" Height="50" Background="LightSteelBlue" Click="button_shiftCreate_Click"/>
-                <Button Content="Schichtplan laden" Margin="405,143,10,0" VerticalAlignment="Top" Height="50" Background="LightSteelBlue"/>
+                <Button x:Name="button_shiftLoadDelete" Content="Schichtplan laden" Margin="405,143,10,0" VerticalAlignment="Top" Height="50" Background="LightSteelBlue" Click="button_shiftScheduleLoadDelete_Click"/>
             </Grid>
-            <ListView Margin="10,621,10,20" VerticalContentAlignment="Center" />
+            <ListBox x:Name="listView_shiftScheduleText" Margin="10,621,10,20" VerticalContentAlignment="Center" FontSize="14" />
             <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" BorderThickness="2" Margin="0,418,0,10" />
             <Canvas Background="Gainsboro" Margin="395,0,0,0" Height="400" VerticalAlignment="Top" Width="380" HorizontalAlignment="Right">
-                <Label Content="Schichtplaner" Height="72" VerticalAlignment="Top" FontSize="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="DarkGray" Width="380"/>
-                <xctk:DoubleUpDown Canvas.Left="168" Canvas.Top="95" Width="180" Height="20" DisplayDefaultValueOnEmptyText="True" DefaultValue="0" FontSize="14"/>
-                <xctk:DoubleUpDown Canvas.Left="168" Canvas.Top="125" Width="180" Height="20" DisplayDefaultValueOnEmptyText="True" DefaultValue="0" FontSize="14"/>
-                <xctk:DoubleUpDown Canvas.Left="168" Canvas.Top="154" Width="180" Height="20" DisplayDefaultValueOnEmptyText="True" DefaultValue="0" FontSize="14"/>
-                <Label Content="Fahrzeit:" Canvas.Left="5" Canvas.Top="95" Width="160" Height="20" FontSize="14" Padding="0" VerticalContentAlignment="Center"/>
-                <Label Content="Fahrzeit (15):" Canvas.Left="5" Canvas.Top="125" Width="160" Height="20" FontSize="14" Padding="0" VerticalContentAlignment="Center"/>
-                <Label Content="Fahrzeit (3):" Canvas.Left="5" Canvas.Top="154" Width="160" Height="20" FontSize="14" Padding="0" VerticalContentAlignment="Center"/>
-                <RadioButton Content="einfach" Canvas.Left="200" Canvas.Top="185" FontSize="14" FlowDirection="RightToLeft" IsChecked="True"/>
-                <RadioButton Content="erweitert" Canvas.Left="275" Canvas.Top="185" FontSize="14" FlowDirection="RightToLeft"/>
-                <Label Content="Std." Canvas.Left="348" Canvas.Top="95" Width="32" Height="20" FontSize="10" Padding="3,0,0,0" VerticalContentAlignment="Center"/>
-                <Label Content="Std." Canvas.Left="348" Canvas.Top="125" Width="32" Height="20" FontSize="10" Padding="3,0,0,0" VerticalContentAlignment="Center"/>
-                <Label Content="Std." Canvas.Left="348" Canvas.Top="154" Width="32" Height="20" FontSize="10" Padding="3,0,0,0" VerticalContentAlignment="Center"/>
-                <xctk:IntegerUpDown Canvas.Left="168" Canvas.Top="266" Width="180" Height="20" DefaultValue="65" FontSize="14" DisplayDefaultValueOnEmptyText="True"/>
+                <Label Content="Distanzrechner" Height="72" VerticalAlignment="Top" FontSize="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="DarkGray" Width="380"/>
+                <xctk:DoubleUpDown x:Name="doubleUpDown_distanceCalculatorTime1" Canvas.Left="168" Canvas.Top="95" Width="180" Height="20" DisplayDefaultValueOnEmptyText="True" DefaultValue="0" FontSize="14" ValueChanged="doubleUpDown_distanceCalculatorTime1_ValueChanged" Increment="0.25" GotFocus="doubleUpDown_distanceCalculatorTime1_GotFocus" MaxLength="3" Minimum="0" CultureInfo="(Default)"/>
+                <xctk:DoubleUpDown x:Name="doubleUpDown_distanceCalculatorTime2" Canvas.Left="168" Canvas.Top="125" Width="180" Height="20" DisplayDefaultValueOnEmptyText="True" DefaultValue="0" FontSize="14" Increment="0.25" ValueChanged="doubleUpDown_distanceCalculatorTime2_ValueChanged" GotFocus="doubleUpDown_distanceCalculatorTime2_GotFocus" MaxLength="3" Minimum="0" CultureInfo="(Default)" Visibility="Hidden"/>
+                <xctk:DoubleUpDown x:Name="doubleUpDown_distanceCalculatorTime3" Canvas.Left="168" Canvas.Top="154" Width="180" Height="20" DisplayDefaultValueOnEmptyText="True" DefaultValue="0" FontSize="14" ValueChanged="doubleUpDown_distanceCalculatorTime3_ValueChanged" Increment="0.25" GotFocus="doubleUpDown_distanceCalculatorTime3_GotFocus" MaxLength="3" Minimum="0" CultureInfo="(Default)" Visibility="Hidden" />
+                <Label x:Name="label_distanceCalculatorText1_1" Content="Fahrzeit:" Canvas.Left="5" Canvas.Top="95" Width="160" Height="20" FontSize="14" Padding="0" VerticalContentAlignment="Center"/>
+                <Label x:Name="label_distanceCalculatorText1_2" Content="Fahrzeit (15):" Canvas.Left="5" Canvas.Top="125" Width="160" Height="20" FontSize="14" Padding="0" VerticalContentAlignment="Center" Visibility="Hidden"/>
+                <Label x:Name="label_distanceCalculatorText1_3" Content="Fahrzeit (3):" Canvas.Left="5" Canvas.Top="154" Width="160" Height="20" FontSize="14" Padding="0" VerticalContentAlignment="Center" Visibility="Hidden"/>
+                <RadioButton x:Name="radioButton_distanceCalculatorDefault" Content="einfach" Canvas.Left="200" Canvas.Top="185" FontSize="14" FlowDirection="RightToLeft" IsChecked="True" Click="radioButton_distanceCalculatorDefault_Click"/>
+                <RadioButton x:Name="radioButton_distanceCalculatorExtended" Content="erweitert" Canvas.Left="275" Canvas.Top="185" FontSize="14" FlowDirection="RightToLeft" Click="radioButton_distanceCalculatorExtended_Click"/>
+                <Label x:Name="label_distanceCalculatorText2_1" Content="Std." Canvas.Left="348" Canvas.Top="95" Width="32" Height="20" FontSize="10" Padding="3,0,0,0" VerticalContentAlignment="Center"/>
+                <Label x:Name="label_distanceCalculatorText2_2" Content="Std." Canvas.Left="348" Canvas.Top="125" Width="32" Height="20" FontSize="10" Padding="3,0,0,0" VerticalContentAlignment="Center" Visibility="Hidden"/>
+                <Label x:Name="label_distanceCalculatorText2_3" Content="Std." Canvas.Left="348" Canvas.Top="154" Width="32" Height="20" FontSize="10" Padding="3,0,0,0" VerticalContentAlignment="Center" Visibility="Hidden"/>
+                <xctk:IntegerUpDown x:Name="integerUpDown_distanceCalculatorAverageSpeed" Canvas.Left="168" Canvas.Top="266" Width="180" Height="20" DefaultValue="65" FontSize="14" DisplayDefaultValueOnEmptyText="True" ValueChanged="integerUpDown_distanceCalculatorAverageSpeed_ValueChanged" MaxLength="3" Minimum="0" CultureInfo="(Default)"/>
                 <Label Content="Ø Geschwindigkeit:" Canvas.Left="5" Canvas.Top="266" Width="160" Height="20" FontSize="14" Padding="0" VerticalContentAlignment="Center"/>
                 <Label Content="km/h&#xa;mph" Canvas.Left="348" Canvas.Top="260" Width="32" Height="30" FontSize="10" Padding="3,0,0,0" VerticalContentAlignment="Center"/>
-                <xctk:IntegerUpDown Canvas.Left="168" Canvas.Top="345" Width="180" Height="20" DisplayDefaultValueOnEmptyText="True" DefaultValue="0" FontSize="14"/>
-                <Label Content="Fahrzeit:" Canvas.Left="5" Canvas.Top="345" Width="160" Height="20" FontSize="14" Padding="0" VerticalContentAlignment="Center"/>
+                <xctk:IntegerUpDown x:Name="integerUpDown_distanceCalculatorDistance" Canvas.Left="168" Canvas.Top="345" Width="180" Height="20" DisplayDefaultValueOnEmptyText="True" DefaultValue="0" FontSize="14" ValueChanged="integerUpDown_distanceCalculatorDistance_ValueChanged" Increment="100" GotFocus="integerUpDown_distanceCalculatorDistance_GotFocus" MaxLength="5" Minimum="0" CultureInfo="(Default)"/>
+                <Label Content="Distanz (ingame):" Canvas.Left="5" Canvas.Top="345" Width="160" Height="20" FontSize="14" Padding="0" VerticalContentAlignment="Center"/>
                 <Label Content="km&#xa;mi" Canvas.Left="348" Canvas.Top="340" Width="32" Height="30" FontSize="10" Padding="3,0,0,0" VerticalContentAlignment="Center"/>
-                <Label Content="Zeitskalierung: 19" Canvas.Left="168" Canvas.Top="286" Width="180" Height="20" FontSize="12" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                <Label x:Name="label_distanceCalculatorTimeScale" Content="Zeitskalierung: 19" Canvas.Left="168" Canvas.Top="286" Width="180" Height="20" FontSize="12" Padding="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
                 <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" BorderThickness="2" Margin="0,0,0,0" Height="400" Width="380" />
             </Canvas>
         </Grid>
