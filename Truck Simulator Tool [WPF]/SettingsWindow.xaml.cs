@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.Windows;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses;
@@ -45,11 +44,11 @@ namespace Truck_Simulator_Tool__WPF_
 
             SettingsHelper.SettingsJson = settingsJson;
             SettingsHelper.SaveSettings();
-            
+
         }
 
         private void ResetJson()
-        {   
+        {
             checkBox_contractAutoSave.IsChecked = true;
             checkBox_antiKickAutoStart.IsChecked = true;
             checkBox_tstServerAutoStart.IsChecked = true;

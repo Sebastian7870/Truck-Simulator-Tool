@@ -1,10 +1,10 @@
-﻿<Window
+﻿<Window x:Class="Truck_Simulator_Tool__WPF_.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Truck_Simulator_Tool__WPF_"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="Truck_Simulator_Tool__WPF_.MainWindow"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         mc:Ignorable="d"
         Title="Truck Simulator Tool" Height="1080" Width="1920" Foreground="Black" MinWidth="1280" MinHeight="938" WindowStartupLocation="CenterScreen" FontFamily="Microsoft Sans Serif" FontSize="18">
     <Window.Background>

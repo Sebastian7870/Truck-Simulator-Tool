@@ -13,5 +13,15 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         {
             get { return 25558; }
         }
+
+        public static string SetEntriesArgs
+        {
+            get { return "-TSTinstall"; }
+        }
+
+        public static string DeleteEntriesArgs
+        {
+            get { return "-TSTuninstall"; }
+        }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Truck_Simulator_Tool__WPF_.TruckSimulatorTool;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Methods;
@@ -46,6 +47,9 @@ namespace Truck_Simulator_Tool__WPF_
 
         public MainWindow()
         {
+            ApplicationStartUp.CanStartUp();
+
+
             InitializeComponent();
             MainWindowIsInitialized = true;
 
@@ -76,7 +80,7 @@ namespace Truck_Simulator_Tool__WPF_
         }
 
         private void GetSettings()
-        {// TODO: Load every settings
+        {// TODO: Load every setting
             menuItem_antiKick.IsChecked = SettingsHelper.SettingsJson.AntiKickAutoStart;
             if (menuItem_antiKick.IsChecked)
                 AntiKick.Start();
