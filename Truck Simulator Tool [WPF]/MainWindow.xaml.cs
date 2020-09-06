@@ -36,15 +36,6 @@ namespace Truck_Simulator_Tool__WPF_
         TimeSpan ts_bestArrival;
         DateTime dt_bestArrival = DateTime.Now;
 
-        double navigationDistance;
-        double plannedDistanceKM;
-        double truckSpeed;
-        double jobInfoMass;
-        double fuelCurrent;
-        double fuelCapacity;
-        double fuelRange;
-        string ingameTime;
-
         public MainWindow()
         {
             ApplicationStartUp.CanStartUp();
@@ -57,6 +48,7 @@ namespace Truck_Simulator_Tool__WPF_
             Telemetry = new SCSSdkTelemetry();
             SettingsHelper.LoadCreateSettings();
             GetSettings();
+            ContractHelper.StartBackupper();
 
             Telemetry.Data += Telemetry_Data;
             DispatcherTimer timer = new DispatcherTimer();
@@ -237,7 +229,7 @@ namespace Truck_Simulator_Tool__WPF_
 
         private void Telemetry_Data(SCSTelemetry data, bool updated)
         {
-            if (!updated) return;
+            //if (!updated) return;
             try
             {
                 if (!Dispatcher.CheckAccess())
@@ -249,33 +241,29 @@ namespace Truck_Simulator_Tool__WPF_
                 double IntervalFactor = (double)Telemetry.UpdateInterval / 1000;
                 if (!data.SdkActive)
                 {
-                    accessText_connectionStatus.Text = "Keine Verbindung zum Spiel";
-                    label_connectionStatus.Background = new SolidColorBrush(Colors.Brown);
+                    ResetSDK();
                 }
-                else
+                else if (data.SdkActive && GeneralHelpers.SDKGameIsRunning)
                 {
                     switch (data.Game)
                     {
                         case SCSGame.Ets2:
                             {
-                                SetETSTextUnits();
-                                SetETSValueUnits(data);
+                                GameValues.SetETS2Units(data);
                                 break;
                             }
                         case SCSGame.Ats:
                             {
-                                SetATSTextUntis();
-                                SetATSValueUnits(data);
+                                GameValues.SetATSUnits(data);
                                 break;
                             }
                         default:
                             {
-                                SetETSTextUnits();
-                                SetETSValueUnits(data);
+                                GameValues.SetETS2Units(data);
                                 break;
                             }
                     }
-                    label_ingameTime.Content = ingameTime;
+                    label_ingameTime.Content = GameValues.ingameTime;
                     TimeSpan ts_nextPauseTime = TimeSpan.FromSeconds(data.CommonValues.NextRestStop.Value * 60);
 
                     if (data.Paused)
@@ -292,7 +280,7 @@ namespace Truck_Simulator_Tool__WPF_
                         if (data.TruckValues.CurrentValues.DashboardValues.Speed.Kph > 5)
                         {
                             speedCalcs.timerCounter += 1;
-                            speedCalcs.SetSpeedSummary(truckSpeed, IntervalFactor);
+                            speedCalcs.SetSpeedSummary(GameValues.truckSpeed, IntervalFactor);
                             label_averageSpeed.Content = Math.Round(speedCalcs.GetCurrentAverageSpeed(), 2);
                             if (data.Game == SCSGame.Ets2) { label_averageSpeed.Content += " km/h"; }
                             else { label_averageSpeed.Content += " mph"; }
@@ -301,16 +289,16 @@ namespace Truck_Simulator_Tool__WPF_
 
                     if (data.NavigationValues.NavigationDistance != 0 && data.NavigationValues.NavigationTime != 0)
                     {// destination-only
-                        speedCalcs.SetCurrentBestAverageSpeed(navigationDistance, data.NavigationValues.NavigationTime);
+                        speedCalcs.SetCurrentBestAverageSpeed(GameValues.navigationDistance, data.NavigationValues.NavigationTime);
 
-                        DateTime dt_currentBestArrival = DateTime.Now.AddSeconds(navigationDistance / speedCalcs.GetCurrentBestAverageSpeed() / timeScaleConstant * 3600);
+                        DateTime dt_currentBestArrival = DateTime.Now.AddSeconds(GameValues.navigationDistance / speedCalcs.GetCurrentBestAverageSpeed() / timeScaleConstant * 3600);
                         TimeSpan ts_currentBestArrival = dt_currentBestArrival.Subtract(DateTime.Now);
                         label_dt_currentBestArrival.Content = $"{dt_currentBestArrival.ToString("HH:mm")} Uhr";
                         label_ts_currentBestArrival.Content = $"({ConverterMethods.ConvertTimespanToCustomString(ts_currentBestArrival)})";
 
                         if (!hasBestArrival)
                         {
-                            ts_bestArrival = TimeSpan.FromSeconds((int)navigationDistance / speedCalcs.GetCurrentBestAverageSpeed() / timeScaleConstant * 3600);
+                            ts_bestArrival = TimeSpan.FromSeconds((int)GameValues.navigationDistance / speedCalcs.GetCurrentBestAverageSpeed() / timeScaleConstant * 3600);
                             dt_bestArrival = DateTime.Now.Add(ts_bestArrival);
                             label_dt_bestArrival.Content = $"{DateTime.Now.ToString("HH:mm")} Uhr - {dt_bestArrival.ToString("HH:mm")} Uhr";
                             hasBestArrival = true;
@@ -330,7 +318,7 @@ namespace Truck_Simulator_Tool__WPF_
                         TimeSpan ts_currentArrival;
                         if (speedCalcs.GetCurrentAverageSpeed() != 0)
                         {
-                            dt_currentArrival = DateTime.Now.AddSeconds(navigationDistance / speedCalcs.GetCurrentAverageSpeed() / timeScaleConstant * 3600);
+                            dt_currentArrival = DateTime.Now.AddSeconds(GameValues.navigationDistance / speedCalcs.GetCurrentAverageSpeed() / timeScaleConstant * 3600);
                             ts_currentArrival = dt_currentArrival.Subtract(DateTime.Now);
 
                             System.Windows.Controls.Label[] labels = { label_currentArrivalText, label_dt_currentArrival, label_ts_currentArrival };
@@ -356,12 +344,12 @@ namespace Truck_Simulator_Tool__WPF_
                             if (data.TruckValues.CurrentValues.DashboardValues.Speed.Kph > 0.01)
                             {
                                 //speedCalcs.SetDrivenDistance(, data.CommonValues.Scale, IntervalFactor); Look OneNote
-                                speedCalcs.SetDistanceSummary(navigationDistance);
+                                speedCalcs.SetDistanceSummary(GameValues.navigationDistance);
 
                                 progressBar_distance.Value = Math.Round(100 * (speedCalcs.GetDrivenDistance() / speedCalcs.GetDistanceSummary()), 2);
-                                label_progressBar_distanceText.Content = $"{Math.Round(speedCalcs.GetDrivenDistance(), 0)} {UDistance} / {Math.Round(speedCalcs.GetDistanceSummary(), 0)} {UDistance}";
+                                label_progressBar_distanceText.Content = $"{Math.Round(speedCalcs.GetDrivenDistance(), 0)} {GameValues.UDistance} / {Math.Round(speedCalcs.GetDistanceSummary(), 0)} {GameValues.UDistance}";
                                 label_drivenDistanceProgress.Content = (progressBar_distance.Value / 100).ToString("p2");
-                                label_remainingDistance.Content = $"Noch {Math.Round(navigationDistance, 0)} {UDistance}";
+                                label_remainingDistance.Content = $"Noch {Math.Round(GameValues.navigationDistance, 0)} {GameValues.UDistance}";
                             }
                         }
                     }
@@ -370,8 +358,8 @@ namespace Truck_Simulator_Tool__WPF_
                     {// contract-only
                         label_remainingDeliveryTime.Content = $"Restzeit: {TimeSpan.FromSeconds(data.JobValues.RemainingDeliveryTime.Value * 60)}";
                         label_jobInfoFreight.Content = data.JobValues.CargoValues.Name;
-                        label_jobInfoMass.Content = $"{data.JobValues.CargoValues.Mass} {UMass}";
-                        label_jobInfoIncome.Content = $"{data.JobValues.Income.ToString("c0", UCultureInfo)} ({Math.Round((double)data.JobValues.Income / plannedDistanceKM),2} {UMoneyDistance})";
+                        label_jobInfoMass.Content = $"{GameValues.jobInfoMass} {GameValues.UMass}";
+                        label_jobInfoIncome.Content = $"{data.JobValues.Income.ToString("c0", GameValues.UCultureInfo)} ({Math.Round((double)data.JobValues.Income / GameValues.plannedDistanceKM),2} {GameValues.UMoneyDistance})";
 
                         TimeSpan ts_remainingTime = TimeSpan.FromSeconds(data.JobValues.RemainingDeliveryTime.Value * 60);
                         TimeSpan ts_estimatedTime = TimeSpan.FromSeconds(data.NavigationValues.NavigationTime);
@@ -385,12 +373,12 @@ namespace Truck_Simulator_Tool__WPF_
                     else
                         label_beaconState.Content = "ausgeschaltet";
                     label_averageFuelConsumption.Content = GetAverageFuelConsumptionText(data);
-                    progressBar_fuel.Value = fuelCurrent / fuelCapacity * 100;
+                    progressBar_fuel.Value = GameValues.fuelCurrent / GameValues.fuelCapacity * 100;
                     if (data.TruckValues.CurrentValues.DashboardValues.WarningValues.FuelW)
                         progressBar_fuel.Foreground = new SolidColorBrush(Colors.Brown);
                     else
                         progressBar_fuel.Foreground = new SolidColorBrush(Colors.LimeGreen);
-                    label_progressBar_fuelText.Content = $"{Math.Round(fuelCurrent, 0)} {UFluid}  /  {Math.Round(fuelCapacity, 0)} {UFluid}  ({Math.Round(fuelRange, 0)} {UDistance})";
+                    label_progressBar_fuelText.Content = $"{Math.Round(GameValues.fuelCurrent, 0)} {GameValues.UFluid}  /  {Math.Round(GameValues.fuelCapacity, 0)} {GameValues.UFluid}  ({Math.Round(GameValues.fuelRange, 0)} {GameValues.UDistance})";
 
                     label_nextRestStop.Content = $"Pause in: {ConverterMethods.ConvertTimespanToCustomString(ts_nextPauseTime)}";
                     if (ts_nextPauseTime.TotalSeconds > 0)
@@ -406,11 +394,39 @@ namespace Truck_Simulator_Tool__WPF_
                     }
                     progressBar_damage.Value = data.JobValues.CargoValues.CargoDamage;
                     label_progressBar_damageText.Content = data.JobValues.CargoValues.CargoDamage.ToString("p0");
+
+                    //ContractHelper data
+                    ContractHelper.SDKActive = true;
+                    ContractHelper.OnJob = data.SpecialEventsValues.OnJob;
+                    ContractHelper.TruckId = data.TruckValues.ConstantsValues.Id;
+                    ContractJson contractJson = new ContractJson();
+                    contractJson.Game = data.Game.ToString();
+                    contractJson.CitySource = data.JobValues.CitySource;
+                    contractJson.CityDestination = data.JobValues.CityDestination;
+                    contractJson.Income = data.JobValues.Income;
+                    contractJson.Mass = data.JobValues.CargoValues.Mass;
+                    ContractHelper.ContractJson = contractJson;
+
+                    ContractHelper.AutoLoadIfStartup();
+                }
+                else
+                {//Reset values
+                    ResetSDK();
                 }
             }
             catch
             {
             }
+        }
+
+        private void ResetSDK()
+        {
+            accessText_connectionStatus.Text = "Keine Verbindung zum Spiel";
+            label_connectionStatus.Background = new SolidColorBrush(Colors.Brown);
+            ContractHelper.ContractOnStartLoaded = false;
+            ContractHelper.SDKActive = false;
+            ContractHelper.OnJob = false;
+            ContractHelper.TruckId = string.Empty;
         }
 
         private static void SetArrivalLabelColor(System.Windows.Controls.Label[] labels, Color color)
@@ -421,61 +437,9 @@ namespace Truck_Simulator_Tool__WPF_
         private static string GetAverageFuelConsumptionText(SCSTelemetry data)
         {
             if (data.Game == SCSGame.Ets2)
-                return $"{(data.TruckValues.CurrentValues.DashboardValues.FuelValue.AverageConsumption * 100).ToString("n2")} {UAverageFuelConsumption}";
+                return $"{(data.TruckValues.CurrentValues.DashboardValues.FuelValue.AverageConsumption * 100).ToString("n2")} {GameValues.UAverageFuelConsumption}";
             else
-                return $"{ConverterMethods.ConvertEUAverageFueltoAMAverageFuel((data.TruckValues.CurrentValues.DashboardValues.FuelValue.AverageConsumption * 100)).ToString("n2")} {UAverageFuelConsumption}";
-        }
-
-        private static string UDistance = "km";
-        private static string UCurrency = "€";
-        private static string UMass = "t";
-        private static string UFluid = "l";
-        private static string UMoneyDistance = "€/km";
-        private static string UAverageFuelConsumption = "l/100km";
-        private static CultureInfo UCultureInfo = new CultureInfo("de-DE");
-
-        private static void SetETSTextUnits()
-        {
-            UDistance = "km";
-            UCurrency = "€";
-            UMass = "t";
-            UFluid = "l";
-            UMoneyDistance = "€/km";
-            UAverageFuelConsumption = "l/100km";
-            UCultureInfo = new CultureInfo("de-DE");
-        }
-        private void SetETSValueUnits(SCSTelemetry data)
-        {
-            navigationDistance = data.NavigationValues.NavigationDistance / 1000;
-            plannedDistanceKM = data.JobValues.PlannedDistanceKm;
-            truckSpeed = data.TruckValues.CurrentValues.DashboardValues.Speed.Kph;
-            jobInfoMass = data.JobValues.CargoValues.Mass;
-            fuelCurrent = data.TruckValues.CurrentValues.DashboardValues.FuelValue.Amount;
-            fuelCapacity = data.TruckValues.ConstantsValues.CapacityValues.Fuel;
-            fuelRange = data.TruckValues.CurrentValues.DashboardValues.FuelValue.Range;
-            ingameTime = $"{data.CommonValues.GameTime.Date.ToString("ddd H:mm", UCultureInfo)}";
-        }
-
-        private static void SetATSTextUntis()
-        {
-            UDistance = "mi";
-            UCurrency = "$";
-            UMass = "lb";
-            UFluid = "gal";
-            UMoneyDistance = "$/mi";
-            UAverageFuelConsumption = "mpg";
-            UCultureInfo = new CultureInfo("en-US");
-        }
-        private void SetATSValueUnits(SCSTelemetry data)
-        {
-            navigationDistance = ConverterMethods.ConvertKMtoMI(data.NavigationValues.NavigationDistance / 1000);
-            plannedDistanceKM = ConverterMethods.ConvertKMtoMI(data.JobValues.PlannedDistanceKm);
-            truckSpeed = data.TruckValues.CurrentValues.DashboardValues.Speed.Mph;
-            jobInfoMass = ConverterMethods.ConvertTtoLB(data.JobValues.CargoValues.Mass);
-            fuelCurrent = ConverterMethods.ConvertLtoGAL(data.TruckValues.CurrentValues.DashboardValues.FuelValue.Amount);
-            fuelCapacity = ConverterMethods.ConvertLtoGAL(data.TruckValues.ConstantsValues.CapacityValues.Fuel);
-            fuelRange = ConverterMethods.ConvertLtoGAL(data.TruckValues.CurrentValues.DashboardValues.FuelValue.Range);
-            ingameTime = $"{data.CommonValues.GameTime.Date.ToString("ddd h:mm", UCultureInfo)}";
+                return $"{ConverterMethods.ConvertEUAverageFueltoAMAverageFuel((data.TruckValues.CurrentValues.DashboardValues.FuelValue.AverageConsumption * 100)).ToString("n2")} {GameValues.UAverageFuelConsumption}";
         }
 
         private void SetTimebufferLabel(SCSGame scsGame, TimeSpan nextPauseTime, TimeSpan estimatedTime, TimeSpan remainingTime, TimeSpan timebuffer)
@@ -643,7 +607,7 @@ namespace Truck_Simulator_Tool__WPF_
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
             fileDialog.Filter = "json|*.json";
-            fileDialog.InitialDirectory = $@"{StaticValues.SoftwarePath}shift schedules";
+            fileDialog.InitialDirectory = $@"{StaticValues.SoftwarePath}{StaticValues.ShiftSchedulesPath}";
             if (!fileDialog.CheckPathExists)
                 fileDialog.InitialDirectory = null;
             if (fileDialog.ShowDialog() == true)
@@ -660,7 +624,7 @@ namespace Truck_Simulator_Tool__WPF_
                     return;
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = "json|*.json";
-            fileDialog.InitialDirectory = $@"{StaticValues.SoftwarePath}shift schedules";
+            fileDialog.InitialDirectory = $@"{StaticValues.SoftwarePath}{StaticValues.ShiftSchedulesPath}";
             if (!fileDialog.CheckPathExists)
                 fileDialog.InitialDirectory = null;
             if (fileDialog.ShowDialog() == true)

@@ -17,6 +17,16 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             get { return Process.GetCurrentProcess().MainModule.FileName; }
         }
 
+        public static string ContractsPath
+        {
+            get { return "contracts"; }
+        }
+
+        public static string ShiftSchedulesPath
+        {
+            get { return "shift schedules"; }
+        }
+
         public static int Port
         {
             get { return 25558; }
