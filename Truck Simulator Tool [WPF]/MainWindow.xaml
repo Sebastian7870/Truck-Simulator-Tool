@@ -6,17 +6,15 @@
         xmlns:local="clr-namespace:Truck_Simulator_Tool__WPF_"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         mc:Ignorable="d"
-        Title="Truck Simulator Tool" Height="1080" Width="1920" Foreground="Black" MinWidth="1280" MinHeight="938" WindowStartupLocation="CenterScreen" FontFamily="Microsoft Sans Serif" FontSize="18">
-    <Window.Background>
-        <ImageBrush ImageSource="Resources/Mercedes actros 2019 street.jpg" Stretch="UniformToFill"/>
-    </Window.Background>
+        Title="Truck Simulator Tool" Height="1080" Width="1920" Foreground="Black" MinWidth="1280" MinHeight="938" WindowStartupLocation="CenterScreen" FontFamily="Microsoft Sans Serif" FontSize="18" Background="LightGray">
 
     <DockPanel LastChildFill="true" Margin="0">
         <Menu Height="25" VerticalAlignment="Top" Background="White" DockPanel.Dock="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-            <MenuItem Header="Server" Height="25" Background="Brown" Foreground="Gainsboro">
-                <MenuItem x:Name="menuItem_serverInstall" Header="Server installieren" Foreground="Black"/>
-                <MenuItem x:Name="menuItem_serverStart" Header="Server starten" IsEnabled="False" Foreground="Black" />
-                <MenuItem x:Name="menuItem_serverIP" Header="IP Adresse" IsEnabled="False" Foreground="Black" />
+            <MenuItem x:Name="menuItem_serverStatus" Header="Server" Height="25" Background="Brown" Foreground="Gainsboro">
+                <MenuItem x:Name="menuItem_serverInstall" Header="Server installieren" Foreground="Black" Click="menuItem_serverInstall_Click"/>
+                <MenuItem x:Name="menuItem_serverUninstall" Header="Server deinstallieren" Foreground="Black" Click="menuItem_serverUninstall_Click"/>
+                <MenuItem x:Name="menuItem_serverStart" Header="Server starten" IsEnabled="False" Foreground="Black" Click="menuItem_serverStart_Click" />
+                <MenuItem x:Name="menuItem_serverIP" Header="IP Adresse" IsEnabled="False" Foreground="Black" Click="menuItem_serverIP_Click" />
             </MenuItem>
             <MenuItem Header="Schichtplaner" >
                 <MenuItem x:Name="menuItem_shiftScheduleSave" Header="Schichtplan speichern" IsEnabled="False" Click="menuItem_shiftScheduleSave_Click" />

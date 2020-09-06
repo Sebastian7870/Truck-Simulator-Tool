@@ -48,26 +48,29 @@ namespace Truck_Simulator_Tool__WPF_
         public MainWindow()
         {
             ApplicationStartUp.CanStartUp();
-
+            TSTServer.TryStart(false); //only check if entries are available
+            TSTServer.Stop();
 
             InitializeComponent();
             MainWindowIsInitialized = true;
 
+            Telemetry = new SCSSdkTelemetry();
             SettingsHelper.LoadCreateSettings();
             GetSettings();
-
-            Telemetry = new SCSSdkTelemetry();
 
             Telemetry.Data += Telemetry_Data;
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.Tick += Timer_Tick;
             timer.Start();
+
             dateTimePicker_shiftStart.Minimum = DateTime.Now.AddDays(-10);
+            dateTimePicker_shiftStart.Value = DateTime.Now.AddDays(1);
         }
 
         private void Button_Save_Click(object sender, RoutedEventArgs e)
         {
+            timeScaleConstant = SettingsHelper.SettingsJson.TimeScaleValue;
             SetBackground();
         }
 
@@ -80,32 +83,27 @@ namespace Truck_Simulator_Tool__WPF_
         }
 
         private void GetSettings()
-        {// TODO: Load every setting
+        {
             menuItem_antiKick.IsChecked = SettingsHelper.SettingsJson.AntiKickAutoStart;
             if (menuItem_antiKick.IsChecked)
                 AntiKick.Start();
             else
                 AntiKick.Stop();
-
+            if (SettingsHelper.SettingsJson.TSTServerAutoStart)
+                TSTServer.TryStart(true);
             timeScaleConstant = SettingsHelper.SettingsJson.TimeScaleValue;
-
             SetBackground();
         }
-        private void menuItem_antiKick_Click(object sender, RoutedEventArgs e)
-        {
-            if (menuItem_antiKick.IsChecked)
-                AntiKick.Start();
-            else
-                AntiKick.Stop();
-        }
 
+        private bool tstServerWasConnected = true;
         private string lastTFMPicturePath = null;
         private async void Timer_Tick(object sender, EventArgs e)
         {
             label_dateTimeNowSeconds.Content = DateTime.Now.Second.ToString();
             label_dateTimeNowTime.Content = DateTime.Now.ToString("HH:mm");
             label_dateTimeNowDate.Content = $"{CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Now.DayOfWeek)}\n{DateTime.Now.Date.ToShortDateString()}";
-            label_distanceCalculatorTimeScale.Content = $"Zeitskalierung: {timeScaleConstant}";
+            if (radioButton_distanceCalculatorDefault.IsChecked ?? false)
+                label_distanceCalculatorTimeScale.Content = $"Zeitskalierung: {timeScaleConstant}";
 
             await UpdateTFM();
             if (tfmIsOnline)
@@ -130,6 +128,8 @@ namespace Truck_Simulator_Tool__WPF_
 
             if (shiftSchedule.HasShift)
             {
+                shiftSchedule.Update();
+
                 label_shiftCount.Visibility = Visibility.Visible;
                 label_nextShiftEvent.Visibility = Visibility.Visible;
                 label_shiftTimeLeft.Visibility = Visibility.Visible;
@@ -158,7 +158,6 @@ namespace Truck_Simulator_Tool__WPF_
                 button_shiftLoadDelete.Content = "Schichtplan löschen";
                 button_shiftLoadDelete.Background = new SolidColorBrush(Colors.Brown);
 
-                shiftSchedule.Update();
                 label_shiftCount.Content = $"Schicht: {shiftSchedule.ShiftCount}";
                 label_nextShiftEvent.Content = $"Nächstes Schichtereignis: {ReturnNextShiftEventString(shiftSchedule.NextShiftEvent)}";
                 if (shiftSchedule.CurrentShiftIsActive)
@@ -201,15 +200,37 @@ namespace Truck_Simulator_Tool__WPF_
                 menuItem_shiftScheduleSave.IsEnabled = false;
             }
 
-            //Todo: TST Server implementation
+            if (tstServerWasConnected && StaticValues.FullIPAddress.Contains("127.0.0.1") || StaticValues.FullIPAddress.Contains("none"))
+            {// = no internet connection
+                TSTServer.Stop();
+                tstServerWasConnected = false;
+                MessageBox.Show("Es konnte keine IP Adresse gefunden werden. Überprüfen Sie bitte die Internetverbindung.", "Keine Verbindung zum Internet!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
-            if (!shiftSchedule.HasShift)
+            if (TSTServer.IsOnline)
             {
-                // Clear all labels
+                menuItem_serverStatus.Background = new SolidColorBrush(Colors.LimeGreen);
+                menuItem_serverStart.Header = "Server stoppen";
+                menuItem_serverIP.IsEnabled = true;
+                tstServerWasConnected = true;
             }
             else
             {
-                shiftSchedule.Update();
+                menuItem_serverStatus.Background = new SolidColorBrush(Colors.Brown);
+                menuItem_serverStart.Header = "Server starten";
+                menuItem_serverIP.IsEnabled = false;
+                tstServerWasConnected = false;
+            }
+
+            if (TSTServer.HasEntries)
+            {
+                menuItem_serverStart.IsEnabled = true;
+                menuItem_serverInstall.Header = "Server reinstallieren";
+            }
+            else
+            {
+                menuItem_serverStart.IsEnabled = false;
+                menuItem_serverInstall.Header = "Server installieren";
             }
         }
 
@@ -862,6 +883,37 @@ namespace Truck_Simulator_Tool__WPF_
             return string.IsNullOrEmpty(name)
                ? Application.Current.Windows.OfType<T>().Any()
                : Application.Current.Windows.OfType<T>().Any(w => w.Name.Equals(name));
+        }
+
+        private void menuItem_antiKick_Click(object sender, RoutedEventArgs e)
+        {
+            if (menuItem_antiKick.IsChecked)
+                AntiKick.Start();
+            else
+                AntiKick.Stop();
+        }
+
+        private void menuItem_serverInstall_Click(object sender, RoutedEventArgs e)
+        {// even if header says "re-install" or just "install" it re-installs in both scenarios to prevent multiple entries.
+            TSTServer.ReSetPowerShellEntries();
+        }
+
+        private void menuItem_serverUninstall_Click(object sender, RoutedEventArgs e)
+        {
+            TSTServer.DeletePowerShellEntries();
+        }
+
+        private void menuItem_serverStart_Click(object sender, RoutedEventArgs e)
+        {
+            if (TSTServer.IsOnline)
+                TSTServer.Stop();
+            else
+                TSTServer.TryStart(true);
+        }
+
+        private void menuItem_serverIP_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show($"{StaticValues.FullIPAddress}   (Port: {StaticValues.Port})", "IP Adresse", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

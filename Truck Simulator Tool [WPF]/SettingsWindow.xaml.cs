@@ -53,7 +53,7 @@ namespace Truck_Simulator_Tool__WPF_
             checkBox_antiKickAutoStart.IsChecked = true;
             checkBox_tstServerAutoStart.IsChecked = true;
             integerUpDown_timeScale.Value = 19;
-            textBox_imageFilePath.Text = string.Empty;
+            //textBox_imageFilePath.Text = string.Empty;
         }
 
 
@@ -109,7 +109,7 @@ namespace Truck_Simulator_Tool__WPF_
 
         private void button_timeScaleInfo_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Durch diesen Wert wird die Ingame-Zeit mit der realen Zeit dividiert. Um korrekte Auftragsdaten zu erhalten, ändern Sie diesen Wert entsprechned der Region. Sie können die derzeitige Zeitskalierung der Region unten rechts im Hauptfenster erkennen. Folgende Werte gelten in den Spielen: \n\nATS: highways = 20   Städte = 3\nETS2: Autobahnen = 19   AutobahnenUK = 15   Städte = 3", "Informationen über den Zeitskalierungswert", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Durch diesen Wert wird die Ingame-Zeit mit der realen Zeit dividiert. Um korrekte Auftragsdaten zu erhalten, ändern Sie diesen Wert entsprechned der Region. Sie können die derzeitige Zeitskalierung der Region unten rechts im Hauptfenster erkennen. Folgende Werte gelten in den Spielen: \n\nATS  : highways = 20   Städte = 3\nETS2: Autobahnen = 19   AutobahnenUK = 15   Städte = 3", "Informationen über den Zeitskalierungswert", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
