@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Truck_Simulator_Tool__WPF_"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         mc:Ignorable="d"
-        Title="Truck Simulator Tool" Height="1080" Width="1920" Foreground="Black" MinWidth="1280" MinHeight="938" WindowStartupLocation="CenterScreen" FontFamily="Microsoft Sans Serif" FontSize="18" Background="LightGray">
+        Title="Truck Simulator Tool" Height="1080" Width="1920" Foreground="Black" MinWidth="1280" MinHeight="938" WindowStartupLocation="CenterScreen" FontFamily="Microsoft Sans Serif" FontSize="18" Background="LightGray" Closing="Window_Closing">
 
     <DockPanel LastChildFill="true" Margin="0">
         <Menu Height="25" VerticalAlignment="Top" Background="White" DockPanel.Dock="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">

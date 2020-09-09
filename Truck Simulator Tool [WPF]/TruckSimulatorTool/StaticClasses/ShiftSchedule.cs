@@ -8,30 +8,31 @@ using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json;
 
 namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
 {
-    public class ShiftSchedule
+    public static class ShiftSchedule
     {
-        private List<ShiftScheduleJson> list_ShiftScheduleJson = new List<ShiftScheduleJson>();
+        #region "Variables"
+        private static List<ShiftScheduleJson> list_ShiftScheduleJson = new List<ShiftScheduleJson>();
 
-        private List<(DateTime, int, IndexType)> startDates = new List<(DateTime startDate, int count, IndexType)>();
-        private List<(DateTime, int, IndexType)> endDates = new List<(DateTime endDate, int count, IndexType)>();
-        private List<(DateTime, int, IndexType)> startPauses = new List<(DateTime startPause, int count, IndexType)>();
-        private List<(DateTime, int, IndexType)> endPauses = new List<(DateTime endPause, int count, IndexType)>();
+        private static List<(DateTime, int, IndexType)> startDates = new List<(DateTime startDate, int count, IndexType)>();
+        private static List<(DateTime, int, IndexType)> endDates = new List<(DateTime endDate, int count, IndexType)>();
+        private static List<(DateTime, int, IndexType)> startPauses = new List<(DateTime startPause, int count, IndexType)>();
+        private static List<(DateTime, int, IndexType)> endPauses = new List<(DateTime endPause, int count, IndexType)>();
 
 
-        private bool currentShiftHasPause;
-        private bool currentShiftIsActive;
-        private bool shiftPaused;
-        private int shiftCount;
-        private DateTime[] currentShiftStartEnd = new DateTime[2];
-        private DateTime nextShiftPauseStart;
-        private DateTime nextShiftPauseEnd;
-        private DateTime nextShiftEnd;
-        private Tuple<DateTime, int, IndexType> nextShiftEvent = null;
-        public List<ShiftScheduleJson> Getlist_ShiftScheduleJson
+        private static bool currentShiftHasPause;
+        private static bool currentShiftIsActive;
+        private static bool shiftPaused;
+        private static int shiftCount;
+        private static DateTime[] currentShiftStartEnd = new DateTime[2];
+        private static DateTime nextShiftPauseStart;
+        private static DateTime nextShiftPauseEnd;
+        private static DateTime nextShiftEnd;
+        private static Tuple<DateTime, int, IndexType> nextShiftEvent = null;
+        public static List<ShiftScheduleJson> Getlist_ShiftScheduleJson
         {
             get { return list_ShiftScheduleJson; }
         }
-        public bool HasShift
+        public static bool HasShift
         {
             get
             {
@@ -44,40 +45,40 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
                 }
             }
         }
-        public bool CurrentShiftHasPause
+        public static bool CurrentShiftHasPause
         {
             get
             { return currentShiftHasPause; }
         }
-        public bool CurrentShiftIsActive
+        public static bool CurrentShiftIsActive
         {
             get { return currentShiftIsActive; }
         }
-        public bool ShiftPaused
+        public static bool ShiftPaused
         {
             get { return shiftPaused; }
         }
-        public int ShiftCount
+        public static int ShiftCount
         {
             get { return shiftCount; }
         }
-        public DateTime[] CurrentShiftStartEnd
+        public static DateTime[] CurrentShiftStartEnd
         {
             get { return currentShiftStartEnd; }
         }
-        public DateTime NextShiftEnd
+        public static DateTime NextShiftEnd
         {
             get { return nextShiftEnd; }
         }
-        public DateTime NextShiftPauseStart
+        public static DateTime NextShiftPauseStart
         {
             get { return nextShiftPauseStart; }
         }
-        public DateTime NextShiftPauseEnd
+        public static DateTime NextShiftPauseEnd
         {
             get { return nextShiftPauseEnd; }
         }
-        public Tuple<DateTime, int, IndexType> NextShiftEvent
+        public static Tuple<DateTime, int, IndexType> NextShiftEvent
         {
             get { return nextShiftEvent; }
         }
@@ -89,8 +90,9 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
             startPause,
             endPause
         }
+        #endregion
 
-        public void Update()
+        public static void Update()
         {
             if (HasShift)
             {
@@ -146,7 +148,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
         }
 
 
-        public void CreateShift(DateTime startDate, int durationDays, double shiftTimeHours, double shiftPauseTimeHours)
+        public static void CreateShift(DateTime startDate, int durationDays, double shiftTimeHours, double shiftPauseTimeHours)
         {
             ResetShiftScheduleValues();
 
@@ -174,7 +176,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
             // values will be resetted in HasShift method.
         }
 
-        public void LoadShift(string path)
+        public static void LoadShift(string path)
         {
             try
             {
@@ -195,12 +197,12 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
             }
         }
 
-        public void DeleteShift()
+        public static void DeleteShift()
         {
             ResetShiftScheduleValues();
         }
 
-        private void ResetShiftScheduleValues()
+        private static void ResetShiftScheduleValues()
         {
             list_ShiftScheduleJson.Clear();
             startDates.Clear();

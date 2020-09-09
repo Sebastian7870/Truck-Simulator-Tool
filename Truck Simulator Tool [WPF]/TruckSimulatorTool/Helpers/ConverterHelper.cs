@@ -2,7 +2,7 @@
 
 namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Methods
 {
-    public static class ConverterMethods
+    public static class ConverterHelper
     {
         public static double ConvertKMtoMI(double kilometer)
         {

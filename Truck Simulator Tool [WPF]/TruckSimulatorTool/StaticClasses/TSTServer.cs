@@ -8,6 +8,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
 {
     public static class TSTServer
     {
+        #region "Variables"
         private static HttpListener listener;
         private static string message;
         public static string Message
@@ -44,6 +45,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         {
             get { return hasEntries; }
         }
+        #endregion
 
         public static void TryStart(bool reSetIfnotAvailable)
         {

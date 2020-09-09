@@ -51,13 +51,15 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             if (processETS.Length != 0)
             {
                 if (ProcessHasFocus(processETS[0]))
-                    SendKeys.Send("y/p{Enter}");
+                {
+                    SendKeys.SendWait("y/p{Enter}");
+                }
             }
 
             if (processATS.Length != 0)
             {
                 if (ProcessHasFocus(processATS[0]))
-                    SendKeys.Send("y/p{Enter}");
+                    SendKeys.SendWait("y/p{Enter}");
             }
         }
     }

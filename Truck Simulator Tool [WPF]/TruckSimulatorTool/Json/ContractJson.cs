@@ -1,6 +1,4 @@
-﻿using SCSSdkClient;
-
-namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json
+﻿namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json
 {
     public class ContractJson
     {
@@ -9,6 +7,10 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json
         public string CityDestination { get; set; }
         public ulong Income { get; set; }
         public float Mass { get; set; }
-        public int OdometerStartValue { get; set; }
+        public float OdometerStartValue { get; set; }
+        public double timerCounter { get; set; }
+        public double speedSummary { get; set; }
+        public double distanceDriven { get; set; }
+        public double distanceSummary { get; set; }
     }
 }
