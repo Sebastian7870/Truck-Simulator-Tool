@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Timers;
 using System.Windows;
@@ -11,13 +10,9 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
     {
         #region "Variables"
         public static Timer timer_autoBackupContract = new Timer(2500);
-
-        public static bool contractOnStartLoaded {get; set;}
-
+        public static bool contractOnStartLoaded { get; set; }
         public static bool sdkActive { get; set; }
-
         public static bool onJob { get; set; }
-
         public static bool jobStateHasChanged { get; set; }
         #endregion
 
@@ -27,13 +22,9 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             get
             {
                 if (contractJson == null)
-                {
                     return null;
-                }
                 else
-                {
                     return contractJson;
-                }
             }
             set { contractJson = value; }
         }
@@ -77,7 +68,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
 
         public static void TryAutoSave()
         {
-            if (SettingsHelper.SettingsJson.ContractAutoSaveActive && sdkActive && onJob && CalcData.navigationDistanceC > 5 && CalcData.SpeedSummary > 250)
+            if (SettingsHelper.SettingsJson.ContractAutoSaveActive && sdkActive && onJob && CalcData.SpeedSummary > 250 && CalcData.navigationDistanceC > 5)
             {// SpeedSummary of 2.500 are driving 60 s with a speed of 50. (if interval is 100 ms)
                 try
                 {
@@ -115,6 +106,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             contractJson.OdometerStartValue = 0;
             contractJson.speedSummary = 0;
             contractJson.timerCounter = 0;
+            contractJson.Game = string.Empty;
         }
 
         private static void Timer_autoBackupContract_Elapsed(object sender, ElapsedEventArgs e)

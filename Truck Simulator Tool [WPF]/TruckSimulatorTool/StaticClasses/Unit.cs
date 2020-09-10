@@ -152,6 +152,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
             ConverterHelper.ConvertKMtoMI(CalcData.plannedDistanceKM);
             ConverterHelper.ConvertKMtoMI(CalcData.truckSpeed);
             ConverterHelper.ConvertTtoLB(CalcData.jobInfoMassC);
+            ConverterHelper.ConvertEUAverageFueltoAMAverageFuel(CalcData.fuelAverageConsumptionC);
             ConverterHelper.ConvertLtoGAL(CalcData.fuelCurrent);
             ConverterHelper.ConvertLtoGAL(CalcData.fuelCapacity);
             ConverterHelper.ConvertLtoGAL(CalcData.fuelRange);
