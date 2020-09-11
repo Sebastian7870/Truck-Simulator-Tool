@@ -5,7 +5,7 @@
         public string Game { get; set; }
         public string CitySource { get; set; }
         public string CityDestination { get; set; }
-        public ulong Income { get; set; }
+        public int Income { get; set; }
         public float Mass { get; set; }
         public float OdometerStartValue { get; set; }
         public double timerCounter { get; set; }

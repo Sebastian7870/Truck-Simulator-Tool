@@ -40,7 +40,7 @@
             </Grid.ColumnDefinitions>
             <Label  x:Name="label_connectionStatus" Margin="0" Foreground="Gainsboro" Background="Brown"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" FontWeight="Bold"  Padding="25,5">
                 <Label.Content>
-                    <AccessText x:Name="accessText_connectionStatus" TextWrapping="Wrap" Text="Keine Verbindung zum Spiel" FontSize="24" TextAlignment="Center"/>
+                    <AccessText x:Name="accessText_connectionStatus" TextWrapping="Wrap" Text="Keine Verbindung zum Server" FontSize="24" TextAlignment="Center"/>
                 </Label.Content>
             </Label>
             <Label x:Name="label_contractStatus"  Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" Grid.Column="1" FontWeight="Bold" Padding="25,5">

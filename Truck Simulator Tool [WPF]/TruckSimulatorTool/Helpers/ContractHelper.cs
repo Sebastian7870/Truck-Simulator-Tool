@@ -11,7 +11,6 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         #region "Variables"
         public static Timer timer_autoBackupContract = new Timer(2500);
         public static bool contractOnStartLoaded { get; set; }
-        public static bool sdkActive { get; set; }
         public static bool onJob { get; set; }
         public static bool jobStateHasChanged { get; set; }
         #endregion

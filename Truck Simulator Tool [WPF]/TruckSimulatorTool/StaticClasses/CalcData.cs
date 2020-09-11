@@ -1,13 +1,21 @@
-﻿using SCSSdkClient;
-using SCSSdkClient.Object;
-using System;
+﻿using System;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes;
+using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json;
 
 namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
 {
     public static class CalcData
     {
         #region "Variables"
+        public enum game
+        {
+            unknown,
+            ets2,
+            ats
+        };
+        public static game _game = new game();
+
+        public static TimeSpan ts_navigationRemainingTime { get; set; }
         public static double navigationDistanceC { get; set; }
         public static double plannedDistanceKM { get; set; }
         public static double truckSpeed { get; set; }
@@ -118,9 +126,10 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         }
         #endregion
 
-        public static void SetGameValues(SCSTelemetry data)
+        public static void SetGameValues(Rootobject_Telemetry data)
         {// "C" behin value means "Converted" (=> no original RawDataValues from TelemetrySDK)
             #region "RawData_SetAndConvert"
+            ts_navigationRemainingTime = TimeSpan.FromSeconds(data.ets2.truck.navigationEstimatedTime);
             navigationDistanceC = data.NavigationValues.NavigationDistance / 1000;
             plannedDistanceKM = data.JobValues.PlannedDistanceKm;
             truckSpeed = Math.Abs(data.TruckValues.CurrentValues.DashboardValues.Speed.Kph);
@@ -133,21 +142,21 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             currentOdometer = data.TruckValues.CurrentValues.DashboardValues.Odometer;
 
             //do not change order: above values will be converted in Unit class
-            switch (data.Game)
+            switch (data.ets2.game.gameID)
             {
-                case SCSGame.Ets2:
+                case "eut2":
                     {
-                        Unit.SetETS2Units();
+                        _game = game.ets2;
                         break;
                     }
-                case SCSGame.Ats:
+                case "ats":
                     {
-                        Unit.SetATSUnits();
+                        _game = game.ats;
                         break;
                     }
                 default:
                     {
-                        Unit.SetETS2Units();
+                        _game = game.unknown;
                         break;
                     }
             }
@@ -178,6 +187,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                 {
                     ts_bestArrival = TimeSpan.FromSeconds((int)CalcData.navigationDistanceC / CalcData.SpeedCurrentBestAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
                     dt_bestArrival = DateTime.Now.Add(ts_bestArrival);
+                    CalcData.hasBestArrival = true;
                 }
                 ts_bestArrival = CalcData.dt_BestArrival - DateTime.Now;
 
