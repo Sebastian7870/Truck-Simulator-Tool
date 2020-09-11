@@ -7,7 +7,7 @@
         public string CityDestination { get; set; }
         public int Income { get; set; }
         public float Mass { get; set; }
-        public float OdometerStartValue { get; set; }
+        public double OdometerStartValue { get; set; }
         public double timerCounter { get; set; }
         public double speedSummary { get; set; }
         public double distanceDriven { get; set; }

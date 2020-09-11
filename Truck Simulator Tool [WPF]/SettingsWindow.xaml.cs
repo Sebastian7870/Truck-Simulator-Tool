@@ -28,6 +28,7 @@ namespace Truck_Simulator_Tool__WPF_
         {
             checkBox_contractAutoSave.IsChecked = SettingsHelper.SettingsJson.ContractAutoSaveActive;
             checkBox_antiKickAutoStart.IsChecked = SettingsHelper.SettingsJson.AntiKickAutoStart;
+            checkBox_antiKickMessage.IsChecked = SettingsHelper.SettingsJson.AntiKickMessage;
             checkBox_tstServerAutoStart.IsChecked = SettingsHelper.SettingsJson.TSTServerAutoStart;
             integerUpDown_timeScale.Value = SettingsHelper.SettingsJson.TimeScaleValue;
             textBox_imageFilePath.Text = SettingsHelper.SettingsJson.BackgroundPath;
@@ -38,19 +39,20 @@ namespace Truck_Simulator_Tool__WPF_
             SettingsJson settingsJson = new SettingsJson();
             settingsJson.ContractAutoSaveActive = checkBox_contractAutoSave.IsChecked ?? true;
             settingsJson.AntiKickAutoStart = checkBox_antiKickAutoStart.IsChecked ?? true;
+            settingsJson.AntiKickMessage = checkBox_antiKickMessage.IsChecked ?? false;
             settingsJson.TSTServerAutoStart = checkBox_tstServerAutoStart.IsChecked ?? true;
             settingsJson.TimeScaleValue = integerUpDown_timeScale.Value ?? 19;
             settingsJson.BackgroundPath = textBox_imageFilePath.Text;
 
             SettingsHelper.SettingsJson = settingsJson;
             SettingsHelper.SaveSettings();
-
         }
 
         private void ResetJson()
         {
             checkBox_contractAutoSave.IsChecked = true;
             checkBox_antiKickAutoStart.IsChecked = true;
+            checkBox_antiKickMessage.IsChecked = false;
             checkBox_tstServerAutoStart.IsChecked = true;
             integerUpDown_timeScale.Value = 19;
             //textBox_imageFilePath.Text = string.Empty;
@@ -78,7 +80,7 @@ namespace Truck_Simulator_Tool__WPF_
                 }
                 else
                 {
-
+                    // do nothing (only close message)
                 }
             }
             else

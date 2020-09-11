@@ -37,7 +37,16 @@ namespace Truck_Simulator_Tool__WPF_
             freeDrive
         };
         jobStatus _jobStatus = new jobStatus();
-        int timeScaleConstant = 19;
+        int timeScaleConstant
+        {
+            get
+            {
+                if (SettingsHelper.SettingsJson != null)
+                    return SettingsHelper.SettingsJson.TimeScaleValue;
+                else
+                    return 19;
+            }
+        }
 
         public MainWindow()
         {
@@ -71,8 +80,7 @@ namespace Truck_Simulator_Tool__WPF_
             MainWindowIsInitialized = true;
 
             SettingsHelper.LoadCreateSettings();
-            GetSettings();
-            ContractHelper.StartBackupper();
+            GetSettingsOnStartup();
 
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(100);
@@ -91,7 +99,6 @@ namespace Truck_Simulator_Tool__WPF_
         #region "GetSettings"
         private void Button_Save_Click(object sender, RoutedEventArgs e)
         {//SettingsWindows Button_Save
-            timeScaleConstant = SettingsHelper.SettingsJson.TimeScaleValue;
             SetBackground();
         }
 
@@ -103,7 +110,7 @@ namespace Truck_Simulator_Tool__WPF_
                 this.Background = new SolidColorBrush(Colors.LightGray);
         }
 
-        private void GetSettings()
+        private void GetSettingsOnStartup()
         {
             menuItem_antiKick.IsChecked = SettingsHelper.SettingsJson.AntiKickAutoStart;
             if (menuItem_antiKick.IsChecked)
@@ -112,7 +119,6 @@ namespace Truck_Simulator_Tool__WPF_
                 AntiKick.Stop();
             if (SettingsHelper.SettingsJson.TSTServerAutoStart)
                 TSTServer.TryStart(true);
-            timeScaleConstant = SettingsHelper.SettingsJson.TimeScaleValue;
             SetBackground();
         }
         #endregion
@@ -120,161 +126,169 @@ namespace Truck_Simulator_Tool__WPF_
         #region "Telemetry_Data"
         private async void timer_telemetry_Tick(object sender, EventArgs e)
         {
+            await UpdateTelemetry();
+
             if (!telemetryIsOnline)
             {
                 accessText_connectionStatus.Text = "Keine Verbindung zum Server";
-                label_connectionStatus.Foreground = new SolidColorBrush(Colors.Brown);
+                label_connectionStatus.Background = new SolidColorBrush(Colors.Brown);
+
+                ResetSDK();
             }
             else
             {
                 if (!data.ets2.game.connected)
-                {
+                {//notConnected
                     accessText_connectionStatus.Text = "Keine Verbindung zum Spiel";
-                    label_connectionStatus.Foreground = new SolidColorBrush(Colors.Brown);
+                    label_connectionStatus.Background = new SolidColorBrush(Colors.Brown);
+
+                    ResetSDK();
                 }
                 else
-                {
+                {//connected
+                 //if (!ContractHelper.timer_autoBackupContract.Enabled)
+                 // ContractHelper.StartBackupper();
+                    CalcData.timerInvervalFactor = timer_telemetry.Interval.TotalSeconds;
+                    CalcData.SetGameValues(data);
+                    label_ingameTime.Content = Unit.ingameTime;
 
-
-                    if (!data.ets2.game.connected)
-                    {//notConnected
-
+                    #region "checkJobStatus"
+                    if (data.ets2.job.cargo.id != string.Empty)
+                    {//OnJob
+                        if (_jobStatus != jobStatus.onJob)
+                        {
+                            try
+                            {
+                                ContractHelper.TryAutoSave();
+                            }
+                            catch
+                            {
+                                //Todo: LogEntry
+                            }
+                            jobStateChanged();
+                            _jobStatus = jobStatus.onJob;
+                        }
                     }
                     else
-                    {//connected
-                        CalcData.timerInvervalFactor = timer_telemetry.Interval.TotalSeconds;
-                        CalcData.SetGameValues(data);
-                        label_ingameTime.Content = CalcData.ingameTime;
+                    {
+                        try
+                        {
+                            ContractHelper.AutoDelete();
+                        }
+                        catch
+                        {
+                        }
 
-                        #region "checkJobStatus"
-                        if (data.ets2.job.cargo.id != string.Empty)
-                        {//OnJob
-                            if (_jobStatus != jobStatus.onJob)
+                        if (data.ets2.truck.navigationEstimatedDistance != 0)
+                        {//Destination
+                            if (_jobStatus != jobStatus.destination)
                             {
                                 jobStateChanged();
-                                _jobStatus = jobStatus.onJob;
+                                _jobStatus = jobStatus.destination;
+                            }
+                        }
+                        else
+                        {//FreeDrive
+                            if (_jobStatus != jobStatus.freeDrive)
+                            {
+                                jobStateChanged();
+                                _jobStatus = jobStatus.freeDrive;
+                            }
+                        }
+                    }
+                    #endregion
+
+
+                    if (data.ets2.game.paused)
+                    {// paused-only
+                        accessText_connectionStatus.Text = "Spiel pausiert";
+                        label_connectionStatus.Background = new SolidColorBrush(Colors.Goldenrod);
+                    }
+                    else
+                    {// notPaused.only
+                        accessText_connectionStatus.Text = "Verbunden";
+                        label_connectionStatus.Background = new SolidColorBrush(Colors.LimeGreen);
+
+                        if (Math.Abs(data.ets2.truck.speed) > 5)
+                        {
+                            CalcData.timerCounter += 1;
+                            label_averageSpeed.Content = $"{Math.Round(CalcData.SpeedCurrentAverage, 2)} {Unit.USpeed}";
+                        }
+                    }
+
+                    if (_jobStatus == jobStatus.destination || _jobStatus == jobStatus.onJob)
+                    {// destination || onJob -only
+                        label_dt_currentBestArrival.Content = $"{CalcData.dt_CurrentBestArrival.ToString("HH:mm")} Uhr";
+                        label_ts_currentBestArrival.Content = $"{ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_CurrentBestArrival)}";
+
+                        label_dt_bestArrival.Content = $"{DateTime.Now.ToString("HH:mm")} Uhr - {CalcData.dt_BestArrival.ToString("HH:mm")} Uhr";
+
+                        if (CalcData.ts_BestArrival.TotalSeconds > 0)
+                            label_ts_bestArrival.Content = $"-{ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_BestArrival)}";
+                        else
+                            label_ts_bestArrival.Content = $"+{ConverterHelper.ConvertTimespanToCustomString(TimeSpan.FromSeconds(CalcData.ts_BestArrival.TotalSeconds * (-1)))}";
+
+                        if (CalcData.SpeedCurrentAverage != 0)
+                        {
+                            System.Windows.Controls.Label[] labels = { label_currentArrivalText, label_dt_currentArrival, label_ts_currentArrival };
+                            if (CalcData.ts_CurrentArrival.TotalMinutes - CalcData.ts_CurrentBestArrival.TotalMinutes >= 60)
+                                SetCurrentArrivalLabelColor(labels, Colors.Brown);
+                            else if (CalcData.ts_CurrentArrival.TotalMinutes - CalcData.ts_CurrentBestArrival.TotalMinutes > 30 && CalcData.ts_CurrentArrival.TotalMinutes - CalcData.ts_CurrentBestArrival.TotalMinutes < 60)
+                                SetCurrentArrivalLabelColor(labels, Colors.Goldenrod);
+                            else
+                                SetCurrentArrivalLabelColor(labels, Colors.LimeGreen);
+
+                            label_dt_currentArrival.Content = $"{CalcData.dt_CurrentArrival.ToString("HH:mm")} Uhr";
+                            label_ts_currentArrival.Content = $"{ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_CurrentArrival)}";
+                        }
+
+                        progressBar_distance.Value = Math.Round(100 * (CalcData.DistanceDriven / CalcData.DistanceSummary), 2);
+                        label_progressBar_distanceText.Content = $"{Math.Round(CalcData.DistanceDriven, 1)} {Unit.UDistance} / {Math.Round(CalcData.DistanceSummary, 1)} {Unit.UDistance}";
+                        label_drivenDistanceProgress.Content = (progressBar_distance.Value / 100).ToString("p2");
+                        label_remainingDistance.Content = $"Noch {Math.Round(Unit.navigationDistanceC, 0)} {Unit.UDistance}";
+                    }
+                    if (_jobStatus == jobStatus.onJob)
+                    {// onJob-only
+                        if (CalcData.ts_RemainingTime.TotalHours < 1)
+                        {
+                            if (CalcData.ts_RemainingTime.TotalDays > 10)
+                            {
+                                label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
+                                label_remainingDeliveryTime.Content = "Restzeit: WoT";
+                            }
+                            else
+                            {
+                                label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.Brown);
+                                label_remainingDeliveryTime.Content = "Restzeit: 0 Min.";
                             }
                         }
                         else
                         {
-                            try
-                            {
-                                ContractHelper.AutoDelete();
-                            }
-                            catch
-                            {
-                            }
-
-                            if (data.ets2.truck.navigationEstimatedDistance != 0)
-                            {//Destination
-                                if (_jobStatus != jobStatus.destination)
-                                {
-                                    jobStateChanged();
-                                    _jobStatus = jobStatus.destination;
-                                }
-                            }
+                            if (CalcData.ts_RemainingTime.TotalHours < 3)
+                                label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.Goldenrod);
                             else
-                            {//FreeDrive
-                                if (_jobStatus != jobStatus.freeDrive)
-                                {
-                                    jobStateChanged();
-                                    _jobStatus = jobStatus.freeDrive;
-                                }
-                            }
+                                label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.LimeGreen);
+
+                            label_remainingDeliveryTime.Content = $"Restzeit: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_RemainingTime)}";
                         }
-                        #endregion
 
+                        if (CalcData.ts_Timebuffer.TotalSeconds <= 0)
+                            label_timebuffer.Background = new SolidColorBrush(Colors.Brown);
+                        else if (CalcData.ts_Timebuffer.TotalHours <= 5 && CalcData.ts_Timebuffer.TotalHours > 0)
+                            label_timebuffer.Background = new SolidColorBrush(Colors.Goldenrod);
+                        else
+                            label_timebuffer.Background = new SolidColorBrush(Colors.LimeGreen);
 
-                        if (data.ets2.game.paused)
-                        {// paused-only
-                            accessText_connectionStatus.Text = "Spiel pausiert";
-                            label_connectionStatus.Background = new SolidColorBrush(Colors.Goldenrod);
+                        if (TimeSpan.FromSeconds(data.ets2.truck.navigationEstimatedTime).TotalDays > 10)
+                        {
+                            label_timebuffer.Background = new SolidColorBrush(Colors.CornflowerBlue);
+                            label_timebuffer.Content = "Zeitpuffer: WoT";
                         }
                         else
-                        {// notPaused.only
-                            accessText_connectionStatus.Text = "Verbunden";
-                            label_connectionStatus.Background = new SolidColorBrush(Colors.LimeGreen);
-
-                            if (Math.Abs(data.ets2.truck.speed) > 5)
-                            {
-                                CalcData.timerCounter += 1;
-                                label_averageSpeed.Content = $"{Math.Round(CalcData.SpeedCurrentAverage, 2)} {Unit.USpeed}";
-                            }
+                        {
+                            label_timebuffer.Content = $"Zeitpuffer: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_Timebuffer)}";
                         }
 
-                        if (_jobStatus == jobStatus.destination || _jobStatus == jobStatus.onJob)
-                        {// destination || onJob -only
-                            label_dt_currentBestArrival.Content = $"{CalcData.dt_CurrentBestArrival.ToString("HH:mm")} Uhr";
-                            label_ts_currentBestArrival.Content = $"{ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_CurrentBestArrival)}";
-
-                            label_dt_bestArrival.Content = $"{DateTime.Now.ToString("HH:mm")} Uhr - {CalcData.dt_BestArrival.ToString("HH:mm")} Uhr";
-
-                            if (CalcData.ts_BestArrival.TotalSeconds > 0)
-                                label_ts_bestArrival.Content = $"-{ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_BestArrival)}";
-                            else
-                                label_ts_bestArrival.Content = $"+{ConverterHelper.ConvertTimespanToCustomString(TimeSpan.FromSeconds(CalcData.ts_BestArrival.TotalSeconds * (-1)))}";
-
-                            if (CalcData.SpeedCurrentAverage != 0)
-                            {
-                                System.Windows.Controls.Label[] labels = { label_currentArrivalText, label_dt_currentArrival, label_ts_currentArrival };
-                                if (CalcData.ts_CurrentArrival.TotalMinutes - CalcData.ts_CurrentBestArrival.TotalMinutes >= 60)
-                                    SetCurrentArrivalLabelColor(labels, Colors.Brown);
-                                else if (CalcData.ts_CurrentArrival.TotalMinutes - CalcData.ts_CurrentBestArrival.TotalMinutes > 30 && CalcData.ts_CurrentArrival.TotalMinutes - CalcData.ts_CurrentBestArrival.TotalMinutes < 60)
-                                    SetCurrentArrivalLabelColor(labels, Colors.Goldenrod);
-                                else
-                                    SetCurrentArrivalLabelColor(labels, Colors.LimeGreen);
-
-                                label_dt_currentArrival.Content = $"{CalcData.dt_CurrentArrival.ToString("HH:mm")} Uhr";
-                                label_ts_currentArrival.Content = $"{ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_CurrentArrival)}";
-                            }
-
-                            progressBar_distance.Value = Math.Round(100 * (CalcData.DistanceDriven / CalcData.DistanceSummary), 2);
-                            label_progressBar_distanceText.Content = $"{Math.Round(CalcData.DistanceDriven, 1)} {Unit.UDistance} / {Math.Round(CalcData.DistanceSummary, 1)} {Unit.UDistance}";
-                            label_drivenDistanceProgress.Content = (progressBar_distance.Value / 100).ToString("p2");
-                            label_remainingDistance.Content = $"Noch {Math.Round(CalcData.navigationDistanceC, 0)} {Unit.UDistance}";
-                        }
-                        if (_jobStatus == jobStatus.onJob)
-                        {// onJob-only
-                            if (CalcData.ts_RemainingTime.TotalHours < 1)
-                            {
-                                if (CalcData.ts_RemainingTime.TotalDays > 10)
-                                {
-                                    label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
-                                    label_remainingDeliveryTime.Content = "Restzeit: WoT";
-                                }
-                                else
-                                {
-                                    label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.Brown);
-                                    label_remainingDeliveryTime.Content = "Restzeit: 0 Min.";
-                                }
-                            }
-                            else
-                            {
-                                if (CalcData.ts_RemainingTime.TotalHours < 3)
-                                    label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.Goldenrod);
-                                else
-                                    label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.LimeGreen);
-
-                                label_remainingDeliveryTime.Content = $"Restzeit: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_RemainingTime)}";
-                            }
-
-                            if (CalcData.ts_Timebuffer.TotalSeconds <= 0)
-                                label_timebuffer.Background = new SolidColorBrush(Colors.Brown);
-                            else if (CalcData.ts_Timebuffer.TotalHours <= 5 && CalcData.ts_Timebuffer.TotalHours > 0)
-                                label_timebuffer.Background = new SolidColorBrush(Colors.Goldenrod);
-                            else
-                                label_timebuffer.Background = new SolidColorBrush(Colors.LimeGreen);
-
-                            if (CalcData.ts_navigationRemainingTime.TotalDays > 10)
-                            {
-                                label_timebuffer.Background = new SolidColorBrush(Colors.CornflowerBlue);
-                                label_timebuffer.Content = "Zeitpuffer: WoT";
-                            }
-                            else
-                            {
-                                label_timebuffer.Content = $"Zeitpuffer: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_Timebuffer)}";
-                            }
-                        }
                     }
 
                     //label beacon
@@ -283,9 +297,9 @@ namespace Truck_Simulator_Tool__WPF_
                     else
                         label_beaconState.Content = "ausgeschaltet";
                     //label fuel
-                    label_averageFuelConsumption.Content = $"{CalcData.fuelAverageConsumptionC.ToString("n2")} {Unit.UAverageFuelConsumption}";
-                    progressBar_fuel.Value = CalcData.fuelCurrent / CalcData.fuelCapacity * 100;
-                    label_progressBar_fuelText.Content = $"{Math.Round(CalcData.fuelCurrent, 0)} {Unit.UFluid}  /  {Math.Round(CalcData.fuelCapacity),0} {Unit.UFluid}  ({Math.Round(CalcData.fuelRange, 0)} {Unit.UDistance})";
+                    label_averageFuelConsumption.Content = $"{Unit.fuelAverageConsumptionC.ToString("n2")} {Unit.UAverageFuelConsumption}";
+                    progressBar_fuel.Value = Unit.fuelCurrent / Unit.fuelCapacity * 100;
+                    label_progressBar_fuelText.Content = $"{Math.Round(Unit.fuelCurrent, 0)} {Unit.UFluid}  /  {Math.Round(Unit.fuelCapacity),0} {Unit.UFluid}  ({Math.Round(Unit.fuelRange, 0)} {Unit.UDistance})";
                     if (data.ets2.truck.fuelWarningOn)
                         progressBar_fuel.Foreground = new SolidColorBrush(Colors.Brown);
                     else
@@ -309,11 +323,6 @@ namespace Truck_Simulator_Tool__WPF_
                     label_progressBar_damageText.Content = data.ets2.job.cargo.totalDamage.ToString("p0");
 
                     //DataSetter (example: calculatedData)
-                    if (_jobStatus == jobStatus.onJob)
-                        ContractHelper.onJob = true;
-                    else
-                        ContractHelper.onJob = false;
-
                     ContractJson contractJson = new ContractJson();
                     contractJson.Game = data.ets2.game.gameID;
                     contractJson.CitySource = data.ets2.job.sourceCity;
@@ -342,9 +351,7 @@ namespace Truck_Simulator_Tool__WPF_
 
         private void ResetSDK()
         {
-            accessText_connectionStatus.Text = "Keine Verbindung zum Spiel";
-            label_connectionStatus.Background = new SolidColorBrush(Colors.Brown);
-            ContractHelper.onJob = false;
+            //ContractHelper.StopBackupper();
             ContractHelper.contractOnStartLoaded = false;
             ContractHelper.ResetValues();
             CalcData.ResetValues(true);
@@ -895,7 +902,6 @@ namespace Truck_Simulator_Tool__WPF_
         #region "MainWindow ImportantEvents"
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            ContractHelper.TryAutoSave();
             // Todo: add message box warning if trying to leave and manual saving is on. (for that add [static bool SettingsSaved] and then you can set label_contractStatus color to Goldenrod as well)
         }
         #endregion

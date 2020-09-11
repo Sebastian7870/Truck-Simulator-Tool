@@ -6,156 +6,237 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
 {
     public static class Unit
     {
-        #region "Variables"
-        private static string _USpeed;
+        #region "UnitTexts"
         public static string USpeed
         {
             get
             {
-                if (_USpeed != null)
-                    return _USpeed;
-                else
+                if (CalcData._game == CalcData.game.ets2)
+                    return "km/h";
+                else if (CalcData._game == CalcData.game.ats)
+                    return "mph";
+                else //unkown
                     return "km/h";
             }
         }
 
-        private static string _UDistance;
         public static string UDistance
         {
             get
             {
-                if (_UDistance != null)
-                    return _UDistance;
-                else
+                if (CalcData._game == CalcData.game.ets2)
+                    return "km";
+                else if (CalcData._game == CalcData.game.ats)
+                    return "mi";
+                else //unkown
                     return "km";
             }
         }
 
-        private static string _UCurrency;
         public static string UCurrency
         {
             get
             {
-                if (_UCurrency != null)
-                    return _UCurrency;
-                else
+                if (CalcData._game == CalcData.game.ets2)
+                    return "€";
+                else if (CalcData._game == CalcData.game.ats)
+                    return "$";
+                else //unkown
                     return "€";
             }
         }
 
-        private static string _UMass;
         public static string UMass
         {
             get
             {
-                if (_UMass != null)
-                    return _UMass;
-                else
+                if (CalcData._game == CalcData.game.ets2)
+                    return "t";
+                else if (CalcData._game == CalcData.game.ats)
+                    return "lb";
+                else //unkown
                     return "t";
             }
         }
 
-        private static string _UFluid;
         public static string UFluid
         {
             get
             {
-                if (_UFluid != null)
-                    return _UFluid;
-                else
+                if (CalcData._game == CalcData.game.ets2)
+                    return "l";
+                else if (CalcData._game == CalcData.game.ats)
+                    return "gal";
+                else //unkown
                     return "l";
             }
         }
 
-        private static string _UMoneyDistance;
         public static string UMoneyDistance
         {
             get
             {
-                if (_UMoneyDistance != null)
-                    return _UMoneyDistance;
-                else
+                if (CalcData._game == CalcData.game.ets2)
+                    return "€/km";
+                else if (CalcData._game == CalcData.game.ats)
+                    return "$/km";
+                else //unkown
                     return "€/km";
             }
         }
 
-        private static string _UAverageFuelConsumption;
         public static string UAverageFuelConsumption
         {
             get
             {
-                if (_UAverageFuelConsumption != null)
-                    return _UAverageFuelConsumption;
-                else
+                if (CalcData._game == CalcData.game.ets2)
+                    return "l/100km";
+                else if (CalcData._game == CalcData.game.ats)
+                    return "mpg";
+                else //unkown
                     return "l/100km";
             }
         }
 
-        private static CultureInfo _UCultureInfo;
         public static CultureInfo UCultureInfo
         {
             get
             {
-                if (_UCultureInfo != null)
-                    return _UCultureInfo;
-                else
+                if (CalcData._game == CalcData.game.ets2)
+                    return new CultureInfo("de-DE");
+                else if (CalcData._game == CalcData.game.ats)
+                    return new CultureInfo("en-US");
+                else //unkown
                     return new CultureInfo("de-DE");
             }
         }
         #endregion
 
-        #region "ETS2Units"
-        public static void SetETS2Units()
+        #region "UnitValues"
+        public static double navigationDistanceC
         {
-            SetETS2UnitsText();
-            SetETS2UnitsValues();
+            get
+            {
+                if (CalcData._game == CalcData.game.ets2)
+                    return CalcData._Data.ets2.truck.navigationEstimatedDistance / 1000;
+                else if (CalcData._game == CalcData.game.ats)
+                    return ConverterHelper.ConvertKMtoMI(CalcData._Data.ets2.truck.navigationEstimatedDistance / 1000);
+                else //unkown
+                    return CalcData._Data.ets2.truck.navigationEstimatedDistance / 1000;
+            }
         }
 
-        private static void SetETS2UnitsText()
+        public static double plannedDistanceKM
         {
-            _USpeed = "km/h";
-            _UDistance = "km";
-            _UCurrency = "€";
-            _UMass = "t";
-            _UFluid = "l";
-            _UMoneyDistance = "€/km";
-            _UAverageFuelConsumption = "l/100km";
-            _UCultureInfo = new CultureInfo("de-DE");
-        }
-        private static void SetETS2UnitsValues()
-        {
-            //nothing to convert yet
-        }
-        #endregion
-
-        #region "ATSUnits"
-        public static void SetATSUnits()
-        {
-            SetATSUnitsText();
-            SetATSUnitsValues();
+            get
+            {
+                if (CalcData._game == CalcData.game.ets2)
+                    return CalcData._Data.ets2.job.cargo.plannedDistanceKM;
+                else if (CalcData._game == CalcData.game.ats)
+                    return ConverterHelper.ConvertKMtoMI(CalcData._Data.ets2.job.cargo.plannedDistanceKM);
+                else //unkown
+                    return CalcData._Data.ets2.job.cargo.plannedDistanceKM;
+            }
         }
 
-        private static void SetATSUnitsText()
+        public static double truckSpeed
         {
-            _USpeed = "mph";
-            _UDistance = "mi";
-            _UCurrency = "$";
-            _UMass = "lb";
-            _UFluid = "gal";
-            _UMoneyDistance = "$/mi";
-            _UAverageFuelConsumption = "mpg";
-            _UCultureInfo = new CultureInfo("en-US");
+            get
+            {
+                if (CalcData._game == CalcData.game.ets2)
+                    return CalcData._Data.ets2.truck.speed;
+                else if (CalcData._game == CalcData.game.ats)
+                    return ConverterHelper.ConvertKMtoMI(CalcData._Data.ets2.truck.speed);
+                else //unkown
+                    return CalcData._Data.ets2.truck.speed;
+            }
         }
-        private static void SetATSUnitsValues()
+
+        public static double jobInfoMassC
         {
-            ConverterHelper.ConvertKMtoMI(CalcData.navigationDistanceC);
-            ConverterHelper.ConvertKMtoMI(CalcData.plannedDistanceKM);
-            ConverterHelper.ConvertKMtoMI(CalcData.truckSpeed);
-            ConverterHelper.ConvertTtoLB(CalcData.jobInfoMassC);
-            ConverterHelper.ConvertEUAverageFueltoAMAverageFuel(CalcData.fuelAverageConsumptionC);
-            ConverterHelper.ConvertLtoGAL(CalcData.fuelCurrent);
-            ConverterHelper.ConvertLtoGAL(CalcData.fuelCapacity);
-            ConverterHelper.ConvertLtoGAL(CalcData.fuelRange);
+            get
+            {
+                if (CalcData._game == CalcData.game.ets2)
+                    return CalcData._Data.ets2.job.cargo.totalMass / 1000;
+                else if (CalcData._game == CalcData.game.ats)
+                    return ConverterHelper.ConvertTtoLB(CalcData._Data.ets2.job.cargo.totalMass / 1000);
+                else //unkown
+                    return CalcData._Data.ets2.job.cargo.totalMass / 1000;
+            }
+        }
+
+        public static double fuelAverageConsumptionC
+        {
+            get
+            {
+                if (CalcData._game == CalcData.game.ets2)
+                    return CalcData._Data.ets2.truck.fuelAverageConsumption;
+                else if (CalcData._game == CalcData.game.ats)
+                    return ConverterHelper.ConvertEUAverageFueltoAMAverageFuel(CalcData._Data.ets2.truck.fuelAverageConsumption);
+                else //unkown
+                    return CalcData._Data.ets2.truck.fuelAverageConsumption;
+            }
+        }
+
+        public static double fuelCurrent
+        {
+            get
+            {
+                if (CalcData._game == CalcData.game.ets2)
+                    return CalcData._Data.ets2.truck.fuel;
+                else if (CalcData._game == CalcData.game.ats)
+                    return ConverterHelper.ConvertLtoGAL(CalcData._Data.ets2.truck.fuel);
+                else //unkown
+                    return CalcData._Data.ets2.truck.fuel;
+            }
+        }
+
+        public static double fuelCapacity
+        {
+            get
+            {
+                if (CalcData._game == CalcData.game.ets2)
+                    return CalcData._Data.ets2.truck.fuelCapacity;
+                else if (CalcData._game == CalcData.game.ats)
+                    return ConverterHelper.ConvertLtoGAL(CalcData._Data.ets2.truck.fuelCapacity);
+                else //unkown
+                    return CalcData._Data.ets2.truck.fuelCapacity;
+            }
+        }
+
+        public static double fuelRange
+        {
+            get
+            {
+                if (CalcData._game == CalcData.game.ets2)
+                    return CalcData._Data.ets2.truck.fuelRange;
+                else if (CalcData._game == CalcData.game.ats)
+                    return ConverterHelper.ConvertKMtoMI(CalcData._Data.ets2.truck.fuelRange);
+                else //unkown
+                    return CalcData._Data.ets2.truck.fuelRange;
+            }
+        }
+
+        public static double currentOdometer
+        {
+            get
+            {
+                if (CalcData._game == CalcData.game.ets2)
+                    return CalcData._Data.ets2.truck.odometer;
+                else if (CalcData._game == CalcData.game.ats)
+                    return ConverterHelper.ConvertKMtoMI(CalcData._Data.ets2.truck.odometer);
+                else //unkown
+                    return CalcData._Data.ets2.truck.odometer;
+            }
+        }
+
+        public static string ingameTime
+        {
+            get
+            {
+                return CalcData._Data.ets2.game.gameTime.ToString("ddd H:mm", Unit.UCultureInfo);
+            }
+
         }
         #endregion
     }

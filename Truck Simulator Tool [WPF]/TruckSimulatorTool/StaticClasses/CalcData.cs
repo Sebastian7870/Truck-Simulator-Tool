@@ -7,6 +7,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
     public static class CalcData
     {
         #region "Variables"
+        // Raw Data
         public enum game
         {
             unknown,
@@ -15,18 +16,19 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         };
         public static game _game = new game();
 
-        public static TimeSpan ts_navigationRemainingTime { get; set; }
-        public static double navigationDistanceC { get; set; }
-        public static double plannedDistanceKM { get; set; }
-        public static double truckSpeed { get; set; }
-        public static double jobInfoMassC { get; set; }
-        public static double fuelAverageConsumptionC { get; set; }
-        public static double fuelCurrent { get; set; }
-        public static double fuelCapacity { get; set; }
-        public static double fuelRange { get; set; }
-        public static string ingameTime { get; set; }
-        public static float currentOdometer { get; set; }
+        private static Rootobject_Telemetry _data { get; set; }
+        public static Rootobject_Telemetry _Data
+        {
+            get
+            {
+                if (_data != null)
+                    return _data;
+                else
+                    return new Rootobject_Telemetry();
+            }
+        }
 
+        // Calculated Data
         public static double timerCounter { get; set; }
         public static double timerInvervalFactor { get; set; }
 
@@ -108,40 +110,31 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         public static TimeSpan ts_Timebuffer
         {
             get { return ts_timebuffer; }
-            set { ts_timebuffer = value; }
         }
 
         private static TimeSpan ts_nextPauseTime;
         public static TimeSpan ts_NextPauseTime
         {
             get { return ts_nextPauseTime; }
-            set { ts_nextPauseTime = value; }
         }
 
         private static TimeSpan ts_remainingTime;
         public static TimeSpan ts_RemainingTime
         {
             get { return ts_remainingTime; }
-            set { ts_remainingTime = value; }
+        }
+
+        private static TimeSpan ts_estimatedTime;
+        public static TimeSpan ts_EstimatedTime
+        {
+            get { return ts_estimatedTime; }
         }
         #endregion
 
         public static void SetGameValues(Rootobject_Telemetry data)
-        {// "C" behin value means "Converted" (=> no original RawDataValues from TelemetrySDK)
-            #region "RawData_SetAndConvert"
-            ts_navigationRemainingTime = TimeSpan.FromSeconds(data.ets2.truck.navigationEstimatedTime);
-            navigationDistanceC = data.NavigationValues.NavigationDistance / 1000;
-            plannedDistanceKM = data.JobValues.PlannedDistanceKm;
-            truckSpeed = Math.Abs(data.TruckValues.CurrentValues.DashboardValues.Speed.Kph);
-            jobInfoMassC = data.JobValues.CargoValues.Mass / 1000;
-            fuelAverageConsumptionC = data.TruckValues.CurrentValues.DashboardValues.FuelValue.AverageConsumption / 100;
-            fuelCurrent = data.TruckValues.CurrentValues.DashboardValues.FuelValue.Amount;
-            fuelCapacity = data.TruckValues.ConstantsValues.CapacityValues.Fuel;
-            fuelRange = data.TruckValues.CurrentValues.DashboardValues.FuelValue.Range;
-            ingameTime = $"{data.CommonValues.GameTime.Date.ToString("ddd H:mm", Unit.UCultureInfo)}";
-            currentOdometer = data.TruckValues.CurrentValues.DashboardValues.Odometer;
+        {
+            _data = data;
 
-            //do not change order: above values will be converted in Unit class
             switch (data.ets2.game.gameID)
             {
                 case "eut2":
@@ -160,32 +153,30 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                         break;
                     }
             }
-            #endregion
 
-            #region "Calculations"
             //timerCounter has to be set from outside (from SCSSdkTelemetry)
-            if (!data.Paused && Math.Abs(data.TruckValues.CurrentValues.DashboardValues.Speed.Kph) > 5)
-                speedSummary += truckSpeed * timerInvervalFactor;
+            if (!data.ets2.game.paused && Math.Abs(data.ets2.truck.speed) > 5)
+                speedSummary += Unit.truckSpeed * timerInvervalFactor;
 
             if (timerCounter > 0 && speedSummary > 0)
                 speedCurrentAverage = speedSummary / (timerCounter * timerInvervalFactor);
             else
                 speedCurrentAverage = 0;
 
-            speedCurrentBestAverage = navigationDistanceC / (data.NavigationValues.NavigationTime / 3600);
-            if (data.NavigationValues.NavigationDistance != 0)
+            speedCurrentBestAverage = Unit.navigationDistanceC / (data.ets2.truck.navigationEstimatedTime / 3600);
+            if (data.ets2.truck.navigationEstimatedDistance != 0)
             {
-                distanceDriven = data.TruckValues.CurrentValues.DashboardValues.Odometer - ContractHelper.ContractJson.OdometerStartValue;
-                distanceSummary = distanceDriven + navigationDistanceC;
+                distanceDriven = Unit.currentOdometer - ContractHelper.ContractJson.OdometerStartValue;
+                distanceSummary = distanceDriven + Unit.navigationDistanceC;
 
                 //CurrentBestArrival
-                dt_currentBestArrival = DateTime.Now.AddSeconds(CalcData.navigationDistanceC / CalcData.speedCurrentBestAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
+                dt_currentBestArrival = DateTime.Now.AddSeconds(Unit.navigationDistanceC / CalcData.speedCurrentBestAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
                 ts_currentBestArrival = dt_currentBestArrival.Subtract(DateTime.Now);
 
                 //BestArrival
                 if (!CalcData.hasBestArrival)
                 {
-                    ts_bestArrival = TimeSpan.FromSeconds((int)CalcData.navigationDistanceC / CalcData.SpeedCurrentBestAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
+                    ts_bestArrival = TimeSpan.FromSeconds((int)Unit.navigationDistanceC / CalcData.SpeedCurrentBestAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
                     dt_bestArrival = DateTime.Now.Add(ts_bestArrival);
                     CalcData.hasBestArrival = true;
                 }
@@ -194,50 +185,56 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                 //CurrentArrival
                 if (CalcData.SpeedCurrentAverage > 0)
                 {
-                    dt_currenArrival = DateTime.Now.AddSeconds(CalcData.navigationDistanceC / CalcData.SpeedCurrentAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
+                    dt_currenArrival = DateTime.Now.AddSeconds(Unit.navigationDistanceC / CalcData.SpeedCurrentAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
                     ts_currentArrival = dt_currenArrival.Subtract(DateTime.Now);
                 }
 
                 //nextPauseTime
-                ts_nextPauseTime = TimeSpan.FromMinutes(data.CommonValues.NextRestStop.Value);
+                ts_nextPauseTime = TimeSpan.FromSeconds(data.ets2.game.nextRestStopTime);
 
                 //remainingTime
-                ts_remainingTime = TimeSpan.FromMinutes(data.JobValues.RemainingDeliveryTime.Value);
+                ts_remainingTime = TimeSpan.FromSeconds(data.ets2.job.remainingTime);
+
+                //estimatedTime
+                ts_estimatedTime = TimeSpan.FromSeconds(data.ets2.truck.navigationEstimatedTime);
 
                 //timebuffer
-                if (data.SpecialEventsValues.OnJob)
+                if (data.ets2.job.cargo.id != string.Empty)
                 {
-                    TimeSpan ts_estimatedTime = TimeSpan.FromSeconds(data.NavigationValues.NavigationTime);
                     ts_timebuffer = CalcData.ts_RemainingTime - ts_estimatedTime;
                     if (CalcData.ts_NextPauseTime < ts_estimatedTime)
                     {
-                        if (data.Game == SCSGame.Ets2)
+                        switch (_game)
                         {
-                            double d = Math.Ceiling((ts_estimatedTime.TotalSeconds - CalcData.ts_NextPauseTime.TotalSeconds) / (11 * 3600));
-                            ts_timebuffer = CalcData.ts_RemainingTime - (ts_estimatedTime.Add(TimeSpan.FromHours(d * 9)));
+                            case game.ets2:
+                                ReturnTimebuffer(11, 9);
+                                break;
+                            case game.ats:
+                                ReturnTimebuffer(14, 10);
+                                break;
+                            case game.unknown:
+                                ReturnTimebuffer(11, 9);
+                                break;
                         }
-                        else
-                        {
-                            double d = Math.Ceiling((ts_estimatedTime.TotalSeconds - CalcData.ts_NextPauseTime.TotalSeconds) / (14 * 3600));
-                            ts_timebuffer = CalcData.ts_RemainingTime - (ts_estimatedTime.Add(TimeSpan.FromHours(d * 10)));
-                        }
+                    }
+                    else
+                    {
+                        ts_timebuffer = TimeSpan.FromSeconds(0);
                     }
                 }
                 else
                 {
-                    ts_timebuffer = TimeSpan.FromSeconds(0);
+                    ResetValues(false);
+                    ContractHelper.ContractJson.OdometerStartValue = Unit.currentOdometer;
                 }
             }
-            else
-            {
-                ResetValues(false);
-                ContractHelper.ContractJson.OdometerStartValue = data.TruckValues.CurrentValues.DashboardValues.Odometer;
-            }
-            #endregion
         }
+
+
 
         public static void ResetValues(bool resetSpeed)
         {
+
             if (resetSpeed)
             {
                 timerCounter = 0;
@@ -266,6 +263,14 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             speedSummary = contractJson.speedSummary;
             distanceDriven = contractJson.distanceDriven;
             distanceSummary = contractJson.distanceSummary;
+        }
+
+
+
+        private static TimeSpan ReturnTimebuffer(int driveTime, int sleepTime) //-> driveTime [ETS2 / ATS] => [11h / 14h] -+- -+- -+- sleepTime [ETS2 / ATS] => [9h / 10h]
+        {
+            double d = Math.Ceiling((ts_EstimatedTime.TotalSeconds - ts_NextPauseTime.TotalSeconds) / (driveTime * 3600));
+            return ts_RemainingTime - (ts_EstimatedTime.Add(TimeSpan.FromHours(d * sleepTime)));
         }
     }
 }

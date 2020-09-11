@@ -2,6 +2,7 @@
 using System.IO;
 using System.Timers;
 using System.Windows;
+using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json;
 
 namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
@@ -11,8 +12,6 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         #region "Variables"
         public static Timer timer_autoBackupContract = new Timer(2500);
         public static bool contractOnStartLoaded { get; set; }
-        public static bool onJob { get; set; }
-        public static bool jobStateHasChanged { get; set; }
         #endregion
 
         private static ContractJson contractJson = new ContractJson();
@@ -38,7 +37,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         {
             if (!contractOnStartLoaded)
             {
-                if (SettingsHelper.SettingsJson.AntiKickAutoStart && sdkActive && onJob)
+                if (SettingsHelper.SettingsJson.AntiKickAutoStart && CalcData._Data.ets2.game.connected && CalcData._Data.ets2.job.cargo.id != string.Empty)
                 {
                     try
                     {
@@ -49,7 +48,8 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                     catch
                     {// started contract without this application
                         contractOnStartLoaded = true;
-                        MessageBox.Show("Es scheint, dass Sie den derzetigen Auftrag ohne diese Software begonnen haben. Bitte beachten Sie, dass Auftragsdaten wie [gefahrene KM] und  [Durchschnittsgeschwindigkeit] erst ab jetzt berechnet werden können.", "Auftragsdaten können Abweichen!", MessageBoxButton.OK, MessageBoxImage.Information);
+                        if ((CalcData._Data.ets2.truck.navigationEstimatedDistance / 1000) < (CalcData._Data.ets2.job.cargo.plannedDistanceKM - 5))
+                            MessageBox.Show("Es scheint, dass Sie den derzetigen Auftrag ohne diese Software begonnen haben. Bitte beachten Sie, dass Auftragsdaten wie [gefahrene KM] und  [Durchschnittsgeschwindigkeit] erst ab jetzt berechnet werden können.", "Auftragsdaten können Abweichen!", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
                 else
@@ -65,9 +65,14 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             timer_autoBackupContract.Start();
         }
 
+        public static void StopBackupper()
+        {
+            timer_autoBackupContract.Stop();
+        }
+
         public static void TryAutoSave()
         {
-            if (SettingsHelper.SettingsJson.ContractAutoSaveActive && sdkActive && onJob && CalcData.SpeedSummary > 250 && CalcData.navigationDistanceC > 5)
+            if (SettingsHelper.SettingsJson.ContractAutoSaveActive && CalcData._Data.ets2.game.connected && CalcData._Data.ets2.job.cargo.id != string.Empty && CalcData.SpeedSummary > 250 && Unit.navigationDistanceC > 5)
             {// SpeedSummary of 2.500 are driving 60 s with a speed of 50. (if interval is 100 ms)
                 try
                 {

@@ -88,6 +88,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             SettingsJson settingsJson = new SettingsJson();
             settingsJson.ContractAutoSaveActive = true;
             settingsJson.AntiKickAutoStart = true;
+            settingsJson.AntiKickMessage = false;
             settingsJson.TSTServerAutoStart = true;
             settingsJson.TimeScaleValue = 19;
             settingsJson.BackgroundPath = string.Empty;
