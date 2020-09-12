@@ -1,8 +1,10 @@
-﻿using System.Diagnostics;
+﻿using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json;
 
 namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
 {
@@ -11,7 +13,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         #region "Variables"
         private static HttpListener listener;
         private static string message;
-        public static string Message
+        public static string GetMessage
         {
             get
             {
@@ -20,12 +22,12 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                 else
                     return "error . . . no data!";
             }
-            set
+        }
+        public static void SetMessage(TSTServerJson tstServerJson)
+        {
+            if (tstServerJson != null)
             {
-                if (value != null)
-                    message = value;
-                else
-                    message = "error . . . no data!";
+                message = JsonConvert.SerializeObject(tstServerJson);
             }
         }
 
@@ -77,7 +79,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                 try
                 {
                     HttpListenerContext context = listener.GetContext();
-                    byte[] bytes = Encoding.UTF8.GetBytes(Message);
+                    byte[] bytes = Encoding.UTF8.GetBytes(GetMessage);
                     context.Response.ContentLength64 = (long)bytes.Length;
                     context.Response.ContentEncoding = Encoding.UTF8;
                     context.Response.ContentType = "application/json;charset=UTF-8";

@@ -21,7 +21,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
 
         public static void Start()
         {
-            timer.Interval = 5000; //150000
+            timer.Interval = 150000;
             timer.Start();
             timer.Tick += Timer_Tick;
         }

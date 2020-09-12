@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Timers;
 using System.Windows;
@@ -29,7 +31,12 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
 
         private static string Auto_FileFormat
         {
-            get { return $@"\{ContractJson.Game.ToString()}_AutoSaveContract_{ContractJson.CitySource} - {ContractJson.CityDestination}___{ContractJson.Income + ContractJson.Mass}.json"; }
+            get { return $@"\{ContractJson.Game}_AutoSaveContract_{ContractJson.CitySource} - {ContractJson.CityDestination}___{ContractJson.LastProfile}_{Math.Round(ContractJson.Income + ContractJson.Mass, 0)}.json"; }
+        }
+
+        private static string Manual_FileFormat
+        {
+            get { return $@"\{ContractJson.Game.ToString()}_ManualSaveContract_{ContractJson.CitySource} - {ContractJson.CityDestination}"; }
         }
 
 
@@ -48,7 +55,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                     catch
                     {// started contract without this application
                         contractOnStartLoaded = true;
-                        if ((CalcData._Data.ets2.truck.navigationEstimatedDistance / 1000) < (CalcData._Data.ets2.job.cargo.plannedDistanceKM - 5))
+                        if (!contractOnStartLoaded && (CalcData._Data.ets2.truck.navigationEstimatedDistance / 1000) < (CalcData._Data.ets2.job.cargo.plannedDistanceKM - 5))
                             MessageBox.Show("Es scheint, dass Sie den derzetigen Auftrag ohne diese Software begonnen haben. Bitte beachten Sie, dass Auftragsdaten wie [gefahrene KM] und  [Durchschnittsgeschwindigkeit] erst ab jetzt berechnet werden können.", "Auftragsdaten können Abweichen!", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
@@ -86,6 +93,34 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                 }
             }
         }
+        public static void TryManualSave()
+        {
+            if (SettingsHelper.SettingsJson.ContractAutoSaveActive && CalcData._Data.ets2.game.connected && CalcData._Data.ets2.job.cargo.id != string.Empty && CalcData.SpeedSummary > 250 && Unit.navigationDistanceC > 5)
+            {// SpeedSummary of 2.500 are driving 60 s with a speed of 50. (if interval is 100 ms)
+                try
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.Filter = "json|*.json";
+                    saveFileDialog.InitialDirectory = $"{StaticValues.SoftwarePath}{StaticValues.ContractsPath}";
+                    saveFileDialog.FileName = Manual_FileFormat;
+                    if (saveFileDialog.ShowDialog() == true)
+                    {
+                        string json = JsonConvert.SerializeObject(contractJson);
+                        File.WriteAllText(saveFileDialog.FileName, json);
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Die Auftragsdaten konnten aufgrund eines Fehlers nicht gespeicher werden. Eventuell wurden Programmdateien beschädigt. Durch einen Neustart der Software können Sie das Problem beheben.", "Auftragsdaten nicht gespeichert!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //Todo: add LogEntry
+                }
+            }
+            else
+            {
+                MessageBox.Show("Es wurden keine oder nicht genügend Auftragsdaten gefunden. Beachten Sie, dass Sie eine mindestdistanz gefahren sein müssen und die Entfernung nicht geringer als 5 km / 3,1 mi sein darf.", "Keine Auftragsdaten gefunden!", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
 
         public static void AutoDelete()
         {
@@ -98,6 +133,33 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                 // Todo: add LogEntry (no error just file not found ==> Information)
             }
         }
+        public static void ManualLoad()
+        {
+            try
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "json|*.json";
+                openFileDialog.InitialDirectory = $"{StaticValues.SoftwarePath}{StaticValues.ContractsPath}";
+                openFileDialog.FileName = Manual_FileFormat;
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    try
+                    {
+                        contractJson = JsonConvert.DeserializeObject<ContractJson>(File.ReadAllText(openFileDialog.FileName));
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Die Datei wurde entweder beschädigt oder es gab ein Update und kann deshalb nicht geladen werden.", "Fehler beim Laden der Datei!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        //Todo: log entry
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
 
         public static void ResetValues()
         {
@@ -111,6 +173,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             contractJson.speedSummary = 0;
             contractJson.timerCounter = 0;
             contractJson.Game = string.Empty;
+            contractJson.LastProfile = string.Empty;
         }
 
         private static void Timer_autoBackupContract_Elapsed(object sender, ElapsedEventArgs e)

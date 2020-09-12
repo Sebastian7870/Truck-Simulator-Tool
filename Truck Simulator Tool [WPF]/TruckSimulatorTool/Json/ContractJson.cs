@@ -3,6 +3,7 @@
     public class ContractJson
     {
         public string Game { get; set; }
+        public string LastProfile { get; set; }
         public string CitySource { get; set; }
         public string CityDestination { get; set; }
         public int Income { get; set; }

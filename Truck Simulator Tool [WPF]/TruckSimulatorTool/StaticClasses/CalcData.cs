@@ -163,7 +163,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             else
                 speedCurrentAverage = 0;
 
-            speedCurrentBestAverage = Unit.navigationDistanceC / (data.ets2.truck.navigationEstimatedTime / 3600);
+            speedCurrentBestAverage = Unit.navigationDistanceC / ((double)data.ets2.truck.navigationEstimatedTime / 3600);
             if (data.ets2.truck.navigationEstimatedDistance != 0)
             {
                 distanceDriven = Unit.currentOdometer - ContractHelper.ContractJson.OdometerStartValue;
@@ -222,11 +222,11 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                         ts_timebuffer = TimeSpan.FromSeconds(0);
                     }
                 }
-                else
-                {
-                    ResetValues(false);
-                    ContractHelper.ContractJson.OdometerStartValue = Unit.currentOdometer;
-                }
+            }
+            else
+            {
+                ResetValues(false);
+                ContractHelper.ContractJson.OdometerStartValue = Unit.currentOdometer;
             }
         }
 

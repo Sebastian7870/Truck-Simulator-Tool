@@ -78,6 +78,7 @@
     </ApplicationDefinition>
     <Compile Include="TruckSimulatorTool\ApplicationStartUp.cs" />
     <Compile Include="TruckSimulatorTool\Json\TelemetryJson.cs" />
+    <Compile Include="TruckSimulatorTool\Json\TSTServerJson.cs" />
     <Compile Include="TruckSimulatorTool\StaticClasses\ShiftSchedule.cs" />
     <Compile Include="TruckSimulatorTool\StaticClasses\Unit.cs" />
     <Compile Include="TruckSimulatorTool\Json\ContractJson.cs" />

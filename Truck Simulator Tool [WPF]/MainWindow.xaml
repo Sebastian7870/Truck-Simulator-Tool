@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Truck_Simulator_Tool__WPF_"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         mc:Ignorable="d"
-        Title="Truck Simulator Tool" Height="1080" Width="1920" Foreground="Black" MinWidth="1280" MinHeight="938" WindowStartupLocation="CenterScreen" FontFamily="Microsoft Sans Serif" FontSize="18" Background="LightGray" Closing="Window_Closing">
+        Title="Truck Simulator Tool" Height="1080" Width="1920" Foreground="Black" MinWidth="1280" MinHeight="938" WindowStartupLocation="CenterScreen" FontFamily="Microsoft Sans Serif" FontSize="18" Closing="Window_Closing" Background="LightGray">
 
     <DockPanel LastChildFill="true" Margin="0">
         <Menu Height="25" VerticalAlignment="Top" Background="White" DockPanel.Dock="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
@@ -21,8 +21,8 @@
                 <MenuItem x:Name="menuItem_shiftScheduleLoad" Header="Schichtplan laden" Click="menuItem_shiftScheduleLoad_Click" />
             </MenuItem>
             <MenuItem Header="Auftrag" >
-                <MenuItem x:Name="menuItem_contractSave" Header="Auftrag speichern" IsEnabled="False" />
-                <MenuItem x:Name="menuItem_contractLoad" Header="Auftrag laden" />
+                <MenuItem x:Name="menuItem_contractSave" IsEnabled="false" Header="Auftrag speichern" Click="menuItem_contractSave_Click" />
+                <MenuItem x:Name="menuItem_contractLoad" IsEnabled="false" Header="Auftrag laden" Click="menuItem_contractLoad_Click" />
             </MenuItem>
             <MenuItem Header="AntiKick" >
                 <MenuItem x:Name="menuItem_antiKick" Header="AntiKick" IsCheckable="True" Click="menuItem_antiKick_Click" />
@@ -190,20 +190,21 @@
                 <Label x:Name="label_remainingDeliveryTime" Content="Restzeit: 0 Min." Canvas.Top="112" Height="40" Width="410" VerticalContentAlignment="Center" Foreground="Brown" />
                 <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" BorderThickness="2" Height="268" Width="410" />
             </Canvas>
-            <Grid Height="116" Margin="15,15,15,8">
+            <Grid Height="116" Margin="15,15,15,8" Background="LightGray">
                 <Grid Height="55" VerticalAlignment="Stretch" Margin="0,0,0,61">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="544*"/>
+                        <ColumnDefinition Width="323*"/>
+                        <ColumnDefinition Width="220*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Content="" Padding="5,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch"/>
-                    <Label Content="" Margin="0" Grid.Row="1" Padding="5,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch"/>
-                    <Label Content="" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,0" VerticalContentAlignment="Center"/>
-                    <Label Content="" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,0" VerticalContentAlignment="Center"/>
+                    <Label x:Name="label_citySource" Content="" Padding="5,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Background="{x:Null}"/>
+                    <Label x:Name="label_companySource" Content="" Margin="0" Grid.Row="1" Padding="5,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Background="{x:Null}"/>
+                    <Label x:Name="label_cityDestination" Content="" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,0" VerticalContentAlignment="Center" Background="{x:Null}" Grid.ColumnSpan="2"/>
+                    <Label x:Name="label_companyDestination" Content="" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,0" VerticalContentAlignment="Center" Background="{x:Null}" Grid.ColumnSpan="2"/>
                 </Grid>
                 <ProgressBar x:Name="progressBar_distance" Height="25" Foreground="LimeGreen" Value="0" Background="White" Canvas.Top="-14" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,55,0,36"/>
                 <Label x:Name="label_progressBar_distanceText" Content="0 km / 0 km" Margin="0,55,0,38" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="5,0"/>
