@@ -233,7 +233,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
         public static string ingameTime
         {
             get
-            {
+            { 
                 return CalcData._Data.ets2.game.gameTime.ToString("ddd H:mm", Unit.UCultureInfo);
             }
 
