@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json;
 
@@ -16,21 +18,42 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         };
         public static game _game = new game();
 
+        public enum jobStatus
+        {
+            unknown,
+            onJob,
+            destination,
+            freeDrive
+        };
+        private static jobStatus _jobStatus = new jobStatus();
+
         private static Rootobject_Telemetry _data { get; set; }
         public static Rootobject_Telemetry _Data
         {
             get
             {
                 if (_data != null)
+                {
                     return _data;
+                }
                 else
+                {
                     return new Rootobject_Telemetry();
+                }
             }
         }
 
         // Calculated Data
+        private static bool isAllowedToUpdate;
+        public static bool IsAllowedToUpdate
+        {
+            get { return isAllowedToUpdate; }
+            set { isAllowedToUpdate = value; }
+        }
+
         public static double timerCounter { get; set; }
         public static double timerInvervalFactor { get; set; }
+
 
         private static double speedSummary;
         public static double SpeedSummary
@@ -38,61 +61,116 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             get { return speedSummary; }
         }
 
+
         private static double speedCurrentAverage;
         public static double SpeedCurrentAverage
         {
-            get { return speedCurrentAverage; }
+            get
+            {
+                if (timerCounter > 0 && SpeedSummary > 0)
+                    speedCurrentAverage = SpeedSummary / (timerCounter * timerInvervalFactor);
+                else
+                    speedCurrentAverage = 0;
+                return speedCurrentAverage;
+            }
         }
+
 
         private static double speedCurrentBestAverage;
         public static double SpeedCurrentBestAverage
         {
-            get { return speedCurrentBestAverage; }
+            get
+            {
+                speedCurrentBestAverage = Unit.navigationDistanceC / ((double)_data.ets2.truck.navigationEstimatedTime / 3600);
+                return speedCurrentBestAverage;
+            }
         }
+
 
         private static double distanceDriven;
         public static double DistanceDriven
         {
-            get { return distanceDriven; }
+            get
+            {
+                if (ContractHelper.ContractJson.OdometerStartValue > (Unit.currentOdometer - 100) && ContractHelper.ContractJson.OdometerStartValue < (Unit.currentOdometer + 20000))
+                    distanceDriven = Unit.currentOdometer - ContractHelper.ContractJson.OdometerStartValue;
+                else
+                    distanceDriven = 0;
+                return distanceDriven;
+            }
         }
+
 
         private static double distanceSummary;
         public static double DistanceSummary
         {
-            get { return distanceSummary; }
+            get
+            {
+                distanceSummary = distanceDriven + Unit.navigationDistanceC;
+                return distanceSummary;
+            }
         }
+
 
         // Time Values
         private static bool hasBestArrival;
-        public static bool HasBestArrival
-        {
-            get { return hasBestArrival; }
-            set { hasBestArrival = value; }
-        }
 
-        private static DateTime dt_currenArrival;
+
+        private static DateTime dt_currentArrival;
         public static DateTime dt_CurrentArrival
         {
-            get { return dt_currenArrival; }
+            get
+            {
+                if (_data.ets2.truck.navigationEstimatedDistance != 0 && SpeedCurrentAverage != 0)
+                    dt_currentArrival = DateTime.Now.AddSeconds(Unit.navigationDistanceC / SpeedCurrentAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
+                else
+                    dt_currentArrival = DateTime.MinValue;                    
+                return dt_currentArrival;
+            }
         }
+
 
         private static TimeSpan ts_currentArrival;
         public static TimeSpan ts_CurrentArrival
         {
-            get { return ts_currentArrival; }
+            get
+            {
+                if (dt_CurrentArrival > DateTime.MinValue.AddYears(1))
+                    ts_currentArrival = dt_currentArrival.Subtract(DateTime.Now);
+                else
+                    ts_currentArrival = TimeSpan.FromSeconds(0);
+                return ts_currentArrival;
+            }
         }
+
 
         private static DateTime dt_currentBestArrival;
         public static DateTime dt_CurrentBestArrival
         {
-            get { return dt_currentBestArrival; }
+            get
+            {
+                if (_data.ets2.truck.navigationEstimatedDistance != 0)
+                    dt_currentBestArrival = DateTime.Now.AddSeconds(Unit.navigationDistanceC / SpeedCurrentBestAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
+                else
+                    dt_currentBestArrival = DateTime.MinValue;
+                return dt_currentBestArrival;
+            }
         }
+
 
         private static TimeSpan ts_currentBestArrival;
         public static TimeSpan ts_CurrentBestArrival
         {
-            get { return ts_currentBestArrival; }
+            get
+            {
+                if (dt_CurrentBestArrival > DateTime.MinValue.AddYears(1))
+                    ts_currentBestArrival = dt_currentBestArrival.Subtract(DateTime.Now);
+                else
+                    ts_currentBestArrival = TimeSpan.FromSeconds(0);
+                return ts_currentBestArrival;
+            }
         }
+
 
         private static DateTime dt_bestArrival;
         public static DateTime dt_BestArrival
@@ -100,38 +178,82 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             get { return dt_bestArrival; }
         }
 
+
         private static TimeSpan ts_bestArrival;
         public static TimeSpan ts_BestArrival
         {
-            get { return ts_bestArrival; }
+            get
+            {
+                if (_data.ets2.truck.navigationEstimatedDistance != 0 && counter >= 3)
+                {
+                    if (!hasBestArrival)
+                    {
+                        ts_bestArrival = TimeSpan.FromSeconds((int)Unit.navigationDistanceC / CalcData.SpeedCurrentBestAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
+                        dt_bestArrival = DateTime.Now.Add(ts_bestArrival);
+                        hasBestArrival = true;
+                    }
+                    ts_bestArrival = dt_BestArrival - DateTime.Now;
+                    return ts_bestArrival;
+                }
+                else
+                {
+                    return TimeSpan.FromSeconds(0);
+                }
+            }
         }
+
 
         private static TimeSpan ts_timebuffer;
         public static TimeSpan ts_Timebuffer
         {
-            get { return ts_timebuffer; }
+            get
+            {
+                if (_data.ets2.job.cargo.id != string.Empty)
+                {
+                    ts_timebuffer = ts_RemainingTime - ts_EstimatedTime;
+                    if (ts_NextPauseTime < ts_EstimatedTime)
+                    {
+                        switch (_game)
+                        {
+                            case game.ets2:
+                                ReturnTimebuffer(11, 9);
+                                break;
+                            case game.ats:
+                                ReturnTimebuffer(14, 10);
+                                break;
+                            case game.unknown:
+                                ReturnTimebuffer(11, 9);
+                                break;
+                        }
+                    }
+                }
+                return ts_timebuffer;
+            }
         }
+
 
         private static TimeSpan ts_nextPauseTime;
         public static TimeSpan ts_NextPauseTime
         {
-            get { return ts_nextPauseTime; }
+            get { return ts_nextPauseTime = TimeSpan.FromSeconds(_data.ets2.game.nextRestStopTime); }
         }
+
 
         private static TimeSpan ts_remainingTime;
         public static TimeSpan ts_RemainingTime
         {
-            get { return ts_remainingTime; }
+            get { return ts_remainingTime = TimeSpan.FromSeconds(_data.ets2.job.remainingTime); }
         }
+
 
         private static TimeSpan ts_estimatedTime;
         public static TimeSpan ts_EstimatedTime
         {
-            get { return ts_estimatedTime; }
+            get { return ts_estimatedTime = TimeSpan.FromSeconds(_data.ets2.truck.navigationEstimatedTime); }
         }
         #endregion
 
-        public static void SetGameValues(Rootobject_Telemetry data)
+        public static async void SetGameValues(Rootobject_Telemetry data)
         {
             _data = data;
 
@@ -158,78 +280,108 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             if (!data.ets2.game.paused && Math.Abs(data.ets2.truck.speed) > 5)
                 speedSummary += Unit.truckSpeed * timerInvervalFactor;
 
-            if (timerCounter > 0 && speedSummary > 0)
-                speedCurrentAverage = speedSummary / (timerCounter * timerInvervalFactor);
-            else
-                speedCurrentAverage = 0;
-
-            speedCurrentBestAverage = Unit.navigationDistanceC / ((double)data.ets2.truck.navigationEstimatedTime / 3600);
-            if (data.ets2.truck.navigationEstimatedDistance != 0)
+            #region "checkJobStatus"
+            if (ContractHelper.ContractJson.LastProfile != Path.GetFileName(data.ets2.game.lastProfile))
             {
-                distanceDriven = Unit.currentOdometer - ContractHelper.ContractJson.OdometerStartValue;
-                distanceSummary = distanceDriven + Unit.navigationDistanceC;
+                isAllowedToUpdate = false;
+                await jobStateChanged();
+            }
+            ContractHelper.ContractJson.LastProfile = Path.GetFileName(data.ets2.game.lastProfile);
 
-                //CurrentBestArrival
-                dt_currentBestArrival = DateTime.Now.AddSeconds(Unit.navigationDistanceC / CalcData.speedCurrentBestAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
-                ts_currentBestArrival = dt_currentBestArrival.Subtract(DateTime.Now);
-
-                //BestArrival
-                if (!CalcData.hasBestArrival)
-                {
-                    ts_bestArrival = TimeSpan.FromSeconds((int)Unit.navigationDistanceC / CalcData.SpeedCurrentBestAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
-                    dt_bestArrival = DateTime.Now.Add(ts_bestArrival);
-                    CalcData.hasBestArrival = true;
-                }
-                ts_bestArrival = CalcData.dt_BestArrival - DateTime.Now;
-
-                //CurrentArrival
-                if (CalcData.SpeedCurrentAverage > 0)
-                {
-                    dt_currenArrival = DateTime.Now.AddSeconds(Unit.navigationDistanceC / CalcData.SpeedCurrentAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
-                    ts_currentArrival = dt_currenArrival.Subtract(DateTime.Now);
-                }
-
-                //nextPauseTime
-                ts_nextPauseTime = TimeSpan.FromSeconds(data.ets2.game.nextRestStopTime);
-
-                //remainingTime
-                ts_remainingTime = TimeSpan.FromSeconds(data.ets2.job.remainingTime);
-
-                //estimatedTime
-                ts_estimatedTime = TimeSpan.FromSeconds(data.ets2.truck.navigationEstimatedTime);
-
-                //timebuffer
-                if (data.ets2.job.cargo.id != string.Empty)
-                {
-                    ts_timebuffer = CalcData.ts_RemainingTime - ts_estimatedTime;
-                    if (CalcData.ts_NextPauseTime < ts_estimatedTime)
+            if (data.ets2.job.cargo.id == string.Empty)
+            {
+                if (isAllowedToUpdate)
+                {// else: profile change
+                    try
                     {
-                        switch (_game)
+                        ContractHelper.AutoDelete();
+                    }
+                    catch
+                    {
+                        //nothing to delete (no contract) => /!\ N O  E R R O R /!\
+                    }
+                }
+            }
+
+            if (!data.ets2.game.paused)
+            {
+                if (counter >= 3)
+                {
+                    if (data.ets2.job.cargo.id != string.Empty)
+                    {//OnJob
+                        try
                         {
-                            case game.ets2:
-                                ReturnTimebuffer(11, 9);
-                                break;
-                            case game.ats:
-                                ReturnTimebuffer(14, 10);
-                                break;
-                            case game.unknown:
-                                ReturnTimebuffer(11, 9);
-                                break;
+                            if (isAllowedToUpdate)
+                                ContractHelper.TryAutoSave();
+                        }
+                        catch
+                        {
+                            //Todo: LogEntry
+                        }
+
+                        if (_jobStatus != jobStatus.onJob)
+                        {
+                            await jobStateChanged();
+                            _jobStatus = jobStatus.onJob;
                         }
                     }
                     else
                     {
-                        ts_timebuffer = TimeSpan.FromSeconds(0);
+                        if (data.ets2.truck.navigationEstimatedDistance != 0)
+                        {//Destination
+                            if (_jobStatus != jobStatus.destination)
+                            {
+                                await jobStateChanged();
+                                _jobStatus = jobStatus.destination;
+                            }
+                        }
+                        else
+                        {//FreeDrive
+                            if (_jobStatus != jobStatus.freeDrive)
+                            {
+                                await jobStateChanged();
+                                _jobStatus = jobStatus.freeDrive;
+                            }
+                        }
                     }
                 }
             }
-            else
+
+            if (CalcData.IsAllowedToUpdate)
             {
-                ResetValues(false);
-                ContractHelper.ContractJson.OdometerStartValue = Unit.currentOdometer;
+                ContractJson contractJson = new ContractJson();
+                contractJson.Game = data.ets2.game.gameID;
+                contractJson.LastProfile = Path.GetFileName(data.ets2.game.lastProfile);
+                contractJson.CitySource = data.ets2.job.sourceCity;
+                contractJson.CityDestination = data.ets2.job.destinationCity;
+                contractJson.Income = data.ets2.job.income;
+                contractJson.Mass = data.ets2.job.cargo.totalMass;
+                contractJson.OdometerStartValue = ContractHelper.ContractJson.OdometerStartValue;
+                contractJson.timerCounter = CalcData.timerCounter;
+                contractJson.speedSummary = CalcData.SpeedSummary;
+                contractJson.distanceDriven = CalcData.DistanceDriven;
+                contractJson.distanceSummary = CalcData.DistanceSummary;
+                ContractHelper.ContractJson = contractJson;
             }
+            if (!data.ets2.game.paused && counter >= 3)
+            {
+                ContractHelper.AutoLoadIfStartup();
+            }
+            #endregion
         }
 
+        private static int counter = 0;
+        private static async Task jobStateChanged()
+        {
+            counter = 0;
+            await Task.Delay(300);
+
+            CalcData.ResetValues(true);
+            ContractHelper.ResetValues();
+            ContractHelper.ContractJson.OdometerStartValue = Unit.currentOdometer;
+
+            counter = 10; // reset for eg. currentBestArrival
+        }
 
 
         public static void ResetValues(bool resetSpeed)
@@ -249,13 +401,26 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             ts_currentBestArrival = TimeSpan.FromSeconds(0);
             dt_currentBestArrival = DateTime.MinValue;
             ts_currentArrival = TimeSpan.FromSeconds(0);
-            dt_currenArrival = DateTime.MinValue;
+            dt_currentArrival = DateTime.MinValue;
             ts_bestArrival = TimeSpan.FromSeconds(0);
             dt_bestArrival = DateTime.MinValue;
             ts_nextPauseTime = TimeSpan.FromSeconds(0);
             ts_remainingTime = TimeSpan.FromSeconds(0);
             ts_timebuffer = TimeSpan.FromSeconds(0);
         }
+        public static void ResetCurrentAverageSpeed()
+        {
+            timerCounter = 0;
+            speedSummary = 0;
+            speedCurrentAverage = 0;
+            ContractHelper.ContractJson.timerCounter = 0;
+            ContractHelper.ContractJson.speedSummary = 0;
+        }
+        public static void ResetBestArrival()
+        {
+            hasBestArrival = false;
+        }
+
 
         public static void LoadValues(Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json.ContractJson contractJson)
         {
@@ -264,8 +429,6 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             distanceDriven = contractJson.distanceDriven;
             distanceSummary = contractJson.distanceSummary;
         }
-
-
 
         private static TimeSpan ReturnTimebuffer(int driveTime, int sleepTime) //-> driveTime [ETS2 / ATS] => [11h / 14h] -+- -+- -+- sleepTime [ETS2 / ATS] => [9h / 10h]
         {

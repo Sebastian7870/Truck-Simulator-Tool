@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Methods;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses;
 
@@ -144,11 +145,11 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
             get
             {
                 if (CalcData._game == CalcData.game.ets2)
-                    return CalcData._Data.ets2.truck.speed;
+                    return Math.Abs(CalcData._Data.ets2.truck.speed);
                 else if (CalcData._game == CalcData.game.ats)
-                    return ConverterHelper.ConvertKMtoMI(CalcData._Data.ets2.truck.speed);
+                    return ConverterHelper.ConvertKMtoMI(Math.Abs(CalcData._Data.ets2.truck.speed));
                 else //unkown
-                    return CalcData._Data.ets2.truck.speed;
+                    return Math.Abs(CalcData._Data.ets2.truck.speed);
             }
         }
 
@@ -170,11 +171,11 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
             get
             {
                 if (CalcData._game == CalcData.game.ets2)
-                    return CalcData._Data.ets2.truck.fuelAverageConsumption;
+                    return CalcData._Data.ets2.truck.fuelAverageConsumption * 100;
                 else if (CalcData._game == CalcData.game.ats)
-                    return ConverterHelper.ConvertEUAverageFueltoAMAverageFuel(CalcData._Data.ets2.truck.fuelAverageConsumption);
+                    return ConverterHelper.ConvertEUAverageFueltoAMAverageFuel(CalcData._Data.ets2.truck.fuelAverageConsumption * 100);
                 else //unkown
-                    return CalcData._Data.ets2.truck.fuelAverageConsumption;
+                    return CalcData._Data.ets2.truck.fuelAverageConsumption * 100;
             }
         }
 
@@ -234,7 +235,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
         {
             get
             {
-                return CalcData._Data.ets2.game.gameTime.ToString("ddd H:mm", Unit.UCultureInfo);
+                return DateTime.MinValue.Add(TimeSpan.FromSeconds(CalcData._Data.ets2.game.gameTime)).ToString("ddd H:mm", Unit.UCultureInfo);
             }
 
         }

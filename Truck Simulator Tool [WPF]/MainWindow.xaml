@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Truck_Simulator_Tool__WPF_"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         mc:Ignorable="d"
-        Title="Truck Simulator Tool" Height="1080" Width="1920" Foreground="Black" MinWidth="1280" MinHeight="938" WindowStartupLocation="CenterScreen" FontFamily="Microsoft Sans Serif" FontSize="18" Closing="Window_Closing" Background="LightGray">
+        Title="Truck Simulator Tool" Height="1080" Width="1920" Foreground="Black" MinWidth="1280" MinHeight="938" WindowStartupLocation="CenterScreen" FontFamily="Microsoft Sans Serif" FontSize="18" Closing="Window_Closing" Background="LightGray" Icon="Resources/TruckSimulatorTool_Icon.ico">
 
     <DockPanel LastChildFill="true" Margin="0">
         <Menu Height="25" VerticalAlignment="Top" Background="White" DockPanel.Dock="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
@@ -21,8 +21,10 @@
                 <MenuItem x:Name="menuItem_shiftScheduleLoad" Header="Schichtplan laden" Click="menuItem_shiftScheduleLoad_Click" />
             </MenuItem>
             <MenuItem Header="Auftrag" >
-                <MenuItem x:Name="menuItem_contractSave" IsEnabled="false" Header="Auftrag speichern" Click="menuItem_contractSave_Click" />
-                <MenuItem x:Name="menuItem_contractLoad" IsEnabled="false" Header="Auftrag laden" Click="menuItem_contractLoad_Click" />
+                <!--MenuItem x:Name="menuItem_contractSave" IsEnabled="false" Header="Auftrag speichern" Click="menuItem_contractSave_Click" />
+                <MenuItem x:Name="menuItem_contractLoad" IsEnabled="false" Header="Auftrag laden" Click="menuItem_contractLoad_Click" /-->
+                <MenuItem x:Name="menuItem_resetAverageSpeed" Header="Ø Geschwindigkeit zurücksetzen" Click="menuItem_resetAverageSpeed_Click" />
+                <MenuItem x:Name="menuItem_resetBestArrival" Header="geplante Fahrzeit zurücksetzen" Click="menuItem_resetBestArrival_Click" />
             </MenuItem>
             <MenuItem Header="AntiKick" >
                 <MenuItem x:Name="menuItem_antiKick" Header="AntiKick" IsCheckable="True" Click="menuItem_antiKick_Click" />
