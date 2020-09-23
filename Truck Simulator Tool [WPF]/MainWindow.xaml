@@ -9,7 +9,7 @@
         Title="Truck Simulator Tool" Height="1080" Width="1920" Foreground="Black" MinWidth="1280" MinHeight="938" WindowStartupLocation="CenterScreen" FontFamily="Microsoft Sans Serif" FontSize="18" Closing="Window_Closing" Background="LightGray" Icon="Resources/TruckSimulatorTool_Icon.ico">
 
     <DockPanel LastChildFill="true" Margin="0">
-        <Menu Height="25" VerticalAlignment="Top" Background="White" DockPanel.Dock="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+        <Menu Height="25" VerticalAlignment="Top" Background="White" DockPanel.Dock="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0">
             <MenuItem x:Name="menuItem_serverStatus" Header="Server" Height="25" Background="Brown" Foreground="Gainsboro">
                 <MenuItem x:Name="menuItem_serverInstall" Header="Server installieren" Foreground="Black" Click="menuItem_serverInstall_Click"/>
                 <MenuItem x:Name="menuItem_serverUninstall" Header="Server deinstallieren" Foreground="Black" Click="menuItem_serverUninstall_Click"/>
@@ -35,50 +35,48 @@
         </Menu>
         <Grid DockPanel.Dock="Top" Margin="0" Height="70">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <Label  x:Name="label_connectionStatus" Margin="0" Foreground="Gainsboro" Background="Brown"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" FontWeight="Bold"  Padding="25,5">
+            <Label  x:Name="label_connectionStatus" Margin="0" Foreground="Gainsboro" Background="Brown"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" FontWeight="Bold"  Padding="25,5" Grid.Column="1">
                 <Label.Content>
                     <AccessText x:Name="accessText_connectionStatus" TextWrapping="Wrap" Text="Keine Verbindung zum Server" FontSize="24" TextAlignment="Center"/>
                 </Label.Content>
             </Label>
-            <Label x:Name="label_contractStatus"  Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" Grid.Column="1" FontWeight="Bold" Padding="25,5">
+            <Label x:Name="label_contractStatus"  Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" Grid.Column="2" FontWeight="Bold" Padding="25,5">
                 <Label.Content>
                     <AccessText x:Name="accessText_contractStatus" TextWrapping="Wrap" Text="Keinen aktiven Auftrag" FontSize="24" TextAlignment="Center"/>
                 </Label.Content>
             </Label>
-            <Label x:Name="label_shiftStatus" Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" Grid.Column="2" FontWeight="Bold" Padding="25,5">
+            <Label x:Name="label_shiftStatus" Margin="0" Foreground="Gainsboro" Background="Brown" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" Grid.Column="3" FontWeight="Bold" Padding="25,5">
                 <Label.Content>
                     <AccessText x:Name="accessText_shiftStatus" TextWrapping="Wrap" Text="Keine Schicht geladen" FontSize="24" TextAlignment="Center"/>
                 </Label.Content>
             </Label>
-            <Canvas Grid.Column="3" Margin="0" Background="DimGray">
+            <Canvas Grid.Column="0" Margin="0" Background="DimGray">
                 <Label x:Name="label_dateTimeNowSeconds" Content="00" Canvas.Top="45" Padding="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="12" Width="18" Foreground="Gainsboro" Canvas.Left="33" FontSize="12" RenderTransformOrigin="0.63,0.556"/>
                 <Label x:Name="label_dateTimeNowTime" Content="00:00" Canvas.Left="56" Foreground="Gainsboro" Height="70" Width="159" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0,0,10,0" FontSize="60" Margin="0"/>
                 <Label x:Name="label_dateTimeNowDate" Content="Montag&#xA;01.01.0001" Canvas.Left="220" Width="120" Foreground="Gainsboro" FontSize="24" VerticalContentAlignment="Center" Padding="0" Height="70" HorizontalAlignment="Right"/>
-                <Label x:Name="label_ingameTime" Content="Mo 0:00"  Height="25" Padding="0" Width="110" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" FontSize="20" FontWeight="Bold" Canvas.Left="205" Canvas.Top="-25"/>
             </Canvas>
         </Grid>
         <Grid Background="DarkGray" DockPanel.Dock="Bottom" Height="35" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="65*"/>
                 <ColumnDefinition Width="275*"/>
                 <ColumnDefinition Width="160*"/>
                 <ColumnDefinition Width="150*"/>
                 <ColumnDefinition Width="275*"/>
+                <ColumnDefinition Width="65*"/>
                 <ColumnDefinition Width="80*"/>
             </Grid.ColumnDefinitions>
-            <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" BorderThickness="2" Margin="-10,0,-10,-10" Grid.ColumnSpan="6" />
-            <Label x:Name="label_shiftCount" Content="Schicht: ---" Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="11" Padding="3,0" Visibility="Hidden"/>
-            <Label x:Name="label_nextShiftEvent" Content="Nächstes Schichtereignis: ---" Grid.Column="1" FontSize="11" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Visibility="Hidden"/>
-            <Label x:Name="label_shiftTimeLeft" Content="Übrige Schichtlänge: ---" Grid.Column="2" Margin="0" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="11" Visibility="Hidden"/>
-            <Label x:Name="label_nextShiftPause" Content="Nächste Pause in: ---" Grid.Column="3" Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="3,0" FontSize="11" Visibility="Hidden"/>
-            <Label x:Name="label_currentShift" Content="Derzeitige Schicht: ---" Grid.Column="4" Margin="0" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="11" Visibility="Hidden"/>
+            <Label x:Name="label_nextShiftEvent" Content="Nächstes Schichtereignis: ---" Grid.Column="0" FontSize="11" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Visibility="Hidden"/>
+            <Label x:Name="label_shiftTimeLeft" Content="Übrige Schichtlänge: ---" Grid.Column="1" Margin="0" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="11" Visibility="Hidden"/>
+            <Label x:Name="label_nextShiftPause" Content="Nächste Pause in: ---" Grid.Column="2" Margin="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="3,0" FontSize="11" Visibility="Hidden"/>
+            <Label x:Name="label_currentShift" Content="Derzeitige Schicht: ---" Grid.Column="3" Margin="0" Padding="3,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="11" Visibility="Hidden"/>
+            <Label x:Name="label_shiftCount" Content="Schicht: ---" Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="11" Padding="3,0" Visibility="Hidden" Grid.Column="4" />
             <Label x:Name="label_timeScale" Content="Zeitskalierung: -" Grid.Column="5" Margin="0" Padding="3,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="11"/>
-
+            <Border BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" BorderThickness="2" Margin="-10,0,-10,-10" Grid.ColumnSpan="6" />
         </Grid>
         <Grid DockPanel.Dock="Right"  Width="780" Margin="0,15,15,0">
             <Canvas Margin="0" Height="400" VerticalAlignment="Top" Width="380" HorizontalAlignment="Left" Background="Gainsboro">

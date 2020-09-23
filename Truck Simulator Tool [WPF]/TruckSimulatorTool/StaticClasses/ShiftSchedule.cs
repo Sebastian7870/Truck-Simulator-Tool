@@ -22,7 +22,8 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
         private static bool currentShiftHasPause;
         private static bool currentShiftIsActive;
         private static bool shiftPaused;
-        private static int shiftCount;
+        private static int shiftCurrentCount;
+        private static int shiftTotalCount;
         private static DateTime[] currentShiftStartEnd = new DateTime[2];
         private static DateTime nextShiftPauseStart;
         private static DateTime nextShiftPauseEnd;
@@ -58,9 +59,13 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
         {
             get { return shiftPaused; }
         }
-        public static int ShiftCount
+        public static int ShiftCurrentCount
         {
-            get { return shiftCount; }
+            get { return shiftCurrentCount; }
+        }
+        public static int ShiftTotalCount
+        {
+            get { return shiftTotalCount; }
         }
         public static DateTime[] CurrentShiftStartEnd
         {
@@ -110,6 +115,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
                     if (Item.EndPause.Ticks > DateTime.Now.Ticks)
                         endPauses.Add((Item.EndPause, counter, IndexType.endPause));
                 }
+                shiftTotalCount = counter;
 
                 // Get min value for nextShiftEvent
                 nextShiftEvent = ReturnMinValueLists(startDates, endDates, startPauses, endPauses);
@@ -120,7 +126,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
 
                 Tuple<DateTime, int, IndexType> _tuple = ReturnMinValueLists(endDates);
                 //Get min value for ShiftCount
-                shiftCount = _tuple.Item2;
+                shiftCurrentCount = _tuple.Item2;
 
                 //Get next ShiftEnd
                 nextShiftEnd = _tuple.Item1;
@@ -212,7 +218,8 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
 
             currentShiftHasPause = false;
             shiftPaused = false;
-            shiftCount = 0;
+            shiftCurrentCount = 0;
+            shiftTotalCount = 0;
             currentShiftStartEnd = new DateTime[2];
             nextShiftPauseStart = DateTime.MinValue;
             nextShiftPauseEnd = DateTime.MinValue;

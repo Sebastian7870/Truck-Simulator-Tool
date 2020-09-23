@@ -1,8 +1,6 @@
-﻿using Microsoft.Win32;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Timers;
 using System.Windows;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes;
 using Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json;

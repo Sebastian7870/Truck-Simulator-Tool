@@ -92,7 +92,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         {
             get
             {
-                if (ContractHelper.ContractJson.OdometerStartValue > (Unit.currentOdometer - 100) && ContractHelper.ContractJson.OdometerStartValue < (Unit.currentOdometer + 20000))
+                if (ContractHelper.ContractJson.OdometerStartValue < Unit.currentOdometer && ContractHelper.ContractJson.OdometerStartValue > (Unit.currentOdometer - 25000))
                     distanceDriven = Unit.currentOdometer - ContractHelper.ContractJson.OdometerStartValue;
                 else
                     distanceDriven = 0;
@@ -124,7 +124,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                 if (_data.ets2.truck.navigationEstimatedDistance != 0 && SpeedCurrentAverage != 0)
                     dt_currentArrival = DateTime.Now.AddSeconds(Unit.navigationDistanceC / SpeedCurrentAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
                 else
-                    dt_currentArrival = DateTime.MinValue;                    
+                    dt_currentArrival = DateTime.MinValue;
                 return dt_currentArrival;
             }
         }
@@ -171,6 +171,11 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             }
         }
 
+        private static DateTime dt_bestArrivalStart;
+        public static DateTime dt_BestArrivalStart
+        {
+            get { return dt_bestArrivalStart; }
+        }
 
         private static DateTime dt_bestArrival;
         public static DateTime dt_BestArrival
@@ -189,6 +194,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                     if (!hasBestArrival)
                     {
                         ts_bestArrival = TimeSpan.FromSeconds((int)Unit.navigationDistanceC / CalcData.SpeedCurrentBestAverage / SettingsHelper.SettingsJson.TimeScaleValue * 3600);
+                        dt_bestArrivalStart = DateTime.Now;
                         dt_bestArrival = DateTime.Now.Add(ts_bestArrival);
                         hasBestArrival = true;
                     }
@@ -404,6 +410,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
             dt_currentArrival = DateTime.MinValue;
             ts_bestArrival = TimeSpan.FromSeconds(0);
             dt_bestArrival = DateTime.MinValue;
+            dt_bestArrivalStart = DateTime.MinValue;
             ts_nextPauseTime = TimeSpan.FromSeconds(0);
             ts_remainingTime = TimeSpan.FromSeconds(0);
             ts_timebuffer = TimeSpan.FromSeconds(0);

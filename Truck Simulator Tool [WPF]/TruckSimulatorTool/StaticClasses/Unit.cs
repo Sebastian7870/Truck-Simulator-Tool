@@ -231,7 +231,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Classes
             }
         }
 
-        public static string ingameTime
+        public static string ingameTime //not used: when timeZones are activated ingame the time does not match with the ingame time.
         {
             get
             {

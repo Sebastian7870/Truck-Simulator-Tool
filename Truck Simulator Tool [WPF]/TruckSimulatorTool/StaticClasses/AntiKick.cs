@@ -17,10 +17,11 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         private static extern int GetWindowThreadProcessId(IntPtr handle, out int processId);
 
 
-        static Timer timer = new Timer();
+        static Timer timer;
 
         public static void Start()
         {
+            timer = new Timer();
             timer.Interval = 150000;
             timer.Start();
             timer.Tick += Timer_Tick;
@@ -28,7 +29,8 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
 
         public static void Stop()
         {
-            timer.Stop();
+            if (timer != null)
+                timer.Stop();
         }
 
 
@@ -62,13 +64,13 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                 }
                 else
                 {
-                    ShowMessageBoxNoFocus();
+                    ShowMessageBoxNoFocus(true);
                 }
             }
 
             if (processATS.Length != 0)
             {
-                if (ProcessHasFocus(processETS[0]))
+                if (ProcessHasFocus(processATS[0]))
                 {
                     SendKeys.SendWait("y/p{Enter}");
                     NoFocusCounter = 0;
@@ -76,13 +78,12 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                 }
                 else
                 {
-                    ShowMessageBoxNoFocus();
+                    ShowMessageBoxNoFocus(false);
                 }
             }
         }
 
-
-        private static void ShowMessageBoxNoFocus()
+        private static void ShowMessageBoxNoFocus(bool isEts2)
         {
             if (SettingsHelper.SettingsJson.AntiKickMessage)
             {
@@ -97,7 +98,10 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                 else
                 {
                     NoFocusCounter += 2.5;
-                    MessageBox.Show("ETS2 befindet sich derzeitig nicht im Vordergrund. AntiKick kann das Kicken vom Server dadurch nicht aufhalten.", $"ETS2 nicht im Vordergrund! (Noch ~{10 - NoFocusCounter} Min.)", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (isEts2)
+                        MessageBox.Show("ETS2 befindet sich derzeitig nicht im Vordergrund. AntiKick kann das Kicken vom Server dadurch nicht aufhalten.", $"ETS2 nicht im Vordergrund! (Noch ~{10 - NoFocusCounter} Min.)", MessageBoxButton.OK, MessageBoxImage.Information);
+                    else
+                        MessageBox.Show("ATS befindet sich derzeitig nicht im Vordergrund. AntiKick kann das Kicken vom Server dadurch nicht aufhalten.", $"ATS nicht im Vordergrund! (Noch ~{10 - NoFocusCounter} Min.)", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
         }

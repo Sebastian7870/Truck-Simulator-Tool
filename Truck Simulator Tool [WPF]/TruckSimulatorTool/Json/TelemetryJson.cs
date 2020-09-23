@@ -183,13 +183,13 @@
     public class Job
     {
         public Cargo cargo { get; set; }
-        public int deadlineTime { get; set; }
+        public long deadlineTime { get; set; }
         public string destinationCity { get; set; }
         public string destinationCityID { get; set; }
         public string destinationCompany { get; set; }
         public string destinationCompanyID { get; set; }
         public int income { get; set; }
-        public int remainingTime { get; set; }
+        public long remainingTime { get; set; }
         public string sourceCity { get; set; }
         public string sourceCityID { get; set; }
         public string sourceCompany { get; set; }
@@ -384,4 +384,5 @@
     {
         public bool connected { get; set; }
     }
+
 }

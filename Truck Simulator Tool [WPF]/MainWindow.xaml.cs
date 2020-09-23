@@ -150,7 +150,6 @@ namespace Truck_Simulator_Tool__WPF_
                         CalcData.IsAllowedToUpdate = true;
 
                     CalcData.timerInvervalFactor = timer_telemetry.Interval.TotalSeconds;
-                    label_ingameTime.Content = Unit.ingameTime;
 
                     if (data.ets2.game.paused)
                     {// paused-only
@@ -173,7 +172,7 @@ namespace Truck_Simulator_Tool__WPF_
                     label_ts_currentBestArrival.Content = $"{ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_CurrentBestArrival)}";
 
                     if (CalcData.dt_BestArrival > DateTime.Now.AddDays(-10))
-                        label_dt_bestArrival.Content = $"{DateTime.Now.ToString("HH:mm")} Uhr - {CalcData.dt_BestArrival.ToString("HH:mm")} Uhr";
+                        label_dt_bestArrival.Content = $"{CalcData.dt_BestArrivalStart.ToString("HH:mm")} Uhr - {CalcData.dt_BestArrival.ToString("HH:mm")} Uhr";
                     else
                         label_dt_bestArrival.Content = "00:00 Uhr - 00:00 Uhr";
 
@@ -206,29 +205,35 @@ namespace Truck_Simulator_Tool__WPF_
                     label_companySource.Content = data.ets2.job.sourceCompany;
                     label_companyDestination.Content = data.ets2.job.destinationCompany;
                     // label remainingTime
-                    if (CalcData.ts_RemainingTime.TotalHours < 3)
+                    if (CalcData.ts_RemainingTime.TotalSeconds <= 0)
                     {
-
                         label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.Brown);
                         label_remainingDeliveryTime.Content = "Restzeit: 0 Min.";
                     }
                     else
                     {
-                        if (CalcData.ts_RemainingTime.TotalDays > 10)
+                        if (CalcData.ts_RemainingTime.TotalHours < 3)
                         {
-                            label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
-                            label_remainingDeliveryTime.Content = "Restzeit: WoT";
+                            label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.Brown);
                         }
                         else
                         {
-                            if (CalcData.ts_RemainingTime.TotalHours < 3)
-                                label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.Goldenrod);
+                            if (CalcData.ts_RemainingTime.TotalDays > 10)
+                            {
+                                label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.CornflowerBlue);
+                                label_remainingDeliveryTime.Content = "Restzeit: WoT";
+                            }
                             else
-                                label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.LimeGreen);
+                            {
+                                if (CalcData.ts_RemainingTime.TotalHours < 3)
+                                    label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.Goldenrod);
+                                else
+                                    label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.LimeGreen);
 
-                            label_remainingDeliveryTime.Content = $"Restzeit: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_RemainingTime)}";
+                                label_remainingDeliveryTime.Content = $"Restzeit: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_RemainingTime)}";
+                            }
+
                         }
-
                     }
                     //label timeBuffer
                     if (CalcData.ts_Timebuffer.TotalSeconds <= 0)
@@ -238,7 +243,7 @@ namespace Truck_Simulator_Tool__WPF_
                     else
                         label_timebuffer.Background = new SolidColorBrush(Colors.LimeGreen);
 
-                    if (TimeSpan.FromSeconds(data.ets2.truck.navigationEstimatedTime).TotalDays > 10)
+                    if (TimeSpan.FromSeconds(data.ets2.job.remainingTime).TotalDays > 10)
                     {
                         label_timebuffer.Background = new SolidColorBrush(Colors.CornflowerBlue);
                         label_timebuffer.Content = "Zeitpuffer: WoT";
@@ -403,8 +408,14 @@ namespace Truck_Simulator_Tool__WPF_
                 label_tfmSongTitle.Content = tfmSong_data.title;
                 label_tfmSongAuthor.Content = tfmSong_data.artist;
                 label_tfmDJName.Content = $"DJ {tfmDJ_data.result.dj.name}";
-                TimeSpan ts = TimeSpan.FromSeconds(Convert.ToDouble(tfmDJ_data.result.slot.timeend) - Convert.ToDouble(tfmDJ_data.result.slot.timestart));
-                label_tfmDuration.Content = $"{ts.TotalHours} Std.";
+                DateTime timestart = DateTime.MinValue;
+                DateTime timeend = DateTime.MinValue;
+                try { timestart = DateTime.MinValue.Add(TimeSpan.FromSeconds(Convert.ToDouble(tfmDJ_data.result.slot.timestart) + 7200)); } catch { timestart = DateTime.MinValue; } // +7200: From UTC to UTC+2
+                try { timeend = DateTime.MinValue.Add(TimeSpan.FromSeconds(Convert.ToDouble(tfmDJ_data.result.slot.timeend) + 7200)); } catch { timeend = DateTime.MinValue; } // +7200: From UTC to UTC+
+                if (timestart == timeend)
+                    label_tfmDuration.Content = string.Empty;
+                else
+                    label_tfmDuration.Content = $"{timestart.ToString("HH:mm")} - {timeend.ToString("HH:mm")} Uhr";
                 lastTFMPicturePath = tfmSong_data.art.ToString();
             }
             else
@@ -448,19 +459,38 @@ namespace Truck_Simulator_Tool__WPF_
                 button_shiftLoadDelete.Content = "Schichtplan löschen";
                 button_shiftLoadDelete.Background = new SolidColorBrush(Colors.Brown);
 
-                label_shiftCount.Content = $"Schicht: {ShiftSchedule.ShiftCount}";
+                label_shiftCount.Content = $"Schicht: {ShiftSchedule.ShiftCurrentCount} / {ShiftSchedule.ShiftTotalCount}";
                 label_nextShiftEvent.Content = $"Nächstes Schichtereignis: {ReturnNextShiftEventString(ShiftSchedule.NextShiftEvent)}";
+                if (ShiftSchedule.NextShiftEvent.Item1 < DateTime.Now.AddMinutes(30))
+                {
+                    if (ShiftSchedule.NextShiftEvent.Item1 < DateTime.Now.AddMinutes(5))
+                        label_nextShiftEvent.Background = new SolidColorBrush(Colors.Brown);
+                    else
+                        label_nextShiftEvent.Background = new SolidColorBrush(Colors.Goldenrod);
+                }
+                else
+                {
+                    label_nextShiftEvent.Background = new SolidColorBrush(Colors.Transparent);
+                }
+
                 if (ShiftSchedule.CurrentShiftIsActive)
                 {
-                    label_shiftTimeLeft.Content = $"Übrige Schichtlänge: {ConverterHelper.ConvertTimespanToCustomString(ShiftSchedule.NextShiftEnd - DateTime.Now)}";
+                    TimeSpan ts_shiftTimeLeft = ShiftSchedule.NextShiftEnd - DateTime.Now;
+                    label_shiftTimeLeft.Content = $"Übrige Schichtlänge: {ConverterHelper.ConvertTimespanToCustomString(ts_shiftTimeLeft)}";
                     label_currentShift.Content = $"Derzeitige Schicht: {ShiftSchedule.CurrentShiftStartEnd[0].ToString("HH:mm")} Uhr,  {ShiftSchedule.CurrentShiftStartEnd[0].ToShortDateString()}   -   {ShiftSchedule.CurrentShiftStartEnd[1].ToString("HH:mm")} Uhr,  {ShiftSchedule.CurrentShiftStartEnd[1].ToShortDateString()}";
 
                     if (ShiftSchedule.CurrentShiftHasPause)
                     {
                         if (ShiftSchedule.ShiftPaused)
-                            label_nextShiftPause.Content = $"Pausenende in: {ConverterHelper.ConvertTimespanToCustomString(ShiftSchedule.NextShiftPauseEnd - DateTime.Now)}";
+                        {
+                            TimeSpan ts_nextShiftPauseEnd = ShiftSchedule.NextShiftPauseEnd - DateTime.Now;
+                            label_nextShiftPause.Content = $"Pausenende in: {ConverterHelper.ConvertTimespanToCustomString(ts_nextShiftPauseEnd)}";
+                        } 
                         else
-                            label_nextShiftPause.Content = $"Nächste Pause in: {ConverterHelper.ConvertTimespanToCustomString(ShiftSchedule.NextShiftPauseStart - DateTime.Now)}";
+                        {
+                            TimeSpan ts_nextShiftPauseStart = ShiftSchedule.NextShiftPauseStart - DateTime.Now;
+                            label_nextShiftPause.Content = $"Nächste Pause in: {ConverterHelper.ConvertTimespanToCustomString(ts_nextShiftPauseStart)}";
+                        }
                     }
                     else
                     {
@@ -600,7 +630,7 @@ namespace Truck_Simulator_Tool__WPF_
             }
             else
             {
-                if (MessageBox.Show("Sie haben zurzeit eine Schicht geladen, möchten Sie diese ersetzen?", "Schicht schon aktiv!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Sie haben zurzeit eine Schicht geladen, möchten Sie diese ersetzen?", "Schicht schon aktiv!", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     CreateShiftSchedule();
                 }
@@ -627,6 +657,8 @@ namespace Truck_Simulator_Tool__WPF_
             }
             else
             {
+                if (MessageBox.Show("Wenn Sie fortfahren, werden nicht gespeicherte Daten gelöscht. Möchten Sie den aktuellen Schichtplan löschen?", "Soll der Schichtplan gelöscht werden?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.No)
+                    return;
                 DeleteShiftSchedule();
             }
         }
@@ -648,7 +680,7 @@ namespace Truck_Simulator_Tool__WPF_
         private void LoadShiftSchedule()
         {
             if (ShiftSchedule.HasShift)
-                if (MessageBox.Show("Sie haben bereits einen Schichtplan geladen. Wenn Sie den Schichtplan nicht gespeichert haben, wird er dauerhaft gelöscht.", "Soll der derzeitige Schichtplan gelöscht werden?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                if (MessageBox.Show("Sie haben bereits einen Schichtplan geladen. Wenn Sie den Schichtplan nicht gespeichert haben, wird er dauerhaft gelöscht.", "Soll der derzeitige Schichtplan gelöscht werden?", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No) == MessageBoxResult.No)
                     return;
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = "json|*.json";
@@ -673,6 +705,7 @@ namespace Truck_Simulator_Tool__WPF_
         {
             label_shiftCount.Content = "Schicht: ---";
             label_nextShiftEvent.Content = "Nächstes Schichtereignis: ---";
+            label_nextShiftEvent.Background = new SolidColorBrush(Colors.Transparent);
             label_shiftTimeLeft.Content = "Übrige Schichtlänge: ---";
             label_nextShiftPause.Content = "Nächste Pause in: ---";
             label_currentShift.Content = "Derzeitige Schicht: ---";
@@ -830,7 +863,7 @@ namespace Truck_Simulator_Tool__WPF_
                         if (calc_distanceWasLastChanged)
                         {
                             if (calc_IsDefault)
-                                doubleUpDown_distanceCalculatorTime1.Value = (double)((integerUpDown_distanceCalculatorDistance.Value / timeScaleConstant) / integerUpDown_distanceCalculatorAverageSpeed.Value);
+                                doubleUpDown_distanceCalculatorTime1.Value = (double)Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / timeScaleConstant) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
                             else
                             {
                                 doubleUpDown_distanceCalculatorTime1.Value = (double)Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / 19) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
@@ -854,7 +887,7 @@ namespace Truck_Simulator_Tool__WPF_
                         {
                             doubleUpDown_distanceCalculatorTime1.Value = (double)Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / 19) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
                             doubleUpDown_distanceCalculatorTime2.Value = (double)Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / 15) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
-                            doubleUpDown_distanceCalculatorTime3.Value = Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / 3) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
+                            doubleUpDown_distanceCalculatorTime3.Value = (double)Math.Round((double)((Convert.ToDouble(integerUpDown_distanceCalculatorDistance.Value) / 3) / integerUpDown_distanceCalculatorAverageSpeed.Value), 2);
                         }
                         break;
                 }
@@ -926,12 +959,12 @@ namespace Truck_Simulator_Tool__WPF_
         }*/
         private void menuItem_resetAverageSpeed_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Sind Sie sich sicher, dass Sie die Durchschnittsgeschwindigkeit zurücksetzen möchten?", "Möchten Sie fortfahren?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Sind Sie sich sicher, dass Sie die Durchschnittsgeschwindigkeit zurücksetzen möchten?", "Möchten Sie fortfahren?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 CalcData.ResetCurrentAverageSpeed();
         }
         private void menuItem_resetBestArrival_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Sind Sie sich sicher, dass Sie die geplante Fahrzeit zurücksetzen möchten?", "Möchten Sie fortfahren?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Sind Sie sich sicher, dass Sie die geplante Fahrzeit zurücksetzen möchten?", "Möchten Sie fortfahren?", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 CalcData.ResetBestArrival();
         }
         #endregion

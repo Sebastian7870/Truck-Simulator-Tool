@@ -64,7 +64,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                 hasEntries = false;
                 if (reSetIfnotAvailable)
                 {
-                    if (MessageBox.Show("Der TST-Server hat fehlende Firewall und Port Einträge und kann ohne diese nicht gestartet werden. Möchten Sie dieses Problem jetzt beheben? Sie können es jederzeit im Servermenü nachholen unter \"TST-Server installieren\".", "Fehlende Einträge des TST-Servers gefunden!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    if (MessageBox.Show("Der TST-Server hat fehlende Firewall und Port Einträge und kann ohne diese nicht gestartet werden. Möchten Sie dieses Problem jetzt beheben? Sie können es jederzeit im Servermenü nachholen unter \"TST-Server installieren\".", "Fehlende Einträge des TST-Servers gefunden!", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes) == MessageBoxResult.Yes)
                     {
                         ReSetPowerShellEntries();
                     }

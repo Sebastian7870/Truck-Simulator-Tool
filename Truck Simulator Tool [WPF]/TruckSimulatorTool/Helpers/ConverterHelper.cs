@@ -21,7 +21,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Methods
 
         public static double ConvertEUAverageFueltoAMAverageFuel(double averageFuelConsumption)
         {
-            return averageFuelConsumption * 100 / 6.43242746591568;
+            return averageFuelConsumption / 6.43242746591568;
         }
 
         public static string ConvertTimespanToCustomString(TimeSpan timeSpan)
