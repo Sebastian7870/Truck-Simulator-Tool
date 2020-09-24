@@ -41,7 +41,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         {
             if (!contractOnStartLoaded)
             {
-                if (SettingsHelper.SettingsJson.AntiKickAutoStart && CalcData._Data.ets2.game.connected && CalcData._Data.ets2.job.cargo.id != string.Empty)
+                if (SettingsHelper.SettingsJson.ContractAutoSaveActive && CalcData._Data.ets2.game.connected && CalcData._Data.ets2.job.cargo.id != string.Empty)
                 {
                     try
                     {

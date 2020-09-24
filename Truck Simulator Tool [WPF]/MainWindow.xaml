@@ -58,7 +58,7 @@
             <Canvas Grid.Column="0" Margin="0" Background="DimGray">
                 <Label x:Name="label_dateTimeNowSeconds" Content="00" Canvas.Top="45" Padding="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Height="12" Width="18" Foreground="Gainsboro" Canvas.Left="33" FontSize="12" RenderTransformOrigin="0.63,0.556"/>
                 <Label x:Name="label_dateTimeNowTime" Content="00:00" Canvas.Left="56" Foreground="Gainsboro" Height="70" Width="159" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Padding="0,0,10,0" FontSize="60" Margin="0"/>
-                <Label x:Name="label_dateTimeNowDate" Content="Montag&#xA;01.01.0001" Canvas.Left="220" Width="120" Foreground="Gainsboro" FontSize="24" VerticalContentAlignment="Center" Padding="0" Height="70" HorizontalAlignment="Right"/>
+                <Label x:Name="label_dateTimeNowDate" Content="Montag&#xA;01.01.0001" Canvas.Left="220" Width="150" Foreground="Gainsboro" FontSize="24" VerticalContentAlignment="Center" Padding="0" Height="70" HorizontalAlignment="Right"/>
             </Canvas>
         </Grid>
         <Grid Background="DarkGray" DockPanel.Dock="Bottom" Height="35" >

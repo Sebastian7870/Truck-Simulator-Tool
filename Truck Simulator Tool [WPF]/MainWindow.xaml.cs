@@ -229,11 +229,9 @@ namespace Truck_Simulator_Tool__WPF_
                                     label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.Goldenrod);
                                 else
                                     label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.LimeGreen);
-
-                                label_remainingDeliveryTime.Content = $"Restzeit: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_RemainingTime)}";
                             }
-
                         }
+                        label_remainingDeliveryTime.Content = $"Restzeit: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_RemainingTime)}";
                     }
                     //label timeBuffer
                     if (CalcData.ts_Timebuffer.TotalSeconds <= 0)
@@ -242,7 +240,6 @@ namespace Truck_Simulator_Tool__WPF_
                         label_timebuffer.Background = new SolidColorBrush(Colors.Goldenrod);
                     else
                         label_timebuffer.Background = new SolidColorBrush(Colors.LimeGreen);
-
                     if (TimeSpan.FromSeconds(data.ets2.job.remainingTime).TotalDays > 10)
                     {
                         label_timebuffer.Background = new SolidColorBrush(Colors.CornflowerBlue);
@@ -250,7 +247,10 @@ namespace Truck_Simulator_Tool__WPF_
                     }
                     else
                     {
-                        label_timebuffer.Content = $"Zeitpuffer: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_Timebuffer)}";
+                        if (CalcData.ts_Timebuffer.TotalSeconds <= 0)
+                            label_timebuffer.Content = $"Zeitpuffer: 0 Min.";
+                        else
+                            label_timebuffer.Content = $"Zeitpuffer: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_Timebuffer)}";
                     }
 
                     //label beacon

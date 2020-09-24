@@ -368,10 +368,11 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
                 contractJson.distanceDriven = CalcData.DistanceDriven;
                 contractJson.distanceSummary = CalcData.DistanceSummary;
                 ContractHelper.ContractJson = contractJson;
-            }
-            if (!data.ets2.game.paused && counter >= 3)
-            {
-                ContractHelper.AutoLoadIfStartup();
+
+                if (!data.ets2.game.paused && counter >= 3)
+                {
+                    ContractHelper.AutoLoadIfStartup();
+                }
             }
             #endregion
         }
