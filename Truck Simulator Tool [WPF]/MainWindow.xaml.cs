@@ -215,6 +215,7 @@ namespace Truck_Simulator_Tool__WPF_
                         if (CalcData.ts_RemainingTime.TotalHours < 3)
                         {
                             label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.Brown);
+                            label_remainingDeliveryTime.Content = $"Restzeit: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_RemainingTime)}";
                         }
                         else
                         {
@@ -229,9 +230,9 @@ namespace Truck_Simulator_Tool__WPF_
                                     label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.Goldenrod);
                                 else
                                     label_remainingDeliveryTime.Foreground = new SolidColorBrush(Colors.LimeGreen);
+                                label_remainingDeliveryTime.Content = $"Restzeit: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_RemainingTime)}";
                             }
                         }
-                        label_remainingDeliveryTime.Content = $"Restzeit: {ConverterHelper.ConvertTimespanToCustomString(CalcData.ts_RemainingTime)}";
                     }
                     //label timeBuffer
                     if (CalcData.ts_Timebuffer.TotalSeconds <= 0)
@@ -298,7 +299,7 @@ namespace Truck_Simulator_Tool__WPF_
                     }
                     //progressBar damage
                     progressBar_damage.Value = data.ets2.job.cargo.totalDamage * 100;
-                    label_progressBar_damageText.Content = data.ets2.job.cargo.totalDamage.ToString("p0");
+                    label_progressBar_damageText.Content = data.ets2.job.cargo.totalDamage.ToString("p1");
                     //label timeScale
                     label_timeScale.Content = $"Zeitskalierung: {data.ets2.game.scale}";
                     //contractStatus
@@ -421,10 +422,10 @@ namespace Truck_Simulator_Tool__WPF_
             else
             {
                 canvas_tfmSongPicture.Background = new SolidColorBrush(Colors.Transparent);
-                label_tfmSongTitle.Content = "";
-                label_tfmSongAuthor.Content = "";
-                label_tfmDJName.Content = "";
-                label_tfmDuration.Content = "";
+                label_tfmSongTitle.Content = string.Empty;
+                label_tfmSongAuthor.Content = string.Empty;
+                label_tfmDJName.Content = string.Empty;
+                label_tfmDuration.Content = string.Empty;
             }
 
             if (ShiftSchedule.HasShift)
