@@ -383,6 +383,7 @@ namespace Truck_Simulator_Tool__WPF_
 
             tstServerJson.hasShift = ShiftSchedule.HasShift;
             tstServerJson.nextShiftEvent = label_nextShiftEvent.Content.ToString();
+            tstServerJson.nextShiftEventBrush = label_nextShiftEvent.Background;
             tstServerJson.nextShiftPause = label_nextShiftPause.Content.ToString();
             tstServerJson.shiftTimeLeft = label_shiftTimeLeft.Content.ToString();
 

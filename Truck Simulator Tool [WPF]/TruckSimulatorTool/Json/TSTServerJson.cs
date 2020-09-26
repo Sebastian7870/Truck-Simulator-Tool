@@ -38,6 +38,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.Json
 
         public bool hasShift { get; set; }
         public string nextShiftEvent { get; set; }
+        public Brush nextShiftEventBrush { get; set; }
         public string nextShiftPause { get; set; }
         public string shiftTimeLeft { get; set; }
     }
