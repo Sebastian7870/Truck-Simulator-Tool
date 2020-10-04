@@ -92,7 +92,7 @@ namespace Truck_Simulator_Tool__WPF_.TruckSimulatorTool.StaticClasses
         {
             get
             {
-                if (ContractHelper.ContractJson.OdometerStartValue < Unit.currentOdometer && ContractHelper.ContractJson.OdometerStartValue > (Unit.currentOdometer - 25000))
+                if (ContractHelper.ContractJson.OdometerStartValue <= Unit.currentOdometer && ContractHelper.ContractJson.OdometerStartValue > (Unit.currentOdometer - 25000))
                     distanceDriven = Unit.currentOdometer - ContractHelper.ContractJson.OdometerStartValue;
                 else
                     distanceDriven = 0;
