@@ -32,6 +32,7 @@ Das Tool liefert Live-Daten zu aktuellen Aufträgen, Ankunftszeiten sowie Fahrze
   * (optionale) automatische Textnachrichten zur Vermeidung von AFK-Disconnects auf TruckersMP-Servern.
 
 ![Screenshot der Anwendung](github_preview1.png)
+![Screenshot der Anwendung](github_preview2.png)
 
 <br>
 
