@@ -97,7 +97,8 @@ namespace Truck_Simulator_Tool__WPF_
 
         private void SetBackground()
         {
-            if (SettingsHelper.SettingsJson.BackgroundPath != string.Empty)
+            String backgroundPath = SettingsHelper.SettingsJson.BackgroundPath;
+            if (!string.IsNullOrEmpty(backgroundPath) && File.Exists(backgroundPath))
             {
                 ImageBrush imageBrush = new ImageBrush(new BitmapImage(new Uri(SettingsHelper.SettingsJson.BackgroundPath)));
                 imageBrush.Stretch = Stretch.UniformToFill;
@@ -487,7 +488,7 @@ namespace Truck_Simulator_Tool__WPF_
                         {
                             TimeSpan ts_nextShiftPauseEnd = ShiftSchedule.NextShiftPauseEnd - DateTime.Now;
                             label_nextShiftPause.Content = $"Pausenende in: {ConverterHelper.ConvertTimespanToCustomString(ts_nextShiftPauseEnd)}";
-                        } 
+                        }
                         else
                         {
                             TimeSpan ts_nextShiftPauseStart = ShiftSchedule.NextShiftPauseStart - DateTime.Now;
